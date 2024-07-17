@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'idea'
+}
+
+group = 'xd.suka'
+version = '1.0-SNAPSHOT'
+
+idea {
+    module {
+        downloadSources = true
+    }
+}
+
+repositories {
+    maven { url 'https://maven.aliyun.com/repository/google' }
+    maven { url 'https://maven.aliyun.com/repository/public/' }
+    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots' }
+    maven { url 'https://repo.papermc.io/repository/maven-public/' }
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT'
+    implementation 'top.mrxiaom:overflow-core:2.16.0-b1eafba-SNAPSHOT'
+    implementation 'net.mamoe:mirai-core-api:2.16.0'
+    runtimeOnly 'net.mamoe:mirai-core:2.16.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+shadowJar {
+    destinationDirectory = file('run/plugins')
+}
+
