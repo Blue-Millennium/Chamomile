@@ -7,6 +7,6 @@ import java.util.UUID;
  * Date: 2024/7/17 下午7:53
  */
 public class PlayerData {
-    public String PLAYER_NAME;
-    public UUID PLAYER_UUID;
+    public String playerName;
+    public UUID playerUuid;
 }

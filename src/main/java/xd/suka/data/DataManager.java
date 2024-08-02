@@ -3,58 +3,50 @@ package xd.suka.data;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
-import java.io.*;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static xd.suka.Main.logger;
+import static xd.suka.Main.DATA_FILE;
+import static xd.suka.Main.LOGGER;
 
 /**
  * @author Liycxc
  * Date: 2024/7/17 下午5:58
  */
 public class DataManager {
-    public File DATA_DIR = new File("BaseData");
-    public File DATA_FILE = new File(DATA_DIR, "data.json");
-    public ArrayList<Data> dataList = new ArrayList<>();
+    public ArrayList<Data> DATA_LIST = new ArrayList<>();
 
-    public void install() {
-        try {
-            DATA_DIR.mkdirs();
-            if (!DATA_FILE.exists()) {
-                DATA_FILE.createNewFile();
-            }
-        } catch (Exception exception) {
-            logger.error("Failed to create data file", exception);
-        }
-
-        try {
-            JsonReader jsonReader = new JsonReader(new FileReader(DATA_FILE));
-            dataList = new Gson().fromJson(jsonReader, ArrayList.class);
+    public void load() {
+        try (JsonReader jsonReader = new JsonReader(new FileReader(DATA_FILE))) {
+            DATA_LIST = new Gson().fromJson(jsonReader, ArrayList.class);
             jsonReader.close();
+
             // file is empty
-            if (dataList == null) {
-                dataList = new ArrayList<>();
+            if (DATA_LIST == null) {
+                DATA_LIST = new ArrayList<>();
             }
         } catch (Exception exception) {
-            logger.error("Failed to read data file", exception);
+            LOGGER.error("Failed to read data file", exception);
+            save();
         }
     }
 
-    public void saveAll() {
+    public void save() {
         try {
             FileWriter fileWriter = new FileWriter(DATA_FILE);
-            fileWriter.write(new Gson().toJson(dataList));
+            fileWriter.write(new Gson().toJson(DATA_LIST));
             fileWriter.close();
         } catch (Exception exception) {
-            logger.error("Failed to save data file", exception);
+            LOGGER.error("Failed to save data file", exception);
         }
     }
 
     public Data getPlayerData(UUID uuid) {
-        if (dataList != null) {
-            for (Data data : dataList) {
-                if (data.PLAYER_DATA.PLAYER_UUID.equals(uuid)) {
+        if (DATA_LIST != null) {
+            for (Data data : DATA_LIST) {
+                if (data.playerData.playerUuid.equals(uuid)) {
                     return data;
                 }
             }
@@ -63,8 +55,8 @@ public class DataManager {
     }
 
     public void setPlayerData(UUID uuid, Data data) {
-        dataList.remove(getPlayerData(uuid));
-        dataList.add(data);
-        saveAll();
+        DATA_LIST.remove(getPlayerData(uuid));
+        DATA_LIST.add(data);
+        save();
     }
 }
