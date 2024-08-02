@@ -7,6 +7,7 @@ import net.mamoe.mirai.event.events.FriendMessageEvent;
 import net.mamoe.mirai.event.events.NewFriendRequestEvent;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
+import net.mamoe.mirai.utils.LoggerAdapters;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -74,18 +75,16 @@ public class Main extends JavaPlugin implements Listener {
             }
         }
 
-
         dataManager.load();
         configManager.load();
     }
 
     @Override
     public void onEnable() {
-        // 注册事件
-        Bukkit.getPluginManager().registerEvents(this, this);
+        Bukkit.getPluginManager().registerEvents(this, this); // 注册事件
 
-        // 连接 LLOneBot
-        BOT = BotBuilder.positive(Config.botWsUrl).token(Config.botWsToken).connect();
+        LoggerAdapters.useLog4j2(); // 使用 Log4j2 作为日志记录器
+        BOT = BotBuilder.positive(Config.botWsUrl).token(Config.botWsToken).connect(); // 连接 LLOneBot
         eventChannel = GlobalEventChannel.INSTANCE;
 
         // 订阅好友请求事件
