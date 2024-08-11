@@ -5,7 +5,14 @@ package xd.suka.config;
  * Date: 2024/8/2 下午6:32
  */
 public class Config {
-    public static String botWsUrl = "ws://127.0.0.1:8080";
+    public static Boolean qqCheckEnabled = false;
+    public static Boolean syncChatEnabled = false;
+    public static String botWsUrl = "ws://172.29.1.21:5800";
     public static String botWsToken = "114514";
-    public static String disTitle = "[QQLogin] 请完成登录验证, 验证码: %s";
+    public static long syncChatGroup = 721823314L;
+    public static String joinServerMessage = "%NAME% joined the server";
+    public static String leaveServerMessage = "%NAME% left the server";
+    public static String sayServerMessage = "%NAME%: %MESSAGE%";
+    public static String sayQQMessage = "[QQ] %NAME%: %MESSAGE%";
+    public static String disTitle = "[QQLogin] 请完成登录验证, 验证码: %CODE%";
 }
