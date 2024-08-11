@@ -2,13 +2,13 @@ package xd.suka.data;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import xd.suka.Main;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static xd.suka.Main.DATA_FILE;
 import static xd.suka.Main.LOGGER;
 
 /**
@@ -19,7 +19,7 @@ public class DataManager {
     public ArrayList<Data> DATA_LIST = new ArrayList<>();
 
     public void load() {
-        try (JsonReader jsonReader = new JsonReader(new FileReader(DATA_FILE))) {
+        try (JsonReader jsonReader = new JsonReader(new FileReader(Main.INSTANCE.DATA_FILE))) {
             DATA_LIST = new Gson().fromJson(jsonReader, ArrayList.class);
             jsonReader.close();
 
@@ -35,7 +35,7 @@ public class DataManager {
 
     public void save() {
         try {
-            FileWriter fileWriter = new FileWriter(DATA_FILE);
+            FileWriter fileWriter = new FileWriter(Main.INSTANCE.DATA_FILE);
             fileWriter.write(new Gson().toJson(DATA_LIST));
             fileWriter.close();
         } catch (Exception exception) {

@@ -1,12 +1,12 @@
 package xd.suka.config;
 
 import org.jetbrains.annotations.NotNull;
+import xd.suka.Main;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Properties;
 
-import static xd.suka.Main.CONFIG_FILE;
 import static xd.suka.Main.LOGGER;
 
 /**
@@ -22,6 +22,7 @@ public class ConfigManager {
         properties.setProperty("BotWsUrl", Config.botWsUrl);
         properties.setProperty("BotWsToken", Config.botWsToken);
         properties.setProperty("SyncChatGroup", String.valueOf(Config.syncChatGroup));
+        properties.setProperty("ReportGroup", String.valueOf(Config.reportGroup));
         properties.setProperty("JoinServerMessage", String.valueOf(Config.joinServerMessage));
         properties.setProperty("LeaveServerMessage", String.valueOf(Config.leaveServerMessage));
         properties.setProperty("SayServerMessage", String.valueOf(Config.sayServerMessage));
@@ -32,7 +33,7 @@ public class ConfigManager {
     }
 
     public void load() {
-        try (FileReader reader = new FileReader(CONFIG_FILE)) {
+        try (FileReader reader = new FileReader(Main.INSTANCE.CONFIG_FILE)) {
             Properties properties = new Properties();
             properties.load(reader);
 
@@ -41,6 +42,7 @@ public class ConfigManager {
             Config.botWsUrl = properties.getProperty("BotWsUrl");
             Config.botWsToken = properties.getProperty("BotWsToken");
             Config.syncChatGroup = Long.parseLong(properties.getProperty("SyncChatGroup"));
+            Config.reportGroup = Long.parseLong(properties.getProperty("ReportGroup"));
             Config.joinServerMessage = properties.getProperty("JoinServerMessage");
             Config.leaveServerMessage = properties.getProperty("LeaveServerMessage");
             Config.sayServerMessage = properties.getProperty("SayServerMessage");
@@ -54,9 +56,9 @@ public class ConfigManager {
     }
 
     public void save() {
-        if (!CONFIG_FILE.exists()) {
+        if (!Main.INSTANCE.CONFIG_FILE.exists()) {
             try {
-                if (!CONFIG_FILE.createNewFile()) {
+                if (!Main.INSTANCE.CONFIG_FILE.createNewFile()) {
                     LOGGER.error("Failed to create config file");
                 }
             } catch (Exception exception) {
@@ -64,7 +66,7 @@ public class ConfigManager {
             }
         }
 
-        try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
+        try (FileWriter writer = new FileWriter(Main.INSTANCE.CONFIG_FILE)) {
             Properties properties = getProperties();
 
             properties.store(writer,null);
