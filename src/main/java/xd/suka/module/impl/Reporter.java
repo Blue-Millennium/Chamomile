@@ -16,7 +16,7 @@ import xd.suka.config.Config;
 import xd.suka.module.Module;
 import xd.suka.util.IpinfoUtil;
 import xd.suka.util.TimeUtil;
-import xd.suka.util.map.IpinfoMap;
+import xd.suka.util.map.IpLocationResponse;
 
 import static xd.suka.Main.LOGGER;
 
@@ -76,11 +76,12 @@ public class Reporter extends Module implements Listener {
         }
 
         MessageChainBuilder builder = new MessageChainBuilder();
-        IpinfoMap ipinfoMap = IpinfoUtil.getIpinfo(event.getAddress().getHostAddress());
+        String ip = event.getAddress().getHostAddress();
+        builder.append(event.getName()).append(" was logging in").append('\n').append("IP: ").append(ip);
+        IpLocationResponse response = IpinfoUtil.getIpinfoCN(ip);
 
-        builder.append(event.getName()).append(" was logging in").append('\n').append("IP: ").append(event.getAddress().getHostAddress()).append(" ");
-        if (ipinfoMap != null) {
-            builder.append(ipinfoMap.data.region).append(" ").append(ipinfoMap.data.city).append(" ").append(ipinfoMap.data.company.name).append(" ").append("Hosting: ").append(String.valueOf(ipinfoMap.data.privacy.hosting));
+        if (response != null) {
+            builder.append(" ").append(response.nation).append(" ").append(response.subdivision_1_name).append(" ").append(response.subdivision_2_name).append(" ").append(response.isp);
         }
         builder.append('\n').append("LoginResult: ").append(event.getLoginResult().toString());
 
