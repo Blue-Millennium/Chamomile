@@ -13,30 +13,21 @@ import static xd.suka.Main.LOGGER;
 public class IpinfoUtil {
     public static IpinfoMap getIpinfo(String ip) {
         try {
-            HttpURLConnection connection = (HttpURLConnection) new URL("https://ipinfo.io/widget/demo/" + ip).openConnection();
-
-            // 设置请求方法为GET
+            URL url = new URL("https://rs.miku39.cloudns.be/https://ipinfo.io/widget/demo/" + ip);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
-            // 读取响应内容
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String inputLine;
-            StringBuilder content = new StringBuilder();
+            StringBuilder response = new StringBuilder();
+
             while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
+                response.append(inputLine);
             }
 
-            // 关闭连接和输入流
             in.close();
-            connection.disconnect();
 
-            IpinfoMap ipinfoMap = new Gson().fromJson(content.toString(), IpinfoMap.class);
-
-            if (!ipinfoMap.error.isEmpty()) {
-                LOGGER.warn("Warn getting {} info: {}", ipinfoMap.input, ipinfoMap.error);
-            }
-
-            return ipinfoMap;
+            return new Gson().fromJson(response.toString(), IpinfoMap.class);
         } catch (Exception e) {
             LOGGER.error("Error getting IP info: {}", e.getMessage());
             return null;

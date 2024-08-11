@@ -1,6 +1,7 @@
 package xd.suka.data;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import xd.suka.Main;
 
@@ -20,7 +21,8 @@ public class DataManager {
 
     public void load() {
         try (JsonReader jsonReader = new JsonReader(new FileReader(Main.INSTANCE.DATA_FILE))) {
-            DATA_LIST = new Gson().fromJson(jsonReader, ArrayList.class);
+            DATA_LIST = new Gson().fromJson(jsonReader, new TypeToken<ArrayList<Data>>() {}.getType());
+
             jsonReader.close();
 
             // file is empty
