@@ -42,13 +42,13 @@ public class Reporter extends Module implements Listener {
 
         MessageChainBuilder builder = new MessageChainBuilder();
         String ip = event.getAddress().getHostAddress();
-        builder.append(event.getName()).append(" was logging in").append('\n').append("IP: ").append(ip);
         IpLocationResponse response = IpinfoUtil.getIpinfoCN(ip);
 
         if (response != null) {
-            builder.append(" ").append(response.nation).append(" ").append(response.subdivision_1_name).append(" ").append(response.subdivision_2_name).append(" ").append(response.isp);
+            builder.append(Config.reportMessage.replace("%NAME%", event.getName()).replace("%IP%", ip).replace("%IPINFO%", response.nation + " " + response.subdivision_1_name + " " + response.subdivision_2_name + " " + response.isp).replace("%RESULT%", event.getLoginResult().toString()));
+        } else {
+            builder.append(Config.reportMessage.replace("%NAME%", event.getName()).replace("%IP%", ip).replace("%IPINFO%", "").replace("%RESULT%", event.getLoginResult().toString()));
         }
-        builder.append('\n').append("LoginResult: ").append(event.getLoginResult().toString());
 
         reportGroup.sendMessage(builder.build());
     }

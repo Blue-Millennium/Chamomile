@@ -28,6 +28,7 @@ public class ConfigManager {
         properties.setProperty("SayServerMessage", String.valueOf(Config.sayServerMessage));
         properties.setProperty("SayQQMessage", String.valueOf(Config.sayQQMessage));
         properties.setProperty("DisTitle", String.valueOf(Config.disTitle));
+        properties.setProperty("ReportMessage", Config.reportMessage);
 
         return properties;
     }
@@ -48,6 +49,7 @@ public class ConfigManager {
             Config.sayServerMessage = properties.getProperty("SayServerMessage");
             Config.sayQQMessage = properties.getProperty("SayQQMessage");
             Config.disTitle = properties.getProperty("DisTitle");
+            Config.reportMessage = properties.getProperty("ReportMessage");
 
         } catch (Exception exception) {
             LOGGER.warning("Failed to load config " + exception.getMessage());

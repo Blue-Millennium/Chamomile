@@ -14,7 +14,6 @@ import xd.suka.data.DataManager;
 import xd.suka.module.ModuleManager;
 
 import java.io.File;
-import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -82,7 +81,6 @@ public class Main extends JavaPlugin implements Listener {
         moduleManager.onEnable();
 
         this.getCommand("report").setExecutor(new ReportCommand());
-        this.getCommand("report").setAliases(List.of("r"));
     }
 
     @Override

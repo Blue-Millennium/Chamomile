@@ -17,24 +17,12 @@ import xd.suka.util.TimeUtil;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static xd.suka.Main.LOGGER;
 
 public class QQCheck extends Module implements Listener {
-    private final Map<PlayerData, Integer> playerCodeMap = new HashMap<>();
+    private final HashMap<PlayerData, Integer> playerCodeMap = new HashMap<>();
 
     public QQCheck() {
         super("QQCheck");
-    }
-
-    private static boolean isPureCode(String str) {
-        // 正则表达式，匹配只包含数字的字符串
-        String regex = "^\\d$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(str);
-        return matcher.matches();
     }
 
     @Override
@@ -45,18 +33,19 @@ public class QQCheck extends Module implements Listener {
             String message = event.getMessage().contentToString();
 
             if (Config.qqCheckEnabled) {
-                // 判断是否为验证码格式
-                if (!isPureCode(message)) {
+                int code = -1;
+                try {
+                    code = Integer.parseInt(message);
+                } catch (Exception exception) {
                     return;
                 }
+                for (Map.Entry<PlayerData, Integer> entry : playerCodeMap.entrySet()) {
+                    if (entry.getValue().equals(code)) {
+                        playerCodeMap.remove(entry.getKey());
 
-                // 判断是否为有效验证码
-                if (playerCodeMap.containsValue(Integer.parseInt(message))) {
-                    PlayerData playerData = playerCodeMap.entrySet().stream().filter(entry -> entry.getValue().equals(Integer.parseInt(message))).map(Map.Entry::getKey).findFirst().orElse(null);
-                    if (playerData != null) {
-                        // 设置绑定数据
+                        // 保存数据
                         Data data = new Data();
-                        data.playerData = playerData;
+                        data.playerData = entry.getKey();
                         data.qqNumber = event.getSender().getId();
                         data.linkedTime = System.currentTimeMillis();
                         Main.INSTANCE.dataManager.DATA_LIST.add(data);
@@ -65,17 +54,13 @@ public class QQCheck extends Module implements Listener {
                         // 发送确认消息
                         MessageChain checkMessage = new MessageChainBuilder()
                                 .append("Your account was linked!").append("\n")
-                                .append("Player Name: ").append(playerData.playerName).append("\n")
+                                .append("Player Name: ").append(entry.getKey().playerName).append("\n")
                                 .append("Linked QQ: ").append(String.valueOf(event.getSender().getId())).append("\n")
                                 .append("Linked Time: ").append(TimeUtil.getNowTime())
                                 .build();
 
                         event.getSender().sendMessage(checkMessage);
-                    } else {
-                        LOGGER.warning("Failed to find player data for verification code: " + message);
                     }
-                } else {
-                    event.getSender().sendMessage("Invalid verification code.");  // 验证码无效
                 }
             }
         });
@@ -83,6 +68,10 @@ public class QQCheck extends Module implements Listener {
 
     @EventHandler
     public void onAsyncPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
+        if (event == null) {
+            return;
+        }
+
         if (Config.qqCheckEnabled) {
             Data data = Main.INSTANCE.dataManager.getPlayerData(event.getUniqueId());
             // 首次登录
@@ -91,8 +80,11 @@ public class QQCheck extends Module implements Listener {
 
                 // 生成不重复的验证码
                 do {
-                    // 在等待列表中移除重复的玩家uuid (玩家重新连接)
-                    playerCodeMap.entrySet().stream().filter(entry -> entry.getKey().playerUuid.equals(event.getUniqueId())).forEach(entry -> playerCodeMap.remove(entry.getKey()));
+                    for (Map.Entry<PlayerData, Integer> entry : playerCodeMap.entrySet()) {
+                        if (entry.getKey().playerUuid.equals(event.getUniqueId())) {
+                            playerCodeMap.remove(entry.getKey());
+                        }
+                    }
                     code = Math.abs(new Random().nextInt(100000));
                 } while (playerCodeMap.containsValue(code));
 
