@@ -78,7 +78,7 @@ public class Reporter extends Module implements Listener {
 
         MessageChainBuilder builder = new MessageChainBuilder();
         String ip = event.getAddress().getHostAddress();
-        builder.append(event.getName()).append(" was logging in").append(servername).append('\n').append("IP: ").append(ip);
+        builder.append(event.getName()).append(" was logging in ").append(servername).append('\n').append("IP: ").append(ip);
         IpLocationResponse response = IpinfoUtil.getIpinfoCN(ip);
 
         if (response != null) {
