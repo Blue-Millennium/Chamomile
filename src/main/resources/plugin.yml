@@ -3,3 +3,8 @@ version: 2.3
 main: xd.suka.Main
 description: BasePlugin
 author: SukaXD
+
+commands:
+  report:
+    description: Report a player
+    usage: /report

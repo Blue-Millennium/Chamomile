@@ -50,7 +50,7 @@ public class ConfigManager {
             Config.disTitle = properties.getProperty("DisTitle");
 
         } catch (Exception exception) {
-            LOGGER.error("Failed to load config", exception);
+            LOGGER.warning("Failed to load config " + exception.getMessage());
             save();
         }
     }
@@ -59,10 +59,10 @@ public class ConfigManager {
         if (!Main.INSTANCE.CONFIG_FILE.exists()) {
             try {
                 if (!Main.INSTANCE.CONFIG_FILE.createNewFile()) {
-                    LOGGER.error("Failed to create config file");
+                    LOGGER.warning("Failed to create config file");
                 }
             } catch (Exception exception) {
-                LOGGER.error("Failed to create config file", exception);
+                LOGGER.warning("Failed to create config file " + exception.getMessage());
             }
         }
 
@@ -71,7 +71,7 @@ public class ConfigManager {
 
             properties.store(writer,null);
         } catch (Exception exception) {
-            LOGGER.error("Failed to save config", exception);
+            LOGGER.warning("Failed to save config " + exception.getMessage());
         }
     }
 }

@@ -32,7 +32,7 @@ public class IpinfoUtil {
 
             return new Gson().fromJson(response.toString(), IpinfoMap.class);
         } catch (Exception e) {
-            LOGGER.error("Error getting IP info: {}", e.getMessage());
+            LOGGER.warning("Error getting IP info: " + e.getMessage());
             return null;
         }
     }
@@ -56,7 +56,7 @@ public class IpinfoUtil {
 
             return new Gson().fromJson(JsonParser.parseString(response.toString()).getAsJsonObject().get("data").getAsJsonObject().get(ip), IpLocationResponse.class);
         } catch (IOException e) {
-            LOGGER.error("Error getting IP CN info: {}", e.getMessage());
+            LOGGER.warning("Error getting IP CN info: " + e.getMessage());
         }
         return null;
     }

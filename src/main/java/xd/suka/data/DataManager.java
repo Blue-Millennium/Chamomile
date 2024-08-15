@@ -30,7 +30,7 @@ public class DataManager {
                 DATA_LIST = new ArrayList<>();
             }
         } catch (Exception exception) {
-            LOGGER.error("Failed to read data file", exception);
+            LOGGER.warning("Failed to read data file " + exception.getMessage());
             save();
         }
     }
@@ -41,7 +41,7 @@ public class DataManager {
             fileWriter.write(new Gson().toJson(DATA_LIST));
             fileWriter.close();
         } catch (Exception exception) {
-            LOGGER.error("Failed to save data file", exception);
+            LOGGER.warning("Failed to save data file" + exception.getMessage());
         }
     }
 

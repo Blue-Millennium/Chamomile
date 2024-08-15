@@ -1,8 +1,5 @@
 package xd.suka.module.impl;
 
-import io.papermc.paper.event.player.AsyncChatEvent;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.Message;
@@ -10,6 +7,7 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 import net.mamoe.mirai.message.data.PlainText;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import xd.suka.Main;
@@ -30,7 +28,7 @@ public class SyncChat extends Module implements Listener {
         syncGroup = Main.INSTANCE.BOT.getGroup(Config.syncChatGroup);
 
         if (syncGroup == null) {
-            LOGGER.error("Failed to get sync group");
+            LOGGER.warning("Failed to get sync group");
             Config.syncChatEnabled = false;
             Main.INSTANCE.configManager.save();
             return;
@@ -49,7 +47,7 @@ public class SyncChat extends Module implements Listener {
             }
 
             if (!builder.isEmpty()) {
-                Main.INSTANCE.getServer().sendMessage(Component.text(Config.sayQQMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString())));
+                Main.INSTANCE.getServer().broadcastMessage(Config.sayQQMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()));
             }
         });
     }
@@ -69,9 +67,9 @@ public class SyncChat extends Module implements Listener {
     }
 
     @EventHandler
-    public void onPlayerChat(AsyncChatEvent event) {
+    public void onPlayerChat(AsyncPlayerChatEvent event) {
         if (Config.syncChatEnabled) {
-            syncGroup.sendMessage(Config.sayServerMessage.replace("%NAME%", event.getPlayer().getName()).replace("%MESSAGE%", ((TextComponent) event.message()).content()));
+            syncGroup.sendMessage(Config.sayServerMessage.replace("%NAME%", event.getPlayer().getName()).replace("%MESSAGE%", event.getMessage()));
         }
     }
 }

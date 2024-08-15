@@ -72,7 +72,7 @@ public class QQCheck extends Module implements Listener {
 
                         event.getSender().sendMessage(checkMessage);
                     } else {
-                        LOGGER.error("Failed to find player data for verification code: {}", message);
+                        LOGGER.warning("Failed to find player data for verification code: " + message);
                     }
                 } else {
                     event.getSender().sendMessage("Invalid verification code.");  // 验证码无效
