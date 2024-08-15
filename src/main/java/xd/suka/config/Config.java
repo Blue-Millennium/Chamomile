@@ -16,4 +16,5 @@ public class Config {
     public static String sayServerMessage = "%NAME%: %MESSAGE%";
     public static String sayQQMessage = "[QQ] %NAME%: %MESSAGE%";
     public static String disTitle = "[QQLogin] 请完成登录验证, 验证码: %CODE%";
+    public static String servername = "ServerName";
 }
