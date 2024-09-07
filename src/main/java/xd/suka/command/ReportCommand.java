@@ -15,7 +15,6 @@ import xd.suka.config.Config;
 import xd.suka.module.impl.Reporter;
 import xd.suka.util.TimeUtil;
 
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -62,11 +61,8 @@ public class ReportCommand implements CommandExecutor {
                                 // 构建JSON数据
                                 String jsonInputString = "{\"content\": \"" + content + "\", \"subject\": \"玩家举报-" + number + "\"}";
 
-                                // 发送请求
-                                try (OutputStream os = connection.getOutputStream()) {
-                                    byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
-                                    os.write(input, 0, input.length);
-                                }
+                                connection.setRequestProperty("Content-Length", Integer.toString(jsonInputString.length()));
+                                connection.getOutputStream().write(jsonInputString.getBytes(StandardCharsets.UTF_8));
 
                                 // 获取响应码
                                 int responseCode = connection.getResponseCode();
