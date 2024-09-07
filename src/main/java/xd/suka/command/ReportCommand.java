@@ -11,9 +11,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xd.suka.Main;
+import xd.suka.config.Config;
 import xd.suka.module.impl.Reporter;
 import xd.suka.util.TimeUtil;
 
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public class ReportCommand implements CommandExecutor {
@@ -38,6 +43,41 @@ public class ReportCommand implements CommandExecutor {
                             }
                             builder.append(TimeUtil.getNowTime()).append('\n').append("玩家 ").append(args[0]).append(" 被 ").append(sender.getName()).append(" 报告，原因：").append(args.length > 1 ? args[1] : "无").append('\n').append("编号: ").append(number);
                             reportGroup.sendMessage(builder.build());
+
+                            String content = builder.build().contentToString();
+
+                            try {
+                                // 创建URL对象
+                                URL url = new URL(Config.webhookUrl);
+                                // 打开连接
+                                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                                // 设置请求方法为POST
+                                connection.setRequestMethod("POST");
+                                // 设置请求头
+                                connection.setRequestProperty("Content-Type", "application/json; utf-8");
+                                connection.setRequestProperty("Accept", "application/json");
+                                // 允许输出流
+                                connection.setDoOutput(true);
+
+                                // 构建JSON数据
+                                String jsonInputString = "{\"content\": \"" + content + "\", \"subject\": \"玩家举报-" + number + "\"}";
+
+                                // 发送请求
+                                try (OutputStream os = connection.getOutputStream()) {
+                                    byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+                                    os.write(input, 0, input.length);
+                                }
+
+                                // 获取响应码
+                                int responseCode = connection.getResponseCode();
+                                if (responseCode != 200) {
+                                    System.out.println("Response Code: " + responseCode);
+                                }
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
                             sender.sendMessage("§a已发送报告  编号: " + number);
                     }
                 } else {

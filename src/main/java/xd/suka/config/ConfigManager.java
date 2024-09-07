@@ -29,6 +29,7 @@ public class ConfigManager {
         properties.setProperty("SayQQMessage", String.valueOf(Config.sayQQMessage));
         properties.setProperty("DisTitle", String.valueOf(Config.disTitle));
         properties.setProperty("ReportMessage", Config.reportMessage);
+        properties.setProperty("WebhookUrl", Config.webhookUrl);
 
         return properties;
     }
@@ -50,6 +51,7 @@ public class ConfigManager {
             Config.sayQQMessage = properties.getProperty("SayQQMessage");
             Config.disTitle = properties.getProperty("DisTitle");
             Config.reportMessage = properties.getProperty("ReportMessage");
+            Config.webhookUrl = properties.getProperty("WebhookUrl");
 
         } catch (Exception exception) {
             LOGGER.warning("Failed to load config " + exception.getMessage());
