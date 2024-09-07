@@ -47,7 +47,7 @@ public class Main extends JavaPlugin implements Listener {
 
         if (!BASE_DIR.exists()) {
             if (!BASE_DIR.mkdir()) {
-                LOGGER.warning("Failed to create directory: " +  BASE_DIR.getAbsolutePath());
+                LOGGER.warning("Failed to create directory: " + BASE_DIR.getAbsolutePath());
             }
         }
         if (!DATA_FILE.exists()) {

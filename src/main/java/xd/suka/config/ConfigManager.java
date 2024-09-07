@@ -73,7 +73,7 @@ public class ConfigManager {
         try (FileWriter writer = new FileWriter(Main.INSTANCE.CONFIG_FILE)) {
             Properties properties = getProperties();
 
-            properties.store(writer,null);
+            properties.store(writer, null);
         } catch (Exception exception) {
             LOGGER.warning("Failed to save config " + exception.getMessage());
         }
