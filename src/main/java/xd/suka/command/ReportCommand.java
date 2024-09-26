@@ -46,7 +46,7 @@ public class ReportCommand implements CommandExecutor {
                         }
 
                         if (reportGroup.getBotPermission() == MemberPermission.ADMINISTRATOR || reportGroup.getBotPermission() == MemberPermission.OWNER) {
-                            builder.append(AtAll.INSTANCE).append(" ");
+                            builder.insert(0, " ").insert(0, AtAll.INSTANCE);
                         }
                         reportGroup.sendMessage(builder.build());
                         sender.sendMessage("§a已发送报告  编号: " + number);
