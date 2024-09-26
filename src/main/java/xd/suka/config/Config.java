@@ -18,4 +18,5 @@ public class Config {
     public static String reportMessage = "%NAME% was logging in \nIP: %IP% %IPINFO% \nLoginResult: %RESULT%";
     public static String disTitle = "[QQLogin] 请完成登录验证, 验证码: %CODE%";
     public static String webhookUrl = "http://localhost:6888/webhook";
+    public static String servername = "ServerName";
 }

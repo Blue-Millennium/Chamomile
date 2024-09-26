@@ -52,6 +52,7 @@ public class ConfigManager {
             Config.disTitle = properties.getProperty("DisTitle");
             Config.reportMessage = properties.getProperty("ReportMessage");
             Config.webhookUrl = properties.getProperty("WebhookUrl");
+            Config.servername = properties.getProperty("ServerName");
 
         } catch (Exception exception) {
             LOGGER.warning("Failed to load config " + exception.getMessage());

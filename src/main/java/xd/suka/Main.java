@@ -12,6 +12,7 @@ import xd.suka.config.Config;
 import xd.suka.config.ConfigManager;
 import xd.suka.data.DataManager;
 import xd.suka.module.ModuleManager;
+import xd.suka.module.impl.Webhook4Email;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -77,6 +78,14 @@ public class Main extends JavaPlugin implements Listener {
             LOGGER.warning("Failed to get bot instance");
             return;
         }
+        try{
+            String subject = "服务器启动通知";
+            String content = Config.servername + "服务器已启动";
+            Webhook4Email webhook4Email = new Webhook4Email();
+            webhook4Email.formatAndSendWebhook(subject, content);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         moduleManager.onEnable();
 
@@ -85,6 +94,14 @@ public class Main extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
+        try{
+            String subject = "服务器关闭通知";
+            String content = Config.servername + "服务器已关闭";
+            Webhook4Email webhook4Email = new Webhook4Email();
+            webhook4Email.formatAndSendWebhook(subject, content);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         moduleManager.onDisable();
     }
 }
