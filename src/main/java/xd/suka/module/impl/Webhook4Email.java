@@ -92,7 +92,7 @@ public class Webhook4Email {
      * @param content 邮件内容
      */
     public void formatAndSendWebhook(String subject, String content) {
-        Data data = new Data(content, subject);
+        Data data = new Data("来自" + Config.servername + "的信息：\n" + content, subject);
         sendWebhookData(data);
     }
 }
