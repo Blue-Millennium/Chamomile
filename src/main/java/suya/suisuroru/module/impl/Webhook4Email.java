@@ -1,4 +1,4 @@
-package xd.suka.module.impl;
+package suya.suisuroru.module.impl;
 
 import com.google.gson.Gson;
 import xd.suka.config.Config;

@@ -12,7 +12,7 @@ import xd.suka.config.Config;
 import xd.suka.config.ConfigManager;
 import xd.suka.data.DataManager;
 import xd.suka.module.ModuleManager;
-import xd.suka.module.impl.Webhook4Email;
+import suya.suisuroru.module.impl.Webhook4Email;
 
 import java.io.File;
 import java.util.logging.Logger;
