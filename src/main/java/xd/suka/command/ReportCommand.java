@@ -44,11 +44,12 @@ public class ReportCommand implements CommandExecutor {
                             sender.sendMessage("§c邮件发送失败");
                             e.printStackTrace();
                         }
+                        MessageChainBuilder builder_qq = new MessageChainBuilder();
 
                         if (reportGroup.getBotPermission() == MemberPermission.ADMINISTRATOR || reportGroup.getBotPermission() == MemberPermission.OWNER) {
-                            builder.insert(0, " ").insert(0, AtAll.INSTANCE);
+                            builder_qq.append(" ").append(AtAll.INSTANCE).append(TimeUtil.getNowTime()).append('\n').append("玩家 ").append(args[0]).append(" 被 ").append(sender.getName()).append(" 报告，原因：").append(args.length > 1 ? args[1] : "无").append('\n').append("编号: ").append(number);;
                         }
-                        reportGroup.sendMessage(builder.build());
+                        reportGroup.sendMessage(builder_qq.build());
                         sender.sendMessage("§a已发送报告  编号: " + number);
                     }
                 } else {
