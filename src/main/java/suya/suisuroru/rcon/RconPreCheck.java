@@ -29,7 +29,6 @@ public class RconPreCheck extends Module implements Listener {
 
     @Override
     public void onEnable() {
-        // 解析 Config.DirectConsoleEnabledGroups 字符串
         String enabledGroupStr = Config.RconEnabledGroups;
         if (enabledGroupStr == null || enabledGroupStr.isEmpty()) {
             LOGGER.warning("[RCONCommandCheck] RCON commands will be disabled due to empty or null RCONEnabledGroups");
