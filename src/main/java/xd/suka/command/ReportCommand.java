@@ -24,7 +24,11 @@ public class ReportCommand implements CommandExecutor {
             Group reportGroup = ((Reporter) Main.INSTANCE.moduleManager.getModuleByName("Reporter")).reportGroup;
 
             if (args.length == 0) {
-                sender.sendMessage("§c/bpReport <玩家名> <原因>");
+                if (command.getName().equals("report")) {
+                    sender.sendMessage("§c/report <玩家名> <原因>");
+                } else if (command.getName().equals("baseplugin")){
+                    sender.sendMessage("§c/baseplugin report <玩家名> <原因>");
+                }
             } else {
                 if (reportGroup != null) {
                     if (Bukkit.getServer().getPlayer(args[0]) == null) {
@@ -47,8 +51,9 @@ public class ReportCommand implements CommandExecutor {
                         MessageChainBuilder builder_qq = new MessageChainBuilder();
 
                         if (reportGroup.getBotPermission() == MemberPermission.ADMINISTRATOR || reportGroup.getBotPermission() == MemberPermission.OWNER) {
-                            builder_qq.append(" ").append(AtAll.INSTANCE).append(TimeUtil.getNowTime()).append('\n').append("玩家 ").append(args[0]).append(" 被 ").append(sender.getName()).append(" 报告，原因：").append(args.length > 1 ? args[1] : "无").append('\n').append("编号: ").append(number);;
+                            builder_qq.append(" ").append(AtAll.INSTANCE).append("\n");;
                         }
+                        builder_qq.append(TimeUtil.getNowTime()).append('\n').append("玩家 ").append(args[0]).append(" 被 ").append(sender.getName()).append(" 报告，原因：").append(args.length > 1 ? args[1] : "无").append('\n').append("编号: ").append(number);
                         reportGroup.sendMessage(builder_qq.build());
                         sender.sendMessage("§a已发送报告  编号: " + number);
                     }
@@ -56,6 +61,8 @@ public class ReportCommand implements CommandExecutor {
                     sender.sendMessage("§c内部错误");
                 }
             }
+        } else {
+            sender.sendMessage("§c只有玩家才能使用");
         }
         return true;
     }

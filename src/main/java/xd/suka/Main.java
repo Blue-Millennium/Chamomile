@@ -6,6 +6,8 @@ import net.mamoe.mirai.utils.LoggerAdapters;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import suya.suisuroru.command.CommandManager;
+import suya.suisuroru.command.othercommands.ReloadConfig;
 import top.mrxiaom.overflow.BotBuilder;
 import xd.suka.command.ReportCommand;
 import xd.suka.config.Config;
@@ -48,7 +50,7 @@ public class Main extends JavaPlugin implements Listener {
 
         if (!BASE_DIR.exists()) {
             if (!BASE_DIR.mkdir()) {
-                LOGGER.warning("Failed to create directory: " +  BASE_DIR.getAbsolutePath());
+                LOGGER.warning("Failed to create directory: " + BASE_DIR.getAbsolutePath());
             }
         }
         if (!DATA_FILE.exists()) {
@@ -90,11 +92,13 @@ public class Main extends JavaPlugin implements Listener {
         moduleManager.onEnable();
 
         this.getCommand("report").setExecutor(new ReportCommand());
+        this.getCommand("bpreload").setExecutor(new ReloadConfig());
+        this.getCommand("baseplugin").setExecutor(new CommandManager());
     }
 
     @Override
     public void onDisable() {
-        try{
+        try {
             String subject = "服务器关闭通知";
             String content = Config.servername + "服务器已关闭";
             Webhook4Email webhook4Email = new Webhook4Email();
