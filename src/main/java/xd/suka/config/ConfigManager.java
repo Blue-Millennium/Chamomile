@@ -30,6 +30,13 @@ public class ConfigManager {
         properties.setProperty("DisTitle", String.valueOf(Config.disTitle));
         properties.setProperty("ReportMessage", Config.reportMessage);
         properties.setProperty("WebhookUrl", Config.webhookUrl);
+        properties.setProperty("ServerName", Config.servername);
+        properties.setProperty("RconEnabled", String.valueOf(Config.RconEnabled));
+        properties.setProperty("ExecuteCommandPrefix", Config.ExecuteCommandPrefix);
+        properties.setProperty("RconEnabledGroups", Config.RconEnabledGroups);
+        properties.setProperty("RconIP", Config.RconIP);
+        properties.setProperty("RconPort", String.valueOf(Config.RconPort));
+        properties.setProperty("RconPassword", Config.RconPassword);
 
         return properties;
     }
@@ -39,6 +46,29 @@ public class ConfigManager {
             Properties properties = new Properties();
             properties.load(reader);
 
+            // 设置默认值
+            setDefaultIfMissing(properties, "QQCheckEnabled", "true");
+            setDefaultIfMissing(properties, "SyncChatEnabled", "true");
+            setDefaultIfMissing(properties, "BotWsUrl", "ws://0.0.0.0:3001");
+            setDefaultIfMissing(properties, "BotWsToken", "114514");
+            setDefaultIfMissing(properties, "SyncChatGroup", "721823314");
+            setDefaultIfMissing(properties, "ReportGroup", "721823314");
+            setDefaultIfMissing(properties, "JoinServerMessage", "%NAME% joined the server");
+            setDefaultIfMissing(properties, "LeaveServerMessage", "%NAME% left the server");
+            setDefaultIfMissing(properties, "SayServerMessage", "%NAME%: %MESSAGE%");
+            setDefaultIfMissing(properties, "SayQQMessage", "[QQ] %NAME%: %MESSAGE%");
+            setDefaultIfMissing(properties, "DisTitle", "%NAME% was logging in \nIP: %IP% %IPINFO% \nLoginResult: %RESULT%");
+            setDefaultIfMissing(properties, "ReportMessage", "[QQLogin] 请完成登录验证, 验证码: %CODE%");
+            setDefaultIfMissing(properties, "WebhookUrl", "http://localhost:6888/webhook");
+            setDefaultIfMissing(properties, "ServerName", "ServerName");
+            setDefaultIfMissing(properties, "RconEnabled", "true");
+            setDefaultIfMissing(properties, "ExecuteCommandPrefix", "*#");
+            setDefaultIfMissing(properties, "RconEnabledGroups", "721823314");
+            setDefaultIfMissing(properties, "RconIP", "0.0.0.0");
+            setDefaultIfMissing(properties, "RconPort", "25575");
+            setDefaultIfMissing(properties, "RconPassword", "password");
+
+            // 读取配置
             Config.qqCheckEnabled = Boolean.parseBoolean(properties.getProperty("QQCheckEnabled"));
             Config.syncChatEnabled = Boolean.parseBoolean(properties.getProperty("SyncChatEnabled"));
             Config.botWsUrl = properties.getProperty("BotWsUrl");
@@ -53,10 +83,22 @@ public class ConfigManager {
             Config.reportMessage = properties.getProperty("ReportMessage");
             Config.webhookUrl = properties.getProperty("WebhookUrl");
             Config.servername = properties.getProperty("ServerName");
+            Config.RconEnabled = Boolean.parseBoolean(properties.getProperty("RconEnabled"));
+            Config.ExecuteCommandPrefix = properties.getProperty("ExecuteCommandPrefix");
+            Config.RconEnabledGroups = properties.getProperty("RconEnabledGroups");
+            Config.RconIP = properties.getProperty("RconIP");
+            Config.RconPort = Integer.parseInt(properties.getProperty("RconPort"));
+            Config.RconPassword = properties.getProperty("RconPassword");
 
         } catch (Exception exception) {
             LOGGER.warning("Failed to load config " + exception.getMessage());
             save();
+        }
+    }
+
+    private void setDefaultIfMissing(Properties properties, String key, String defaultValue) {
+        if (!properties.containsKey(key)) {
+            properties.setProperty(key, defaultValue);
         }
     }
 
@@ -73,8 +115,7 @@ public class ConfigManager {
 
         try (FileWriter writer = new FileWriter(Main.INSTANCE.CONFIG_FILE)) {
             Properties properties = getProperties();
-
-            properties.store(writer,null);
+            properties.store(writer, null);
         } catch (Exception exception) {
             LOGGER.warning("Failed to save config " + exception.getMessage());
         }

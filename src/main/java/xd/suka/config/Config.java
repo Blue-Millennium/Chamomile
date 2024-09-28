@@ -7,7 +7,7 @@ package xd.suka.config;
 public class Config {
     public static Boolean qqCheckEnabled = true;
     public static Boolean syncChatEnabled = true;
-    public static String botWsUrl = "ws://172.29.1.20:3001";
+    public static String botWsUrl = "ws://0.0.0.0:3001";
     public static String botWsToken = "114514";
     public static long syncChatGroup = 721823314L;
     public static long reportGroup = 721823314L;
@@ -19,4 +19,10 @@ public class Config {
     public static String disTitle = "[QQLogin] 请完成登录验证, 验证码: %CODE%";
     public static String webhookUrl = "http://localhost:6888/webhook";
     public static String servername = "ServerName";
+    public static Boolean RconEnabled = true;
+    public static String ExecuteCommandPrefix = "*#";
+    public static String RconEnabledGroups = "721823314";
+    public static String RconIP = "0.0.0.0";
+    public static Integer RconPort = 25575;
+    public static String RconPassword = "password";
 }

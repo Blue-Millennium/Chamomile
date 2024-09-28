@@ -1,6 +1,7 @@
 package xd.suka.module;
 
 import org.bukkit.Bukkit;
+import suya.suisuroru.rcon.RconPreCheck;
 import xd.suka.Main;
 import xd.suka.module.impl.QQCheck;
 import xd.suka.module.impl.Reporter;
@@ -15,6 +16,7 @@ public class ModuleManager {
         modules.add(new SyncChat());
         modules.add(new QQCheck());
         modules.add(new Reporter());
+        modules.add(new RconPreCheck());
 
         modules.forEach(Module::onLoad);
     }
