@@ -11,6 +11,10 @@ commands:
   bpreload:
     description: Reload config
     usage: /bpreload
+  query-report:
+    description: Query reports
+    usage: /query-report
   baseplugin:
     description: Baseplugin functions
     usage: /baseplugin [report|reload] [args...]
+    aliases: [bp]
