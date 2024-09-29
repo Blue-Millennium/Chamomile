@@ -10,9 +10,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import suya.suisuroru.message.Webhook4Email;
 import xd.suka.Main;
 import xd.suka.module.impl.Reporter;
-import suya.suisuroru.message.Webhook4Email;
 import xd.suka.util.TimeUtil;
 
 import java.util.Objects;
@@ -26,7 +26,7 @@ public class ReportCommand implements CommandExecutor {
             if (args.length == 0) {
                 if (command.getName().equals("report")) {
                     sender.sendMessage("§c/report <玩家名> <原因>");
-                } else if (command.getName().equals("baseplugin")){
+                } else if (command.getName().equals("baseplugin")) {
                     sender.sendMessage("§c/baseplugin report <玩家名> <原因>");
                 }
             } else {
@@ -40,7 +40,7 @@ public class ReportCommand implements CommandExecutor {
                         String number = String.valueOf(System.currentTimeMillis());
                         builder.append(TimeUtil.getNowTime()).append('\n').append("玩家 ").append(args[0]).append(" 被 ").append(sender.getName()).append(" 报告，原因：").append(args.length > 1 ? args[1] : "无").append('\n').append("编号: ").append(number);
                         String content = builder.build().contentToString();
-                        try{
+                        try {
                             String subject = "玩家举报-" + number;
                             Webhook4Email webhook4Email = new Webhook4Email();
                             webhook4Email.formatAndSendWebhook(subject, content);

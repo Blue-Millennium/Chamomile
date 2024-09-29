@@ -1,4 +1,4 @@
-package lib.org.glavo.rcon;
+package org.glavo.rcon;
 
 import java.io.DataInputStream;
 import java.io.EOFException;

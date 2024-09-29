@@ -25,4 +25,5 @@ public class Config {
     public static String RconIP = "0.0.0.0";
     public static Integer RconPort = 25575;
     public static String RconPassword = "password";
+    public static Boolean RconEnforceOperator = true;
 }

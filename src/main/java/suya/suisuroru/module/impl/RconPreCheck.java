@@ -65,6 +65,16 @@ public class RconPreCheck extends Module implements Listener {
             if (content.startsWith(Config.ExecuteCommandPrefix)) {
                 int prefixLength = Config.ExecuteCommandPrefix.length();
                 String command = content.substring(prefixLength);
+                boolean isOperator = event.getSender().getPermission().equals(net.mamoe.mirai.contact.MemberPermission.ADMINISTRATOR)
+                        || event.getSender().getPermission().equals(net.mamoe.mirai.contact.MemberPermission.OWNER);
+                if (Config.RconEnforceOperator) {
+                    if (!isOperator) {
+                        event.getGroup().sendMessage(new MessageChainBuilder()
+                                .append(new PlainText("您没有权限执行此操作。"))
+                                .build());
+                        return;
+                    }
+                }
                 String result = executeRconCommand(command);
                 handleConsoleResult(result, event);
             }

@@ -1,4 +1,4 @@
-package lib.org.glavo.rcon;
+package org.glavo.rcon;
 
 public class AuthenticationException extends Exception {
 

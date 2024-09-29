@@ -1,8 +1,8 @@
 package suya.suisuroru.rcon;
 
-import lib.org.glavo.rcon.AuthenticationException;
+import org.glavo.rcon.AuthenticationException;
 import org.bukkit.Bukkit;
-import lib.org.glavo.rcon.Rcon;
+import org.glavo.rcon.Rcon;
 import xd.suka.config.Config;
 
 import java.io.IOException;

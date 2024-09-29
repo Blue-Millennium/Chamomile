@@ -37,6 +37,7 @@ public class ConfigManager {
         properties.setProperty("RconIP", Config.RconIP);
         properties.setProperty("RconPort", String.valueOf(Config.RconPort));
         properties.setProperty("RconPassword", Config.RconPassword);
+        properties.setProperty("RconEnforceOperator", String.valueOf(Config.RconEnforceOperator));
 
         return properties;
     }
@@ -67,6 +68,7 @@ public class ConfigManager {
             setDefaultIfMissing(properties, "RconIP", "0.0.0.0");
             setDefaultIfMissing(properties, "RconPort", "25575");
             setDefaultIfMissing(properties, "RconPassword", "password");
+            setDefaultIfMissing(properties, "RconEnforceOperator", "true");
 
             // 读取配置
             Config.qqCheckEnabled = Boolean.parseBoolean(properties.getProperty("QQCheckEnabled"));
@@ -89,6 +91,7 @@ public class ConfigManager {
             Config.RconIP = properties.getProperty("RconIP");
             Config.RconPort = Integer.parseInt(properties.getProperty("RconPort"));
             Config.RconPassword = properties.getProperty("RconPassword");
+            Config.RconEnforceOperator = Boolean.parseBoolean(properties.getProperty("RconEnforceOperator"));
 
         } catch (Exception exception) {
             LOGGER.warning("Failed to load config " + exception.getMessage());
