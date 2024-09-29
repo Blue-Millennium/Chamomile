@@ -6,15 +6,15 @@ import net.mamoe.mirai.utils.LoggerAdapters;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import suya.suisuroru.command.CommandManager;
-import suya.suisuroru.command.othercommands.ReloadConfig;
+import fun.suya.suisuroru.command.CommandManager;
+import fun.suya.suisuroru.command.othercommands.ReloadConfig;
 import top.mrxiaom.overflow.BotBuilder;
 import xd.suka.command.ReportCommand;
 import xd.suka.config.Config;
 import xd.suka.config.ConfigManager;
 import xd.suka.data.DataManager;
 import xd.suka.module.ModuleManager;
-import suya.suisuroru.message.Webhook4Email;
+import fun.suya.suisuroru.message.Webhook4Email;
 
 import java.io.File;
 import java.util.logging.Logger;

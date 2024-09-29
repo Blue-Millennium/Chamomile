@@ -1,4 +1,4 @@
-package suya.suisuroru.rcon;
+package fun.suya.suisuroru.rcon;
 
 import org.glavo.rcon.AuthenticationException;
 import org.bukkit.Bukkit;

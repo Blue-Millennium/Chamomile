@@ -1,4 +1,4 @@
-package suya.suisuroru.module.impl;
+package fun.suya.suisuroru.module.impl;
 
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.Message;
@@ -12,7 +12,7 @@ import xd.suka.module.Module;
 import java.util.ArrayList;
 import java.util.List;
 
-import static suya.suisuroru.rcon.RconCommandExecute.executeRconCommand;
+import static fun.suya.suisuroru.rcon.RconCommandExecute.executeRconCommand;
 import static xd.suka.Main.LOGGER;
 
 /**

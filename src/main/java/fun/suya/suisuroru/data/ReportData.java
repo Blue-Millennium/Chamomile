@@ -1,4 +1,4 @@
-package suya.suisuroru.data;
+package fun.suya.suisuroru.data;
 
 /**
  * @author Suisuroru

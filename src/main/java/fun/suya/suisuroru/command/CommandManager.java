@@ -1,10 +1,10 @@
-package suya.suisuroru.command;
+package fun.suya.suisuroru.command;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
-import suya.suisuroru.command.othercommands.ReloadConfig;
+import fun.suya.suisuroru.command.othercommands.ReloadConfig;
 import xd.suka.command.ReportCommand;
 
 /**

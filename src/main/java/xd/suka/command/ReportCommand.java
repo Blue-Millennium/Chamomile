@@ -10,7 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import suya.suisuroru.message.Webhook4Email;
+import fun.suya.suisuroru.message.Webhook4Email;
 import xd.suka.Main;
 import xd.suka.module.impl.Reporter;
 import xd.suka.util.TimeUtil;
