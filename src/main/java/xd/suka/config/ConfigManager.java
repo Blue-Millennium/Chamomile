@@ -92,6 +92,7 @@ public class ConfigManager {
             Config.RconPort = Integer.parseInt(properties.getProperty("RconPort"));
             Config.RconPassword = properties.getProperty("RconPassword");
             Config.RconEnforceOperator = Boolean.parseBoolean(properties.getProperty("RconEnforceOperator"));
+            save();
 
         } catch (Exception exception) {
             LOGGER.warning("Failed to load config " + exception.getMessage());
