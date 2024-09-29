@@ -1,5 +1,6 @@
 package xd.suka;
 
+import fun.suya.suisuroru.command.othercommands.ReportQuery;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.utils.LoggerAdapters;
@@ -94,6 +95,7 @@ public class Main extends JavaPlugin implements Listener {
         this.getCommand("report").setExecutor(new ReportCommand());
         this.getCommand("bpreload").setExecutor(new ReloadConfig());
         this.getCommand("baseplugin").setExecutor(new CommandManager());
+        this.getCommand("query-report").setExecutor(new ReportQuery());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package fun.suya.suisuroru.command;
 
+import fun.suya.suisuroru.command.othercommands.ReportQuery;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,11 +17,12 @@ public class CommandManager implements CommandExecutor {
 
     ReportCommand report = new ReportCommand();
     ReloadConfig reload = new ReloadConfig();
+    ReportQuery query = new ReportQuery();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
-            sender.sendMessage("Usage: /baseplugin [report|reload] [args...]");
+            sender.sendMessage("Usage: /baseplugin [report|reload|query-report] [args...]");
             return true;
         }
 
@@ -34,6 +36,11 @@ public class CommandManager implements CommandExecutor {
                 String[] reloadArgs = new String[args.length - 1];
                 System.arraycopy(args, 1, reloadArgs, 0, args.length - 1);
                 reload.onCommand(sender, command, label, reloadArgs);
+                break;
+            case "query-report":
+                String[] queryArgs = new String[args.length - 1];
+                System.arraycopy(args, 1, queryArgs, 0, args.length - 1);
+                query.onCommand(sender, command, label, queryArgs);
                 break;
             default:
                 sender.sendMessage("Unknown command. Usage: /baseplugin [report|reload] [args...]");
