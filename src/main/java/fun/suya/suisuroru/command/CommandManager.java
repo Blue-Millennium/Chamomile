@@ -9,7 +9,7 @@ import xd.suka.command.ReportCommand;
 
 /**
  * @author Suisuroru
- * Date: 2024/9/28 13:43p.m.
+ * Date: 2024/9/28 13:43
  * function: Save data of report
  */
 public class CommandManager implements CommandExecutor {

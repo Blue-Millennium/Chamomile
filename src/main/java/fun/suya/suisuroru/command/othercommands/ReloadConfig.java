@@ -8,7 +8,7 @@ import xd.suka.config.ConfigManager;
 
 /**
  * @author Suisuroru
- * Date: 2024/9/28 13:24p.m.
+ * Date: 2024/9/28 13:24
  * function: Save data of report
  */
 public class ReloadConfig implements CommandExecutor {

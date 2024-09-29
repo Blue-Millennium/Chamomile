@@ -10,7 +10,7 @@ import java.net.http.HttpResponse;
 
 /**
  * @author Suisuroru
- * Date: 2024/9/26 21:21p.m.
+ * Date: 2024/9/26 21:21
  * function: Webhook for Email
  */
 public class Webhook4Email {

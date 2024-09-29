@@ -9,8 +9,8 @@ import java.io.IOException;
 
 /**
  * @author Suisuroru
- * Date: 2024/9/28 15:24p.m.
- * Function: Executes a command through the RCON protocol and returns the console feedback
+ * Date: 2024/9/28 15:24
+ * function: Executes a command through the RCON protocol and returns the console feedback
  */
 public class RconCommandExecute {
 

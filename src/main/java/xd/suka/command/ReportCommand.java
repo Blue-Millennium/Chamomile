@@ -1,5 +1,6 @@
 package xd.suka.command;
 
+import fun.suya.suisuroru.data.ReportDataManager;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.message.data.AtAll;
@@ -36,9 +37,23 @@ public class ReportCommand implements CommandExecutor {
                     } else if (Objects.requireNonNull(Bukkit.getServer().getPlayer(args[0])).getUniqueId().equals(((Player) sender).getUniqueId())) {
                         sender.sendMessage("§c你不能对自己使用");
                     } else {
+                        // Data Save
+                        ReportDataManager manager = new ReportDataManager();
+                        manager.ProcessData(sender, args);
+                        // Message Send
                         MessageChainBuilder builder = new MessageChainBuilder();
                         String number = String.valueOf(System.currentTimeMillis());
-                        builder.append(TimeUtil.getNowTime()).append('\n').append("玩家 ").append(args[0]).append(" 被 ").append(sender.getName()).append(" 报告，原因：").append(args.length > 1 ? args[1] : "无").append('\n').append("编号: ").append(number);
+                        StringBuilder reasonBuilder = new StringBuilder();
+                        for (int i = 1; i < args.length; i++) {
+                            reasonBuilder.append(args[i]).append(" ");
+                        }
+                        String reason = reasonBuilder.toString().trim();
+                        builder.append(TimeUtil.getNowTime()).append('\n')
+                                .append("玩家 ").append(args[0]).append(" 被 ")
+                                .append(sender.getName()).append(" 报告，原因：")
+                                .append(reason.isEmpty() ? "无" : reason)
+                                .append('\n')
+                                .append("编号: ").append(number);
                         String content = builder.build().contentToString();
                         try {
                             String subject = "玩家举报-" + number;
@@ -53,7 +68,14 @@ public class ReportCommand implements CommandExecutor {
                         if (reportGroup.getBotPermission() == MemberPermission.ADMINISTRATOR || reportGroup.getBotPermission() == MemberPermission.OWNER) {
                             builder_qq.append(" ").append(AtAll.INSTANCE).append("\n");;
                         }
-                        builder_qq.append(TimeUtil.getNowTime()).append('\n').append("玩家 ").append(args[0]).append(" 被 ").append(sender.getName()).append(" 报告，原因：").append(args.length > 1 ? args[1] : "无").append('\n').append("编号: ").append(number);
+
+                        builder_qq.append(TimeUtil.getNowTime()).append('\n')
+                                  .append("玩家 ").append(args[0]).append(" 被 ")
+                                  .append(sender.getName()).append(" 报告，原因：")
+                                  .append(reason.isEmpty() ? "无" : reason)
+                                  .append('\n')
+                                  .append("编号: ").append(number);
+
                         reportGroup.sendMessage(builder_qq.build());
                         sender.sendMessage("§a已发送报告  编号: " + number);
                     }

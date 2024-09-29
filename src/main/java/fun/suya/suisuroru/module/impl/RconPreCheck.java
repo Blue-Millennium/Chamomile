@@ -17,7 +17,7 @@ import static xd.suka.Main.LOGGER;
 
 /**
  * @author Suisuroru
- * Date: 2024/9/28 16:06p.m.
+ * Date: 2024/9/28 16:06
  * function: Check message if need rcon function
  */
 public class RconPreCheck extends Module implements Listener {
