@@ -1,4 +1,4 @@
-package suya.suisuroru.rcon;
+package suya.suisuroru.module.impl;
 
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.Message;

@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xd.suka.Main;
 import xd.suka.module.impl.Reporter;
-import suya.suisuroru.module.impl.Webhook4Email;
+import suya.suisuroru.message.Webhook4Email;
 import xd.suka.util.TimeUtil;
 
 import java.util.Objects;

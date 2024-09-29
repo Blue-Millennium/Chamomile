@@ -1,4 +1,4 @@
-package suya.suisuroru.module.impl;
+package suya.suisuroru.message;
 
 import com.google.gson.Gson;
 import xd.suka.config.Config;
