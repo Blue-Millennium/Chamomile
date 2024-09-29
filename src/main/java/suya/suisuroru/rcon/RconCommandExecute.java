@@ -14,7 +14,6 @@ import java.io.IOException;
  */
 public class RconCommandExecute {
 
-    private static final int TIMEOUT = 30000; // 设置超时时间
     private static final int MAX_RETRIES = 3; // 最大重试次数
 
     public static String executeRconCommand(String command) {
