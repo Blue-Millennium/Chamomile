@@ -84,11 +84,11 @@ public class RconPreCheck extends Module implements Listener {
     private void handleConsoleResult(String result, GroupMessageEvent event) {
         if (result != null && !result.isEmpty()) {
             event.getGroup().sendMessage(new MessageChainBuilder()
-                    .append(new PlainText("Console command result: \n" + result))
+                    .append(new PlainText(Config.servername + "Console command result: \n" + result))
                     .build());
         } else {
             event.getGroup().sendMessage(new MessageChainBuilder()
-                    .append(new PlainText("No result from console command."))
+                    .append(new PlainText(Config.servername + "No result from console command."))
                     .build());
         }
     }
