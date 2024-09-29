@@ -22,9 +22,9 @@ public class ReportQuery implements CommandExecutor {
 
         int index = 0;
         for (List<String> row : data) {
-            sb.append(index++).append("|");  // 添加序号
+            sb.append(index++).append(" | ");  // 添加序号
             for (String col : row) {
-                sb.append(col).append("|");
+                sb.append(col).append(" | ");
             }
             sb.append("\n");
         }
