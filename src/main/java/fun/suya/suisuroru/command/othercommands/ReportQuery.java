@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * @author Suisuroru
- * Date: 2024/9/28 22:08
+ * Date: 2024/9/29 22:08
  * function: Query report data
  */
 public class ReportQuery implements CommandExecutor {

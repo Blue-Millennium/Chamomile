@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'xd.suka'
-version = '2.5'
+version = '2.5.1'
 
 idea {
     module {
