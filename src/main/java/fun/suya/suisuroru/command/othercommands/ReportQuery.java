@@ -42,11 +42,12 @@ public class ReportQuery implements CommandExecutor {
 
         try {
             String QueryData = query();
-            sender.sendMessage(QueryData);
+            // Replace all matching characters (§x)
+            String regex = "§.";
+            sender.sendMessage(QueryData.replaceAll(regex, ""));
             return true;
         } catch (Exception e) {
-            sender.sendMessage("查询数据失败！");
-            e.printStackTrace();
+            sender.sendMessage("查询数据失败！" + e.getMessage());
             return false;
         }
     }
