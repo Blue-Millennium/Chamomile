@@ -43,7 +43,7 @@ public class CommandManager implements CommandExecutor {
                 query.onCommand(sender, command, label, queryArgs);
                 break;
             default:
-                sender.sendMessage("Unknown command. Usage: /baseplugin [report|reload] [args...]");
+                sender.sendMessage("Unknown command. Usage: /baseplugin [report|reload|query-report] [args...]");
                 return true;
         }
         return true;
