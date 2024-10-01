@@ -1,6 +1,7 @@
 package fun.suya.suisuroru.data;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static xd.suka.Main.LOGGER;
@@ -31,9 +32,8 @@ public class ReportDataWrite {
         saveToCsv(existingData);
     }
 
-
     private void saveToCsv(List<List<String>> data) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(REPORT_DATA_FILE))) {
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(REPORT_DATA_FILE), StandardCharsets.UTF_8))) {
             for (List<String> row : data) {
                 bw.write(String.join(",", row));
                 bw.newLine();
