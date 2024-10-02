@@ -23,6 +23,9 @@ public class RconCommandExecute {
 
                 String response = rcon.command(command);
                 logInfo("Sent command: " + command);
+                // Replace all matching characters (§x)
+                String regex = "§.";
+                response = response.replaceAll(regex, "");
                 logInfo("Received response: " + response);
 
                 return "通过RCON成功执行命令: " + command + "\n" + response.trim();
