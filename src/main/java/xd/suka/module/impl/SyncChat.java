@@ -2,9 +2,7 @@ package xd.suka.module.impl;
 
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
-import net.mamoe.mirai.message.data.Message;
-import net.mamoe.mirai.message.data.MessageChainBuilder;
-import net.mamoe.mirai.message.data.PlainText;
+import net.mamoe.mirai.message.data.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -14,6 +12,7 @@ import xd.suka.Main;
 import xd.suka.config.Config;
 import xd.suka.module.Module;
 
+import static fun.suya.suisuroru.message.ImageProcess.getImageUrl;
 import static xd.suka.Main.LOGGER;
 
 public class SyncChat extends Module implements Listener {
@@ -41,14 +40,17 @@ public class SyncChat extends Module implements Listener {
 
             MessageChainBuilder builder = new MessageChainBuilder();
             for (Message message : event.getMessage()) {
-                if (message instanceof PlainText) {
+                if (message instanceof PlainText || message instanceof At || message instanceof AtAll) {
                     builder.add(message);
+                } else if (message instanceof Image image) {
+                    String url = getImageUrl(builder, image);
+                    builder.append("[[CICode,url=").append(url).append("]]");
                 }
             }
 
-            if (!builder.isEmpty()) {
+            try {
                 Main.INSTANCE.getServer().broadcastMessage(Config.sayQQMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()));
-            }
+            } catch (Exception ignored){}
         });
     }
 
