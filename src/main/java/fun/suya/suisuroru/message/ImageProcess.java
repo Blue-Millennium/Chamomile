@@ -2,19 +2,30 @@ package fun.suya.suisuroru.message;
 
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
+import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.bukkit.Bukkit;
+import xd.suka.Main;
 import xd.suka.config.Config;
+
+import static fun.suya.suisuroru.rcon.RconCommandExecute.executeRconCommand;
 
 public class ImageProcess {
 
-    public static String getImageUrl(MessageChainBuilder builder, Image message) {
-        try {
+    public static String getImageUrl(Image message) {
         String imageurl = Image.queryUrl(message);
         Bukkit.getLogger().info("Image url: " + imageurl);
         return imageurl;
+    }
+    public static void sendImageUrl(Image message, GroupMessageEvent event) {
+        try {
+            String imageurl = getImageUrl(message);
+            MessageChainBuilder builder = new MessageChainBuilder();
+            builder.append("[[CICode,url=").append(imageurl).append("]]");
+            // mohist端BUG导致，使用tellraw代替直接发送
+            String command = "tellraw @a \"" + Config.sayQQMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()) + "\"";
+            executeRconCommand(command);
         } catch (Exception e){
-            Bukkit.getLogger().info("Image url error: " + e.getMessage());
-            return "";
+            Main.INSTANCE.getServer().broadcastMessage("一个错误发生于BasePlugin内部，图片无法被展示，请前往QQ查看");
         }
     }
 }

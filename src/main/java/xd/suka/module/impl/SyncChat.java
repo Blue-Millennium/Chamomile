@@ -12,7 +12,7 @@ import xd.suka.Main;
 import xd.suka.config.Config;
 import xd.suka.module.Module;
 
-import static fun.suya.suisuroru.message.ImageProcess.getImageUrl;
+import static fun.suya.suisuroru.message.ImageProcess.sendImageUrl;
 import static xd.suka.Main.LOGGER;
 
 public class SyncChat extends Module implements Listener {
@@ -43,14 +43,13 @@ public class SyncChat extends Module implements Listener {
                 if (message instanceof PlainText || message instanceof At || message instanceof AtAll) {
                     builder.add(message);
                 } else if (message instanceof Image image) {
-                    String url = getImageUrl(builder, image);
-                    builder.append("[[CICode,url=").append(url).append("]]");
+                    sendImageUrl(image, event);
                 }
             }
 
-            try {
+            if (!builder.isEmpty()) {
                 Main.INSTANCE.getServer().broadcastMessage(Config.sayQQMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()));
-            } catch (Exception ignored){}
+            }
         });
     }
 
