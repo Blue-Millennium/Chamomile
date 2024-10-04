@@ -1,5 +1,5 @@
 name: BasePlugin
-version: 2.5.1
+version: 2.5.2
 main: xd.suka.Main
 description: BasePlugin
 author: SukaXD, Suisuroru
@@ -8,12 +8,15 @@ commands:
   report:
     description: Report a player
     usage: /report <player> <reason>
+    aliases: [r]
   bpreload:
     description: Reload config
     usage: /bpreload
+    aliases: [bpr]
   query-report:
     description: Query reports
     usage: /query-report
+    aliases: [qr]
   baseplugin:
     description: Baseplugin functions
     usage: /baseplugin [report|reload] [args...]
