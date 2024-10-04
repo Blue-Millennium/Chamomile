@@ -65,6 +65,17 @@ public class Webhook4Email {
     }
 
     /**
+     * 将邮件内容和主题封装为JSON格式并通过webhook发送。
+     *
+     * @param subject 邮件主题
+     * @param content 邮件内容
+     */
+    public void formatAndSendWebhook(String subject, String content) {
+        Data data = new Data("来自" + Config.servername + "的信息：\n" + content, subject);
+        sendWebhookData(data);
+    }
+
+    /**
      * 报告数据类
      */
     static class Data {
@@ -83,16 +94,5 @@ public class Webhook4Email {
         public String getSubject() {
             return subject;
         }
-    }
-
-    /**
-     * 将邮件内容和主题封装为JSON格式并通过webhook发送。
-     *
-     * @param subject 邮件主题
-     * @param content 邮件内容
-     */
-    public void formatAndSendWebhook(String subject, String content) {
-        Data data = new Data("来自" + Config.servername + "的信息：\n" + content, subject);
-        sendWebhookData(data);
     }
 }

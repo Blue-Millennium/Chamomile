@@ -1,7 +1,7 @@
 package fun.suya.suisuroru.rcon;
 
-import org.glavo.rcon.AuthenticationException;
 import org.bukkit.Bukkit;
+import org.glavo.rcon.AuthenticationException;
 import org.glavo.rcon.Rcon;
 import xd.suka.config.Config;
 
