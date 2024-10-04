@@ -18,7 +18,7 @@ public class ReportQuery implements CommandExecutor {
     public static String query() {
         List<List<String>> data = ReportDataRead.ReadReportFile();
         StringBuilder sb = new StringBuilder();
-        sb.append("已查询到以下数据，下面的数据将按照以下顺序排列\n");
+        sb.append("[BasePlugin Report]\n已查询到以下数据，下面的数据将按照以下顺序排列\n");
 
         int index = 0;
         for (List<String> row : data) {

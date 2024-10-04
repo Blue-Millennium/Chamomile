@@ -16,7 +16,7 @@ public class RconCommandExecute {
 
     private static final int MAX_RETRIES = 3; // 最大重试次数
 
-    public static String executeRconCommand(String command) {
+    public static String[] executeRconCommand(String command) {
         for (int retry = 0; retry < MAX_RETRIES; retry++) {
             try (Rcon rcon = new Rcon(Config.RconIP, Config.RconPort, Config.RconPassword)) {
                 logInfo("Connected to " + Config.RconIP + ":" + Config.RconPort);
@@ -28,7 +28,7 @@ public class RconCommandExecute {
                 response = response.replaceAll(regex, "");
                 logInfo("Received response: " + response);
 
-                return "通过RCON成功执行命令: " + command + "\n" + response.trim();
+                return new String[]{"通过RCON成功执行命令: " + command + "\n", response.trim()};
             } catch (IOException e) {
                 logSevere("无法通过RCON执行命令: " + e.getMessage());
                 if (retry < MAX_RETRIES - 1) {
@@ -41,10 +41,10 @@ public class RconCommandExecute {
                 }
             } catch (AuthenticationException e) {
                 logSevere("RCON认证失败，请检查密码设置。");
-                return "RCON认证失败，请检查密码设置。";
+                return new String[]{"RCON认证失败，请检查密码设置。"};
             }
         }
-        return "所有重试均失败";
+        return new String[]{"所有重试均失败"};
     }
 
     private static void logInfo(String message) {

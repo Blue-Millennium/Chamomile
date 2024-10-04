@@ -4,14 +4,17 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import net.mamoe.mirai.message.data.PlainText;
+import net.mamoe.mirai.utils.ExternalResource;
 import org.bukkit.event.Listener;
 import xd.suka.Main;
 import xd.suka.config.Config;
 import xd.suka.module.Module;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static fun.suya.suisuroru.data.ReportCharmProcess.reportCharmProcess;
 import static fun.suya.suisuroru.rcon.RconCommandExecute.executeRconCommand;
 import static xd.suka.Main.LOGGER;
 
@@ -75,20 +78,35 @@ public class RconPreCheck extends Module implements Listener {
                         return;
                     }
                 }
-                String result = executeRconCommand(command);
+                String[] result = executeRconCommand(command);
                 handleConsoleResult(result, event);
             }
         });
     }
 
-    private void handleConsoleResult(String result, GroupMessageEvent event) {
-        if (result != null && !result.isEmpty()) {
+    private void handleConsoleResult(String[] result, GroupMessageEvent event) {
+        try {
+            if (result != null && !result[0].isEmpty()) {
+                MessageChainBuilder message = new MessageChainBuilder();
+                message.append(new PlainText(Config.servername + "Console command result: \n"))
+                        .append(result[0]);
+                String PREFIX = "[BasePlugin Report]\n已查询到以下数据，下面的数据将按照以下顺序排列\n";
+                if (!result[1].isEmpty() && result[1].startsWith(PREFIX)) {
+                    reportCharmProcess(result[1].substring(PREFIX.length()));
+                    message.append(PREFIX)
+                            .append(event.getGroup().uploadImage(ExternalResource.create(new File(".\\BasePlugin\\CharmProcess\\latest.png"))));
+                } else {
+                    message.append(result[1]);
+                }
+                event.getGroup().sendMessage(message.build());
+            } else {
+                event.getGroup().sendMessage(new MessageChainBuilder()
+                        .append(new PlainText(Config.servername + "No result from console command."))
+                        .build());
+            }
+        } catch (Exception e) {
             event.getGroup().sendMessage(new MessageChainBuilder()
-                    .append(new PlainText(Config.servername + "Console command result: \n" + result))
-                    .build());
-        } else {
-            event.getGroup().sendMessage(new MessageChainBuilder()
-                    .append(new PlainText(Config.servername + "No result from console command."))
+                    .append(new PlainText(Config.servername + "\n[ERROR] " + e.getMessage()))
                     .build());
         }
     }

@@ -20,20 +20,11 @@ public class ReportDataRead {
 
     public static List<List<String>> ReadReportFile() {
         ReportDataRead reader = new ReportDataRead();
-        if (!REPORT_DATA_FILE.exists()) {
-            try {
-                if (!REPORT_DATA_FILE.createNewFile()) {
-                    LOGGER.warning("Failed to create data file");
-                }
-            } catch (Exception exception) {
-                LOGGER.warning("Failed to create data file: " + exception.getMessage());
-            }
-        }
+        EnsureFileExist();
         return reader.readCsvToList();
     }
 
-    List<List<String>> readCsvToList() {
-        List<List<String>> allRows = new ArrayList<>();
+    private static void EnsureFileExist() {
         if (!REPORT_DATA_FILE.exists()) {
             try {
                 if (!REPORT_DATA_FILE.createNewFile()) {
@@ -51,6 +42,11 @@ public class ReportDataRead {
                 LOGGER.warning("Failed to create data file: " + exception.getMessage());
             }
         }
+    }
+
+    List<List<String>> readCsvToList() {
+        List<List<String>> allRows = new ArrayList<>();
+        EnsureFileExist();
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(REPORT_DATA_FILE), StandardCharsets.UTF_8))) {
             String line;
