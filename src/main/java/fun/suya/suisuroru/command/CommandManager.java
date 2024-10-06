@@ -8,6 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import xd.suka.command.ReportCommand;
 
+import java.util.Arrays;
+
 /**
  * @author Suisuroru
  * Date: 2024/9/28 13:43
@@ -26,25 +28,24 @@ public class CommandManager implements CommandExecutor {
             return true;
         }
 
+        String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
         switch (args[0].toLowerCase()) {
-            case "report":
-                String[] reportArgs = new String[args.length - 1];
-                System.arraycopy(args, 1, reportArgs, 0, args.length - 1);
-                report.onCommand(sender, command, label, reportArgs);
+            case "report": {
+                report.onCommand(sender, command, label, subArgs);
                 break;
-            case "reload":
-                String[] reloadArgs = new String[args.length - 1];
-                System.arraycopy(args, 1, reloadArgs, 0, args.length - 1);
-                reload.onCommand(sender, command, label, reloadArgs);
+            }
+            case "reload": {
+                reload.onCommand(sender, command, label, subArgs);
                 break;
-            case "query-report":
-                String[] queryArgs = new String[args.length - 1];
-                System.arraycopy(args, 1, queryArgs, 0, args.length - 1);
-                query.onCommand(sender, command, label, queryArgs);
+            }
+            case "query-report": {
+                query.onCommand(sender, command, label, subArgs);
                 break;
-            default:
+            }
+            default: {
                 sender.sendMessage("Unknown command. Usage: /baseplugin [report|reload|query-report] [args...]");
-                return true;
+                break;
+            }
         }
         return true;
     }
