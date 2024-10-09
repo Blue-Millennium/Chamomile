@@ -19,5 +19,5 @@ commands:
     aliases: [qr]
   baseplugin:
     description: Baseplugin functions
-    usage: /baseplugin [report|reload] [args...]
+    usage: /baseplugin [report|reload|query-report] [args...]
     aliases: [bp]
