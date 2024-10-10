@@ -8,11 +8,11 @@ commands:
   report:
     description: Report a player
     usage: /report <player> <reason>
-    aliases: [r]
+    aliases: [bprp]
   bpreload:
     description: Reload config
     usage: /bpreload
-    aliases: [bpr]
+    aliases: [bprl]
   query-report:
     description: Query reports
     usage: /query-report
