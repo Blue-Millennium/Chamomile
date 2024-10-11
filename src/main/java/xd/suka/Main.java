@@ -1,6 +1,5 @@
 package xd.suka;
 
-import fun.suya.suisuroru.command.othercommands.ReportQuery;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.utils.LoggerAdapters;
@@ -8,6 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import fun.suya.suisuroru.command.CommandManager;
+import fun.suya.suisuroru.command.othercommands.Help;
+import fun.suya.suisuroru.command.othercommands.ReportQuery;
 import fun.suya.suisuroru.command.othercommands.ReloadConfig;
 import top.mrxiaom.overflow.BotBuilder;
 import xd.suka.command.ReportCommand;
@@ -92,6 +93,7 @@ public class Main extends JavaPlugin implements Listener {
 
         moduleManager.onEnable();
 
+        this.getCommand("basepluginhelp").setExecutor(new Help());
         this.getCommand("report").setExecutor(new ReportCommand());
         this.getCommand("bpreload").setExecutor(new ReloadConfig());
         this.getCommand("baseplugin").setExecutor(new CommandManager());

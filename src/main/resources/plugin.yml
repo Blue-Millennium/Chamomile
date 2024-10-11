@@ -5,6 +5,10 @@ description: BasePlugin
 author: SukaXD, Suisuroru
 
 commands:
+  basepluginhelp:
+    description: Baseplugin help
+    usage: /basepluginhelp
+    aliases: [bphelp]
   report:
     description: Report a player
     usage: /report <player> <reason>
