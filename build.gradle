@@ -14,6 +14,7 @@ idea {
 }
 
 repositories {
+    maven { url 'https://jitpack.io' }
     maven { url 'https://maven.aliyun.com/repository/google' }
     maven { url 'https://maven.aliyun.com/repository/public' }
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots' }
@@ -27,9 +28,9 @@ dependencies {
     implementation 'top.mrxiaom.mirai:overflow-core-api:1.0.0.519-0d68f08-SNAPSHOT'
     implementation 'net.mamoe:mirai-core-api:2.16.0'
     runtimeOnly 'net.mamoe:mirai-core:2.16.0'
+    implementation 'com.github.Glavo:rcon-java:2.0.2'
 }
 
 shadowJar {
     destinationDirectory = file('run/plugins')
 }
-
