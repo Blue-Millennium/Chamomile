@@ -8,7 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import xd.suka.Main;
-import xd.suka.config.Config;
+import fun.suya.suisuroru.config.Config;
 import xd.suka.data.Data;
 import xd.suka.data.PlayerData;
 import xd.suka.module.Module;

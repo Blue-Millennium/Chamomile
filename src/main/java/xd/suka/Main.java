@@ -1,19 +1,21 @@
 package xd.suka;
 
+import fun.suya.suisuroru.commands.tab.BasePluginTab;
+import fun.suya.suisuroru.commands.tab.ReportCommandTab;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.utils.LoggerAdapters;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import fun.suya.suisuroru.command.CommandManager;
-import fun.suya.suisuroru.command.othercommands.Help;
-import fun.suya.suisuroru.command.othercommands.ReportQuery;
-import fun.suya.suisuroru.command.othercommands.ReloadConfig;
+import fun.suya.suisuroru.commands.command.CommandManager;
+import fun.suya.suisuroru.commands.command.othercommands.Help;
+import fun.suya.suisuroru.commands.command.othercommands.ReportQuery;
+import fun.suya.suisuroru.commands.command.othercommands.config.Reload;
 import top.mrxiaom.overflow.BotBuilder;
 import xd.suka.command.ReportCommand;
-import xd.suka.config.Config;
-import xd.suka.config.ConfigManager;
+import fun.suya.suisuroru.config.Config;
+import fun.suya.suisuroru.config.ConfigManager;
 import xd.suka.data.DataManager;
 import xd.suka.module.ModuleManager;
 import fun.suya.suisuroru.message.Webhook4Email;
@@ -95,8 +97,10 @@ public class Main extends JavaPlugin implements Listener {
 
         this.getCommand("basepluginhelp").setExecutor(new Help());
         this.getCommand("report").setExecutor(new ReportCommand());
-        this.getCommand("bpreload").setExecutor(new ReloadConfig());
+        this.getCommand("report").setTabCompleter(new ReportCommandTab());
+        this.getCommand("bpreload").setExecutor(new Reload());
         this.getCommand("baseplugin").setExecutor(new CommandManager());
+        this.getCommand("baseplugin").setTabCompleter(new BasePluginTab());
         this.getCommand("query-report").setExecutor(new ReportQuery());
     }
 

@@ -1,17 +1,17 @@
-package fun.suya.suisuroru.command.othercommands;
+package fun.suya.suisuroru.commands.command.othercommands.config;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
-import xd.suka.config.ConfigManager;
+import fun.suya.suisuroru.config.ConfigManager;
 
 /**
  * @author Suisuroru
  * Date: 2024/9/28 13:24
- * function: Save data of report
+ * function: Reload config
  */
-public class ReloadConfig implements CommandExecutor {
+public class Reload implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

@@ -5,7 +5,7 @@ import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.bukkit.Bukkit;
 import xd.suka.Main;
-import xd.suka.config.Config;
+import fun.suya.suisuroru.config.Config;
 
 import static fun.suya.suisuroru.rcon.RconCommandExecute.executeRconCommand;
 

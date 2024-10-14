@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.command.othercommands;
+package fun.suya.suisuroru.commands.command.othercommands;
 
 import fun.suya.suisuroru.data.ReportDataRead;
 import org.bukkit.command.Command;

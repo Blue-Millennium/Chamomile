@@ -17,6 +17,10 @@ commands:
     description: Reload config
     usage: /bpreload
     aliases: [bprl]
+  bpconfig:
+    description: Reload config
+    usage: /bpconfig [reload|query|set] [args...]
+    aliases: [ bpcfg ]
   query-report:
     description: Query reports
     usage: /query-report

@@ -7,7 +7,7 @@ import net.mamoe.mirai.message.data.PlainText;
 import net.mamoe.mirai.utils.ExternalResource;
 import org.bukkit.event.Listener;
 import xd.suka.Main;
-import xd.suka.config.Config;
+import fun.suya.suisuroru.config.Config;
 import xd.suka.module.Module;
 
 import java.io.File;

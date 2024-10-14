@@ -68,7 +68,7 @@ public class ReportCommand implements CommandExecutor {
                         MessageChainBuilder builder_qq = new MessageChainBuilder();
 
                         if (reportGroup.getBotPermission() == MemberPermission.ADMINISTRATOR || reportGroup.getBotPermission() == MemberPermission.OWNER) {
-                            builder_qq.append(" ").append(AtAll.INSTANCE).append("\n");;
+                            builder_qq.append(" ").append(AtAll.INSTANCE).append("\n");
                         }
 
                         builder_qq.append(TimeUtil.getNowTime()).append('\n')

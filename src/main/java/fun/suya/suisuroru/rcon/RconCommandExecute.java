@@ -3,7 +3,7 @@ package fun.suya.suisuroru.rcon;
 import org.bukkit.Bukkit;
 import org.glavo.rcon.AuthenticationException;
 import org.glavo.rcon.Rcon;
-import xd.suka.config.Config;
+import fun.suya.suisuroru.config.Config;
 
 import java.io.IOException;
 

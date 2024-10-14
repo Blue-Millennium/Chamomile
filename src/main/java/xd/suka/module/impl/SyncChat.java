@@ -9,7 +9,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import xd.suka.Main;
-import xd.suka.config.Config;
+import fun.suya.suisuroru.config.Config;
 import xd.suka.module.Module;
 
 import static fun.suya.suisuroru.message.ImageProcess.sendImageUrl;

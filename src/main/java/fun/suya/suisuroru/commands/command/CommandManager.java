@@ -1,8 +1,8 @@
-package fun.suya.suisuroru.command;
+package fun.suya.suisuroru.commands.command;
 
-import fun.suya.suisuroru.command.othercommands.Help;
-import fun.suya.suisuroru.command.othercommands.ReloadConfig;
-import fun.suya.suisuroru.command.othercommands.ReportQuery;
+import fun.suya.suisuroru.commands.command.othercommands.ConfigRoot;
+import fun.suya.suisuroru.commands.command.othercommands.Help;
+import fun.suya.suisuroru.commands.command.othercommands.ReportQuery;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,7 +19,7 @@ import java.util.Arrays;
 public class CommandManager implements CommandExecutor {
 
     ReportCommand report = new ReportCommand();
-    ReloadConfig reload = new ReloadConfig();
+    ConfigRoot config = new ConfigRoot();
     ReportQuery query = new ReportQuery();
     Help help = new Help();
 
@@ -44,8 +44,8 @@ public class CommandManager implements CommandExecutor {
                 report.onCommand(sender, command, label, subArgs);
                 break;
             }
-            case "reload": {
-                reload.onCommand(sender, command, label, subArgs);
+            case "config": {
+                config.onCommand(sender, command, label, subArgs);
                 break;
             }
             case "query-report": {

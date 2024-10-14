@@ -1,7 +1,7 @@
 package fun.suya.suisuroru.message;
 
 import com.google.gson.Gson;
-import xd.suka.config.Config;
+import fun.suya.suisuroru.config.Config;
 
 import java.net.URI;
 import java.net.http.HttpClient;
