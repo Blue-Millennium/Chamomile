@@ -1,5 +1,6 @@
 package fun.suya.suisuroru.module.impl;
 
+import fun.suya.suisuroru.config.Config;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
@@ -7,7 +8,6 @@ import net.mamoe.mirai.message.data.PlainText;
 import net.mamoe.mirai.utils.ExternalResource;
 import org.bukkit.event.Listener;
 import xd.suka.Main;
-import fun.suya.suisuroru.config.Config;
 import xd.suka.module.Module;
 
 import java.io.File;
@@ -110,5 +110,4 @@ public class RconPreCheck extends Module implements Listener {
                     .build());
         }
     }
-
 }

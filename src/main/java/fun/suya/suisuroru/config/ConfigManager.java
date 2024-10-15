@@ -20,6 +20,8 @@ import static xd.suka.Main.LOGGER;
  * 由于遇到一些问题，两个配置文件暂时无法合并
  */
 public class ConfigManager {
+    private static final Map<String, String> configMapping = ConfigRemap.configMapping;
+
     private static @NotNull Properties getDefaultProperties() {
         Properties properties = new Properties();
 
@@ -29,7 +31,6 @@ public class ConfigManager {
 
         return properties;
     }
-    private static final Map<String, String> configMapping = ConfigRemap.configMapping;
 
     private static @NotNull Properties getProperties() {
         Properties properties = new Properties();
@@ -135,7 +136,7 @@ public class ConfigManager {
         }
 
         try (FileWriter writer = new FileWriter(Main.INSTANCE.CONFIG_FILE)) {
-            Properties properties =  getProperties();
+            Properties properties = getProperties();
             properties.store(writer, null);
         } catch (IOException e) {
             LOGGER.warning("Failed to save config " + e.getMessage());

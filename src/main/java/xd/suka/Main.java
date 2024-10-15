@@ -1,24 +1,24 @@
 package xd.suka;
 
+import fun.suya.suisuroru.commands.command.CommandManager;
+import fun.suya.suisuroru.commands.command.othercommands.Help;
+import fun.suya.suisuroru.commands.command.othercommands.ReportQuery;
+import fun.suya.suisuroru.commands.command.othercommands.config.Reload;
 import fun.suya.suisuroru.commands.tab.BasePluginTab;
 import fun.suya.suisuroru.commands.tab.ReportCommandTab;
+import fun.suya.suisuroru.config.Config;
+import fun.suya.suisuroru.config.ConfigManager;
+import fun.suya.suisuroru.message.Webhook4Email;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.utils.LoggerAdapters;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import fun.suya.suisuroru.commands.command.CommandManager;
-import fun.suya.suisuroru.commands.command.othercommands.Help;
-import fun.suya.suisuroru.commands.command.othercommands.ReportQuery;
-import fun.suya.suisuroru.commands.command.othercommands.config.Reload;
 import top.mrxiaom.overflow.BotBuilder;
 import xd.suka.command.ReportCommand;
-import fun.suya.suisuroru.config.Config;
-import fun.suya.suisuroru.config.ConfigManager;
 import xd.suka.data.DataManager;
 import xd.suka.module.ModuleManager;
-import fun.suya.suisuroru.message.Webhook4Email;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -84,7 +84,7 @@ public class Main extends JavaPlugin implements Listener {
             LOGGER.warning("Failed to get bot instance");
             return;
         }
-        try{
+        try {
             String subject = "服务器启动通知";
             String content = Config.servername + "服务器已启动";
             Webhook4Email webhook4Email = new Webhook4Email();

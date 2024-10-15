@@ -41,7 +41,7 @@ public class Query implements CommandExecutor {
                 sender.sendMessage("§c配置项 " + configName + " 不存在，请检查拼写");
                 return false;
             }
-                String internalConfigName = ConfigRemap.configMapping.get(configName);
+            String internalConfigName = ConfigRemap.configMapping.get(configName);
             try {
                 Field field = Config.class.getDeclaredField(internalConfigName);
                 Object value = field.get(null);

@@ -1,5 +1,6 @@
 package xd.suka.module.impl;
 
+import fun.suya.suisuroru.config.Config;
 import net.mamoe.mirai.event.events.FriendMessageEvent;
 import net.mamoe.mirai.event.events.NewFriendRequestEvent;
 import net.mamoe.mirai.message.data.MessageChain;
@@ -8,7 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import xd.suka.Main;
-import fun.suya.suisuroru.config.Config;
 import xd.suka.data.Data;
 import xd.suka.data.PlayerData;
 import xd.suka.module.Module;

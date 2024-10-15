@@ -31,6 +31,14 @@ public enum ConfigKeys {
     RconPassword(String.class, "password"),
     RconEnforceOperator(Boolean.class, true);
 
+    public static final Map<String, ConfigKeys> configKeysList = new HashMap<>();
+
+    static {
+        for (ConfigKeys key : ConfigKeys.values()) {
+            configKeysList.put(key.name(), key);
+        }
+    }
+
     private final Class<?> type;
     private final Object defaultValue;
 
@@ -45,13 +53,5 @@ public enum ConfigKeys {
 
     public Object getDefaultValue() {
         return defaultValue;
-    }
-
-    public static final Map<String, ConfigKeys> configKeysList = new HashMap<>();
-
-    static {
-        for (ConfigKeys key : ConfigKeys.values()) {
-            configKeysList.put(key.name(), key);
-        }
     }
 }

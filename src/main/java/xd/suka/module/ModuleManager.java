@@ -1,7 +1,7 @@
 package xd.suka.module;
 
-import org.bukkit.Bukkit;
 import fun.suya.suisuroru.module.impl.RconPreCheck;
+import org.bukkit.Bukkit;
 import xd.suka.Main;
 import xd.suka.module.impl.QQCheck;
 import xd.suka.module.impl.Reporter;

@@ -1,6 +1,7 @@
 package xd.suka.command;
 
 import fun.suya.suisuroru.data.ReportDataManager;
+import fun.suya.suisuroru.message.Webhook4Email;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.message.data.AtAll;
@@ -11,7 +12,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import fun.suya.suisuroru.message.Webhook4Email;
 import xd.suka.Main;
 import xd.suka.module.impl.Reporter;
 import xd.suka.util.TimeUtil;
@@ -72,11 +72,11 @@ public class ReportCommand implements CommandExecutor {
                         }
 
                         builder_qq.append(TimeUtil.getNowTime()).append('\n')
-                                  .append("玩家 ").append(args[0]).append(" 被 ")
-                                  .append(sender.getName()).append(" 报告，原因：")
-                                  .append(reason.isEmpty() ? "无" : reason)
-                                  .append('\n')
-                                  .append("编号: ").append(number);
+                                .append("玩家 ").append(args[0]).append(" 被 ")
+                                .append(sender.getName()).append(" 报告，原因：")
+                                .append(reason.isEmpty() ? "无" : reason)
+                                .append('\n')
+                                .append("编号: ").append(number);
 
                         reportGroup.sendMessage(builder_qq.build());
                         sender.sendMessage("§a已发送报告  编号: " + number);

@@ -1,9 +1,9 @@
 package fun.suya.suisuroru.rcon;
 
+import fun.suya.suisuroru.config.Config;
 import org.bukkit.Bukkit;
 import org.glavo.rcon.AuthenticationException;
 import org.glavo.rcon.Rcon;
-import fun.suya.suisuroru.config.Config;
 
 import java.io.IOException;
 

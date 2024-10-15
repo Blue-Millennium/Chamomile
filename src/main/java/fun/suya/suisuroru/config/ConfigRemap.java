@@ -10,6 +10,7 @@ import java.util.Map;
  */
 public class ConfigRemap {
     public static final Map<String, String> configMapping = new HashMap<>();
+
     // configMapping.put(ConfigKeys, Config);
     static {
         configMapping.put("QQCheckEnabled", "qqCheckEnabled");

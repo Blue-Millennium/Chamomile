@@ -1,10 +1,10 @@
 package fun.suya.suisuroru.commands.command.othercommands.config;
 
+import fun.suya.suisuroru.config.ConfigManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
-import fun.suya.suisuroru.config.ConfigManager;
 
 /**
  * @author Suisuroru

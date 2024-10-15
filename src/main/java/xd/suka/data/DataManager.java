@@ -21,7 +21,8 @@ public class DataManager {
 
     public void load() {
         try (JsonReader jsonReader = new JsonReader(new FileReader(Main.INSTANCE.DATA_FILE))) {
-            DATA_LIST = new Gson().fromJson(jsonReader, new TypeToken<ArrayList<Data>>() {}.getType());
+            DATA_LIST = new Gson().fromJson(jsonReader, new TypeToken<ArrayList<Data>>() {
+            }.getType());
 
             jsonReader.close();
 
