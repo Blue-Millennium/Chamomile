@@ -3,6 +3,11 @@ package fun.suya.suisuroru.config;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Suisuroru
+ * Date: 2024/10/14 22:49
+ * function: Provide a mapping between config keys and config values
+ */
 public class ConfigRemap {
     public static final Map<String, String> configMapping = new HashMap<>();
     // configMapping.put(ConfigKeys, Config);

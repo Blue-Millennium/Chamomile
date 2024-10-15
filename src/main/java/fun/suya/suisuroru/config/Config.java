@@ -3,7 +3,7 @@ package fun.suya.suisuroru.config;
 /**
  * @author Suisuroru
  * Date: 2024/10/14 22:49
- * function: initialize config format
+ * function: Initialize config format
  */
 public class Config {
     public static boolean qqCheckEnabled;

@@ -22,6 +22,11 @@ public class Query implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        // 检查发送者是否具有OP权限
+        if (!sender.isOp()) {
+            sender.sendMessage("你没有权限执行此命令！");
+            return true;
+        }
         if (args.length == 0) {
             if (command.getName().equals("bp")) {
                 sender.sendMessage("§c/bp config query [查询配置]");

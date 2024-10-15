@@ -19,7 +19,7 @@ public class Help implements CommandExecutor {
             if (sender.isOp()) {
                 sender.sendMessage("§e检查到执行者为OP，已使用颜色区分需要管理员权限的指令，绿色为通用指令，红色为管理员权限指令");
                 sender.sendMessage("§e在下方的指令中，您可以使用bp来代替输入baseplugin");
-                sender.sendMessage("§4配置文件处理:/baseplugin config");
+                sender.sendMessage("§4配置文件处理:使用/baseplugin config获取更多帮助");
                 sender.sendMessage("§a举报玩家:/baseplugin report <玩家名> <原因>");
                 sender.sendMessage("§4查询举报记录:/baseplugin query-report");
             } else if (!sender.isOp()) {
@@ -29,7 +29,7 @@ public class Help implements CommandExecutor {
         } else {
             sender.sendMessage("检查到执行者为控制台，已使用前缀区分玩家指令及管理员指令");
             sender.sendMessage("在下方的指令中，您可以使用bp来代替输入baseplugin");
-            sender.sendMessage("[管理员/控制台]配置文件处理:/baseplugin config");
+            sender.sendMessage("[管理员/控制台]配置文件处理:使用/baseplugin config获取更多帮助");
             sender.sendMessage("[所有玩家]举报玩家:/baseplugin report <玩家名> <原因>");
             sender.sendMessage("[管理员/控制台]查询举报记录:/baseplugin query-report");
         }
