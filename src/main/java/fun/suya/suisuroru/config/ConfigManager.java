@@ -16,6 +16,8 @@ import static xd.suka.Main.LOGGER;
  * @author Suisuroru
  * Date: 2024/10/14 23:41
  * function: Manage config, rewrited by Suisuroru in 241014
+ * additon: Config:代码层名字; ConfigKeys:配置项名字;
+ * 由于遇到一些问题，两个配置文件暂时无法合并
  */
 public class ConfigManager {
     private static @NotNull Properties getDefaultProperties() {
