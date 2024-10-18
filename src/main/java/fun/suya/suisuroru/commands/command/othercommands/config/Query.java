@@ -39,7 +39,7 @@ public class Query implements CommandExecutor {
             String configName = args[0];
             if (!CONFIG_KEYS_MAP.containsKey(configName)) {
                 sender.sendMessage("§c配置项 " + configName + " 不存在，请检查拼写");
-                return false;
+                return true;
             }
             String internalConfigName = ConfigRemap.configMapping.get(configName);
             try {

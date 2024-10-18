@@ -42,7 +42,7 @@ public class Set implements CommandExecutor {
         // 检查配置项是否存在
         if (!CONFIG_KEYS_MAP.containsKey(configName)) {
             sender.sendMessage("§c配置项 " + configName + " 不存在，请检查拼写");
-            return false;
+            return true;
         }
 
         ConfigKeys key = CONFIG_KEYS_MAP.get(configName);

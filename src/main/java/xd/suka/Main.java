@@ -1,10 +1,12 @@
 package xd.suka;
 
 import fun.suya.suisuroru.commands.command.CommandManager;
+import fun.suya.suisuroru.commands.command.othercommands.ConfigRoot;
 import fun.suya.suisuroru.commands.command.othercommands.Help;
 import fun.suya.suisuroru.commands.command.othercommands.ReportQuery;
 import fun.suya.suisuroru.commands.command.othercommands.config.Reload;
 import fun.suya.suisuroru.commands.tab.BasePluginTab;
+import fun.suya.suisuroru.commands.tab.BpconfigTab;
 import fun.suya.suisuroru.commands.tab.ReportCommandTab;
 import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.config.ConfigManager;
@@ -98,6 +100,8 @@ public class Main extends JavaPlugin implements Listener {
         this.getCommand("basepluginhelp").setExecutor(new Help());
         this.getCommand("report").setExecutor(new ReportCommand());
         this.getCommand("report").setTabCompleter(new ReportCommandTab());
+        this.getCommand("bpconfig").setExecutor(new ConfigRoot());
+        this.getCommand("bpconfig").setTabCompleter(new BpconfigTab());
         this.getCommand("bpreload").setExecutor(new Reload());
         this.getCommand("baseplugin").setExecutor(new CommandManager());
         this.getCommand("baseplugin").setTabCompleter(new BasePluginTab());
