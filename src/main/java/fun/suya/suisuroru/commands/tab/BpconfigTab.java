@@ -25,10 +25,10 @@ public class BpconfigTab implements TabCompleter {
             completions.add("query");
             completions.add("set");
         } else if (args.length == 2) {
-            if (args[1].equals("query") || args[1].equals("set")) {
+            if (args[0].equals("query") || args[0].equals("set")) {
                 completions.addAll(ConfigKeys.configKeysList.keySet());
             }
         }
-        return List.of();
+        return completions;
     }
 }
