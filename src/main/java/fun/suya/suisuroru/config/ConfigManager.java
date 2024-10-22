@@ -120,6 +120,7 @@ public class ConfigManager {
             case RconPort -> Config.RconPort = (Integer) value;
             case RconPassword -> Config.RconPassword = (String) value;
             case RconEnforceOperator -> Config.RconEnforceOperator = (Boolean) value;
+            case QQRobotEnabled -> Config.QQRobotEnabled = (Boolean) value;
         }
 
     }

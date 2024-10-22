@@ -79,7 +79,11 @@ public class Main extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(this, this); // 注册事件
 
         LoggerAdapters.useLog4j2(); // 使用 Log4j2 作为日志记录器
-        BOT = BotBuilder.positive(Config.botWsUrl).token(Config.botWsToken).connect(); // 连接 LLOneBot
+        if (Config.QQRobotEnabled) {
+            BOT = BotBuilder.positive(Config.botWsUrl).token(Config.botWsToken).connect(); // 连接 LLOneBot
+        } else {
+            LOGGER.info("QQ Robot has been disabled in this running regin.");
+        }
         eventChannel = GlobalEventChannel.INSTANCE;
 
         if (BOT == null) {

@@ -27,4 +27,5 @@ public class Config {
     public static int RconPort;
     public static String RconPassword;
     public static boolean RconEnforceOperator;
+    public static boolean QQRobotEnabled;
 }

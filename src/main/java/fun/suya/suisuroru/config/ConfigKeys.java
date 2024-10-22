@@ -29,7 +29,8 @@ public enum ConfigKeys {
     RconIP(String.class, "0.0.0.0"),
     RconPort(Integer.class, 25575),
     RconPassword(String.class, "password"),
-    RconEnforceOperator(Boolean.class, true);
+    RconEnforceOperator(Boolean.class, true),
+    QQRobotEnabled(Boolean.class, true);
 
     public static final Map<String, ConfigKeys> configKeysList = new HashMap<>();
 

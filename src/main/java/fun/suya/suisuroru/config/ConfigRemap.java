@@ -34,5 +34,6 @@ public class ConfigRemap {
         configMapping.put("RconPort", "RconPort");
         configMapping.put("RconPassword", "RconPassword");
         configMapping.put("RconEnforceOperator", "RconEnforceOperator");
+        configMapping.put("QQRobotEnabled", "QQRobotEnabled");
     }
 }
