@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.commands.command.othercommands;
+package fun.suya.suisuroru.commands.execute.othercommands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

@@ -1,5 +1,6 @@
 package xd.suka.module;
 
+import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.module.impl.RconPreCheck;
 import org.bukkit.Bukkit;
 import xd.suka.Main;
@@ -13,17 +14,21 @@ public class ModuleManager {
     public ArrayList<Module> modules = new ArrayList<>();
 
     public void load() {
-        modules.add(new SyncChat());
-        modules.add(new QQCheck());
+        if (Config.QQRobotEnabled) {
+            modules.add(new SyncChat());
+            modules.add(new QQCheck());
+            modules.add(new RconPreCheck());
+        }
         modules.add(new Reporter());
-        modules.add(new RconPreCheck());
 
         modules.forEach(Module::onLoad);
     }
 
     public void onEnable() {
-        modules.forEach(module -> Bukkit.getPluginManager().registerEvents(module, Main.INSTANCE));
-        modules.forEach(Module::onEnable);
+        if (Config.QQRobotEnabled) {
+            modules.forEach(module -> Bukkit.getPluginManager().registerEvents(module, Main.INSTANCE));
+            modules.forEach(Module::onEnable);
+        }
     }
 
     public void onDisable() {

@@ -1,8 +1,8 @@
-package fun.suya.suisuroru.commands.command;
+package fun.suya.suisuroru.commands.execute;
 
-import fun.suya.suisuroru.commands.command.othercommands.ConfigRoot;
-import fun.suya.suisuroru.commands.command.othercommands.Help;
-import fun.suya.suisuroru.commands.command.othercommands.ReportQuery;
+import fun.suya.suisuroru.commands.execute.othercommands.ConfigRoot;
+import fun.suya.suisuroru.commands.execute.othercommands.Help;
+import fun.suya.suisuroru.commands.execute.othercommands.ReportQuery;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

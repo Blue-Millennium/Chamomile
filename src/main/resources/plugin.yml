@@ -5,6 +5,13 @@ description: BasePlugin
 author: SukaXD, Suisuroru
 
 commands:
+  ban:
+    description: Ban a player
+    usage: /ban <player> <reason>
+  pardon:
+    description: Unban a player
+    usage: /pardon <player>
+    aliases: [ unban ]
   basepluginhelp:
     description: Baseplugin help
     usage: /basepluginhelp

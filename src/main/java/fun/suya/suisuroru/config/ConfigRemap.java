@@ -35,5 +35,10 @@ public class ConfigRemap {
         configMapping.put("RconPassword", "RconPassword");
         configMapping.put("RconEnforceOperator", "RconEnforceOperator");
         configMapping.put("QQRobotEnabled", "QQRobotEnabled");
+        configMapping.put("UnionBanEnabled", "UnionBanEnabled");
+        configMapping.put("UnionBanCheckOnly", "UnionBanCheckOnly");
+        configMapping.put("UnionBanCheckUrl", "UnionBanCheckUrl");
+        configMapping.put("UnionBanReportUrl", "UnionBanReportUrl");
+        configMapping.put("UnionBanReportKey", "UnionBanReportKey");
     }
 }

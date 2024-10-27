@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.commands.command.othercommands.config;
+package fun.suya.suisuroru.commands.execute.othercommands.config;
 
 import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.config.ConfigKeys;

@@ -1,13 +1,17 @@
 package xd.suka;
 
-import fun.suya.suisuroru.commands.command.CommandManager;
-import fun.suya.suisuroru.commands.command.othercommands.ConfigRoot;
-import fun.suya.suisuroru.commands.command.othercommands.Help;
-import fun.suya.suisuroru.commands.command.othercommands.ReportQuery;
-import fun.suya.suisuroru.commands.command.othercommands.config.Reload;
+import fun.suya.suisuroru.commands.execute.CommandManager;
+import fun.suya.suisuroru.commands.execute.othercommands.ConfigRoot;
+import fun.suya.suisuroru.commands.execute.othercommands.Help;
+import fun.suya.suisuroru.commands.execute.othercommands.ReportQuery;
+import fun.suya.suisuroru.commands.execute.othercommands.config.Reload;
+import fun.suya.suisuroru.commands.execute.othercommands.vanilla.Ban;
+import fun.suya.suisuroru.commands.execute.othercommands.vanilla.Pardon;
 import fun.suya.suisuroru.commands.tab.BasePluginTab;
 import fun.suya.suisuroru.commands.tab.BpconfigTab;
 import fun.suya.suisuroru.commands.tab.ReportCommandTab;
+import fun.suya.suisuroru.commands.tab.vanilla.BanTab;
+import fun.suya.suisuroru.commands.tab.vanilla.PardonTab;
 import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.config.ConfigManager;
 import fun.suya.suisuroru.message.Webhook4Email;
@@ -15,6 +19,7 @@ import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.utils.LoggerAdapters;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Minecart;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import top.mrxiaom.overflow.BotBuilder;
@@ -81,14 +86,13 @@ public class Main extends JavaPlugin implements Listener {
         LoggerAdapters.useLog4j2(); // 使用 Log4j2 作为日志记录器
         if (Config.QQRobotEnabled) {
             BOT = BotBuilder.positive(Config.botWsUrl).token(Config.botWsToken).connect(); // 连接 LLOneBot
+            eventChannel = GlobalEventChannel.INSTANCE;
+            if (BOT == null) {
+                LOGGER.warning("Failed to get bot instance");
+                return;
+            }
         } else {
             LOGGER.info("QQ Robot has been disabled in this running regin.");
-        }
-        eventChannel = GlobalEventChannel.INSTANCE;
-
-        if (BOT == null) {
-            LOGGER.warning("Failed to get bot instance");
-            return;
         }
         try {
             String subject = "服务器启动通知";
@@ -101,6 +105,13 @@ public class Main extends JavaPlugin implements Listener {
 
         moduleManager.onEnable();
 
+        // vanilla functions
+        this.getCommand("ban").setExecutor(new Ban());
+        this.getCommand("pardon").setExecutor(new Pardon());
+        this.getCommand("ban").setTabCompleter(new BanTab());
+        this.getCommand("pardon").setTabCompleter(new PardonTab());
+
+        // new functions
         this.getCommand("basepluginhelp").setExecutor(new Help());
         this.getCommand("report").setExecutor(new ReportCommand());
         this.getCommand("report").setTabCompleter(new ReportCommandTab());

@@ -1,8 +1,8 @@
-package fun.suya.suisuroru.commands.command.othercommands;
+package fun.suya.suisuroru.commands.execute.othercommands;
 
-import fun.suya.suisuroru.commands.command.othercommands.config.Query;
-import fun.suya.suisuroru.commands.command.othercommands.config.Reload;
-import fun.suya.suisuroru.commands.command.othercommands.config.Set;
+import fun.suya.suisuroru.commands.execute.othercommands.config.Query;
+import fun.suya.suisuroru.commands.execute.othercommands.config.Reload;
+import fun.suya.suisuroru.commands.execute.othercommands.config.Set;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

@@ -57,7 +57,7 @@ public class Webhook4Email {
         }
     }
 
-    private String ensureValidUrl(String url) {
+    public static String ensureValidUrl(String url) {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "http://" + url;
         }

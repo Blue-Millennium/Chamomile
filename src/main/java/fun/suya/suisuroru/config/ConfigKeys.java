@@ -30,7 +30,12 @@ public enum ConfigKeys {
     RconPort(Integer.class, 25575),
     RconPassword(String.class, "password"),
     RconEnforceOperator(Boolean.class, true),
-    QQRobotEnabled(Boolean.class, true);
+    QQRobotEnabled(Boolean.class, true),
+    UnionBanEnabled(Boolean.class, false),
+    UnionBanCheckOnly(Boolean.class, false),
+    UnionBanCheckUrl(String.class, "https://example.com"),
+    UnionBanReportUrl(String.class, "https://example.com"),
+    UnionBanReportKey(String.class, "your_report_key");
 
     public static final Map<String, ConfigKeys> configKeysList = new HashMap<>();
 

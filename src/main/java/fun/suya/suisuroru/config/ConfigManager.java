@@ -121,6 +121,11 @@ public class ConfigManager {
             case RconPassword -> Config.RconPassword = (String) value;
             case RconEnforceOperator -> Config.RconEnforceOperator = (Boolean) value;
             case QQRobotEnabled -> Config.QQRobotEnabled = (Boolean) value;
+            case UnionBanEnabled -> Config.UnionBanEnabled = (Boolean) value;
+            case UnionBanCheckOnly -> Config.UnionBanCheckOnly = (Boolean) value;
+            case UnionBanCheckUrl -> Config.UnionBanCheckUrl = (String) value;
+            case UnionBanReportUrl -> Config.UnionBanReportUrl = (String) value;
+            case UnionBanReportKey -> Config.UnionBanReportKey = (String) value;
         }
 
     }

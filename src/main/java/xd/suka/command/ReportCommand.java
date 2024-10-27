@@ -1,5 +1,6 @@
 package xd.suka.command;
 
+import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.data.ReportDataManager;
 import fun.suya.suisuroru.message.Webhook4Email;
 import net.mamoe.mirai.contact.Group;
@@ -67,19 +68,21 @@ public class ReportCommand implements CommandExecutor {
                         }
                         MessageChainBuilder builder_qq = new MessageChainBuilder();
 
-                        if (reportGroup.getBotPermission() == MemberPermission.ADMINISTRATOR || reportGroup.getBotPermission() == MemberPermission.OWNER) {
-                            builder_qq.append(" ").append(AtAll.INSTANCE).append("\n");
+                        if (Config.QQRobotEnabled) {
+                            if (reportGroup.getBotPermission() == MemberPermission.ADMINISTRATOR || reportGroup.getBotPermission() == MemberPermission.OWNER) {
+                                builder_qq.append(" ").append(AtAll.INSTANCE).append("\n");
+                            }
+
+                            builder_qq.append(TimeUtil.getNowTime()).append('\n')
+                                    .append("玩家 ").append(args[0]).append(" 被 ")
+                                    .append(sender.getName()).append(" 报告，原因：")
+                                    .append(reason.isEmpty() ? "无" : reason)
+                                    .append('\n')
+                                    .append("编号: ").append(number);
+
+                            reportGroup.sendMessage(builder_qq.build());
+                            sender.sendMessage("§a已发送报告  编号: " + number);
                         }
-
-                        builder_qq.append(TimeUtil.getNowTime()).append('\n')
-                                .append("玩家 ").append(args[0]).append(" 被 ")
-                                .append(sender.getName()).append(" 报告，原因：")
-                                .append(reason.isEmpty() ? "无" : reason)
-                                .append('\n')
-                                .append("编号: ").append(number);
-
-                        reportGroup.sendMessage(builder_qq.build());
-                        sender.sendMessage("§a已发送报告  编号: " + number);
                     }
                 } else {
                     sender.sendMessage("§c内部错误");

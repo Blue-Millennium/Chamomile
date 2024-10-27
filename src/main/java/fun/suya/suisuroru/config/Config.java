@@ -28,4 +28,9 @@ public class Config {
     public static String RconPassword;
     public static boolean RconEnforceOperator;
     public static boolean QQRobotEnabled;
+    public static boolean UnionBanEnabled;
+    public static boolean UnionBanCheckOnly;
+    public static String UnionBanCheckUrl;
+    public static String UnionBanReportUrl;
+    public static String UnionBanReportKey;
 }
