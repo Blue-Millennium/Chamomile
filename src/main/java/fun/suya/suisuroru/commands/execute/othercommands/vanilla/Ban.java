@@ -51,5 +51,5 @@ public class Ban implements CommandExecutor {
     private void TransferToUnionBan(Player targetPlayer, CommandSender sender, String reason) {
         String message = "玩家 " + targetPlayer.getName() + " 已被 " + sender.getName() + " 以[ " + reason + " ]的理由封禁";
         Bukkit.broadcastMessage("本地黑名单: " + message);
-}
+    }
 }

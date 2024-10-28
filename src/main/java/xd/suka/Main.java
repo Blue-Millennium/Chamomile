@@ -19,7 +19,6 @@ import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.utils.LoggerAdapters;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Minecart;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import top.mrxiaom.overflow.BotBuilder;
@@ -107,8 +106,8 @@ public class Main extends JavaPlugin implements Listener {
 
         // vanilla functions
         this.getCommand("ban").setExecutor(new Ban());
-        this.getCommand("pardon").setExecutor(new Pardon());
         this.getCommand("ban").setTabCompleter(new BanTab());
+        this.getCommand("pardon").setExecutor(new Pardon());
         this.getCommand("pardon").setTabCompleter(new PardonTab());
 
         // new functions

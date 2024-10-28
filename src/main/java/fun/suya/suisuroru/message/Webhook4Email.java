@@ -15,6 +15,13 @@ import java.net.http.HttpResponse;
  */
 public class Webhook4Email {
 
+    public static String ensureValidUrl(String url) {
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "http://" + url;
+        }
+        return url;
+    }
+
     /**
      * 向指定的webhook地址发送邮件报告。
      *
@@ -55,13 +62,6 @@ public class Webhook4Email {
             e.printStackTrace();
             System.err.println("Error sending webhook: " + e.getMessage());
         }
-    }
-
-    public static String ensureValidUrl(String url) {
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "http://" + url;
-        }
-        return url;
     }
 
     /**

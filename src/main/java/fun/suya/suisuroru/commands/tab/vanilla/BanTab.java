@@ -15,12 +15,12 @@ public class BanTab implements TabCompleter {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
         if (args.length == 1) {
             // 第一个参数：玩家名称
-            return getOnlinePlayerNames(sender ,args[0]);
+            return getOnlinePlayerNames(sender, args[0]);
         }
         return new ArrayList<>();
     }
 
-    private List<String> getOnlinePlayerNames(CommandSender sender,String partialName) {
+    private List<String> getOnlinePlayerNames(CommandSender sender, String partialName) {
         List<String> playerNames = new ArrayList<>();
         for (Player player : sender.getServer().getOnlinePlayers()) {
             String playerName = player.getName();
