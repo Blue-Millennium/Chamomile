@@ -14,7 +14,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.suya.suisuroru.data.ReportCharmProcess.reportCharmProcess;
+import static fun.suya.suisuroru.data.Report.ReportCharmProcess.reportCharmProcess;
 import static fun.suya.suisuroru.rcon.RconCommandExecute.executeRconCommand;
 import static xd.suka.Main.LOGGER;
 

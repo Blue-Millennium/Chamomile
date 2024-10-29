@@ -1,13 +1,19 @@
 package fun.suya.suisuroru.commands.execute.othercommands.vanilla;
 
+import fun.suya.suisuroru.config.Config;
+import fun.suya.suisuroru.module.impl.UnionBan;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import xd.suka.Main;
 
 import java.util.Arrays;
+import java.util.Date;
+
+import static fun.suya.suisuroru.module.impl.UnionBan.reportBanData;
 
 /**
  * @author Suisuroru
@@ -15,6 +21,18 @@ import java.util.Arrays;
  * function: Add some function to the vanilla ban command
  */
 public class Ban implements CommandExecutor {
+
+    public static void BanMessage(String message) {
+        Bukkit.broadcastMessage("本地黑名单: " + message);
+        try {
+            if (Config.QQRobotEnabled) {
+                Main.BOT.getGroup(Config.syncChatGroup).sendMessage(message);
+                Main.BOT.getGroup(Config.reportGroup).sendMessage(message);
+            }
+        } catch (Exception e) {
+            Main.LOGGER.info("Error when report message to QQ group");
+        }
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
@@ -50,6 +68,9 @@ public class Ban implements CommandExecutor {
 
     private void TransferToUnionBan(Player targetPlayer, CommandSender sender, String reason) {
         String message = "玩家 " + targetPlayer.getName() + " 已被 " + sender.getName() + " 以[ " + reason + " ]的理由封禁";
-        Bukkit.broadcastMessage("本地黑名单: " + message);
+        BanMessage(message);
+        if (!Config.UnionBanCheckOnly) {
+            reportBanData(new UnionBan.BanPair<>(targetPlayer.getUniqueId(), reason, new Date(), Config.servername));
+        }
     }
 }

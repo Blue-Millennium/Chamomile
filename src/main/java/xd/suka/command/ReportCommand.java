@@ -1,7 +1,7 @@
 package xd.suka.command;
 
 import fun.suya.suisuroru.config.Config;
-import fun.suya.suisuroru.data.ReportDataManager;
+import fun.suya.suisuroru.data.Report.ReportDataManager;
 import fun.suya.suisuroru.message.Webhook4Email;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.MemberPermission;

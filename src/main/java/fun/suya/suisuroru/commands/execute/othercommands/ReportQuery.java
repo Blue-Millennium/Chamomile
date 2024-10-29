@@ -1,6 +1,6 @@
 package fun.suya.suisuroru.commands.execute.othercommands;
 
-import fun.suya.suisuroru.data.ReportDataRead;
+import fun.suya.suisuroru.data.Report.ReportDataRead;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

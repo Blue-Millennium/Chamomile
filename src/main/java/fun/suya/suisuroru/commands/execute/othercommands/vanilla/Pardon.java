@@ -1,11 +1,19 @@
 package fun.suya.suisuroru.commands.execute.othercommands.vanilla;
 
+import fun.suya.suisuroru.config.Config;
+import fun.suya.suisuroru.module.impl.UnionBan;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Date;
+
+import static fun.suya.suisuroru.commands.execute.othercommands.vanilla.Ban.BanMessage;
+import static fun.suya.suisuroru.module.impl.UnionBan.reportBanData;
 
 /**
  * @author Suisuroru
@@ -13,6 +21,18 @@ import org.jetbrains.annotations.NotNull;
  * function: Add some function to the vanilla pardon command
  */
 public class Pardon implements CommandExecutor {
+
+    public static void TransferToUnionPardon(String playerName, CommandSender sender) {
+        String message = "玩家 " + playerName + " 已被 " + sender.getName() + "解除封禁";
+        BanMessage(message);
+        if (!Config.UnionBanCheckOnly) {
+            Player targetPlayer = Bukkit.getPlayer(playerName);
+            String reason = "";
+            if (targetPlayer != null) {
+                reportBanData(new UnionBan.BanPair<>(targetPlayer.getUniqueId(), reason, new Date(), "Pardon"));
+            }
+        }
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
@@ -42,10 +62,5 @@ public class Pardon implements CommandExecutor {
         }
 
         return result;
-    }
-
-    private void TransferToUnionPardon(String playerName, CommandSender sender) {
-        String message = "玩家 " + playerName + " 已被 " + sender.getName() + "解除封禁";
-        Bukkit.broadcastMessage("本地黑名单: " + message);
     }
 }

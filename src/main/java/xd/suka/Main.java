@@ -15,6 +15,7 @@ import fun.suya.suisuroru.commands.tab.vanilla.PardonTab;
 import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.config.ConfigManager;
 import fun.suya.suisuroru.message.Webhook4Email;
+import fun.suya.suisuroru.module.LoadBanlist;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.utils.LoggerAdapters;
@@ -36,7 +37,7 @@ import java.util.logging.Logger;
 public class Main extends JavaPlugin implements Listener {
     public static Logger LOGGER = null;
     public static Main INSTANCE = null;
-
+    public static Bot BOT;
     public File BASE_DIR = new File("BasePlugin");
     public File DATA_FILE = new File(BASE_DIR, "data.json");
     public File CONFIG_FILE = new File(BASE_DIR, "config.properties");
@@ -44,8 +45,6 @@ public class Main extends JavaPlugin implements Listener {
     public ConfigManager configManager;
     public ModuleManager moduleManager;
     public GlobalEventChannel eventChannel;
-
-    public Bot BOT;
 
     @Override
     public void onLoad() {
@@ -72,6 +71,7 @@ public class Main extends JavaPlugin implements Listener {
                 LOGGER.warning("Failed to create data file " + exception.getMessage());
             }
         }
+        getServer().getPluginManager().registerEvents(new LoadBanlist(), this);
 
         dataManager.load();
         configManager.load();

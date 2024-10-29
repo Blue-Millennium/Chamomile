@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.data;
+package fun.suya.suisuroru.data.Report;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.data;
+package fun.suya.suisuroru.data.Report;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.data;
+package fun.suya.suisuroru.data.Report;
 
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;

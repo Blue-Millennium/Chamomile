@@ -1,0 +1,68 @@
+package fun.suya.suisuroru.module;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import fun.suya.suisuroru.config.Config;
+import fun.suya.suisuroru.data.UnionBan.LocalCache;
+import fun.suya.suisuroru.module.impl.UnionBan;
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+
+import java.util.*;
+
+import static fun.suya.suisuroru.commands.execute.othercommands.vanilla.Ban.BanMessage;
+
+/**
+ * @author Suisuroru
+ * Date: 2024/10/28 23:08
+ * function: Load banlist when player join
+ */
+public class LoadBanlist implements Listener {
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    @EventHandler
+    public void PlayerJoinMessage(PlayerJoinEvent event) {
+        if (Config.UnionBanEnabled) {
+            try {
+                Set<UnionBan.BanPair<UUID, String, Date, String>> BanlistLocal = new HashSet<>(UnionBan.loadLocalBanList());
+                Set<UnionBan.BanPair<UUID, String, Date, String>> BanlistRemote = new HashSet<>(UnionBan.loadRemoteBanList());
+                List<UnionBan.BanPair<UUID, String, Date, String>> Cache = LocalCache.read();
+
+                if (!Cache.isEmpty()) {
+                    for (UnionBan.BanPair<UUID, String, Date, String> data : Cache) {
+
+                        if ("Pardon".equals(data.getSourceServer())) {
+                            boolean result = Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "minecraft:pardon " + data.getUUID());
+                            if (result) {
+                                String message;
+                                try {
+                                    message = "玩家 " + Bukkit.getPlayer(data.getUUID()).getName() + " 已被 " + data.getSourceServer() + "解除封禁";
+                                } catch (Exception e) {
+                                    message = "玩家 [UUID]" + data.getUUID() + " 已被 " + data.getSourceServer() + "解除封禁";
+                                }
+                                BanMessage(message);
+                            }
+                        } else if ("Ban".equals(data.getSourceServer())) {
+                            data.changeSource(Config.servername);
+                            boolean result = Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "minecraft:ban " + data.getUUID() + " " + data.getReason() + "-Banned by " + data.getSourceServer());
+                            if (result) {
+                                String message;
+                                try {
+                                    message = "玩家 " + Bukkit.getPlayer(data.getUUID()).getName() + " 已被 " + data.getSourceServer() + " 以[ " + data.getReason() + " ]的理由封禁";
+                                } catch (Exception e1) {
+                                    message = "玩家 [UUID]" + data.getUUID() + " 已被 " + data.getSourceServer() + " 以[ " + data.getReason() + " ]的理由封禁";
+                                }
+                                BanMessage(message);
+                            }
+                        }
+                        UnionBan.BanPair<UUID, String, Date, String> CachePair = new UnionBan.BanPair<>(data.getUUID(), data.getReason(), data.getTime(), data.getSourceServer());
+                        UnionBan.reportBanData(CachePair);
+                    }
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+}
