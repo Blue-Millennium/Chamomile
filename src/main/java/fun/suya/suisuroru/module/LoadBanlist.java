@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.*;
 
-import static fun.suya.suisuroru.commands.execute.othercommands.vanilla.Ban.BanMessage;
+import static fun.suya.suisuroru.commands.execute.vanilla.Ban.BanMessage;
 
 /**
  * @author Suisuroru
@@ -19,14 +19,11 @@ import static fun.suya.suisuroru.commands.execute.othercommands.vanilla.Ban.BanM
  * function: Load banlist when player join
  */
 public class LoadBanlist implements Listener {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @EventHandler
     public void PlayerJoinMessage(PlayerJoinEvent event) {
         if (Config.UnionBanEnabled) {
             try {
-                Set<UnionBan.BanPair<UUID, String, Date, String>> BanlistLocal = new HashSet<>(UnionBan.loadLocalBanList());
-                Set<UnionBan.BanPair<UUID, String, Date, String>> BanlistRemote = new HashSet<>(UnionBan.loadRemoteBanList());
                 List<UnionBan.BanPair<UUID, String, Date, String>> Cache = LocalCache.read();
 
                 if (!Cache.isEmpty()) {

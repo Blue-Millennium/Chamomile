@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.commands.execute.othercommands.vanilla;
+package fun.suya.suisuroru.commands.execute.vanilla;
 
 import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.module.impl.UnionBan;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 
-import static fun.suya.suisuroru.commands.execute.othercommands.vanilla.Ban.BanMessage;
+import static fun.suya.suisuroru.commands.execute.vanilla.Ban.BanMessage;
 import static fun.suya.suisuroru.module.impl.UnionBan.reportBanData;
 
 /**

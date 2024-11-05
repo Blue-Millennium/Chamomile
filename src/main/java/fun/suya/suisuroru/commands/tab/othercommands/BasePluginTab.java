@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.commands.tab;
+package fun.suya.suisuroru.commands.tab.othercommands;
 
 import fun.suya.suisuroru.config.ConfigKeys;
 import org.bukkit.Bukkit;

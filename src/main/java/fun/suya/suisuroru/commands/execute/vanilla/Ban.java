@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.commands.execute.othercommands.vanilla;
+package fun.suya.suisuroru.commands.execute.vanilla;
 
 import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.module.impl.UnionBan;

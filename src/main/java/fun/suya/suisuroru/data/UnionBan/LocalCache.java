@@ -67,7 +67,7 @@ public class LocalCache {
             long time = (long) pairData.get("time");
             String sourceServer = (String) pairData.get("sourceServer");
 
-            result.add(new UnionBan.BanPair(UUID.fromString(uuid), reason, new Date(time), sourceServer));
+            result.add(new UnionBan.BanPair<>(UUID.fromString(uuid), reason, new Date(time), sourceServer));
         }
 
         return result;
