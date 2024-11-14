@@ -1,0 +1,51 @@
+name: Build and Publish
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+          distribution: 'zulu'
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Rename and upload JAR file
+        run: |
+          COMMIT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-8)
+          TARGET_JAR="BasePlugin-Prerelease-${COMMIT_SHA}.jar"
+          SOURCE_JAR=$(find build/libs -name "*.jar" -print -quit)
+          mv "${SOURCE_JAR}" "${TARGET_JAR}"
+          echo "Uploading ${TARGET_JAR} as artifact"
+        working-directory: .
+        id: rename_and_upload
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+
+      - name: Upload JAR file as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-jar
+          path: BasePlugin-Prerelease-*.jar

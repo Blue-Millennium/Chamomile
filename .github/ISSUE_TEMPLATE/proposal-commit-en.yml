@@ -1,0 +1,32 @@
+name: Submit Suggestion
+description: If you have any suggestions for the plugin, you can submit them here in English.
+labels: [ "enhancement" ]
+body:
+  - type: checkboxes
+    id: "yml-0"
+    attributes:
+      label: "Checklist"
+      description: "Please check the following items one by one and tick them to confirm."
+      options:
+        - label: "I confirm that this issue has not been addressed in the latest version of the plugin"
+          required: true
+        - label: "I confirm that there are no other identical suggestions in Issues"
+          required: true
+        - label: "The issue still persists in the latest develop coding version"
+  - type: textarea
+    id: "yml-1"
+    attributes:
+      label: Desired Feature
+      placeholder: "- (Please answer here) -"
+    validations:
+      required: true
+  - type: textarea
+    id: "yml-2"
+    attributes:
+      label: Plugin Version You Are Using
+      placeholder: "- (Please answer here) -"
+  - type: textarea
+    id: "yml-3"
+    attributes:
+      label: Other Supplementary Information
+      placeholder: "- (Please answer here) -"
