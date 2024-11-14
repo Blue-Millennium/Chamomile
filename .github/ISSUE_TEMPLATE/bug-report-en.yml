@@ -1,0 +1,53 @@
+name: BUG Report
+description: If you think a part of the plugin is not working properly, please submit it here in English.
+labels: [ "bug" ]
+body:
+  - type: checkboxes
+    id: "yml-0"
+    attributes:
+      label: "Checkboxes"
+      description: "Please check the following items one by one and check the box to confirm."
+      options:
+        - label: "I confirm that this issue still exists in the latest version of the plugin"
+          required: true
+        - label: "I confirm that there are no other problems in Issues"
+          required: true
+        - label: "The problem still exists in the latest develop coding version"
+  - type: textarea
+    id: "yml-1"
+    attributes:
+      label: Provide a description of the question
+      placeholder: "-(Please answer here)-"
+    validations:
+      required: true
+  - type: textarea
+    id: "yml-2"
+    attributes:
+      label: Desired Result
+      placeholder: "-(Please answer here)-"
+    validations:
+      required: true
+  - type: textarea
+    id: "yml-3"
+    attributes:
+      label: How to reproduce (if known)
+      placeholder: "-(Please answer here)-"
+  - type: textarea
+    id: "yml-4"
+    attributes:
+      label: System Environment
+      placeholder: "e.g. Windows 7 64-bit SP1, Windows 10 Professional 64-bit 1909, Windows 10 Home 32-bit 2002"
+    validations:
+      required: true
+  - type: textarea
+    id: "yml-5"
+    attributes:
+      label: Pligin Version
+      placeholder: "-(Please answer here)-"
+    validations:
+      required: true
+  - type: textarea
+    id: "yml-6"
+    attributes:
+      label: Other additions
+      placeholder: "-(Please answer here)-"
