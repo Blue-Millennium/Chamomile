@@ -77,27 +77,26 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew shadowJar
 
-      - name: Rename JAR file
+      - name: Rename and upload JAR file
         run: |
           COMMIT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-8)
           TARGET_JAR="BasePlugin-Prerelease-${COMMIT_SHA}.jar"
-          SOURCE_JAR=$(find build/libs -name "*.jar" -print -quit)
+          SOURCE_JAR=$(find run/plugins -name "*.jar" -print -quit)
           mv "${SOURCE_JAR}" "${TARGET_JAR}"
-          echo "Renamed JAR file to ${TARGET_JAR}"
+          echo "Uploading ${TARGET_JAR} as artifact"
         working-directory: .
-        id: rename_jar
+        id: rename_and_upload
         env:
           GITHUB_SHA: ${{ github.sha }}
 
       - name: Upload JAR file to Release
         id: upload_release_asset
-        uses: actions/upload-release-asset@v1
+        run: |
+          COMMIT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-8)
+          TARGET_JAR="BasePlugin-Prerelease-${COMMIT_SHA}.jar"
+          SOURCE_JAR=$(find run/plugins -name "*.jar" -print -quit)
+          gh release upload newest-build ${TARGET_JAR}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        with:
-          upload_url: ${{ needs.clear-old-pre-release-and-create-new-pre-release.steps.create_release.outputs.upload_url }}
-          asset_path: BasePlugin-Prerelease-*.jar
-          asset_name: BasePlugin-Prerelease-*.jar
-          asset_content_type: application/java-archive
