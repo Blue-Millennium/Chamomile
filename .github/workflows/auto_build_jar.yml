@@ -1,0 +1,102 @@
+name: Build and Publish
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  clear-old-pre-release-and-create-new-pre-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Delete Release with Tag 'newest-build'
+        run: |
+          GITHUB_REPOSITORY="${{ github.repository }}"
+          OWNER=$(echo $GITHUB_REPOSITORY | cut -d'/' -f1)
+          REPO=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
+
+          # 删除预发布版本
+          LATEST_RELEASE_WITH_TAG=$(curl -s -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/$OWNER/$REPO/releases/tags/newest-build)
+          if [ ! -z "$LATEST_RELEASE_WITH_TAG" ]; then
+            RELEASE_ID=$(echo $LATEST_RELEASE_WITH_TAG | jq -r '.id')
+            curl -X DELETE -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/$OWNER/$REPO/releases/$RELEASE_ID
+            echo "Deleted the release with tag 'newest-build'"
+          fi
+
+          # 删除标签
+          TAG_DELETE_URL="https://api.github.com/repos/$OWNER/$REPO/git/refs/tags/newest-build"
+          curl -X DELETE -H "Authorization: token ${{ secrets.GH_TOKEN }}" $TAG_DELETE_URL
+          echo "Deleted the tag 'newest-build'"
+        continue-on-error: true
+
+      - name: Set Release Version
+        id: set_version
+        run: echo ::set-output name=VERSION::newest-build
+
+      - name: Create Pre-Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          tag_name: newest-build
+          release_name: 最新开发构建版本(自动创建的版本)
+          body: |
+            此预发布版本由Github Action自动构建。
+            请注意，此版本为测试版，并不代表最终版本。
+          draft: false
+          prerelease: true
+        continue-on-error: true
+
+  build-and-publish:
+    needs: clear-old-pre-release-and-create-new-pre-release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'zulu'
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew shadowJar
+
+      - name: Rename and upload JAR file
+        run: |
+          COMMIT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-8)
+          TARGET_JAR="BasePlugin-Prerelease-${COMMIT_SHA}.jar"
+          SOURCE_JAR=$(find run/plugins -name "*.jar" -print -quit)
+          mv "${SOURCE_JAR}" "${TARGET_JAR}"
+          echo "Uploading ${TARGET_JAR} as artifact"
+        working-directory: .
+        id: rename_and_upload
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+
+      - name: Upload JAR file to Release
+        id: upload_release_asset
+        run: |
+          COMMIT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-8)
+          TARGET_JAR="BasePlugin-Prerelease-${COMMIT_SHA}.jar"
+          SOURCE_JAR=$(find run/plugins -name "*.jar" -print -quit)
+          gh release upload newest-build ${TARGET_JAR}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
