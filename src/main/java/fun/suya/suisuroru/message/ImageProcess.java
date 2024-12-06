@@ -31,7 +31,7 @@ public class ImageProcess {
             String command = "tellraw @a \"" + Config.sayQQMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()) + "\"";
             executeRconCommand(command);
         } catch (Exception e) {
-            Main.INSTANCE.getServer().broadcastMessage("一个错误发生于BasePlugin内部，图片无法被展示，请前往QQ查看");
+            Main.INSTANCE.getServer().broadcastMessage("一个错误发生于BasePlugin内部，图片无法被展示，请前往控制台查看");
         }
     }
 }
