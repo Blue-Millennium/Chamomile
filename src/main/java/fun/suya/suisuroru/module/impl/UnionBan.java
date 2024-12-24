@@ -14,11 +14,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
+import static fun.suya.suisuroru.data.UnionBan.LocalCache.save;
 import static xd.suka.Main.LOGGER;
 
 /**
@@ -114,6 +112,7 @@ public class UnionBan {
                 } else {
                     LOGGER.info("封禁数据上报失败，状态码: " + response.statusCode());
                     LOGGER.info("回传信息: " + response);
+                    save(banPair);
                 }
 
             } catch (IOException | InterruptedException e) {
@@ -121,6 +120,61 @@ public class UnionBan {
             }
         }
     }
+
+    public static void checkBanData() {
+        if (Config.UnionBanEnabled) {
+            // 确保 URL 格式正确
+            String checkUrl = Webhook4Email.ensureValidUrl(Config.UnionBanCheckUrl);
+
+            try {
+                // 创建 HttpClient 实例
+                HttpClient httpClient = HttpClient.newHttpClient();
+                // 创建 HttpRequest
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create(checkUrl))
+                        .header("Content-Type", "application/json; utf-8")
+                        .build();
+
+                // 发送请求并获取响应
+                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+                // 使用 Jackson 解析 JSON 响应
+                ObjectMapper objectMapper = new ObjectMapper();
+                List<BanPair<UUID, String, Date, String>> remoteBans = objectMapper.readValue(response.body(), objectMapper.getTypeFactory().constructCollectionType(List.class, BanPair.class));
+
+                // 获取本地的封禁列表
+                ProfileBanList banListType = Bukkit.getServer().getBanList(ProfileBanList.Type.PROFILE);
+
+                // 遍历远程封禁数据并应用到本地
+                for (BanPair<UUID, String, Date, String> banPair : remoteBans) {
+                    UUID uuid = banPair.getUUID();
+                    String reason = banPair.getReason();
+                    Date expiration = banPair.getTime();
+                    String sourceServer = banPair.getSourceServer();
+
+                    // 检查本地是否已经存在相同的封禁记录
+                    if (!banListType.isBanned(String.valueOf(uuid))) {
+                        // 添加新的封禁记录到本地
+                        boolean result;
+                        if (Objects.equals(reason, "Pardon")) {
+                            result = Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "minecraft:pardon " + uuid);
+                        } else {
+                            result = Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "minecraft:ban " + uuid + " " + reason);
+                        }
+                        if (result) {
+                            LOGGER.info("从远程服务器同步封禁数据: UUID=" + uuid + ", 原因=" + reason + ", 过期时间=" + expiration + ", 来源服务器=" + sourceServer);
+                        }
+                    } else {
+                        LOGGER.info("本地已存在相同的封禁记录: UUID=" + uuid);
+                    }
+                }
+
+            } catch (Exception e) {
+                LOGGER.info(e.getMessage());
+            }
+        }
+    }
+
 
     public static class BanPair<T1, T2, T3, T4> {
         private T1 uuid;
