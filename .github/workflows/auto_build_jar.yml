@@ -74,10 +74,15 @@ jobs:
         id: get_sha
         run: echo "SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
 
-      - name: Update version in plugin.yml
+      - name: Set VERSION environment variable
         run: |
           ORIGINAL_VERSION=$(grep "version:" src/main/resources/plugin.yml | cut -d ' ' -f2 | sed 's/[^0-9.]//g')
-          sed -i "s/\(version: \).*/\1'${ORIGINAL_VERSION}-${{ env.DATE }}-${{ env.SHA }}'/" src/main/resources/plugin.yml
+          echo "Setting VERSION to '${ORIGINAL_VERSION}-${{ env.DATE }}-${{ env.SHA }}'"
+          echo "VERSION='${ORIGINAL_VERSION}-${{ env.DATE }}-${{ env.SHA }}'" >> $GITHUB_ENV
+
+      - name: Update version in plugin.yml
+        run: |
+          sed -i "s/\(version: \).*/\1'${{ env.VERSION }}'/" src/main/resources/plugin.yml
 
       - name: Build with Gradle
         run: ./gradlew shadowJar
@@ -85,14 +90,14 @@ jobs:
       - name: Rename JAR file
         id: rename_and_upload
         run: |
-          TARGET_JAR="BasePlugin-Prerelease-${{ env.SHA }}.jar"
+          TARGET_JAR="BasePlugin-${{ env.VERSION }}.jar"
           SOURCE_JAR=$(find run/plugins -name "*.jar" -print -quit)
           mv "${SOURCE_JAR}" "${TARGET_JAR}"
 
       - name: Upload JAR file to Release
         id: upload_release_asset
         run: |
-          TARGET_JAR="BasePlugin-Prerelease-${{ env.SHA }}.jar"
+          TARGET_JAR="BasePlugin-${{ env.VERSION }}.jar"
           SOURCE_JAR=$(find run/plugins -name "*.jar" -print -quit)
           gh release upload newest-build ${TARGET_JAR}
         env:
