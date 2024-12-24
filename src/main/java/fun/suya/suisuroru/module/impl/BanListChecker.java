@@ -7,6 +7,11 @@ import java.util.Calendar;
 
 import static fun.suya.suisuroru.module.impl.UnionBan.checkBanData;
 
+/**
+ * @author Suisuroru
+ * Date: 2024/10/28 23:08
+ * function: Automatic daily check of UnionBan
+ */
 public class BanListChecker extends JavaPlugin {
 
     public static void scheduleDailyCheck(JavaPlugin plugin) {
