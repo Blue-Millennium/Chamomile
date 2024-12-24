@@ -1,11 +1,11 @@
 package fun.suya.suisuroru.message;
 
 import fun.suya.suisuroru.config.Config;
+import fun.xd.suka.Main;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.bukkit.Bukkit;
-import fun.xd.suka.Main;
 
 import static fun.suya.suisuroru.rcon.RconCommandExecute.executeRconCommand;
 

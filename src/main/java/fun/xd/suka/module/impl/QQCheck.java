@@ -1,6 +1,11 @@
 package fun.xd.suka.module.impl;
 
 import fun.suya.suisuroru.config.Config;
+import fun.xd.suka.Main;
+import fun.xd.suka.data.Data;
+import fun.xd.suka.data.PlayerData;
+import fun.xd.suka.module.Module;
+import fun.xd.suka.util.TimeUtil;
 import net.mamoe.mirai.event.events.FriendMessageEvent;
 import net.mamoe.mirai.event.events.NewFriendRequestEvent;
 import net.mamoe.mirai.message.data.MessageChain;
@@ -8,11 +13,6 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
-import fun.xd.suka.Main;
-import fun.xd.suka.data.Data;
-import fun.xd.suka.data.PlayerData;
-import fun.xd.suka.module.Module;
-import fun.xd.suka.util.TimeUtil;
 
 import java.util.HashMap;
 import java.util.Map;

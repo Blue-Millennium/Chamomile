@@ -1,15 +1,15 @@
 package fun.xd.suka.module.impl;
 
 import fun.suya.suisuroru.config.Config;
+import fun.xd.suka.Main;
+import fun.xd.suka.module.Module;
+import fun.xd.suka.util.IpinfoUtil;
+import fun.xd.suka.util.map.IpLocationResponse;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
-import fun.xd.suka.Main;
-import fun.xd.suka.module.Module;
-import fun.xd.suka.util.IpinfoUtil;
-import fun.xd.suka.util.map.IpLocationResponse;
 
 import static fun.xd.suka.Main.LOGGER;
 

@@ -2,11 +2,11 @@ package fun.xd.suka.module;
 
 import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.module.impl.RconPreCheck;
-import org.bukkit.Bukkit;
 import fun.xd.suka.Main;
 import fun.xd.suka.module.impl.QQCheck;
 import fun.xd.suka.module.impl.Reporter;
 import fun.xd.suka.module.impl.SyncChat;
+import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 

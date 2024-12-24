@@ -1,14 +1,14 @@
 package fun.suya.suisuroru.module.impl;
 
 import fun.suya.suisuroru.config.Config;
+import fun.xd.suka.Main;
+import fun.xd.suka.module.Module;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import net.mamoe.mirai.message.data.PlainText;
 import net.mamoe.mirai.utils.ExternalResource;
 import org.bukkit.event.Listener;
-import fun.xd.suka.Main;
-import fun.xd.suka.module.Module;
 
 import java.io.File;
 import java.util.ArrayList;

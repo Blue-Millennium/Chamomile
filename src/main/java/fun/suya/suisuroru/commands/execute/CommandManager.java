@@ -3,11 +3,11 @@ package fun.suya.suisuroru.commands.execute;
 import fun.suya.suisuroru.commands.execute.othercommands.ConfigRoot;
 import fun.suya.suisuroru.commands.execute.othercommands.Help;
 import fun.suya.suisuroru.commands.execute.othercommands.ReportQuery;
+import fun.xd.suka.command.ReportCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
-import fun.xd.suka.command.ReportCommand;
 
 import java.util.Arrays;
 

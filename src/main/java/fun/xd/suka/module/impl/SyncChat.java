@@ -1,6 +1,8 @@
 package fun.xd.suka.module.impl;
 
 import fun.suya.suisuroru.config.Config;
+import fun.xd.suka.Main;
+import fun.xd.suka.module.Module;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.*;
@@ -9,8 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import fun.xd.suka.Main;
-import fun.xd.suka.module.Module;
 
 import static fun.suya.suisuroru.message.ImageProcess.sendImageUrl;
 import static fun.xd.suka.Main.LOGGER;

@@ -1,7 +1,7 @@
 package fun.suya.suisuroru.config;
 
-import org.jetbrains.annotations.NotNull;
 import fun.xd.suka.Main;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.FileReader;
 import java.io.FileWriter;
