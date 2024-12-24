@@ -36,31 +36,35 @@ public class Pardon implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
-        if (!sender.isOp()) {
-            sender.sendMessage("您没有权限这么做");
-            return false;
+        if (Config.UnionBanEnabled) {
+            if (!sender.isOp()) {
+                sender.sendMessage("您没有权限这么做");
+                return false;
+            }
+
+            if (args.length == 0) {
+                sender.sendMessage("Usage: /pardon <player>");
+                return false;
+            }
+
+            String playerName = args[0];
+
+            if (!Bukkit.getBanList(BanList.Type.PROFILE).isBanned(playerName)) {
+                sender.sendMessage("玩家 " + playerName + " 未被封禁");
+                return false;
+            }
+
+            // 调用原版的 pardon 命令
+            boolean result = Bukkit.dispatchCommand(sender, "minecraft:pardon " + playerName);
+
+            if (result) {
+                // 额外操作---to UnionBan
+                TransferToUnionPardon(playerName, sender);
+            }
+
+            return result;
+        } else {
+            return Bukkit.dispatchCommand(sender, "minecraft:pardon " + args[0]);
         }
-
-        if (args.length == 0) {
-            sender.sendMessage("Usage: /pardon <player>");
-            return false;
-        }
-
-        String playerName = args[0];
-
-        if (!Bukkit.getBanList(BanList.Type.PROFILE).isBanned(playerName)) {
-            sender.sendMessage("玩家 " + playerName + " 未被封禁");
-            return false;
-        }
-
-        // 调用原版的 pardon 命令
-        boolean result = Bukkit.dispatchCommand(sender, "minecraft:pardon " + playerName);
-
-        if (result) {
-            // 额外操作---to UnionBan
-            TransferToUnionPardon(playerName, sender);
-        }
-
-        return result;
     }
 }
