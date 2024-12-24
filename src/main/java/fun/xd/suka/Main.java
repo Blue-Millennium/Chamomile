@@ -72,9 +72,9 @@ public class Main extends JavaPlugin implements Listener {
                 LOGGER.warning("Failed to create data file " + exception.getMessage());
             }
         }
-        getServer().getPluginManager().registerEvents(new LoadBanlist(), this);
 
         if (Config.UnionBanEnabled) {
+            getServer().getPluginManager().registerEvents(new LoadBanlist(), this);
             BanListChecker.scheduleDailyCheck(this);
         }
         dataManager.load();
