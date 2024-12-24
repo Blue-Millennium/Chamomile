@@ -82,16 +82,12 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew shadowJar
 
-      - name: Rename and upload JAR file
+      - name: Rename JAR file
+        id: rename_and_upload
         run: |
           TARGET_JAR="BasePlugin-Prerelease-${{ env.SHA }}.jar"
           SOURCE_JAR=$(find run/plugins -name "*.jar" -print -quit)
           mv "${SOURCE_JAR}" "${TARGET_JAR}"
-          echo "Uploading ${TARGET_JAR} as artifact"
-        working-directory: .
-        id: rename_and_upload
-        env:
-          GITHUB_SHA: ${{ github.sha }}
 
       - name: Upload JAR file to Release
         id: upload_release_asset
