@@ -76,7 +76,8 @@ jobs:
 
       - name: Update version in plugin.yml
         run: |
-          sed -i "s/version: .*/version: '${{ env.ORIGINAL_VERSION }}-${{ env.DATE }}-${{ env.SHA }}'/" src/main/resources/plugin.yml
+          ORIGINAL_VERSION=$(grep "version:" src/main/resources/plugin.yml | cut -d ' ' -f2 | sed 's/[^0-9.]//g')
+          sed -i "s/\(version: \).*/\1'${ORIGINAL_VERSION}-${{ env.DATE }}-${{ env.SHA }}'/" src/main/resources/plugin.yml
 
       - name: Build with Gradle
         run: ./gradlew shadowJar
