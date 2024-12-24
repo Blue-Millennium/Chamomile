@@ -63,39 +63,41 @@ jobs:
           java-version: '21'
           distribution: 'zulu'
 
-      - name: Cache Gradle packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
       - name: Make gradlew executable
         run: chmod +x ./gradlew
+
+      - name: Get current date
+        id: get_date
+        run: echo "DATE=$(date +'%y%m%d')" >> $GITHUB_ENV
+
+      - name: Get Git SHA
+        id: get_sha
+        run: echo "SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
+
+      - name: Set VERSION environment variable
+        run: |
+          ORIGINAL_VERSION=$(grep "version:" src/main/resources/plugin.yml | cut -d ' ' -f2 | sed 's/[^0-9.]//g')
+          echo "Setting VERSION to ${ORIGINAL_VERSION}-${{ env.DATE }}-${{ env.SHA }}"
+          echo "VERSION=${ORIGINAL_VERSION}-${{ env.DATE }}-${{ env.SHA }}" >> $GITHUB_ENV
+
+      - name: Update version in plugin.yml
+        run: |
+          sed -i "s/\(version: \).*/\1'${{ env.VERSION }}'/" src/main/resources/plugin.yml
 
       - name: Build with Gradle
         run: ./gradlew shadowJar
 
-      - name: Rename and upload JAR file
+      - name: Rename JAR file
+        id: rename_and_upload
         run: |
-          COMMIT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-8)
-          TARGET_JAR="BasePlugin-Prerelease-${COMMIT_SHA}.jar"
+          TARGET_JAR="BasePlugin-${{ env.VERSION }}.jar"
           SOURCE_JAR=$(find run/plugins -name "*.jar" -print -quit)
           mv "${SOURCE_JAR}" "${TARGET_JAR}"
-          echo "Uploading ${TARGET_JAR} as artifact"
-        working-directory: .
-        id: rename_and_upload
-        env:
-          GITHUB_SHA: ${{ github.sha }}
 
       - name: Upload JAR file to Release
         id: upload_release_asset
         run: |
-          COMMIT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-8)
-          TARGET_JAR="BasePlugin-Prerelease-${COMMIT_SHA}.jar"
+          TARGET_JAR="BasePlugin-${{ env.VERSION }}.jar"
           SOURCE_JAR=$(find run/plugins -name "*.jar" -print -quit)
           gh release upload newest-build ${TARGET_JAR}
         env:
