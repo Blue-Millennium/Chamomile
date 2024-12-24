@@ -66,13 +66,24 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
+      - name: Get current date
+        id: get_date
+        run: echo "DATE=$(date +'%y%m%d')" >> $GITHUB_ENV
+
+      - name: Get Git SHA
+        id: get_sha
+        run: echo "SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
+
+      - name: Update version in build.gradle
+        run: |
+          sed -i "s/version = '.*'/version = '${{ env.ORIGINAL_VERSION }}-${{ env.DATE }}-${{ env.SHA }}'/" build.gradle
+
       - name: Build with Gradle
         run: ./gradlew shadowJar
 
       - name: Rename and upload JAR file
         run: |
-          COMMIT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-8)
-          TARGET_JAR="BasePlugin-Prerelease-${COMMIT_SHA}.jar"
+          TARGET_JAR="BasePlugin-Prerelease-${{ env.SHA }}.jar"
           SOURCE_JAR=$(find run/plugins -name "*.jar" -print -quit)
           mv "${SOURCE_JAR}" "${TARGET_JAR}"
           echo "Uploading ${TARGET_JAR} as artifact"
@@ -84,8 +95,7 @@ jobs:
       - name: Upload JAR file to Release
         id: upload_release_asset
         run: |
-          COMMIT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-8)
-          TARGET_JAR="BasePlugin-Prerelease-${COMMIT_SHA}.jar"
+          TARGET_JAR="BasePlugin-Prerelease-${{ env.SHA }}.jar"
           SOURCE_JAR=$(find run/plugins -name "*.jar" -print -quit)
           gh release upload newest-build ${TARGET_JAR}
         env:
