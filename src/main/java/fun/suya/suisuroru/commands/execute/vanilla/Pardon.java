@@ -27,7 +27,7 @@ public class Pardon implements CommandExecutor {
         BanMessage(message);
         if (!Config.UnionBanCheckOnly) {
             Player targetPlayer = Bukkit.getPlayer(playerName);
-            String reason = "";
+            String reason = "Pardon";
             if (targetPlayer != null) {
                 reportBanData(new UnionBan.BanPair<>(targetPlayer.getUniqueId(), reason, new Date(), "Pardon"));
             }

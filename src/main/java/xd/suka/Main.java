@@ -16,6 +16,7 @@ import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.config.ConfigManager;
 import fun.suya.suisuroru.message.Webhook4Email;
 import fun.suya.suisuroru.module.LoadBanlist;
+import fun.suya.suisuroru.module.impl.BanListChecker;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.utils.LoggerAdapters;
@@ -73,6 +74,9 @@ public class Main extends JavaPlugin implements Listener {
         }
         getServer().getPluginManager().registerEvents(new LoadBanlist(), this);
 
+        if (Config.UnionBanEnabled) {
+            BanListChecker.scheduleDailyCheck(this);
+        }
         dataManager.load();
         configManager.load();
         moduleManager.load();

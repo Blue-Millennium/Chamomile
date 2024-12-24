@@ -25,13 +25,13 @@ repositories {
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT'
-    implementation 'top.mrxiaom.mirai:overflow-core-api:1.0.0'
-    implementation 'top.mrxiaom.mirai:overflow-core:1.0.0'
+    implementation 'top.mrxiaom.mirai:overflow-core-api:1.0.1'
+    implementation 'top.mrxiaom.mirai:overflow-core:1.0.1'
     implementation 'net.mamoe:mirai-core-api:2.16.0'
     implementation 'com.github.Glavo:rcon-java:2.0.2'
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.3'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.2'
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.3'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.18.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.2'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.18.2'
 }
 
 shadowJar {
