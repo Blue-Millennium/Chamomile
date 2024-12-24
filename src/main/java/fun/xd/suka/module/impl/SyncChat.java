@@ -1,4 +1,4 @@
-package xd.suka.module.impl;
+package fun.xd.suka.module.impl;
 
 import fun.suya.suisuroru.config.Config;
 import net.mamoe.mirai.contact.Group;
@@ -9,11 +9,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import xd.suka.Main;
-import xd.suka.module.Module;
+import fun.xd.suka.Main;
+import fun.xd.suka.module.Module;
 
 import static fun.suya.suisuroru.message.ImageProcess.sendImageUrl;
-import static xd.suka.Main.LOGGER;
+import static fun.xd.suka.Main.LOGGER;
 
 public class SyncChat extends Module implements Listener {
     private Group syncGroup = null;

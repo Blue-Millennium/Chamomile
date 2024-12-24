@@ -1,4 +1,4 @@
-package xd.suka.util;
+package fun.xd.suka.util;
 
 public class TimeUtil {
     public static String getNowTime() {

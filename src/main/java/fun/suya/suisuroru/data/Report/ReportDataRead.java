@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static xd.suka.Main.LOGGER;
+import static fun.xd.suka.Main.LOGGER;
 
 /**
  * @author Suisuroru

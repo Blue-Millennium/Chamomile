@@ -1,7 +1,7 @@
 package fun.suya.suisuroru.config;
 
 import org.jetbrains.annotations.NotNull;
-import xd.suka.Main;
+import fun.xd.suka.Main;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Properties;
 
-import static xd.suka.Main.LOGGER;
+import static fun.xd.suka.Main.LOGGER;
 
 /**
  * @author Suisuroru

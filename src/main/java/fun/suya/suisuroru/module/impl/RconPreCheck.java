@@ -7,8 +7,8 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 import net.mamoe.mirai.message.data.PlainText;
 import net.mamoe.mirai.utils.ExternalResource;
 import org.bukkit.event.Listener;
-import xd.suka.Main;
-import xd.suka.module.Module;
+import fun.xd.suka.Main;
+import fun.xd.suka.module.Module;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.List;
 
 import static fun.suya.suisuroru.data.Report.ReportCharmProcess.reportCharmProcess;
 import static fun.suya.suisuroru.rcon.RconCommandExecute.executeRconCommand;
-import static xd.suka.Main.LOGGER;
+import static fun.xd.suka.Main.LOGGER;
 
 /**
  * @author Suisuroru

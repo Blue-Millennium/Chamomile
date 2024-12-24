@@ -17,7 +17,7 @@ import java.net.http.HttpResponse;
 import java.util.*;
 
 import static fun.suya.suisuroru.data.UnionBan.LocalCache.save;
-import static xd.suka.Main.LOGGER;
+import static fun.xd.suka.Main.LOGGER;
 
 /**
  * @author Suisuroru

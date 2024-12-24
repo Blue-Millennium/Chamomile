@@ -1,9 +1,9 @@
-package xd.suka.util;
+package fun.xd.suka.util;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
-import xd.suka.util.map.IpLocationResponse;
-import xd.suka.util.map.IpinfoMap;
+import fun.xd.suka.util.map.IpLocationResponse;
+import fun.xd.suka.util.map.IpinfoMap;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static xd.suka.Main.LOGGER;
+import static fun.xd.suka.Main.LOGGER;
 
 public class IpinfoUtil {
     public static IpinfoMap getIpinfo(String ip) {

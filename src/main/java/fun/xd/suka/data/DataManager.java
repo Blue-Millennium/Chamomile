@@ -1,16 +1,16 @@
-package xd.suka.data;
+package fun.xd.suka.data;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import xd.suka.Main;
+import fun.xd.suka.Main;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static xd.suka.Main.LOGGER;
+import static fun.xd.suka.Main.LOGGER;
 
 /**
  * @author Liycxc

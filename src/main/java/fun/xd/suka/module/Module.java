@@ -1,4 +1,4 @@
-package xd.suka.module;
+package fun.xd.suka.module;
 
 import org.bukkit.event.Listener;
 

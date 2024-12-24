@@ -1,4 +1,4 @@
-package xd.suka.util.map;
+package fun.xd.suka.util.map;
 
 public class CompanyMap {
     public String name;

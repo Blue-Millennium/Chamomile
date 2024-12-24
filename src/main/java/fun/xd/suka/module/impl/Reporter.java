@@ -1,4 +1,4 @@
-package xd.suka.module.impl;
+package fun.xd.suka.module.impl;
 
 import fun.suya.suisuroru.config.Config;
 import net.mamoe.mirai.contact.Group;
@@ -6,12 +6,12 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
-import xd.suka.Main;
-import xd.suka.module.Module;
-import xd.suka.util.IpinfoUtil;
-import xd.suka.util.map.IpLocationResponse;
+import fun.xd.suka.Main;
+import fun.xd.suka.module.Module;
+import fun.xd.suka.util.IpinfoUtil;
+import fun.xd.suka.util.map.IpLocationResponse;
 
-import static xd.suka.Main.LOGGER;
+import static fun.xd.suka.Main.LOGGER;
 
 public class Reporter extends Module implements Listener {
     public Group reportGroup = null;

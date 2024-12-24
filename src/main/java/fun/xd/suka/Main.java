@@ -1,4 +1,4 @@
-package xd.suka;
+package fun.xd.suka;
 
 import fun.suya.suisuroru.commands.execute.CommandManager;
 import fun.suya.suisuroru.commands.execute.othercommands.ConfigRoot;
@@ -24,9 +24,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import top.mrxiaom.overflow.BotBuilder;
-import xd.suka.command.ReportCommand;
-import xd.suka.data.DataManager;
-import xd.suka.module.ModuleManager;
+import fun.xd.suka.command.ReportCommand;
+import fun.xd.suka.data.DataManager;
+import fun.xd.suka.module.ModuleManager;
 
 import java.io.File;
 import java.util.logging.Logger;

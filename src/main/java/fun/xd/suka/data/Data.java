@@ -1,4 +1,4 @@
-package xd.suka.data;
+package fun.xd.suka.data;
 
 /**
  * @author Liycxc

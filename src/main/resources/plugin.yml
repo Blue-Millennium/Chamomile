@@ -1,6 +1,6 @@
 name: BasePlugin
 version: 2.6
-main: xd.suka.Main
+main: fun.xd.suka.Main
 description: BasePlugin
 author: SukaXD, Suisuroru
 

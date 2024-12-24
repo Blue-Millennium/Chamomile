@@ -4,8 +4,8 @@ plugins {
     id 'idea'
 }
 
-group = 'xd.suka'
-version = '2.6'
+group = 'Blue-Millennium'
+version = '2.7.0'
 
 idea {
     module {

@@ -1,4 +1,4 @@
-package xd.suka.command;
+package fun.xd.suka.command;
 
 import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.data.Report.ReportDataManager;
@@ -13,9 +13,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import xd.suka.Main;
-import xd.suka.module.impl.Reporter;
-import xd.suka.util.TimeUtil;
+import fun.xd.suka.Main;
+import fun.xd.suka.module.impl.Reporter;
+import fun.xd.suka.util.TimeUtil;
 
 import java.util.Objects;
 
