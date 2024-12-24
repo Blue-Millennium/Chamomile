@@ -77,8 +77,8 @@ jobs:
       - name: Set VERSION environment variable
         run: |
           ORIGINAL_VERSION=$(grep "version:" src/main/resources/plugin.yml | cut -d ' ' -f2 | sed 's/[^0-9.]//g')
-          echo "Setting VERSION to '${ORIGINAL_VERSION}-${{ env.DATE }}-${{ env.SHA }}'"
-          echo "VERSION='${ORIGINAL_VERSION}-${{ env.DATE }}-${{ env.SHA }}'" >> $GITHUB_ENV
+          echo "Setting VERSION to ${ORIGINAL_VERSION}-${{ env.DATE }}-${{ env.SHA }}"
+          echo "VERSION=${ORIGINAL_VERSION}-${{ env.DATE }}-${{ env.SHA }}" >> $GITHUB_ENV
 
       - name: Update version in plugin.yml
         run: |
