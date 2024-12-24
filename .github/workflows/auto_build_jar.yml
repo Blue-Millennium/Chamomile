@@ -74,9 +74,9 @@ jobs:
         id: get_sha
         run: echo "SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
 
-      - name: Update version in build.gradle
+      - name: Update version in plugin.yml
         run: |
-          sed -i "s/version = '.*'/version = '${{ env.ORIGINAL_VERSION }}-${{ env.DATE }}-${{ env.SHA }}'/" build.gradle
+          sed -i "s/version: .*/version: '${{ env.ORIGINAL_VERSION }}-${{ env.DATE }}-${{ env.SHA }}'/" src/main/resources/plugin.yml
 
       - name: Build with Gradle
         run: ./gradlew shadowJar
