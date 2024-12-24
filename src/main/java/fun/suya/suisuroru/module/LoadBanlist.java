@@ -18,6 +18,7 @@ import static fun.suya.suisuroru.commands.execute.vanilla.Ban.BanMessage;
  * @author Suisuroru
  * Date: 2024/10/28 23:08
  * function: Load banlist when player join
+ * add: This module has a serious bug, please do not enable it
  */
 public class LoadBanlist implements Listener {
 
