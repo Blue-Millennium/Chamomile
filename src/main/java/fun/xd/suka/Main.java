@@ -73,13 +73,13 @@ public class Main extends JavaPlugin implements Listener {
             }
         }
 
+        dataManager.load();
+        configManager.load();
+        moduleManager.load();
         if (Config.UnionBanEnabled) {
             getServer().getPluginManager().registerEvents(new LoadBanlist(), this);
             BanListChecker.scheduleDailyCheck(this);
         }
-        dataManager.load();
-        configManager.load();
-        moduleManager.load();
     }
 
     @Override
