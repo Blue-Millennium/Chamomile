@@ -88,13 +88,5 @@ public class Webhook4Email {
             this.content = content;
             this.subject = subject;
         }
-
-        public String getContent() {
-            return content;
-        }
-
-        public String getSubject() {
-            return subject;
-        }
     }
 }

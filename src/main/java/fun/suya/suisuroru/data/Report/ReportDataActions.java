@@ -6,20 +6,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static fun.xd.suka.Main.BASE_DIR;
 import static fun.xd.suka.Main.LOGGER;
+import static fun.xd.suka.Main.REPORT_DATA_FILE;
 
 /**
  * @author Suisuroru
  * Date: 2024/9/29 14:30
  * function: Read data of report
  */
-public class ReportDataRead {
-
-    public static final File REPORT_DATA_FILE = new File(BASE_DIR, "report.csv");
-
+public class ReportDataActions {
     public static List<List<String>> ReadReportFile() {
-        ReportDataRead reader = new ReportDataRead();
+        ReportDataActions reader = new ReportDataActions();
         EnsureFileExist();
         return reader.readCsvToList();
     }
@@ -35,12 +32,29 @@ public class ReportDataRead {
                     defaultRows.add("举报人");
                     defaultRows.add("被举报人");
                     defaultRows.add("举报理由");
-                    ReportDataWrite reportDataWrite = new ReportDataWrite();
-                    reportDataWrite.writeNewData(defaultRows);
+                    writeNewData(defaultRows);
                 }
             } catch (Exception exception) {
                 LOGGER.warning("Failed to create data file: " + exception.getMessage());
             }
+        }
+    }
+
+    public static void writeNewData(List<String> newData) {
+        ReportDataActions reader = new ReportDataActions();
+        List<List<String>> existingData = reader.readCsvToList();
+        existingData.add(newData);
+        saveToCsv(existingData);
+    }
+
+    private static void saveToCsv(List<List<String>> data) {
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(REPORT_DATA_FILE), StandardCharsets.UTF_8))) {
+            for (List<String> row : data) {
+                bw.write(String.join(",", row));
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            LOGGER.warning("Failed to write to CSV file: " + e.getMessage());
         }
     }
 

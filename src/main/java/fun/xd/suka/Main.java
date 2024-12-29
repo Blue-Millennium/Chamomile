@@ -35,6 +35,7 @@ public class Main extends JavaPlugin implements Listener {
     public static File BASE_DIR = new File("plugins/BasePlugin");
     public static File DATA_FILE = new File(BASE_DIR, "data.json");
     public static File CONFIG_FILE = new File(BASE_DIR, "config.properties");
+    public static File REPORT_DATA_FILE = new File(BASE_DIR, "report.csv");
     public DataManager dataManager;
     public ConfigManager configManager;
     public ModuleManager moduleManager;
@@ -59,7 +60,7 @@ public class Main extends JavaPlugin implements Listener {
                     deleteDirectory(OLD_BASE_DIR);
                     LOGGER.info("删除旧配置文件完成");
                 } catch (IOException e) {
-                    LOGGER.warning("复制配置文件时出现异常");
+                    LOGGER.warning("复制配置文件时出现异常: " + e.getMessage());
                 }
             }
             if (!BASE_DIR.mkdir()) {
@@ -71,8 +72,8 @@ public class Main extends JavaPlugin implements Listener {
                 if (!DATA_FILE.createNewFile()) {
                     LOGGER.warning("Failed to create data file");
                 }
-            } catch (Exception exception) {
-                LOGGER.warning("Failed to create data file " + exception.getMessage());
+            } catch (Exception e) {
+                LOGGER.warning("Failed to create data file " + e.getMessage());
             }
         }
 
@@ -106,7 +107,7 @@ public class Main extends JavaPlugin implements Listener {
             Webhook4Email webhook4Email = new Webhook4Email();
             webhook4Email.formatAndSendWebhook(subject, content);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.warning(e.getMessage());
         }
 
         registerCommand(this);
@@ -121,7 +122,7 @@ public class Main extends JavaPlugin implements Listener {
             Webhook4Email webhook4Email = new Webhook4Email();
             webhook4Email.formatAndSendWebhook(subject, content);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.warning(e.getMessage());
         }
         moduleManager.onDisable();
     }

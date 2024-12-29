@@ -1,6 +1,6 @@
 package fun.suya.suisuroru.commands.execute.othercommands;
 
-import fun.suya.suisuroru.data.Report.ReportDataRead;
+import fun.suya.suisuroru.data.Report.ReportDataActions;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ReportQuery implements CommandExecutor {
 
     public static String query() {
-        List<List<String>> data = ReportDataRead.ReadReportFile();
+        List<List<String>> data = ReportDataActions.ReadReportFile();
         StringBuilder sb = new StringBuilder();
         sb.append("[BasePlugin Report]\n已查询到以下数据，下面的数据将按照以下顺序排列\n");
 
