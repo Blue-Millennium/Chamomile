@@ -29,7 +29,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import top.mrxiaom.overflow.BotBuilder;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Logger;
+
+import static fun.suya.suisuroru.data.DirectoryActions.copyDirectory;
+import static fun.suya.suisuroru.data.DirectoryActions.deleteDirectory;
 
 /**
  * @author Liycxc
@@ -39,7 +43,8 @@ public class Main extends JavaPlugin implements Listener {
     public static Logger LOGGER = null;
     public static Main INSTANCE = null;
     public static Bot BOT;
-    public static File BASE_DIR = new File("BasePlugin");
+    public static File OLD_BASE_DIR = new File("BasePlugin");
+    public static File BASE_DIR = new File("plugins/BasePlugin");
     public static File DATA_FILE = new File(BASE_DIR, "data.json");
     public static File CONFIG_FILE = new File(BASE_DIR, "config.properties");
     public DataManager dataManager;
@@ -59,6 +64,16 @@ public class Main extends JavaPlugin implements Listener {
         moduleManager = new ModuleManager();
 
         if (!BASE_DIR.exists()) {
+            if (OLD_BASE_DIR.exists()) {
+                try {
+                    copyDirectory(OLD_BASE_DIR, BASE_DIR);
+                    LOGGER.info("复制配置文件完成");
+                    deleteDirectory(OLD_BASE_DIR);
+                    LOGGER.info("删除旧配置文件完成");
+                } catch (IOException e) {
+                    LOGGER.warning("复制配置文件时出现异常");
+                }
+            }
             if (!BASE_DIR.mkdir()) {
                 LOGGER.warning("Failed to create directory: " + BASE_DIR.getAbsolutePath());
             }
