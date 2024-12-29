@@ -8,6 +8,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import static fun.xd.suka.Main.LOGGER;
+
 /**
  * @author Suisuroru
  * Date: 2024/9/26 21:21
@@ -52,15 +54,15 @@ public class Webhook4Email {
             // 检查响应状态码
             int responseCode = response.statusCode();
             if (responseCode != 200) {
-                System.err.println("Unexpected response code: " + responseCode);
-                System.err.println("Response body: " + response.body());
+                LOGGER.info("Unexpected response code: " + responseCode);
+                LOGGER.info("Response body: " + response.body());
             } else {
-                System.out.println("Webhook sent successfully.");
+                LOGGER.info("Webhook sent successfully.");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Error sending webhook: " + e.getMessage());
+            LOGGER.info("Error sending webhook: " + e.getMessage());
         }
     }
 

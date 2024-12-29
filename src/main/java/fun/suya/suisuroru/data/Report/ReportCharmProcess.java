@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import static fun.xd.suka.Main.BASE_DIR;
 import static fun.xd.suka.Main.LOGGER;
 
 /**
@@ -75,7 +76,7 @@ public class ReportCharmProcess {
         g2d.dispose();
 
         // 保存图片到指定路径
-        File outputDir = new File("BasePlugin/CharmProcess");
+        File outputDir = new File(BASE_DIR, "CharmProcess");
         if (!outputDir.exists() && !outputDir.mkdirs()) {
             LOGGER.warning("Failed to create directory: " + outputDir.getAbsolutePath());
         }

@@ -39,9 +39,9 @@ public class Main extends JavaPlugin implements Listener {
     public static Logger LOGGER = null;
     public static Main INSTANCE = null;
     public static Bot BOT;
-    public File BASE_DIR = new File("BasePlugin");
-    public File DATA_FILE = new File(BASE_DIR, "data.json");
-    public File CONFIG_FILE = new File(BASE_DIR, "config.properties");
+    public static File BASE_DIR = new File("BasePlugin");
+    public static File DATA_FILE = new File(BASE_DIR, "data.json");
+    public static File CONFIG_FILE = new File(BASE_DIR, "config.properties");
     public DataManager dataManager;
     public ConfigManager configManager;
     public ModuleManager moduleManager;

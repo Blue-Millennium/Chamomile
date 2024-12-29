@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static fun.xd.suka.Main.BASE_DIR;
 import static fun.xd.suka.Main.LOGGER;
 
 /**
@@ -15,7 +16,6 @@ import static fun.xd.suka.Main.LOGGER;
  */
 public class ReportDataRead {
 
-    public static final File BASE_DIR = new File("BasePlugin");
     public static final File REPORT_DATA_FILE = new File(BASE_DIR, "report.csv");
 
     public static List<List<String>> ReadReportFile() {
