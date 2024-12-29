@@ -1,23 +1,10 @@
 package fun.xd.suka;
 
-import fun.suya.suisuroru.commands.execute.CommandManager;
-import fun.suya.suisuroru.commands.execute.othercommands.ConfigRoot;
-import fun.suya.suisuroru.commands.execute.othercommands.Help;
-import fun.suya.suisuroru.commands.execute.othercommands.ReportQuery;
-import fun.suya.suisuroru.commands.execute.othercommands.config.Reload;
-import fun.suya.suisuroru.commands.execute.vanilla.Ban;
-import fun.suya.suisuroru.commands.execute.vanilla.Pardon;
-import fun.suya.suisuroru.commands.tab.othercommands.BasePluginTab;
-import fun.suya.suisuroru.commands.tab.othercommands.BpconfigTab;
-import fun.suya.suisuroru.commands.tab.othercommands.ReportCommandTab;
-import fun.suya.suisuroru.commands.tab.vanilla.BanTab;
-import fun.suya.suisuroru.commands.tab.vanilla.PardonTab;
 import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.config.ConfigManager;
 import fun.suya.suisuroru.message.Webhook4Email;
 import fun.suya.suisuroru.module.LoadBanlist;
 import fun.suya.suisuroru.module.impl.BanListChecker;
-import fun.xd.suka.command.ReportCommand;
 import fun.xd.suka.data.DataManager;
 import fun.xd.suka.module.ModuleManager;
 import net.mamoe.mirai.Bot;
@@ -32,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import static fun.suya.suisuroru.commands.CommandRegister.registerCommand;
 import static fun.suya.suisuroru.data.DirectoryActions.copyDirectory;
 import static fun.suya.suisuroru.data.DirectoryActions.deleteDirectory;
 
@@ -121,24 +109,8 @@ public class Main extends JavaPlugin implements Listener {
             e.printStackTrace();
         }
 
+        registerCommand(this);
         moduleManager.onEnable();
-
-        // vanilla functions
-        this.getCommand("ban").setExecutor(new Ban());
-        this.getCommand("ban").setTabCompleter(new BanTab());
-        this.getCommand("pardon").setExecutor(new Pardon());
-        this.getCommand("pardon").setTabCompleter(new PardonTab());
-
-        // new functions
-        this.getCommand("basepluginhelp").setExecutor(new Help());
-        this.getCommand("report").setExecutor(new ReportCommand());
-        this.getCommand("report").setTabCompleter(new ReportCommandTab());
-        this.getCommand("bpconfig").setExecutor(new ConfigRoot());
-        this.getCommand("bpconfig").setTabCompleter(new BpconfigTab());
-        this.getCommand("bpreload").setExecutor(new Reload());
-        this.getCommand("baseplugin").setExecutor(new CommandManager());
-        this.getCommand("baseplugin").setTabCompleter(new BasePluginTab());
-        this.getCommand("query-report").setExecutor(new ReportQuery());
     }
 
     @Override
