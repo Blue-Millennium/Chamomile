@@ -42,12 +42,19 @@ body:
   - type: textarea
     id: "yml-5"
     attributes:
+      label: Java环境
+      placeholder: "例如：Zulu 21.0.4"
+    validations:
+      required: true
+  - type: textarea
+    id: "yml-6"
+    attributes:
       label: 插件版本
       placeholder: "-（请在这里回答）-"
     validations:
       required: true
   - type: textarea
-    id: "yml-6"
+    id: "yml-7"
     attributes:
       label: 其他补充内容
       placeholder: "-（请在这里回答）-"

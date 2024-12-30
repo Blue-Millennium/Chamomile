@@ -42,12 +42,19 @@ body:
   - type: textarea
     id: "yml-5"
     attributes:
+      label: Java Environment
+      placeholder: "e.g. Zulu 21.0.4"
+    validations:
+      required: true
+  - type: textarea
+    id: "yml-6"
+    attributes:
       label: Pligin Version
       placeholder: "-(Please answer here)-"
     validations:
       required: true
   - type: textarea
-    id: "yml-6"
+    id: "yml-7"
     attributes:
       label: Other additions
       placeholder: "-(Please answer here)-"
