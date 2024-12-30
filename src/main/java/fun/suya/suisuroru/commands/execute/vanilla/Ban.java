@@ -1,7 +1,7 @@
 package fun.suya.suisuroru.commands.execute.vanilla;
 
 import fun.suya.suisuroru.config.Config;
-import fun.suya.suisuroru.module.impl.UnionBan;
+import fun.suya.suisuroru.data.UnionBan.UnionBanMain;
 import fun.xd.suka.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.Date;
 
-import static fun.suya.suisuroru.module.impl.UnionBan.reportBanData;
+import static fun.suya.suisuroru.data.UnionBan.UnionBanMain.reportBanData;
 
 /**
  * @author Suisuroru
@@ -75,7 +75,7 @@ public class Ban implements CommandExecutor {
         String message = "玩家 " + targetPlayer.getName() + " 已被 " + sender.getName() + " 以[ " + reason + " ]的理由封禁";
         BanMessage(message);
         if (!Config.UnionBanCheckOnly) {
-            reportBanData(new UnionBan.BanPair<>(targetPlayer.getUniqueId(), reason, new Date(), Config.servername));
+            reportBanData(new UnionBanMain.BanPair<>(targetPlayer.getUniqueId(), reason, new Date(), Config.servername));
         }
     }
 }

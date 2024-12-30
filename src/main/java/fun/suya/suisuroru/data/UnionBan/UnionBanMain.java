@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.module.impl;
+package fun.suya.suisuroru.data.UnionBan;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -24,7 +24,7 @@ import static fun.xd.suka.Main.LOGGER;
  * Date: 2024/10/22 23:08
  * function: Union Ban module for TUnite
  */
-public class UnionBan {
+public class UnionBanMain {
 
     public static ArrayList<BanPair<UUID, String, Date, String>> loadLocalBanList() {
         ArrayList<BanPair<UUID, String, Date, String>> banList = new ArrayList<>();

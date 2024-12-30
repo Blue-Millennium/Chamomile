@@ -1,10 +1,11 @@
 package fun.xd.suka;
 
+import fun.suya.suisuroru.commands.CommandRegister;
 import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.config.ConfigManager;
-import fun.suya.suisuroru.message.Webhook4Email;
-import fun.suya.suisuroru.module.LoadBanlist;
-import fun.suya.suisuroru.module.impl.BanListChecker;
+import fun.suya.suisuroru.data.DirectoryActions;
+import fun.suya.suisuroru.message.DefaultMessages;
+import fun.suya.suisuroru.module.impl.UnionBanModule;
 import fun.xd.suka.data.DataManager;
 import fun.xd.suka.module.ModuleManager;
 import net.mamoe.mirai.Bot;
@@ -18,10 +19,6 @@ import top.mrxiaom.overflow.BotBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
-
-import static fun.suya.suisuroru.commands.CommandRegister.registerCommand;
-import static fun.suya.suisuroru.data.DirectoryActions.copyDirectory;
-import static fun.suya.suisuroru.data.DirectoryActions.deleteDirectory;
 
 /**
  * @author Liycxc
@@ -55,9 +52,9 @@ public class Main extends JavaPlugin implements Listener {
         if (!BASE_DIR.exists()) {
             if (OLD_BASE_DIR.exists()) {
                 try {
-                    copyDirectory(OLD_BASE_DIR, BASE_DIR);
+                    DirectoryActions.copyDirectory(OLD_BASE_DIR, BASE_DIR);
                     LOGGER.info("复制配置文件完成");
-                    deleteDirectory(OLD_BASE_DIR);
+                    DirectoryActions.deleteDirectory(OLD_BASE_DIR);
                     LOGGER.info("删除旧配置文件完成");
                 } catch (IOException e) {
                     LOGGER.warning("复制配置文件时出现异常: " + e.getMessage());
@@ -80,10 +77,7 @@ public class Main extends JavaPlugin implements Listener {
         dataManager.load();
         configManager.load();
         moduleManager.load();
-        if (Config.UnionBanEnabled) {
-            getServer().getPluginManager().registerEvents(new LoadBanlist(), this);
-            BanListChecker.scheduleDailyCheck(this);
-        }
+        UnionBanModule.EnableUnionBan(this);
     }
 
     @Override
@@ -101,29 +95,14 @@ public class Main extends JavaPlugin implements Listener {
         } else {
             LOGGER.info("QQ Robot has been disabled in this running regin.");
         }
-        try {
-            String subject = "服务器启动通知";
-            String content = Config.servername + "服务器已启动";
-            Webhook4Email webhook4Email = new Webhook4Email();
-            webhook4Email.formatAndSendWebhook(subject, content);
-        } catch (Exception e) {
-            LOGGER.warning(e.getMessage());
-        }
-
-        registerCommand(this);
+        DefaultMessages.TurnOnPlugin();
+        CommandRegister.registerCommand(this);
         moduleManager.onEnable();
     }
 
     @Override
     public void onDisable() {
-        try {
-            String subject = "服务器关闭通知";
-            String content = Config.servername + "服务器已关闭";
-            Webhook4Email webhook4Email = new Webhook4Email();
-            webhook4Email.formatAndSendWebhook(subject, content);
-        } catch (Exception e) {
-            LOGGER.warning(e.getMessage());
-        }
+        DefaultMessages.TurnOffPlugin();
         moduleManager.onDisable();
     }
 }

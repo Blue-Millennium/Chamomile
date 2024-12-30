@@ -2,7 +2,7 @@ package fun.suya.suisuroru.module;
 
 import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.data.UnionBan.LocalCache;
-import fun.suya.suisuroru.module.impl.UnionBan;
+import fun.suya.suisuroru.data.UnionBan.UnionBanMain;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,10 +25,10 @@ public class LoadBanlist implements Listener {
     public void PlayerJoinMessage(PlayerJoinEvent event) {
         if (Config.UnionBanEnabled) {
             try {
-                List<UnionBan.BanPair<UUID, String, Date, String>> Cache = LocalCache.read();
+                List<UnionBanMain.BanPair<UUID, String, Date, String>> Cache = LocalCache.read();
 
                 if (!Cache.isEmpty()) {
-                    for (UnionBan.BanPair<UUID, String, Date, String> data : Cache) {
+                    for (UnionBanMain.BanPair<UUID, String, Date, String> data : Cache) {
 
                         if ("Pardon".equals(data.getSourceServer())) {
                             boolean result = Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "minecraft:pardon " + data.getUUID());
@@ -54,8 +54,8 @@ public class LoadBanlist implements Listener {
                                 BanMessage(message);
                             }
                         }
-                        UnionBan.BanPair<UUID, String, Date, String> CachePair = new UnionBan.BanPair<>(data.getUUID(), data.getReason(), data.getTime(), data.getSourceServer());
-                        UnionBan.reportBanData(CachePair);
+                        UnionBanMain.BanPair<UUID, String, Date, String> CachePair = new UnionBanMain.BanPair<>(data.getUUID(), data.getReason(), data.getTime(), data.getSourceServer());
+                        UnionBanMain.reportBanData(CachePair);
                     }
                 }
             } catch (Exception e) {

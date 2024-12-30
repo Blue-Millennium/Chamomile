@@ -1,11 +1,11 @@
-package fun.suya.suisuroru.module.impl;
+package fun.suya.suisuroru.data.UnionBan;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Calendar;
 
-import static fun.suya.suisuroru.module.impl.UnionBan.checkBanData;
+import static fun.suya.suisuroru.data.UnionBan.UnionBanMain.checkBanData;
 
 /**
  * @author Suisuroru

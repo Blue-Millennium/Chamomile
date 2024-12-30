@@ -1,7 +1,7 @@
 package fun.suya.suisuroru.commands.execute.vanilla;
 
 import fun.suya.suisuroru.config.Config;
-import fun.suya.suisuroru.module.impl.UnionBan;
+import fun.suya.suisuroru.data.UnionBan.UnionBanMain;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Date;
 
 import static fun.suya.suisuroru.commands.execute.vanilla.Ban.BanMessage;
-import static fun.suya.suisuroru.module.impl.UnionBan.reportBanData;
+import static fun.suya.suisuroru.data.UnionBan.UnionBanMain.reportBanData;
 
 /**
  * @author Suisuroru
@@ -29,7 +29,7 @@ public class Pardon implements CommandExecutor {
             Player targetPlayer = Bukkit.getPlayer(playerName);
             String reason = "Pardon";
             if (targetPlayer != null) {
-                reportBanData(new UnionBan.BanPair<>(targetPlayer.getUniqueId(), reason, new Date(), "Pardon"));
+                reportBanData(new UnionBanMain.BanPair<>(targetPlayer.getUniqueId(), reason, new Date(), "Pardon"));
             }
         }
     }
