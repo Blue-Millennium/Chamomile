@@ -87,18 +87,12 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew shadowJar
 
-      - name: Rename JAR file
+      - name: Rename and upload JAR file
         id: rename_and_upload
         run: |
           TARGET_JAR="BasePlugin-${{ env.VERSION }}.jar"
           SOURCE_JAR=$(find run/plugins -name "*.jar" -print -quit)
           mv "${SOURCE_JAR}" "${TARGET_JAR}"
-
-      - name: Upload JAR file to Release
-        id: upload_release_asset
-        run: |
-          TARGET_JAR="BasePlugin-${{ env.VERSION }}.jar"
-          SOURCE_JAR=$(find run/plugins -name "*.jar" -print -quit)
           gh release upload newest-build ${TARGET_JAR}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
