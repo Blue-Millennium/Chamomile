@@ -49,7 +49,7 @@ jobs:
           prerelease: true
         continue-on-error: true
 
-  build-and-publish(ShadowJar):
+  ShadowJar-and-publish:
     needs: clear-old-pre-release-and-create-new-pre-release
     runs-on: ubuntu-latest
 
@@ -98,7 +98,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-  build-and-publish(build):
+  build-and-publish:
     needs: clear-old-pre-release-and-create-new-pre-release
     runs-on: ubuntu-latest
 
