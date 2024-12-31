@@ -6,6 +6,9 @@ package:
 author: SukaXD, Suisuroru
 
 commands:
+  kill:
+    description: kill entities
+    usage: /kill <entities>
   ban:
     description: Ban a player
     usage: /ban <player> <reason>
