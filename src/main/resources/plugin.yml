@@ -1,7 +1,8 @@
 name: BasePlugin
 version: 2.7.0
 main: fun.xd.suka.Main
-description: encoded by Blue Millennium
+description: Encoded by Blue Millennium
+package:
 author: SukaXD, Suisuroru
 
 commands:
