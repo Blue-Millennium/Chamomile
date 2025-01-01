@@ -33,4 +33,5 @@ public class Config {
     public static String UnionBanCheckUrl;
     public static String UnionBanReportUrl;
     public static String UnionBanReportKey;
+    public static String QQCheckStartWord;
 }

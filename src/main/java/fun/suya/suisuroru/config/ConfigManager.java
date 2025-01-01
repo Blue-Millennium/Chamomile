@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Properties;
 
+import static fun.suya.suisuroru.config.Config.QQCheckStartWord;
 import static fun.xd.suka.Main.LOGGER;
 
 /**
@@ -126,6 +127,7 @@ public class ConfigManager {
             case UnionBanCheckUrl -> Config.UnionBanCheckUrl = (String) value;
             case UnionBanReportUrl -> Config.UnionBanReportUrl = (String) value;
             case UnionBanReportKey -> Config.UnionBanReportKey = (String) value;
+            case QQCheckStartWord -> QQCheckStartWord = (String) value;
         }
 
     }
