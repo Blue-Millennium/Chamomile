@@ -40,5 +40,6 @@ public class ConfigRemap {
         configMapping.put("UnionBanCheckUrl", "UnionBanCheckUrl");
         configMapping.put("UnionBanReportUrl", "UnionBanReportUrl");
         configMapping.put("UnionBanReportKey", "UnionBanReportKey");
+        configMapping.put("QQCheckStartWord", "QQCheckStartWord");
     }
 }

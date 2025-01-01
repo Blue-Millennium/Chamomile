@@ -7,6 +7,8 @@ import fun.xd.suka.data.PlayerData;
 import fun.xd.suka.module.Module;
 import fun.xd.suka.util.TimeUtil;
 import net.mamoe.mirai.event.events.FriendMessageEvent;
+import net.mamoe.mirai.event.events.GroupMessageEvent;
+import net.mamoe.mirai.event.events.MessageEvent;
 import net.mamoe.mirai.event.events.NewFriendRequestEvent;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
@@ -18,11 +20,51 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import static fun.xd.suka.Main.LOGGER;
+
 public class QQCheck extends Module implements Listener {
-    private final HashMap<PlayerData, Integer> playerCodeMap = new HashMap<>();
+    private static final HashMap<PlayerData, Integer> playerCodeMap = new HashMap<>();
 
     public QQCheck() {
         super("QQCheck");
+    }
+
+    public static void GroupCheck(GroupMessageEvent event, MessageChainBuilder builder) {
+        if (Config.qqCheckEnabled) {
+            int code = -1;
+            try {
+                code = Integer.parseInt(builder.build().contentToString().replace(Config.QQCheckStartWord, ""));
+            } catch (Exception exception) {
+                return;
+            }
+            event.getGroup().sendMessage(DataCheck(event, code));
+        }
+    }
+
+    private static MessageChain DataCheck(MessageEvent event, int code) {
+        MessageChain checkMessage = null;
+        for (Map.Entry<PlayerData, Integer> entry : playerCodeMap.entrySet()) {
+            if (entry.getValue().equals(code)) {
+                playerCodeMap.remove(entry.getKey());
+
+                // 保存数据
+                Data data = new Data();
+                data.playerData = entry.getKey();
+                data.qqNumber = event.getSender().getId();
+                data.linkedTime = System.currentTimeMillis();
+                Main.INSTANCE.dataManager.DATA_LIST.add(data);
+                Main.INSTANCE.dataManager.save();
+
+                // 构建确认消息
+                checkMessage = new MessageChainBuilder()
+                        .append("Your account was linked!").append("\n")
+                        .append("Player Name: ").append(entry.getKey().playerName).append("\n")
+                        .append("Linked QQ: ").append(String.valueOf(event.getSender().getId())).append("\n")
+                        .append("Linked Time: ").append(TimeUtil.getNowTime())
+                        .build();
+            }
+        }
+        return checkMessage;
     }
 
     @Override
@@ -39,29 +81,7 @@ public class QQCheck extends Module implements Listener {
                 } catch (Exception exception) {
                     return;
                 }
-                for (Map.Entry<PlayerData, Integer> entry : playerCodeMap.entrySet()) {
-                    if (entry.getValue().equals(code)) {
-                        playerCodeMap.remove(entry.getKey());
-
-                        // 保存数据
-                        Data data = new Data();
-                        data.playerData = entry.getKey();
-                        data.qqNumber = event.getSender().getId();
-                        data.linkedTime = System.currentTimeMillis();
-                        Main.INSTANCE.dataManager.DATA_LIST.add(data);
-                        Main.INSTANCE.dataManager.save();
-
-                        // 发送确认消息
-                        MessageChain checkMessage = new MessageChainBuilder()
-                                .append("Your account was linked!").append("\n")
-                                .append("Player Name: ").append(entry.getKey().playerName).append("\n")
-                                .append("Linked QQ: ").append(String.valueOf(event.getSender().getId())).append("\n")
-                                .append("Linked Time: ").append(TimeUtil.getNowTime())
-                                .build();
-
-                        event.getSender().sendMessage(checkMessage);
-                    }
-                }
+                event.getSender().sendMessage(DataCheck(event, code));
             }
         });
     }

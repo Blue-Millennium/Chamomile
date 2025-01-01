@@ -35,7 +35,8 @@ public enum ConfigKeys {
     UnionBanCheckOnly(Boolean.class, false),
     UnionBanCheckUrl(String.class, "https://example.com"),
     UnionBanReportUrl(String.class, "https://example.com"),
-    UnionBanReportKey(String.class, "your_report_key");
+    UnionBanReportKey(String.class, "your_report_key"),
+    QQCheckStartWord(String.class, "Check#");
 
     public static final Map<String, ConfigKeys> configKeysList = new HashMap<>();
 
