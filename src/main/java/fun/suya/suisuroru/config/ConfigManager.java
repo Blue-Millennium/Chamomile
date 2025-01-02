@@ -99,6 +99,7 @@ public class ConfigManager {
 
     private void setConfigField(ConfigKeys key, Object value) {
         switch (key) {
+            case VanillaCommandsRewritten -> Config.VanillaCommandsRewritten = (Boolean) value;
             case QQCheckEnabled -> Config.qqCheckEnabled = (Boolean) value;
             case SyncChatEnabled -> Config.syncChatEnabled = (Boolean) value;
             case BotWsUrl -> Config.botWsUrl = (String) value;

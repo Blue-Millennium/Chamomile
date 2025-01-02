@@ -29,7 +29,7 @@ public class Kill implements CommandExecutor {
         } else if (args[0].equals("@r")) {
             Command.broadcastCommandMessage(sender, "§c拒绝执行清除随机玩家，请选择其他具体实体类型");
             return true;
-        } else if (args[0].equals("item")) {
+        } else if (args[0].equals("items")) {
             return Bukkit.dispatchCommand(sender, "minecraft:kill @e[type=item]");
         } else {
             return Bukkit.dispatchCommand(sender, "minecraft:kill " + String.join(" ", args));

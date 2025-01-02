@@ -18,7 +18,7 @@ public class KillTab implements TabCompleter {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-            completions.addAll(getOnlinePlayerNames(sender,args[0]));
+            completions.addAll(getOnlinePlayerNames(sender, args[0]));
             completions.add("@e");
             completions.add("@a");
             completions.add("@p");

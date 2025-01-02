@@ -6,6 +6,7 @@ package fun.suya.suisuroru.config;
  * function: Initialize config format
  */
 public class Config {
+    public static boolean VanillaCommandsRewritten;
     public static boolean qqCheckEnabled;
     public static boolean syncChatEnabled;
     public static String botWsUrl;

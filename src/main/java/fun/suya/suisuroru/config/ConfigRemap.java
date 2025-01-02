@@ -13,6 +13,7 @@ public class ConfigRemap {
 
     // configMapping.put(ConfigKeys, Config);
     static {
+        configMapping.put("VanillaCommandsRewritten", "VanillaCommandsRewritten");
         configMapping.put("QQCheckEnabled", "qqCheckEnabled");
         configMapping.put("SyncChatEnabled", "syncChatEnabled");
         configMapping.put("BotWsUrl", "botWsUrl");

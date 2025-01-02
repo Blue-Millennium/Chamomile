@@ -9,6 +9,7 @@ import java.util.Map;
  * function: Set of all config keys
  */
 public enum ConfigKeys {
+    VanillaCommandsRewritten(Boolean.class, true),
     QQCheckEnabled(Boolean.class, true),
     SyncChatEnabled(Boolean.class, true),
     BotWsUrl(String.class, "ws://0.0.0.0:3001"),
