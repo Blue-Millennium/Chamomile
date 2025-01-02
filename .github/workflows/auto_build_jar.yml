@@ -49,6 +49,55 @@ jobs:
           prerelease: true
         continue-on-error: true
 
+  ShadowJar-and-publish:
+    needs: clear-old-pre-release-and-create-new-pre-release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Get current date
+        id: get_date
+        run: echo "DATE=$(date +'%y%m%d')" >> $GITHUB_ENV
+
+      - name: Get Git SHA
+        id: get_sha
+        run: echo "SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
+
+      - name: Set VERSION environment variable
+        run: |
+          ORIGINAL_VERSION=$(grep "version:" src/main/resources/plugin.yml | cut -d ' ' -f2 | sed 's/[^0-9.]//g')
+          echo "Setting VERSION to ${ORIGINAL_VERSION}-ShadowJar-${{ env.DATE }}-${{ env.SHA }}"
+          echo "VERSION=${ORIGINAL_VERSION}-ShadowJar-${{ env.DATE }}-${{ env.SHA }}" >> $GITHUB_ENV
+
+      - name: Update information in plugin.yml
+        run: |
+          sed -i "s/\(version: \).*/\1'${{ env.VERSION }}'/" src/main/resources/plugin.yml
+          sed -i "s/\(package: \).*/\1'ShadowJar'/" src/main/resources/plugin.yml
+
+      - name: Build with Gradle
+        run: ./gradlew shadowJar
+
+      - name: Rename and upload JAR file
+        id: rename_and_upload
+        run: |
+          TARGET_JAR="BasePlugin-${{ env.VERSION }}.jar"
+          SOURCE_JAR=$(find run/plugins -name "*.jar" -print -quit)
+          mv "${SOURCE_JAR}" "${TARGET_JAR}"
+          gh release upload newest-build ${TARGET_JAR}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
   build-and-publish:
     needs: clear-old-pre-release-and-create-new-pre-release
     runs-on: ubuntu-latest
@@ -77,21 +126,22 @@ jobs:
       - name: Set VERSION environment variable
         run: |
           ORIGINAL_VERSION=$(grep "version:" src/main/resources/plugin.yml | cut -d ' ' -f2 | sed 's/[^0-9.]//g')
-          echo "Setting VERSION to ${ORIGINAL_VERSION}-${{ env.DATE }}-${{ env.SHA }}"
-          echo "VERSION=${ORIGINAL_VERSION}-${{ env.DATE }}-${{ env.SHA }}" >> $GITHUB_ENV
+          echo "Setting VERSION to ${ORIGINAL_VERSION}-build-${{ env.DATE }}-${{ env.SHA }}"
+          echo "VERSION2=${ORIGINAL_VERSION}-build-${{ env.DATE }}-${{ env.SHA }}" >> $GITHUB_ENV
 
-      - name: Update version in plugin.yml
+      - name: Update information in plugin.yml
         run: |
-          sed -i "s/\(version: \).*/\1'${{ env.VERSION }}'/" src/main/resources/plugin.yml
+          sed -i "s/\(version: \).*/\1'${{ env.VERSION2 }}'/" src/main/resources/plugin.yml
+          sed -i "s/\(package: \).*/\1'build'/" src/main/resources/plugin.yml
 
       - name: Build with Gradle
-        run: ./gradlew shadowJar
+        run: ./gradlew build
 
       - name: Rename and upload JAR file
         id: rename_and_upload
         run: |
           TARGET_JAR="BasePlugin-${{ env.VERSION }}.jar"
-          SOURCE_JAR=$(find run/plugins -name "*.jar" -print -quit)
+          SOURCE_JAR=$(find build/libs -name "*.jar" -print -quit)
           mv "${SOURCE_JAR}" "${TARGET_JAR}"
           gh release upload newest-build ${TARGET_JAR}
         env:
