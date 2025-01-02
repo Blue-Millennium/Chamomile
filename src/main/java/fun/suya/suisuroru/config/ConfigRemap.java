@@ -16,6 +16,7 @@ public class ConfigRemap {
         configMapping.put("VanillaCommandsRewritten", "VanillaCommandsRewritten");
         configMapping.put("QQCheckEnabled", "qqCheckEnabled");
         configMapping.put("SyncChatEnabled", "syncChatEnabled");
+        configMapping.put("SyncChatEnabledQ2SOnly", "SyncChatEnabledQ2SOnly");
         configMapping.put("BotWsUrl", "botWsUrl");
         configMapping.put("BotWsToken", "botWsToken");
         configMapping.put("SyncChatGroup", "syncChatGroup");

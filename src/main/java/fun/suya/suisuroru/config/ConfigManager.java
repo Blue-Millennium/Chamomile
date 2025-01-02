@@ -103,6 +103,7 @@ public class ConfigManager {
             case VanillaCommandsRewritten -> Config.VanillaCommandsRewritten = (Boolean) value;
             case QQCheckEnabled -> Config.qqCheckEnabled = (Boolean) value;
             case SyncChatEnabled -> Config.syncChatEnabled = (Boolean) value;
+            case SyncChatEnabledQ2SOnly -> Config.SyncChatEnabledQ2SOnly = (Boolean) value;
             case BotWsUrl -> Config.botWsUrl = (String) value;
             case BotWsToken -> Config.botWsToken = (String) value;
             case SyncChatGroup -> Config.syncChatGroup = (Long) value;

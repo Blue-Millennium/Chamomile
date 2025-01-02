@@ -9,6 +9,7 @@ public class Config {
     public static boolean VanillaCommandsRewritten;
     public static boolean qqCheckEnabled;
     public static boolean syncChatEnabled;
+    public static boolean SyncChatEnabledQ2SOnly;
     public static String botWsUrl;
     public static String botWsToken;
     public static long syncChatGroup;

@@ -58,21 +58,21 @@ public class SyncChat extends Module implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (Config.syncChatEnabled) {
+        if (Config.syncChatEnabled||!Config.SyncChatEnabledQ2SOnly) {
             syncGroup.sendMessage(Config.joinServerMessage.replace("%NAME%", event.getPlayer().getName()));
         }
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        if (Config.syncChatEnabled) {
+        if (Config.syncChatEnabled||!Config.SyncChatEnabledQ2SOnly) {
             syncGroup.sendMessage(Config.leaveServerMessage.replace("%NAME%", event.getPlayer().getName()));
         }
     }
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
-        if (Config.syncChatEnabled) {
+        if (Config.syncChatEnabled||!Config.SyncChatEnabledQ2SOnly) {
             syncGroup.sendMessage(Config.sayServerMessage.replace("%NAME%", event.getPlayer().getName()).replace("%MESSAGE%", event.getMessage()));
         }
     }

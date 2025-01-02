@@ -12,6 +12,7 @@ public enum ConfigKeys {
     VanillaCommandsRewritten(Boolean.class, true),
     QQCheckEnabled(Boolean.class, true),
     SyncChatEnabled(Boolean.class, true),
+    SyncChatEnabledQ2SOnly(Boolean.class, false),
     BotWsUrl(String.class, "ws://0.0.0.0:3001"),
     BotWsToken(String.class, "114514"),
     SyncChatGroup(Long.class, 123456L),
