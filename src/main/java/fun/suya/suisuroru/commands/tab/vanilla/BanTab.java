@@ -20,7 +20,7 @@ public class BanTab implements TabCompleter {
         return new ArrayList<>();
     }
 
-    private List<String> getOnlinePlayerNames(CommandSender sender, String partialName) {
+    public static List<String> getOnlinePlayerNames(CommandSender sender, String partialName) {
         List<String> playerNames = new ArrayList<>();
         for (Player player : sender.getServer().getOnlinePlayers()) {
             String playerName = player.getName();
