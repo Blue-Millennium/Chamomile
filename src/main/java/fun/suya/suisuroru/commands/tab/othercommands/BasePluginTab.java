@@ -27,6 +27,7 @@ public class BasePluginTab implements TabCompleter {
             completions.add("help");
             completions.add("report");
             completions.add("config");
+            completions.add("data");
             completions.add("query-report");
         } else if (args.length >= 2) {
             String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
