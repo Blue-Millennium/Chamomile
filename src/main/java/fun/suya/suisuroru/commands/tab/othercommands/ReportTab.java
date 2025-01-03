@@ -28,7 +28,6 @@ public class ReportTab implements TabCompleter {
             // 不返回任何补全结果
             return completions; // 返回空列表
         }
-
         return completions;
     }
 }

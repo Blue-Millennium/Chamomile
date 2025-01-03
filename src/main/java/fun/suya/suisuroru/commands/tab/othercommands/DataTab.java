@@ -18,19 +18,23 @@ public class DataTab implements TabCompleter {
         if (args.length == 1) {
             completions.add("query");
         } else if (args.length >= 2) {
-            switch (args[1]) {
+            switch (args[0].toLowerCase()) {
                 case "query": {
                     if (args.length == 2) {
                         completions.add("uuid");
                         completions.add("name");
                         completions.add("qq");
-                    } else {
-                        switch (args[2]) {
+                    } else if (args.length == 3) {
+                        switch (args[1].toLowerCase()) {
                             case "uuid", "qq": {
                                 break;
                             }
                             case "name": {
                                 completions.addAll(OnlinePlayerListGet.GetOnlinePlayerList());
+                                break;
+                            }
+                            default: {
+                                sender.sendMessage("Unknown command. Usage: /baseplugin data query [qq|name|uuid] [args...]");
                                 break;
                             }
                         }
