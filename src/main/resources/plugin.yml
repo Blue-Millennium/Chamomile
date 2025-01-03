@@ -27,14 +27,18 @@ commands:
     usage: /bpreload
     aliases: [ bprl ]
   bpconfig:
-    description: Reload config
+    description: config functions
     usage: /bpconfig [reload|query|set] [args...]
     aliases: [ bpcfg ]
+  bpdata:
+    description: data functions
+    usage: /bpdata [query] [args...]
+    aliases: [ bpd ]
   query-report:
     description: Query reports
     usage: /query-report
     aliases: [ qr ]
   baseplugin:
     description: Baseplugin functions
-    usage: /baseplugin [report|reload|query-report] [args...]
+    usage: /baseplugin [help|data|report|reload|query-report] [args...]
     aliases: [ bp ]

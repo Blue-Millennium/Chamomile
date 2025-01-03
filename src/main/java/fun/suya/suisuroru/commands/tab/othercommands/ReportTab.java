@@ -1,6 +1,6 @@
 package fun.suya.suisuroru.commands.tab.othercommands;
 
-import fun.suya.suisuroru.config.ConfigKeys;
+import fun.suya.suisuroru.module.impl.OnlinePlayerListGet;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -12,23 +12,23 @@ import java.util.List;
 
 /**
  * @author Suisuroru
- * Date: 2024/10/18 22:11
- * function: Provides tab completion for the bpconfig command
+ * Date: 2024/10/15 01:41
+ * function: Provides tab completion for the report command
  */
-public class BpconfigTab implements TabCompleter {
+public class ReportTab implements TabCompleter {
+
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
-            completions.add("reload");
-            completions.add("query");
-            completions.add("set");
-        } else if (args.length == 2) {
-            if (args[0].equals("query") || args[0].equals("set")) {
-                completions.addAll(ConfigKeys.configKeysList.keySet());
-            }
+            // 返回所有在线玩家的名字
+            completions.addAll(OnlinePlayerListGet.GetOnlinePlayerList());
+        } else if (args.length >= 2) {
+            // 不返回任何补全结果
+            return completions; // 返回空列表
         }
+
         return completions;
     }
 }
