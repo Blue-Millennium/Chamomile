@@ -48,7 +48,6 @@ public class DataGet {
         return playerRecords.stream()
                 .filter(record -> {
                     UUID recordUuid = record.getPlayerData().getPlayerUuid();
-                    System.out.println("Comparing UUIDs: " + recordUuid + " with " + playerUuid);
                     return recordUuid.equals(playerUuid);
                 })
                 .toList();
@@ -56,16 +55,26 @@ public class DataGet {
 
     public String getPlayersByQQAsJson(long qqNumber) {
         List<PlayerRecord> players = getPlayersByQQ(qqNumber);
+        if (players.size() == 1) {
+            return gson.toJson(players.get(0));
+        }
         return gson.toJson(players);
     }
 
     public String getPlayersByNameAsJson(String playerName) {
         List<PlayerRecord> players = getPlayersByName(playerName);
+        if (players.size() == 1) {
+            return gson.toJson(players.get(0));
+        }
         return gson.toJson(players);
     }
 
     public String getPlayersByUUIDAsJson(UUID playerUuid) {
         List<PlayerRecord> players = getPlayersByUUID(playerUuid);
+        if (players.size() == 1) {
+            return gson.toJson(players.get(0));
+        }
         return gson.toJson(players);
     }
+
 }

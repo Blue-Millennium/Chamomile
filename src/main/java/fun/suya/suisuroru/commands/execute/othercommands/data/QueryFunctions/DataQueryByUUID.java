@@ -19,11 +19,16 @@ public class DataQueryByUUID implements CommandExecutor {
             return false;
         }
         DataGet dataGet = new DataGet();
-        UUID Uuid = null;
+        UUID Uuid;
         try {
-            Uuid = UUID.fromString(args[0]);
+            String uuidString = args[0].toLowerCase();
+            if (!uuidString.matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")) {
+                uuidString = insertHyphens(uuidString);
+            }
+            Uuid = UUID.fromString(uuidString);
         } catch (IllegalArgumentException e) {
             LOGGER.info("§c输入的数据不是UUID");
+            return false;
         } catch (Exception e) {
             LOGGER.info(String.valueOf(e));
             return false;
@@ -37,4 +42,14 @@ public class DataQueryByUUID implements CommandExecutor {
             return false;
         }
     }
+
+    private String insertHyphens(String uuid) {
+        StringBuilder sb = new StringBuilder(uuid);
+        sb.insert(8, '-');
+        sb.insert(13, '-');
+        sb.insert(18, '-');
+        sb.insert(23, '-');
+        return sb.toString();
+    }
+
 }
