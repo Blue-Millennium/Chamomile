@@ -1,6 +1,7 @@
 package fun.suya.suisuroru.commands.execute;
 
 import fun.suya.suisuroru.commands.execute.othercommands.ConfigRoot;
+import fun.suya.suisuroru.commands.execute.othercommands.DataRoot;
 import fun.suya.suisuroru.commands.execute.othercommands.Help;
 import fun.suya.suisuroru.commands.execute.othercommands.ReportQuery;
 import fun.xd.suka.command.ReportCommand;
@@ -22,6 +23,7 @@ public class CommandManager implements CommandExecutor {
     ConfigRoot config = new ConfigRoot();
     ReportQuery query = new ReportQuery();
     Help help = new Help();
+    DataRoot data = new DataRoot();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -52,8 +54,12 @@ public class CommandManager implements CommandExecutor {
                 query.onCommand(sender, command, label, subArgs);
                 break;
             }
+            case "data": {
+                data.onCommand(sender, command, label, subArgs);
+                break;
+            }
             default: {
-                sender.sendMessage("Unknown command. Usage: /baseplugin [report|reload|query-report] [args...]");
+                sender.sendMessage("Unknown command. Usage: /baseplugin [report|reload|config|data|query-report] [args...]");
                 break;
             }
         }
