@@ -34,20 +34,20 @@ public class DataGet {
 
     public List<PlayerRecord> getPlayersByQQ(long qqNumber) {
         return playerRecords.stream()
-                .filter(record -> record.getQqNumber() == qqNumber)
+                .filter(record -> record.qqNumber() == qqNumber)
                 .toList();
     }
 
     public List<PlayerRecord> getPlayersByName(String playerName) {
         return playerRecords.stream()
-                .filter(record -> record.getPlayerData().getPlayerName().equals(playerName))
+                .filter(record -> record.playerData().playerName().equals(playerName))
                 .toList();
     }
 
     public List<PlayerRecord> getPlayersByUUID(UUID playerUuid) {
         return playerRecords.stream()
                 .filter(record -> {
-                    UUID recordUuid = record.getPlayerData().getPlayerUuid();
+                    UUID recordUuid = record.playerData().playerUuid();
                     return recordUuid.equals(playerUuid);
                 })
                 .toList();
