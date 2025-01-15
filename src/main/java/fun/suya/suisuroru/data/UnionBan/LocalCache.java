@@ -89,7 +89,7 @@ public class LocalCache {
             });
         } catch (IOException e) {
             LOGGER.severe("Failed to read JSON file: " + file.getAbsolutePath());
-            e.printStackTrace();
+            LOGGER.warning(e.getMessage());
             return new HashMap<>();
         }
     }
@@ -99,7 +99,7 @@ public class LocalCache {
             objectMapper.writeValue(file, data);
         } catch (IOException e) {
             LOGGER.severe("Failed to write JSON file: " + file.getAbsolutePath());
-            e.printStackTrace();
+            LOGGER.warning(e.getMessage());
         }
     }
 }

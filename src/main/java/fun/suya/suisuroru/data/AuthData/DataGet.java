@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static fun.xd.suka.Main.DATA_FILE;
+import static fun.xd.suka.Main.LOGGER;
 
 public class DataGet {
     private final List<PlayerRecord> playerRecords;
@@ -27,7 +28,7 @@ public class DataGet {
             }.getType();
             return gson.fromJson(reader, listType);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.warning(e.getMessage());
             return new ArrayList<>();
         }
     }
