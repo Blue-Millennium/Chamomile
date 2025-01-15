@@ -61,7 +61,7 @@ public class Webhook4Email {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.warning(e.getMessage());
             LOGGER.info("Error sending webhook: " + e.getMessage());
         }
     }

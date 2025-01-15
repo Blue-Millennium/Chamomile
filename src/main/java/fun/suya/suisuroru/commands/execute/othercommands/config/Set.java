@@ -9,6 +9,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
+import static fun.xd.suka.Main.LOGGER;
+
 /**
  * @author Suisuroru
  * Date: 2024/10/15 02:06
@@ -53,7 +55,7 @@ public class Set implements CommandExecutor {
             sender.sendMessage("§a配置项 " + configName + " 已成功设置为 " + value);
         } catch (Exception e) {
             sender.sendMessage("§c修改配置项 " + configName + " 的值时出错，请检查配置文件或联系开发人员。");
-            e.printStackTrace();
+            LOGGER.warning(e.getMessage());
             return false;
         }
 

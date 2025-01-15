@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import static fun.xd.suka.Main.LOGGER;
+
 /**
  * @author Suisuroru
  * Date: 2024/9/29 22:08
@@ -46,7 +48,7 @@ public class ReportQuery implements CommandExecutor {
             return true;
         } catch (Exception e) {
             sender.sendMessage("查询数据失败！");
-            e.printStackTrace();
+            LOGGER.warning(e.getMessage());
             return false;
         }
     }
