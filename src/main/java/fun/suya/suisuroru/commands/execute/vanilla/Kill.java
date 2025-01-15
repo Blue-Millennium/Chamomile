@@ -14,7 +14,7 @@ public class Kill implements CommandExecutor {
             return false;
         }
         if (args[0].startsWith("@e")) {
-            if (args[0].equals("@e")) {
+            if (args[1].isEmpty()) {
                 Command.broadcastCommandMessage(sender, "§c拒绝执行清除全部实体，请指定具体实体类型");
                 return true;
             } else if (args[0].contains("type=!")) {
