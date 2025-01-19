@@ -49,7 +49,7 @@ public class ReportQuery implements CommandExecutor {
         } catch (Exception e) {
             sender.sendMessage("查询数据失败！");
             LOGGER.warning(e.getMessage());
-            return false;
+            return true;
         }
     }
 }

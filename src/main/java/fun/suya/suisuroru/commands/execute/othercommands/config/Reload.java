@@ -32,7 +32,7 @@ public class Reload implements CommandExecutor {
         } catch (Exception e) {
             sender.sendMessage("重新加载配置文件失败！");
             LOGGER.warning(e.getMessage());
-            return false;
+            return true;
         }
     }
 }

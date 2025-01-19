@@ -56,7 +56,7 @@ public class Set implements CommandExecutor {
         } catch (Exception e) {
             sender.sendMessage("§c修改配置项 " + configName + " 的值时出错，请检查配置文件或联系开发人员。");
             LOGGER.warning(e.getMessage());
-            return false;
+            return true;
         }
 
         return true;

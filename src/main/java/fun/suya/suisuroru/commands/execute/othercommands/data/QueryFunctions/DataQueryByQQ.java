@@ -15,7 +15,7 @@ public class DataQueryByQQ implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.isOp()) {
             sender.sendMessage("您没有权限这么做");
-            return false;
+            return true;
         }
         DataGet dataGet = new DataGet();
         long QQNum = 0;
@@ -26,7 +26,7 @@ public class DataQueryByQQ implements CommandExecutor {
             return true;
         } catch (Exception e) {
             LOGGER.info(String.valueOf(e));
-            return false;
+            return true;
         }
         String playerJson = dataGet.getPlayersByQQAsJson(QQNum);
         return ProcessFinalData(sender, playerJson);

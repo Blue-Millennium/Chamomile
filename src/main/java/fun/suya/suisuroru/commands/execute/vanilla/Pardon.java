@@ -39,19 +39,19 @@ public class Pardon implements CommandExecutor {
         if (Config.UnionBanEnabled) {
             if (!sender.isOp()) {
                 sender.sendMessage("您没有权限这么做");
-                return false;
+                return true;
             }
 
             if (args.length == 0) {
                 sender.sendMessage("Usage: /pardon <player>");
-                return false;
+                return true;
             }
 
             String playerName = args[0];
 
             if (!Bukkit.getBanList(BanList.Type.PROFILE).isBanned(playerName)) {
                 sender.sendMessage("玩家 " + playerName + " 未被封禁");
-                return false;
+                return true;
             }
 
             // 调用原版的 pardon 命令

@@ -14,7 +14,7 @@ public class DataQueryByName implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.isOp()) {
             sender.sendMessage("您没有权限这么做");
-            return false;
+            return true;
         }
         DataGet dataGet = new DataGet();
         String Name;
@@ -22,7 +22,7 @@ public class DataQueryByName implements CommandExecutor {
             Name = args[0];
         } catch (Exception e) {
             LOGGER.info(String.valueOf(e));
-            return false;
+            return true;
         }
         String playerJson = dataGet.getPlayersByNameAsJson(Name);
         return ProcessFinalData(sender, playerJson);

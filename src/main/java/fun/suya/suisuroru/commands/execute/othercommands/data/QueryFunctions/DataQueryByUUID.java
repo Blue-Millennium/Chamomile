@@ -21,7 +21,7 @@ public class DataQueryByUUID implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.isOp()) {
             sender.sendMessage("您没有权限这么做");
-            return false;
+            return true;
         }
         DataGet dataGet = new DataGet();
         UUID Uuid;
@@ -33,10 +33,10 @@ public class DataQueryByUUID implements CommandExecutor {
             Uuid = UUID.fromString(uuidString);
         } catch (IllegalArgumentException e) {
             LOGGER.info("§c输入的数据不是UUID");
-            return false;
+            return true;
         } catch (Exception e) {
             LOGGER.info(String.valueOf(e));
-            return false;
+            return true;
         }
         String playerJson = dataGet.getPlayersByUUIDAsJson(Uuid);
         return ProcessFinalData(sender, playerJson);
@@ -52,11 +52,10 @@ public class DataQueryByUUID implements CommandExecutor {
                 String processedData = DataProcess.processData(gson.toJson(player));
                 sender.sendMessage(processedData);
             }
-            return true;
         } else {
             sender.sendMessage("查询的数据不存在");
-            return false;
         }
+        return true;
     }
 
     private String insertHyphens(String uuid) {

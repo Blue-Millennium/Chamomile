@@ -11,7 +11,7 @@ public class Kill implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.isOp()) {
             sender.sendMessage("您没有权限这么做");
-            return false;
+            return true;
         }
         switch (args[0]) {
             case "@e" -> {
@@ -38,6 +38,6 @@ public class Kill implements CommandExecutor {
                 return Bukkit.dispatchCommand(sender, "minecraft:kill " + String.join(" ", args));
             }
         }
-        return false;
+        return true;
     }
 }
