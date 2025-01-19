@@ -56,9 +56,6 @@ public class DataGet {
 
     public String getPlayersByQQAsJson(long qqNumber) {
         List<PlayerRecord> players = getPlayersByQQ(qqNumber);
-        if (players.size() == 1) {
-            return gson.toJson(players.get(0));
-        }
         return gson.toJson(players);
     }
 
