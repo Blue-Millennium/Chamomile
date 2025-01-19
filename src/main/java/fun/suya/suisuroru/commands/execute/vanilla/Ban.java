@@ -39,12 +39,12 @@ public class Ban implements CommandExecutor {
         if (Config.UnionBanEnabled) {
             if (!sender.isOp()) {
                 sender.sendMessage("您没有权限这么做");
-                return false;
+                return true;
             }
 
             if (args.length == 0) {
                 sender.sendMessage("Usage: /ban <player> [reason]");
-                return false;
+                return true;
             }
 
             String playerName = args[0];
@@ -53,7 +53,7 @@ public class Ban implements CommandExecutor {
 
             if (targetPlayer == null) {
                 sender.sendMessage("未找到玩家: " + playerName);
-                return false;
+                return true;
             }
 
             // 调用原版的 ban 命令

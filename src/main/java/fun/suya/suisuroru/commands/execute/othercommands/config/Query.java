@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Field;
 import java.util.Map;
 
+import static fun.xd.suka.Main.LOGGER;
+
 /**
  * @author Suisuroru
  * Date: 2024/10/15 00:43
@@ -48,7 +50,7 @@ public class Query implements CommandExecutor {
                 sender.sendMessage("§a配置项 " + configName + " 当前的值为: " + value);
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 sender.sendMessage("§c无法获取配置项 " + configName + " 的值，请检查配置文件或联系开发人员。");
-                e.printStackTrace();
+                LOGGER.warning(e.getMessage());
             }
         }
         return true;

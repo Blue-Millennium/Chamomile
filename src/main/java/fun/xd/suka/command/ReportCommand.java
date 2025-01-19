@@ -19,6 +19,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+import static fun.xd.suka.Main.LOGGER;
+
 public class ReportCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -64,7 +66,7 @@ public class ReportCommand implements CommandExecutor {
                             webhook4Email.formatAndSendWebhook(subject, content);
                         } catch (Exception e) {
                             sender.sendMessage("§c邮件发送失败");
-                            e.printStackTrace();
+                            LOGGER.warning(e.getMessage());
                         }
                         MessageChainBuilder builder_qq = new MessageChainBuilder();
 

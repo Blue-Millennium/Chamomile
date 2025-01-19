@@ -1,5 +1,7 @@
 package fun.suya.suisuroru.commands.execute.othercommands.data.QueryFunctions;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import fun.suya.suisuroru.data.AuthData.DataGet;
 import fun.suya.suisuroru.data.AuthData.DataProcess;
 import org.bukkit.command.Command;
@@ -7,16 +9,19 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.UUID;
 
 import static fun.xd.suka.Main.LOGGER;
 
 public class DataQueryByUUID implements CommandExecutor {
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.isOp()) {
             sender.sendMessage("您没有权限这么做");
-            return false;
+            return true;
         }
         DataGet dataGet = new DataGet();
         UUID Uuid;
@@ -28,19 +33,29 @@ public class DataQueryByUUID implements CommandExecutor {
             Uuid = UUID.fromString(uuidString);
         } catch (IllegalArgumentException e) {
             LOGGER.info("§c输入的数据不是UUID");
-            return false;
+            return true;
         } catch (Exception e) {
             LOGGER.info(String.valueOf(e));
-            return false;
+            return true;
         }
         String playerJson = dataGet.getPlayersByUUIDAsJson(Uuid);
+        return ProcessFinalData(sender, playerJson);
+    }
+
+    static boolean ProcessFinalData(@NotNull CommandSender sender, String playerJson) {
         if (!playerJson.isEmpty() && !playerJson.equals("[]")) {
-            sender.sendMessage(DataProcess.processData(playerJson));
-            return true;
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<Object>>() {
+            }.getType();
+            List<Object> playerList = gson.fromJson(playerJson, listType);
+            for (Object player : playerList) {
+                String processedData = DataProcess.processData(gson.toJson(player));
+                sender.sendMessage(processedData);
+            }
         } else {
             sender.sendMessage("查询的数据不存在");
-            return false;
         }
+        return true;
     }
 
     private String insertHyphens(String uuid) {

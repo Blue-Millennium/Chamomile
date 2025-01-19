@@ -8,15 +8,22 @@ public class DataProcess {
         Gson gson = new Gson();
         AuthData authData = gson.fromJson(jsonData, AuthData.class);
         StringBuilder result = new StringBuilder();
-        result.append("玩家名称: ").append(authData.getPlayerData().getPlayerName()).append("\n");
-        result.append("玩家UUID: ").append(authData.getPlayerData().getPlayerUuid()).append("\n");
-        result.append("首次加入时间: ").append(authData.getFirstJoin()).append("\n");
-        result.append("最后加入时间: ").append(authData.getLastJoin()).append("\n");
-        result.append("QQ号码: ").append(authData.getQqNumber()).append("\n");
-        result.append("绑定时间: ").append(authData.getLinkedTime()).append("\n");
-        result.append("首次加入IP: ").append(authData.getFirstJoinIp()).append("\n");
-        result.append("最后加入IP: ").append(authData.getLastJoinIp()).append("\n");
+
+        appendIfNotNull(result, "玩家名称: ", authData.playerData().playerName());
+        appendIfNotNull(result, "玩家UUID: ", authData.playerData().playerUuid());
+        appendIfNotNull(result, "首次加入时间: ", authData.firstJoin());
+        appendIfNotNull(result, "最后加入时间: ", authData.lastJoin());
+        appendIfNotNull(result, "QQ号码: ", authData.qqNumber());
+        appendIfNotNull(result, "绑定时间: ", authData.linkedTime());
+        appendIfNotNull(result, "首次加入IP: ", authData.firstJoinIp());
+        appendIfNotNull(result, "最后加入IP: ", authData.lastJoinIp());
 
         return result.toString();
+    }
+
+    private static void appendIfNotNull(StringBuilder result, String label, Object value) {
+        if (value != null) {
+            result.append(label).append(value).append("\n");
+        }
     }
 }

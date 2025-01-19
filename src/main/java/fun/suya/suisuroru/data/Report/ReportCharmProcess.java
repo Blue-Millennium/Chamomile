@@ -87,7 +87,7 @@ public class ReportCharmProcess {
             LOGGER.info("Image saved to: " + outputFile.getAbsolutePath());
         } catch (IOException e) {
             LOGGER.severe("Failed to write image: " + e.getMessage());
-            e.printStackTrace();
+            LOGGER.warning(e.getMessage());
         }
     }
 }

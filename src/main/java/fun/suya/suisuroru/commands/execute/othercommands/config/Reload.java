@@ -6,6 +6,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import static fun.xd.suka.Main.LOGGER;
+
 /**
  * @author Suisuroru
  * Date: 2024/9/28 13:24
@@ -29,8 +31,8 @@ public class Reload implements CommandExecutor {
             return true;
         } catch (Exception e) {
             sender.sendMessage("重新加载配置文件失败！");
-            e.printStackTrace();
-            return false;
+            LOGGER.warning(e.getMessage());
+            return true;
         }
     }
 }

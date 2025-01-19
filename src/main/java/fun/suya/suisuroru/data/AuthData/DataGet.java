@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static fun.xd.suka.Main.DATA_FILE;
+import static fun.xd.suka.Main.LOGGER;
 
 public class DataGet {
     private final List<PlayerRecord> playerRecords;
@@ -27,27 +28,27 @@ public class DataGet {
             }.getType();
             return gson.fromJson(reader, listType);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.warning(e.getMessage());
             return new ArrayList<>();
         }
     }
 
     public List<PlayerRecord> getPlayersByQQ(long qqNumber) {
         return playerRecords.stream()
-                .filter(record -> record.getQqNumber() == qqNumber)
+                .filter(record -> record.qqNumber() == qqNumber)
                 .toList();
     }
 
     public List<PlayerRecord> getPlayersByName(String playerName) {
         return playerRecords.stream()
-                .filter(record -> record.getPlayerData().getPlayerName().equals(playerName))
+                .filter(record -> record.playerData().playerName().equals(playerName))
                 .toList();
     }
 
     public List<PlayerRecord> getPlayersByUUID(UUID playerUuid) {
         return playerRecords.stream()
                 .filter(record -> {
-                    UUID recordUuid = record.getPlayerData().getPlayerUuid();
+                    UUID recordUuid = record.playerData().playerUuid();
                     return recordUuid.equals(playerUuid);
                 })
                 .toList();
@@ -55,25 +56,16 @@ public class DataGet {
 
     public String getPlayersByQQAsJson(long qqNumber) {
         List<PlayerRecord> players = getPlayersByQQ(qqNumber);
-        if (players.size() == 1) {
-            return gson.toJson(players.get(0));
-        }
         return gson.toJson(players);
     }
 
     public String getPlayersByNameAsJson(String playerName) {
         List<PlayerRecord> players = getPlayersByName(playerName);
-        if (players.size() == 1) {
-            return gson.toJson(players.get(0));
-        }
         return gson.toJson(players);
     }
 
     public String getPlayersByUUIDAsJson(UUID playerUuid) {
         List<PlayerRecord> players = getPlayersByUUID(playerUuid);
-        if (players.size() == 1) {
-            return gson.toJson(players.get(0));
-        }
         return gson.toJson(players);
     }
 

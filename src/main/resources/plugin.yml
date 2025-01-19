@@ -1,8 +1,8 @@
 name: BasePlugin
-version: 2.7.2
+version: 2.7.3
 main: fun.xd.suka.Main
 description: Encoded by Blue Millennium
-authors: [SukaXD, Suisuroru]
+authors: [ SukaXD, Suisuroru ]
 
 commands:
   kill:
