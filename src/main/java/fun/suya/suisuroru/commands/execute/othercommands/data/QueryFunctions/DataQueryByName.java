@@ -1,12 +1,12 @@
 package fun.suya.suisuroru.commands.execute.othercommands.data.QueryFunctions;
 
 import fun.suya.suisuroru.data.AuthData.DataGet;
-import fun.suya.suisuroru.data.AuthData.DataProcess;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import static fun.suya.suisuroru.commands.execute.othercommands.data.QueryFunctions.DataQueryByUUID.ProcessFinalData;
 import static fun.xd.suka.Main.LOGGER;
 
 public class DataQueryByName implements CommandExecutor {
@@ -25,12 +25,6 @@ public class DataQueryByName implements CommandExecutor {
             return false;
         }
         String playerJson = dataGet.getPlayersByNameAsJson(Name);
-        if (!playerJson.isEmpty() && !playerJson.equals("[]")) {
-            sender.sendMessage(DataProcess.processData(playerJson));
-            return true;
-        } else {
-            sender.sendMessage("查询的数据不存在");
-            return false;
-        }
+        return ProcessFinalData(sender, playerJson);
     }
 }
