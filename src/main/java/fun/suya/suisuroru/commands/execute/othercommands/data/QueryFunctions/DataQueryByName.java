@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.suya.suisuroru.commands.execute.othercommands.data.QueryFunctions.DataQueryByUUID.ProcessFinalData;
+import static fun.suya.suisuroru.data.AuthData.DataProcess.ProcessFinalData;
 import static fun.xd.suka.Main.LOGGER;
 
 public class DataQueryByName implements CommandExecutor {

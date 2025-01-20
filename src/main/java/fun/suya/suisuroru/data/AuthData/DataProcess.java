@@ -1,6 +1,12 @@
 package fun.suya.suisuroru.data.AuthData;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 public class DataProcess {
 
@@ -26,4 +32,27 @@ public class DataProcess {
             result.append(label).append(value).append("\n");
         }
     }
+
+    public static boolean ProcessFinalData(@NotNull CommandSender sender, String playerJson) {
+        if (!playerJson.isEmpty() && !playerJson.equals("[]")) {
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<Object>>() {
+            }.getType();
+            List<Object> playerList = gson.fromJson(playerJson, listType);
+            int Count = 1;
+            sender.sendMessage("§a---------------");
+            sender.sendMessage("§a查询到" + playerList.size() + "个玩家数据");
+            sender.sendMessage("§a---------------");
+            for (Object player : playerList) {
+                sender.sendMessage("§a第" + Count++ + "个玩家数据");
+                String processedData = DataProcess.processData(gson.toJson(player));
+                sender.sendMessage(processedData);
+                sender.sendMessage("§a---------------");
+            }
+        } else {
+            sender.sendMessage("查询的数据不存在");
+        }
+        return true;
+    }
+
 }
