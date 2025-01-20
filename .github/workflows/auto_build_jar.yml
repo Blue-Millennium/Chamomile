@@ -45,6 +45,11 @@ jobs:
           body: |
             此预发布版本由Github Action自动构建。
             请注意，此版本为测试版，并不代表最终版本。
+            ### 最后一次提交信息
+            #### 提交SHA:
+            ${{ github.sha }}
+            #### 提交消息:
+            ${{ github.event.head_commit.message }}
           draft: false
           prerelease: true
         continue-on-error: true
@@ -87,12 +92,23 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew shadowJar
 
-      - name: Rename and Upload JAR file
-        id: rename_and_upload
+      - name: Rename JAR file
+        id: rename_file
         run: |
-          TARGET_JAR="BasePlugin-${{ env.VERSION }}.jar"
+          TARGET_JAR="BasePlugin-${{ env.VERSION }}"
           SOURCE_JAR=$(find run/plugins -name "*.jar" -print -quit)
-          mv "${SOURCE_JAR}" "${TARGET_JAR}"
-          gh release upload newest-build ${TARGET_JAR}
+          echo "FINAL_JAR_NAME=${TARGET_JAR}" >> $GITHUB_ENV
+          mv "${SOURCE_JAR}" "${TARGET_JAR}.jar"
+
+      - name: Archive Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.FINAL_JAR_NAME }}
+          path: ${{ env.FINAL_JAR_NAME }}.jar
+
+      - name: Upload JAR file
+        id: upload_file
+        run: |
+          gh release upload newest-build ${{ env.FINAL_JAR_NAME }}.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
