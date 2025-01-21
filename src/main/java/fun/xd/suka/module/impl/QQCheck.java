@@ -28,7 +28,7 @@ public class QQCheck extends Module implements Listener {
     }
 
     public static void GroupCheck(GroupMessageEvent event, MessageChainBuilder builder) {
-        if (Config.qqCheckEnabled) {
+        if (Config.QQCheckEnabled) {
             int code = -1;
             try {
                 code = Integer.parseInt(builder.build().contentToString().replace(Config.QQCheckStartWord, ""));
@@ -72,7 +72,7 @@ public class QQCheck extends Module implements Listener {
         Main.INSTANCE.eventChannel.subscribeAlways(FriendMessageEvent.class, event -> {
             String message = event.getMessage().contentToString();
 
-            if (Config.qqCheckEnabled) {
+            if (Config.QQCheckEnabled) {
                 int code = -1;
                 try {
                     code = Integer.parseInt(message);
@@ -90,7 +90,7 @@ public class QQCheck extends Module implements Listener {
             return;
         }
 
-        if (Config.qqCheckEnabled) {
+        if (Config.QQCheckEnabled) {
             Data data = Main.INSTANCE.dataManager.getPlayerData(event.getUniqueId());
             // 首次登录
             if (data == null) {
@@ -113,7 +113,7 @@ public class QQCheck extends Module implements Listener {
                 playerCodeMap.put(playerData, code);
 
                 // 拒绝加入服务器
-                event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.disTitle.replace("%CODE%", String.valueOf(code)));
+                event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.DisTitle.replace("%CODE%", String.valueOf(code)));
                 return;
             }
 

@@ -34,7 +34,7 @@ public class LocalCache {
         newData.put("time", pair.getTime().toString());
         Object serverData;
         if (pair.getSourceServer().equals("Local")) {
-            serverData = Config.servername;
+            serverData = Config.ServerName;
         } else {
             serverData = pair.getSourceServer();
         }

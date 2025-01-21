@@ -27,7 +27,7 @@ public class Reporter extends Module implements Listener {
 
     @Override
     public void onEnable() {
-        reportGroup = Main.INSTANCE.BOT.getGroup(Config.reportGroup);
+        reportGroup = Main.INSTANCE.BOT.getGroup(Config.ReportGroup);
 
         if (reportGroup == null) {
             LOGGER.warning("Failed to get report group");
@@ -45,9 +45,9 @@ public class Reporter extends Module implements Listener {
         IpLocationResponse response = IpinfoUtil.getIpinfoCN(ip);
 
         if (response != null) {
-            builder.append(Config.reportMessage.replace("%NAME%", event.getName()).replace("%IP%", ip).replace("%IPINFO%", response.nation + " " + response.subdivision_1_name + " " + response.subdivision_2_name + " " + response.isp).replace("%RESULT%", event.getLoginResult().toString()));
+            builder.append(Config.ReportMessage.replace("%NAME%", event.getName()).replace("%IP%", ip).replace("%IPINFO%", response.nation + " " + response.subdivision_1_name + " " + response.subdivision_2_name + " " + response.isp).replace("%RESULT%", event.getLoginResult().toString()));
         } else {
-            builder.append(Config.reportMessage.replace("%NAME%", event.getName()).replace("%IP%", ip).replace("%IPINFO%", "").replace("%RESULT%", event.getLoginResult().toString()));
+            builder.append(Config.ReportMessage.replace("%NAME%", event.getName()).replace("%IP%", ip).replace("%IPINFO%", "").replace("%RESULT%", event.getLoginResult().toString()));
         }
 
         reportGroup.sendMessage(builder.build());

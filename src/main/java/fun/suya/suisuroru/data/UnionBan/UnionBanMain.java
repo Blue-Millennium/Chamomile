@@ -46,7 +46,7 @@ public class UnionBanMain {
     public static ArrayList<BanPair<UUID, String, Date, String>> loadRemoteBanList() {
         ArrayList<BanPair<UUID, String, Date, String>> banList = new ArrayList<>();
         // 确保 URL 格式正确
-        String webhookUrl = Webhook4Email.ensureValidUrl(Config.webhookUrl);
+        String webhookUrl = Webhook4Email.ensureValidUrl(Config.WebhookUrl);
 
         try {
             // 创建 HttpClient 实例

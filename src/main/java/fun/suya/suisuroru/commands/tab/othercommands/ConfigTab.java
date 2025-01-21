@@ -1,6 +1,5 @@
 package fun.suya.suisuroru.commands.tab.othercommands;
 
-import fun.suya.suisuroru.config.ConfigKeys;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -9,6 +8,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static fun.suya.suisuroru.config.ConfigManager.getConfigFieldNames;
 
 /**
  * @author Suisuroru
@@ -26,7 +27,7 @@ public class ConfigTab implements TabCompleter {
             completions.add("set");
         } else if (args.length == 2) {
             if (args[0].equals("query") || args[0].equals("set")) {
-                completions.addAll(ConfigKeys.configKeysList.keySet());
+                completions.addAll(getConfigFieldNames());
             }
         }
         return completions;

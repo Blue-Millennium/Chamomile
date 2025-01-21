@@ -88,7 +88,7 @@ public class RconPreCheck extends Module implements Listener {
         try {
             if (result != null && !result[0].isEmpty()) {
                 MessageChainBuilder message = new MessageChainBuilder();
-                message.append(new PlainText(Config.servername + "Console command result: \n"))
+                message.append(new PlainText(Config.ServerName + "Console command result: \n"))
                         .append(result[0]);
                 String PREFIX = "[BasePlugin Report]\n已查询到以下数据，下面的数据将按照以下顺序排列\n";
                 if (!result[1].isEmpty() && result[1].startsWith(PREFIX)) {
@@ -101,12 +101,12 @@ public class RconPreCheck extends Module implements Listener {
                 event.getGroup().sendMessage(message.build());
             } else {
                 event.getGroup().sendMessage(new MessageChainBuilder()
-                        .append(new PlainText(Config.servername + "No result from console command."))
+                        .append(new PlainText(Config.ServerName + "No result from console command."))
                         .build());
             }
         } catch (Exception e) {
             event.getGroup().sendMessage(new MessageChainBuilder()
-                    .append(new PlainText(Config.servername + "\n[ERROR] " + e.getMessage()))
+                    .append(new PlainText(Config.ServerName + "\n[ERROR] " + e.getMessage()))
                     .build());
         }
     }
