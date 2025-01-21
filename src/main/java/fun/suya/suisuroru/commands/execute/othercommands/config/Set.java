@@ -46,8 +46,6 @@ public class Set implements CommandExecutor {
 
         try {
             configManager.setConfigValue(configName, value);
-            configManager.save();
-            configManager.load();
             sender.sendMessage("§a配置项 " + configName + " 已成功设置为 " + value);
         } catch (Exception e) {
             sender.sendMessage("§c修改配置项 " + configName + " 的值时出错，请检查配置文件或联系开发人员。");
