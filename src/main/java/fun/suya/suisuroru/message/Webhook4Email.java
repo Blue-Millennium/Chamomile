@@ -32,7 +32,7 @@ public class Webhook4Email {
     public void sendWebhookData(Data data) {
         try {
             // 确保 URL 格式正确
-            String webhookUrl = ensureValidUrl(Config.webhookUrl);
+            String webhookUrl = ensureValidUrl(Config.WebhookUrl);
 
             // 创建 HttpClient 实例
             HttpClient httpClient = HttpClient.newHttpClient();
@@ -73,7 +73,7 @@ public class Webhook4Email {
      * @param content 邮件内容
      */
     public void formatAndSendWebhook(String subject, String content) {
-        Data data = new Data("来自" + Config.servername + "的信息：\n" + content, subject);
+        Data data = new Data("来自" + Config.ServerName + "的信息：\n" + content, subject);
         sendWebhookData(data);
     }
 

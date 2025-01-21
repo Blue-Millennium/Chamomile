@@ -46,8 +46,8 @@ public class Main extends JavaPlugin implements Listener {
             LOGGER = INSTANCE.getLogger();
         }
 
-        dataManager = new DataManager();
         configManager = new ConfigManager();
+        dataManager = new DataManager();
         moduleManager = new ModuleManager();
 
         if (!BASE_DIR.exists()) {
@@ -88,7 +88,7 @@ public class Main extends JavaPlugin implements Listener {
 
         LoggerAdapters.useLog4j2(); // 使用 Log4j2 作为日志记录器
         if (Config.QQRobotEnabled) {
-            BOT = BotBuilder.positive(Config.botWsUrl).token(Config.botWsToken).connect(); // 连接 LLOneBot
+            BOT = BotBuilder.positive(Config.BotWsUrl).token(Config.BotWsToken).connect(); // 连接 LLOneBot
             eventChannel = GlobalEventChannel.INSTANCE;
             if (BOT == null) {
                 LOGGER.warning("Failed to get bot instance");

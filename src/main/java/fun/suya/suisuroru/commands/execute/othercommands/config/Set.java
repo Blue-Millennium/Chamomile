@@ -1,14 +1,12 @@
 package fun.suya.suisuroru.commands.execute.othercommands.config;
 
-import fun.suya.suisuroru.config.ConfigKeys;
 import fun.suya.suisuroru.config.ConfigManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
-
+import static fun.suya.suisuroru.config.ConfigManager.getConfigFieldNames;
 import static fun.xd.suka.Main.LOGGER;
 
 /**
@@ -17,7 +15,6 @@ import static fun.xd.suka.Main.LOGGER;
  * function: Set new config
  */
 public class Set implements CommandExecutor {
-    private static final Map<String, ConfigKeys> CONFIG_KEYS_MAP = ConfigKeys.configKeysList;
     ConfigManager configManager = new ConfigManager();
 
     @Override
@@ -33,7 +30,7 @@ public class Set implements CommandExecutor {
             } else if (command.getName().equals("baseplugin")) {
                 sender.sendMessage("§c/baseplugin config set [修改参数] [修改值]");
             }
-            String allConfigNames = String.join("|", CONFIG_KEYS_MAP.keySet());
+            String allConfigNames = String.join("|", getConfigFieldNames());
             sender.sendMessage("§a所有配置项名称: " + allConfigNames);
             return true;
         }
@@ -42,14 +39,13 @@ public class Set implements CommandExecutor {
         String value = args[1];
 
         // 检查配置项是否存在
-        if (!CONFIG_KEYS_MAP.containsKey(configName)) {
+        if (!getConfigFieldNames().contains(configName)) {
             sender.sendMessage("§c配置项 " + configName + " 不存在，请检查拼写");
             return true;
         }
 
-        ConfigKeys key = CONFIG_KEYS_MAP.get(configName);
         try {
-            configManager.setConfigValue(key, value);
+            configManager.setConfigValue(configName, value);
             configManager.save();
             configManager.load();
             sender.sendMessage("§a配置项 " + configName + " 已成功设置为 " + value);

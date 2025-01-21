@@ -42,7 +42,7 @@ public class LoadBanlist implements Listener {
                                 BanMessage(message);
                             }
                         } else if ("Ban".equals(data.getSourceServer())) {
-                            data.changeSource(Config.servername);
+                            data.changeSource(Config.ServerName);
                             boolean result = Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "minecraft:ban " + data.getUUID() + " " + data.getReason() + "-Banned by " + data.getSourceServer());
                             if (result) {
                                 String message;

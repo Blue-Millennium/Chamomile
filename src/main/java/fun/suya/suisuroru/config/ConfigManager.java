@@ -7,27 +7,40 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
-import static fun.suya.suisuroru.config.Config.QQCheckStartWord;
 import static fun.xd.suka.Main.LOGGER;
 
 /**
  * @author Suisuroru
  * Date: 2024/10/14 23:41
- * function: Manage config, rewrited by Suisuroru in 241014
- * additon: Config:代码层名字; ConfigKeys:配置项名字;
- * 由于遇到一些问题，两个配置文件暂时无法合并
+ * function: Manage config, rewrote by Suisuroru in 250121
  */
 public class ConfigManager {
-    private static final Map<String, String> configMapping = ConfigRemap.configMapping;
+
+    public static List<String> getConfigFieldNames() {
+        Field[] fields = Config.class.getDeclaredFields();
+        List<String> fieldNames = new ArrayList<>();
+        for (Field field : fields) {
+            fieldNames.add(field.getName());
+        }
+        return fieldNames;
+    }
 
     private static @NotNull Properties getDefaultProperties() {
         Properties properties = new Properties();
+        List<String> fieldNames = getConfigFieldNames();
 
-        for (ConfigKeys key : ConfigKeys.values()) {
-            properties.setProperty(key.name(), key.getDefaultValue().toString());
+        for (String fieldName : fieldNames) {
+            try {
+                Field field = Config.class.getDeclaredField(fieldName);
+                field.setAccessible(true);
+                properties.setProperty(fieldName, field.get(null).toString());
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                LOGGER.warning("Failed to get default config value for " + fieldName + ": " + e.getMessage());
+            }
         }
 
         return properties;
@@ -35,16 +48,13 @@ public class ConfigManager {
 
     private static @NotNull Properties getProperties() {
         Properties properties = new Properties();
-
-        // 遍历 Config 类中的所有字段，并将它们的值保存到 Properties 对象中
-        for (Map.Entry<String, String> entry : configMapping.entrySet()) {
-            String fieldName = null;
+        List<String> fieldNames = getConfigFieldNames();
+        for (String fieldName : fieldNames) {
             try {
-                String key = entry.getKey();
-                fieldName = entry.getValue();
-                Object value = getValueFromConfig(fieldName);
-                properties.setProperty(key, value.toString());
-            } catch (Exception e) {
+                Field field = Config.class.getDeclaredField(fieldName);
+                field.setAccessible(true);
+                properties.setProperty(fieldName, field.get(null).toString());
+            } catch (NoSuchFieldException | IllegalAccessException e) {
                 LOGGER.warning("Failed to get config value for " + fieldName + ": " + e.getMessage());
             }
         }
@@ -52,42 +62,62 @@ public class ConfigManager {
         return properties;
     }
 
-    private static Object getValueFromConfig(String fieldName) {
-        try {
-            Field field = Config.class.getDeclaredField(fieldName);
-            field.setAccessible(true);
-            return field.get(null);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException("Failed to get config value for " + fieldName, e);
-        }
-    }
-
     public void load() {
-        try (FileReader reader = new FileReader(Main.INSTANCE.CONFIG_FILE)) {
+        try (FileReader reader = new FileReader(Main.CONFIG_FILE)) {
             Properties properties = new Properties();
             properties.load(reader);
-            Properties defaultProperties = getDefaultProperties();
+            LOGGER.info("Loaded config file: " + Main.CONFIG_FILE.getAbsolutePath());
 
-            for (ConfigKeys key : ConfigKeys.values()) {
-                // 尝试从配置文件中获取值，如果没有找到，则使用默认值
-                String value = properties.getProperty(key.name(), defaultProperties.getProperty(key.name()));
-                setConfigValue(key, value);
+            Properties defaultProperties = getDefaultProperties();
+            List<String> fieldNames = getConfigFieldNames();
+
+            for (String fieldName : fieldNames) {
+                try {
+                    Field field = Config.class.getDeclaredField(fieldName);
+                    field.setAccessible(true);
+                    String value = properties.getProperty(fieldName);
+                    if (value == null) {
+                        value = defaultProperties.getProperty(fieldName);
+                        LOGGER.info("Using default value for " + fieldName + ": " + value);
+                    } else {
+                        LOGGER.info("Setting config value for " + fieldName + ": " + value);
+                    }
+                    Object parsedValue = parseValue(field.getType(), value);
+                    field.set(null, convertToFieldType(field.getType(), parsedValue));
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    LOGGER.warning("Failed to set config value for " + fieldName + ": " + e.getMessage());
+                }
             }
 
             save();
 
-        } catch (Exception exception) {
-            LOGGER.warning("Failed to load config: " + exception.getMessage());
+        } catch (IOException e) {
+            LOGGER.warning("Failed to load config file " + Main.CONFIG_FILE.getAbsolutePath() + ": " + e.getMessage());
+            LOGGER.info("Using default config values.");
             save();
         }
     }
 
-    public void setConfigValue(ConfigKeys key, String value) {
+    private Object convertToFieldType(Class<?> fieldType, Object value) {
+        if (fieldType == boolean.class || fieldType == Boolean.class) {
+            return Boolean.parseBoolean(value.toString());
+        } else if (fieldType == int.class || fieldType == Integer.class) {
+            return Integer.parseInt(value.toString());
+        } else if (fieldType == long.class || fieldType == Long.class) {
+            return Long.parseLong(value.toString());
+        } else {
+            return value;
+        }
+    }
+
+    public void setConfigValue(String fieldName, String value) {
         try {
-            Object parsedValue = parseValue(key.getType(), value);
-            setConfigField(key, parsedValue);
+            Field field = Config.class.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            Object parsedValue = parseValue(field.getType(), value);
+            field.set(null, parsedValue);
         } catch (Exception e) {
-            LOGGER.warning("Failed to parse config value for " + key.name() + ": " + e.getMessage());
+            LOGGER.warning("Failed to parse config value for " + fieldName + ": " + e.getMessage());
         }
     }
 
@@ -98,46 +128,10 @@ public class ConfigManager {
         else return value;
     }
 
-    private void setConfigField(ConfigKeys key, Object value) {
-        switch (key) {
-            case VanillaCommandsRewritten -> Config.VanillaCommandsRewritten = (Boolean) value;
-            case QQCheckEnabled -> Config.qqCheckEnabled = (Boolean) value;
-            case SyncChatEnabled -> Config.syncChatEnabled = (Boolean) value;
-            case SyncChatEnabledQ2SOnly -> Config.SyncChatEnabledQ2SOnly = (Boolean) value;
-            case BotWsUrl -> Config.botWsUrl = (String) value;
-            case BotWsToken -> Config.botWsToken = (String) value;
-            case SyncChatGroup -> Config.syncChatGroup = (Long) value;
-            case ReportGroup -> Config.reportGroup = (Long) value;
-            case JoinServerMessage -> Config.joinServerMessage = (String) value;
-            case LeaveServerMessage -> Config.leaveServerMessage = (String) value;
-            case SayServerMessage -> Config.sayServerMessage = (String) value;
-            case SayQQMessage -> Config.sayQQMessage = (String) value;
-            case ReportMessage -> Config.reportMessage = (String) value;
-            case DisTitle -> Config.disTitle = (String) value;
-            case WebhookUrl -> Config.webhookUrl = (String) value;
-            case ServerName -> Config.servername = (String) value;
-            case RconEnabled -> Config.RconEnabled = (Boolean) value;
-            case ExecuteCommandPrefix -> Config.ExecuteCommandPrefix = (String) value;
-            case RconEnabledGroups -> Config.RconEnabledGroups = (String) value;
-            case RconIP -> Config.RconIP = (String) value;
-            case RconPort -> Config.RconPort = (Integer) value;
-            case RconPassword -> Config.RconPassword = (String) value;
-            case RconEnforceOperator -> Config.RconEnforceOperator = (Boolean) value;
-            case QQRobotEnabled -> Config.QQRobotEnabled = (Boolean) value;
-            case UnionBanEnabled -> Config.UnionBanEnabled = (Boolean) value;
-            case UnionBanCheckOnly -> Config.UnionBanCheckOnly = (Boolean) value;
-            case UnionBanCheckUrl -> Config.UnionBanCheckUrl = (String) value;
-            case UnionBanReportUrl -> Config.UnionBanReportUrl = (String) value;
-            case UnionBanReportKey -> Config.UnionBanReportKey = (String) value;
-            case QQCheckStartWord -> QQCheckStartWord = (String) value;
-        }
-
-    }
-
     public void save() {
-        if (!Main.INSTANCE.CONFIG_FILE.exists()) {
+        if (!Main.CONFIG_FILE.exists()) {
             try {
-                if (!Main.INSTANCE.CONFIG_FILE.createNewFile()) {
+                if (!Main.CONFIG_FILE.createNewFile()) {
                     LOGGER.warning("Failed to create config file");
                 }
             } catch (IOException e) {
@@ -145,9 +139,10 @@ public class ConfigManager {
             }
         }
 
-        try (FileWriter writer = new FileWriter(Main.INSTANCE.CONFIG_FILE)) {
+        try (FileWriter writer = new FileWriter(Main.CONFIG_FILE)) {
             Properties properties = getProperties();
             properties.store(writer, null);
+            LOGGER.info("Saved config file: " + Main.CONFIG_FILE.getAbsolutePath());
         } catch (IOException e) {
             LOGGER.warning("Failed to save config " + e.getMessage());
         }

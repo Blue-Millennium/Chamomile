@@ -26,8 +26,8 @@ public class Ban implements CommandExecutor {
         Bukkit.broadcastMessage("本地黑名单: " + message);
         try {
             if (Config.QQRobotEnabled) {
-                Main.BOT.getGroup(Config.syncChatGroup).sendMessage(message);
-                Main.BOT.getGroup(Config.reportGroup).sendMessage(message);
+                Main.BOT.getGroup(Config.SyncChatGroup).sendMessage(message);
+                Main.BOT.getGroup(Config.ReportGroup).sendMessage(message);
             }
         } catch (Exception e) {
             Main.LOGGER.info("Error when report message to QQ group");
@@ -75,7 +75,7 @@ public class Ban implements CommandExecutor {
         String message = "玩家 " + targetPlayer.getName() + " 已被 " + sender.getName() + " 以[ " + reason + " ]的理由封禁";
         BanMessage(message);
         if (!Config.UnionBanCheckOnly) {
-            reportBanData(new UnionBanMain.BanPair<>(targetPlayer.getUniqueId(), reason, new Date(), Config.servername));
+            reportBanData(new UnionBanMain.BanPair<>(targetPlayer.getUniqueId(), reason, new Date(), Config.ServerName));
         }
     }
 }

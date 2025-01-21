@@ -24,17 +24,17 @@ public class SyncChat extends Module implements Listener {
 
     @Override
     public void onEnable() {
-        syncGroup = Main.INSTANCE.BOT.getGroup(Config.syncChatGroup);
+        syncGroup = Main.INSTANCE.BOT.getGroup(Config.SyncChatGroup);
 
         if (syncGroup == null) {
             LOGGER.warning("Failed to get sync group");
-            Config.syncChatEnabled = false;
+            Config.SyncChatEnabled = false;
             Main.INSTANCE.configManager.save();
             return;
         }
 
         Main.INSTANCE.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
-            if (!Config.syncChatEnabled || event.getGroup() != syncGroup) {
+            if (!Config.SyncChatEnabled || event.getGroup() != syncGroup) {
                 return;
             }
 
@@ -48,7 +48,7 @@ public class SyncChat extends Module implements Listener {
             }
 
             if (!builder.isEmpty()) {
-                Main.INSTANCE.getServer().broadcastMessage(Config.sayQQMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()));
+                Main.INSTANCE.getServer().broadcastMessage(Config.SayQQMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()));
                 if (builder.build().contentToString().startsWith(Config.QQCheckStartWord)) {
                     QQCheck.GroupCheck(event, builder);
                 }
@@ -58,22 +58,22 @@ public class SyncChat extends Module implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (Config.syncChatEnabled || !Config.SyncChatEnabledQ2SOnly) {
-            syncGroup.sendMessage(Config.joinServerMessage.replace("%NAME%", event.getPlayer().getName()));
+        if (Config.SyncChatEnabled || !Config.SyncChatEnabledQ2SOnly) {
+            syncGroup.sendMessage(Config.JoinServerMessage.replace("%NAME%", event.getPlayer().getName()));
         }
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        if (Config.syncChatEnabled || !Config.SyncChatEnabledQ2SOnly) {
-            syncGroup.sendMessage(Config.leaveServerMessage.replace("%NAME%", event.getPlayer().getName()));
+        if (Config.SyncChatEnabled || !Config.SyncChatEnabledQ2SOnly) {
+            syncGroup.sendMessage(Config.LeaveServerMessage.replace("%NAME%", event.getPlayer().getName()));
         }
     }
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
-        if (Config.syncChatEnabled || !Config.SyncChatEnabledQ2SOnly) {
-            syncGroup.sendMessage(Config.sayServerMessage.replace("%NAME%", event.getPlayer().getName()).replace("%MESSAGE%", event.getMessage()));
+        if (Config.SyncChatEnabled || !Config.SyncChatEnabledQ2SOnly) {
+            syncGroup.sendMessage(Config.SayServerMessage.replace("%NAME%", event.getPlayer().getName()).replace("%MESSAGE%", event.getMessage()));
         }
     }
 }
