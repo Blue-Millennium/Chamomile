@@ -48,7 +48,7 @@ jobs:
             echo "SKIP_BUILD=false" >> $GITHUB_ENV
           fi
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check if commit message contains [skip]
         id: check_skip
@@ -107,4 +107,4 @@ jobs:
           prerelease: true
           generateReleaseNotes: true
           artifacts: ${{ env.FINAL_JAR_NAME }}.jar
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
