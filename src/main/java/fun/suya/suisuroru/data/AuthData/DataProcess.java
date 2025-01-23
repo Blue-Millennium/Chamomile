@@ -6,23 +6,28 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class DataProcess {
 
     public static String processData(String jsonData) {
         Gson gson = new Gson();
-        AuthData authData = gson.fromJson(jsonData, AuthData.class);
+        PlayerRecord playerRecord = gson.fromJson(jsonData, PlayerRecord.class);
         StringBuilder result = new StringBuilder();
 
-        appendIfNotNull(result, "玩家名称: ", authData.playerData().playerName());
-        appendIfNotNull(result, "玩家UUID: ", authData.playerData().playerUuid());
-        appendIfNotNull(result, "首次加入时间: ", authData.firstJoin());
-        appendIfNotNull(result, "最后加入时间: ", authData.lastJoin());
-        appendIfNotNull(result, "QQ号码: ", authData.qqNumber());
-        appendIfNotNull(result, "绑定时间: ", authData.linkedTime());
-        appendIfNotNull(result, "首次加入IP: ", authData.firstJoinIp());
-        appendIfNotNull(result, "最后加入IP: ", authData.lastJoinIp());
+        appendIfNotNull(result, "玩家名称: ", playerRecord.playerData().playerName());
+        appendIfNotNull(result, "玩家UUID: ", playerRecord.playerData().playerUuid());
+        appendIfNotNull(result, "首次加入时间: ", transferTime(playerRecord.firstJoin()));
+        appendIfNotNull(result, "首次加入时间(原始): ", playerRecord.firstJoin());
+        appendIfNotNull(result, "最后加入时间: ", transferTime(playerRecord.lastJoin()));
+        appendIfNotNull(result, "最后加入时间(原始): ", playerRecord.lastJoin());
+        appendIfNotNull(result, "QQ号码: ", playerRecord.qqNumber());
+        appendIfNotNull(result, "绑定时间: ", playerRecord.linkedTime());
+        appendIfNotNull(result, "首次加入IP: ", playerRecord.firstJoinIp());
+        appendIfNotNull(result, "最后加入IP: ", playerRecord.lastJoinIp());
 
         return result.toString();
     }
@@ -40,19 +45,30 @@ public class DataProcess {
             }.getType();
             List<Object> playerList = gson.fromJson(playerJson, listType);
             int Count = 1;
-            sender.sendMessage("§a---------------");
-            sender.sendMessage("§a查询到" + playerList.size() + "个玩家数据");
-            sender.sendMessage("§a---------------");
+            StringBuilder result = new StringBuilder();
+            result.append("\n");
+            appendIfNotNull(result, "§a", "-------------------");
+            appendIfNotNull(result, "§a", "查询到" + playerList.size() + "个玩家数据");
+            appendIfNotNull(result, "§a", "-------------------");
             for (Object player : playerList) {
-                sender.sendMessage("§a第" + Count++ + "个玩家数据");
+                appendIfNotNull(result, "§a", "第" + Count++ + "个玩家数据");
                 String processedData = DataProcess.processData(gson.toJson(player));
-                sender.sendMessage(processedData);
-                sender.sendMessage("§a---------------");
+                appendIfNotNull(result, "§a", processedData);
+                appendIfNotNull(result, "§a", "-------------------");
             }
+            sender.sendMessage(result.toString());
         } else {
             sender.sendMessage("查询的数据不存在");
         }
         return true;
+    }
+
+    private static String transferTime(long timestamp) {
+        Date date = new Date(timestamp);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+        String transferredTime = sdf.format(date);
+        return transferredTime + "(GMT+8)";
     }
 
 }
