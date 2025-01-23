@@ -93,5 +93,6 @@ jobs:
           draft: false
           prerelease: true
           makeLatest: true
+          generateReleaseNotes: true
           artifacts: ${{ env.FINAL_JAR_NAME }}.jar
           token: ${{ secrets.GH_TOKEN }}
