@@ -39,10 +39,8 @@ jobs:
       - name: Check if tag exists
         id: check_tag
         run: |
-          OWNER=$(echo "${{ github.repository }}" | cut -d'/' -f1)
-          REPO=$(echo "${{ github.repository }}" | cut -d'/' -f2)
-          TAG_EXISTS=$(gh api -H "api.github.com" /repos/$OWNER/$REPO/git/refs/tags/${{ env.VERSION }} --jq '.ref' | wc -l)
-          if [ "$TAG_EXISTS" -eq 1 ]; then
+          git fetch --tags
+          if git show-ref --tags --quiet refs/tags/${{ env.VERSION }}; then
             echo "Tag exists"
             echo "SKIP_BUILD=true" >> $GITHUB_ENV
           else
