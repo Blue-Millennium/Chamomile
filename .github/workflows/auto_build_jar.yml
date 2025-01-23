@@ -92,5 +92,6 @@ jobs:
             > ${{ github.event.head_commit.message }}
           draft: false
           prerelease: true
-          files: ${{ env.FINAL_JAR_NAME }}.jar
+          makeLatest: true
+          artifacts: ${{ env.FINAL_JAR_NAME }}.jar
           token: ${{ secrets.GH_TOKEN }}
