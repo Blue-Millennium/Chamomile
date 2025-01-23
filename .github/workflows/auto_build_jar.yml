@@ -39,10 +39,9 @@ jobs:
       - name: Check if tag exists
         id: check_tag
         run: |
-          GITHUB_REPOSITORY="${{ github.repository }}"
-          OWNER=$(echo $GITHUB_REPOSITORY | cut -d'/' -f1)
-          REPO=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
-          TAG_EXISTS=$(curl -s -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/$OWNER/$REPO/git/refs/tags/${{ env.VERSION }} | jq -e '.ref' | wc -l)
+          OWNER=$(echo "${{ github.repository }}" | cut -d'/' -f1)
+          REPO=$(echo "${{ github.repository }}" | cut -d'/' -f2)
+          TAG_EXISTS=$(gh api -H "api.github.com" /repos/$OWNER/$REPO/git/refs/tags/${{ env.VERSION }} --jq '.ref' | wc -l)
           if [ "$TAG_EXISTS" -eq 1 ]; then
             echo "Tag exists"
             echo "SKIP_BUILD=true" >> $GITHUB_ENV
@@ -50,6 +49,8 @@ jobs:
             echo "Tag does not exist"
             echo "SKIP_BUILD=false" >> $GITHUB_ENV
           fi
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Update version in plugin.yml
         if: env.SKIP_BUILD == 'false'
