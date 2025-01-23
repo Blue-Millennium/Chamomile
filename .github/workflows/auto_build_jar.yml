@@ -52,6 +52,7 @@ jobs:
 
       - name: Check if commit message contains [skip]
         id: check_skip
+        if: env.SKIP_BUILD == 'false'
         run: |
           COMMIT_MESSAGE=$(git log -1 --pretty=%B)
           if [[ "$COMMIT_MESSAGE" == "[skip]"* ]]; then
@@ -96,11 +97,14 @@ jobs:
             ### 最后一次提交信息
             #### 提交SHA:
             > ${{ github.sha }}
+            #### 提交作者:
+            > ${{ github.event.head_commit.author.username }} 
+            #### 提交时间:
+            > ${{ github.event.head_commit.timestamp }}
             #### 提交消息:
             > ${{ github.event.head_commit.message }}
           draft: false
           prerelease: true
-          makeLatest: true
           generateReleaseNotes: true
           artifacts: ${{ env.FINAL_JAR_NAME }}.jar
           token: ${{ secrets.GH_TOKEN }}
