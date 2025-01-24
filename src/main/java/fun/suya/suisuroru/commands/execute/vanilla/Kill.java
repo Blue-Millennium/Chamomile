@@ -13,16 +13,16 @@ public class Kill implements CommandExecutor {
             sender.sendMessage("您没有权限这么做");
             return true;
         }
-        switch (args[0]) {
-            case "@e" -> {
-                if (args[1].isEmpty()) {
-                    Command.broadcastCommandMessage(sender, "§c拒绝执行清除全部实体，请指定具体实体类型");
-                    return true;
-                } else if (args[1].contains("type=!")) {
-                    Command.broadcastCommandMessage(sender, "§c拒绝执行清除多类型全部实体，请指定具体实体类型");
-                    return true;
-                }
+        if (args[0].startsWith("@e")) {
+            if (args[0].equals("@e")) {
+                Command.broadcastCommandMessage(sender, "§c拒绝执行清除全部实体，请指定具体实体类型");
+                return true;
+            } else if (String.join(" ", args).matches(".*?\\btype\\s*=\\s*!.*")) {
+                Command.broadcastCommandMessage(sender, "§c拒绝执行清除多类型全部实体，请指定具体实体类型");
+                return true;
             }
+        }
+        switch (args[0]) {
             case "@a" -> {
                 Command.broadcastCommandMessage(sender, "§c拒绝执行清除全部玩家，请选择其他具体实体类型");
                 return true;
@@ -38,6 +38,5 @@ public class Kill implements CommandExecutor {
                 return Bukkit.dispatchCommand(sender, "minecraft:kill " + String.join(" ", args));
             }
         }
-        return true;
     }
 }
