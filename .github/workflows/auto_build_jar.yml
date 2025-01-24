@@ -24,7 +24,7 @@ jobs:
 
       - name: Get current date
         id: get_date
-        run: echo "DATE=$(date +'%y%m%d')" >> $GITHUB_ENV
+        run: echo "DATE=$(TZ=Asia/Shanghai date +'%y%m%d')" >> $GITHUB_ENV
 
       - name: Get Git SHA
         id: get_sha
