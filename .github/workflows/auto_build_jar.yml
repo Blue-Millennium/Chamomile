@@ -56,9 +56,9 @@ jobs:
         run: |
           COMMIT_MESSAGE=$(git log -1 --pretty=%B)
           if [[ "$COMMIT_MESSAGE" == "[skip]"* ]]; then
-            echo "SKIP_UPLOAD=true" >> $GITHUB_ENV
+            echo "SKIP_RELEASE=true" >> $GITHUB_ENV
           else
-            echo "SKIP_UPLOAD=false" >> $GITHUB_ENV
+            echo "SKIP_RELEASE=false" >> $GITHUB_ENV
           fi
 
       - name: Update version in plugin.yml
@@ -86,7 +86,7 @@ jobs:
           path: ${{ env.FINAL_JAR_NAME }}.jar
 
       - name: Create Pre-Release and Upload JAR file
-        if: env.SKIP_UPLOAD == 'false' && env.SKIP_BUILD == 'false'
+        if: env.SKIP_RELEASE == 'false' && env.SKIP_BUILD == 'false'
         uses: ncipollo/release-action@v1.15.0
         with:
           tag: ${{ env.VERSION }}

@@ -23,6 +23,7 @@ public class KillTab implements TabCompleter {
             completions.add("@a");
             completions.add("@p");
             completions.add("@r");
+            completions.add("items");
         } else if (args.length == 2) {
             if (args[0].matches("@[earp]")) {
                 completions.add("sort=");
