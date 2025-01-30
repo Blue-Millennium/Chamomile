@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BanTab implements TabCompleter {
+public class Ban implements TabCompleter {
 
     public static List<String> getOnlinePlayerNames(CommandSender sender, String partialName) {
         List<String> playerNames = new ArrayList<>();

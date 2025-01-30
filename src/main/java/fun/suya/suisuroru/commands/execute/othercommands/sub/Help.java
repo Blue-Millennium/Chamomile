@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.commands.execute.othercommands;
+package fun.suya.suisuroru.commands.execute.othercommands.sub;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,6 +23,7 @@ public class Help implements CommandExecutor {
                 sender.sendMessage("§4查询举报记录:/baseplugin query-report");
                 sender.sendMessage("§4配置文件处理:使用/baseplugin config获取更多帮助");
                 sender.sendMessage("§4验证数据处理:使用/baseplugin data获取更多帮助");
+                sender.sendMessage("§4异常玩家kill:使用/baseplugin kill <玩家名>");
             } else if (!sender.isOp()) {
                 sender.sendMessage("§a举报玩家:/baseplugin report <玩家名> <原因>");
             }
@@ -33,6 +34,7 @@ public class Help implements CommandExecutor {
             sender.sendMessage("[管理员/控制台]查询举报记录:/baseplugin query-report");
             sender.sendMessage("[管理员/控制台]配置文件处理:使用/baseplugin config获取更多帮助");
             sender.sendMessage("[管理员/控制台]验证数据处理:使用/baseplugin data获取更多帮助");
+            sender.sendMessage("[管理员/控制台]异常玩家kill:使用/baseplugin kill <玩家名>");
         }
         return true;
     }

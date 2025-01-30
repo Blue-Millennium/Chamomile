@@ -1,5 +1,8 @@
 package fun.suya.suisuroru.commands.tab.othercommands;
 
+import fun.suya.suisuroru.commands.tab.othercommands.sub.Config;
+import fun.suya.suisuroru.commands.tab.othercommands.sub.Data;
+import fun.suya.suisuroru.commands.tab.othercommands.sub.Kill;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -15,13 +18,14 @@ import java.util.List;
  * Date: 2024/10/15 03:01
  * function: Provides tab completion for the baseplugin command
  */
-public class BasePluginTab implements TabCompleter {
+public class BasePlugin implements TabCompleter {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        ConfigTab config = new ConfigTab();
-        ConfigTab report = new ConfigTab();
-        DataTab data = new DataTab();
+        Config config = new Config();
+        Config report = new Config();
+        Data data = new Data();
+        Kill kill = new Kill();
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             completions.add("help");
@@ -29,6 +33,7 @@ public class BasePluginTab implements TabCompleter {
             completions.add("config");
             completions.add("data");
             completions.add("query-report");
+            completions.add("kill");
         } else if (args.length >= 2) {
             String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
             switch (args[0].toLowerCase()) {
@@ -42,6 +47,10 @@ public class BasePluginTab implements TabCompleter {
                 }
                 case "data": {
                     completions = data.onTabComplete(sender, command, label, subArgs);
+                    break;
+                }
+                case "kill": {
+                    completions = kill.onTabComplete(sender, command, label, subArgs);
                     break;
                 }
                 default: {

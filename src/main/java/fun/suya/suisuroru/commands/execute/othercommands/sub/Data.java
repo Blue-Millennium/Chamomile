@@ -1,6 +1,6 @@
-package fun.suya.suisuroru.commands.execute.othercommands;
+package fun.suya.suisuroru.commands.execute.othercommands.sub;
 
-import fun.suya.suisuroru.commands.execute.othercommands.data.Query;
+import fun.suya.suisuroru.commands.execute.othercommands.sub.data.Query;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-public class DataRoot implements CommandExecutor {
+public class Data implements CommandExecutor {
     Query query = new Query();
 
     @Override

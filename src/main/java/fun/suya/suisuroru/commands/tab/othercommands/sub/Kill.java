@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.commands.tab.othercommands;
+package fun.suya.suisuroru.commands.tab.othercommands.sub;
 
 import fun.suya.suisuroru.module.impl.OnlinePlayerListGet;
 import org.bukkit.command.Command;
@@ -10,12 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Suisuroru
- * Date: 2024/10/15 01:41
- * function: Provides tab completion for the report command
- */
-public class ReportTab implements TabCompleter {
+public class Kill implements TabCompleter {
 
     @Nullable
     @Override
@@ -24,9 +19,6 @@ public class ReportTab implements TabCompleter {
         if (args.length == 1) {
             // 返回所有在线玩家的名字
             completions.addAll(OnlinePlayerListGet.GetOnlinePlayerList());
-        } else if (args.length >= 2) {
-            // 不返回任何补全结果
-            return completions; // 返回空列表
         }
         return completions;
     }

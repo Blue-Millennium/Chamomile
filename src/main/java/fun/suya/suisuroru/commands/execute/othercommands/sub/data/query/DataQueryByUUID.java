@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.commands.execute.othercommands.data.QueryFunctions;
+package fun.suya.suisuroru.commands.execute.othercommands.sub.data.query;
 
 import fun.suya.suisuroru.data.AuthData.DataGet;
 import org.bukkit.command.Command;

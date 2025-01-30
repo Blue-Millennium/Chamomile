@@ -1,8 +1,8 @@
-package fun.suya.suisuroru.commands.execute.othercommands;
+package fun.suya.suisuroru.commands.execute.othercommands.sub;
 
-import fun.suya.suisuroru.commands.execute.othercommands.config.Query;
-import fun.suya.suisuroru.commands.execute.othercommands.config.Reload;
-import fun.suya.suisuroru.commands.execute.othercommands.config.Set;
+import fun.suya.suisuroru.commands.execute.othercommands.sub.config.Query;
+import fun.suya.suisuroru.commands.execute.othercommands.sub.config.Reload;
+import fun.suya.suisuroru.commands.execute.othercommands.sub.config.Set;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,7 +16,7 @@ import java.util.Arrays;
  * Date: 2024/10/14 22:41
  * function: Config settings
  */
-public class ConfigRoot implements CommandExecutor {
+public class Config implements CommandExecutor {
 
     Reload reload = new Reload();
     Query query = new Query();

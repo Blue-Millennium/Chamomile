@@ -9,9 +9,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.suya.suisuroru.commands.tab.vanilla.BanTab.getOnlinePlayerNames;
+import static fun.suya.suisuroru.commands.tab.vanilla.Ban.getOnlinePlayerNames;
 
-public class KillTab implements TabCompleter {
+public class Kill implements TabCompleter {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {

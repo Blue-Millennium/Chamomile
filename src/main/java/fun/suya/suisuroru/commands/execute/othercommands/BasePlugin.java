@@ -1,9 +1,6 @@
-package fun.suya.suisuroru.commands.execute;
+package fun.suya.suisuroru.commands.execute.othercommands;
 
-import fun.suya.suisuroru.commands.execute.othercommands.ConfigRoot;
-import fun.suya.suisuroru.commands.execute.othercommands.DataRoot;
-import fun.suya.suisuroru.commands.execute.othercommands.Help;
-import fun.suya.suisuroru.commands.execute.othercommands.ReportQuery;
+import fun.suya.suisuroru.commands.execute.othercommands.sub.*;
 import fun.xd.suka.command.ReportCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,13 +14,14 @@ import java.util.Arrays;
  * Date: 2024/9/28 13:43
  * function: Manager command in baseplugin
  */
-public class CommandManager implements CommandExecutor {
+public class BasePlugin implements CommandExecutor {
 
     ReportCommand report = new ReportCommand();
-    ConfigRoot config = new ConfigRoot();
+    Config config = new Config();
     ReportQuery query = new ReportQuery();
     Help help = new Help();
-    DataRoot data = new DataRoot();
+    Data data = new Data();
+    Kill kill = new Kill();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -56,6 +54,10 @@ public class CommandManager implements CommandExecutor {
             }
             case "data": {
                 data.onCommand(sender, command, label, subArgs);
+                break;
+            }
+            case "kill": {
+                kill.onCommand(sender, command, label, subArgs);
                 break;
             }
             default: {

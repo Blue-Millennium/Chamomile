@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.commands.execute.othercommands.config;
+package fun.suya.suisuroru.commands.execute.othercommands.sub.config;
 
 import fun.suya.suisuroru.config.Config;
 import org.bukkit.command.Command;

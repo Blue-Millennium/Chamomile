@@ -1,8 +1,8 @@
-package fun.suya.suisuroru.commands.execute.othercommands.data;
+package fun.suya.suisuroru.commands.execute.othercommands.sub.data;
 
-import fun.suya.suisuroru.commands.execute.othercommands.data.QueryFunctions.DataQueryByName;
-import fun.suya.suisuroru.commands.execute.othercommands.data.QueryFunctions.DataQueryByQQ;
-import fun.suya.suisuroru.commands.execute.othercommands.data.QueryFunctions.DataQueryByUUID;
+import fun.suya.suisuroru.commands.execute.othercommands.sub.data.query.DataQueryByName;
+import fun.suya.suisuroru.commands.execute.othercommands.sub.data.query.DataQueryByQQ;
+import fun.suya.suisuroru.commands.execute.othercommands.sub.data.query.DataQueryByUUID;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

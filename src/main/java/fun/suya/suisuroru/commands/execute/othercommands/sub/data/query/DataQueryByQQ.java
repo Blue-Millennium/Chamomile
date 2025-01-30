@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.commands.execute.othercommands.data.QueryFunctions;
+package fun.suya.suisuroru.commands.execute.othercommands.sub.data.query;
 
 import fun.suya.suisuroru.data.AuthData.DataGet;
 import org.bukkit.command.Command;
@@ -9,7 +9,8 @@ import org.jetbrains.annotations.NotNull;
 import static fun.suya.suisuroru.data.AuthData.DataProcess.ProcessFinalData;
 import static fun.xd.suka.Main.LOGGER;
 
-public class DataQueryByName implements CommandExecutor {
+public class DataQueryByQQ implements CommandExecutor {
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.isOp()) {
@@ -17,14 +18,17 @@ public class DataQueryByName implements CommandExecutor {
             return true;
         }
         DataGet dataGet = new DataGet();
-        String Name;
+        long QQNum = 0;
         try {
-            Name = args[0];
+            QQNum = Long.parseLong(args[0]);
+        } catch (NumberFormatException e) {
+            sender.sendMessage("§c输入的数据不是数字");
+            return true;
         } catch (Exception e) {
             LOGGER.info(String.valueOf(e));
             return true;
         }
-        String playerJson = dataGet.getPlayersByNameAsJson(Name);
+        String playerJson = dataGet.getPlayersByQQAsJson(QQNum);
         return ProcessFinalData(sender, playerJson);
     }
 }

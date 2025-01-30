@@ -1,5 +1,6 @@
-package fun.suya.suisuroru.commands.tab.othercommands;
+package fun.suya.suisuroru.commands.tab.othercommands.sub;
 
+import fun.suya.suisuroru.module.impl.OnlinePlayerListGet;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -9,26 +10,20 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.suya.suisuroru.config.ConfigManager.getConfigFieldNames;
-
 /**
  * @author Suisuroru
- * Date: 2024/10/18 22:11
- * function: Provides tab completion for the bpconfig command
+ * Date: 2024/10/15 01:41
+ * function: Provides tab completion for the report command
  */
-public class ConfigTab implements TabCompleter {
+public class Report implements TabCompleter {
+
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
-            completions.add("reload");
-            completions.add("query");
-            completions.add("set");
-        } else if (args.length == 2) {
-            if (args[0].equals("query") || args[0].equals("set")) {
-                completions.addAll(getConfigFieldNames());
-            }
+            // 返回所有在线玩家的名字
+            completions.addAll(OnlinePlayerListGet.GetOnlinePlayerList());
         }
         return completions;
     }

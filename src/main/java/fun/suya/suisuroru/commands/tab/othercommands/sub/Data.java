@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.commands.tab.othercommands;
+package fun.suya.suisuroru.commands.tab.othercommands.sub;
 
 import fun.suya.suisuroru.module.impl.OnlinePlayerListGet;
 import org.bukkit.command.Command;
@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataTab implements TabCompleter {
+public class Data implements TabCompleter {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
