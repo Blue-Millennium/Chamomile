@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -78,11 +79,7 @@ public class Webhook4Email {
      */
     public void formatAndSendWebhook(String subject, String content, String originEmail) {
         List<String> emailList = Arrays.asList(originEmail.split(";"));
-        String emailString = emailList.stream()
-                .map(email -> "\"" + email + "\"")
-                .collect(Collectors.joining(", ", "[", "]"));
-
-        Data data = new Data("来自" + Config.ServerName + "的信息：\n" + content, subject, emailString);
+        Data data = new Data("来自" + Config.ServerName + "的信息：\n" + content, subject, emailList);
         LOGGER.info("Webhook data: " + new Gson().toJson(data));
         sendWebhookData(data);
     }
@@ -93,9 +90,9 @@ public class Webhook4Email {
     static class Data {
         String content;
         String subject;
-        String email;
+        List email;
 
-        public Data(String content, String subject, String email) {
+        public Data(String content, String subject, List email) {
             this.content = content;
             this.subject = subject;
             this.email = email;
