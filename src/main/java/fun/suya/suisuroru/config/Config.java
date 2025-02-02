@@ -36,4 +36,5 @@ public class Config {
     public static String UnionBanReportUrl = "https://example.com";
     public static String UnionBanReportKey = "your_report_key";
     public static String QQCheckStartWord = "Check#";
+    public static String WebHookEmail = "email1@example.com;email2@example.com";
 }
