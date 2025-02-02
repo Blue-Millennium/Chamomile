@@ -105,6 +105,7 @@ jobs:
             > ${{ github.event.head_commit.message }}
           draft: false
           prerelease: true
+          makeLatest: true
           generateReleaseNotes: true
           artifacts: ${{ env.FINAL_JAR_NAME }}.jar
           token: ${{ secrets.GITHUB_TOKEN }}

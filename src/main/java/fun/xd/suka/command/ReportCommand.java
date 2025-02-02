@@ -63,7 +63,7 @@ public class ReportCommand implements CommandExecutor {
                         try {
                             String subject = "玩家举报-" + number;
                             Webhook4Email webhook4Email = new Webhook4Email();
-                            webhook4Email.formatAndSendWebhook(subject, content);
+                            webhook4Email.formatAndSendWebhook(subject, content, Config.WebHookEmail);
                         } catch (Exception e) {
                             sender.sendMessage("§c邮件发送失败");
                             LOGGER.warning(e.getMessage());
