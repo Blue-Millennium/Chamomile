@@ -2,7 +2,7 @@ package fun.xd.suka.command;
 
 import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.data.Report.ReportDataManager;
-import fun.suya.suisuroru.message.Webhook4Email;
+import fun.suya.suisuroru.message.WebhookForEmail;
 import fun.xd.suka.Main;
 import fun.xd.suka.module.impl.Reporter;
 import fun.xd.suka.util.TimeUtil;
@@ -62,8 +62,8 @@ public class ReportCommand implements CommandExecutor {
                         String content = builder.build().contentToString();
                         try {
                             String subject = "玩家举报-" + number;
-                            Webhook4Email webhook4Email = new Webhook4Email();
-                            webhook4Email.formatAndSendWebhook(subject, content, Config.WebHookEmail);
+                            WebhookForEmail webhookForEmail = new WebhookForEmail();
+                            webhookForEmail.formatAndSendWebhook(subject, content, Config.WebHookEmail);
                         } catch (Exception e) {
                             sender.sendMessage("§c邮件发送失败");
                             LOGGER.warning(e.getMessage());

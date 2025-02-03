@@ -9,8 +9,8 @@ public class DefaultMessages {
         try {
             String subject = "服务器关闭通知";
             String content = Config.ServerName + "服务器已关闭";
-            Webhook4Email webhook4Email = new Webhook4Email();
-            webhook4Email.formatAndSendWebhook(subject, content, Config.WebHookEmail);
+            WebhookForEmail webhookForEmail = new WebhookForEmail();
+            webhookForEmail.formatAndSendWebhook(subject, content, Config.WebHookEmail);
         } catch (Exception e) {
             LOGGER.warning(e.getMessage());
         }
@@ -20,8 +20,8 @@ public class DefaultMessages {
         try {
             String subject = "服务器启动通知";
             String content = Config.ServerName + "服务器已启动";
-            Webhook4Email webhook4Email = new Webhook4Email();
-            webhook4Email.formatAndSendWebhook(subject, content, Config.WebHookEmail);
+            WebhookForEmail webhookForEmail = new WebhookForEmail();
+            webhookForEmail.formatAndSendWebhook(subject, content, Config.WebHookEmail);
         } catch (Exception e) {
             LOGGER.warning(e.getMessage());
         }
