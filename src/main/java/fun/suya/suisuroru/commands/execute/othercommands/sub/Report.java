@@ -1,4 +1,4 @@
-package fun.xd.suka.command;
+package fun.suya.suisuroru.commands.execute.othercommands.sub;
 
 import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.data.Report.ReportDataManager;
@@ -21,7 +21,7 @@ import java.util.Objects;
 
 import static fun.xd.suka.Main.LOGGER;
 
-public class ReportCommand implements CommandExecutor {
+public class Report implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
