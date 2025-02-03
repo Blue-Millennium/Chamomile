@@ -78,7 +78,7 @@ public class RconPreCheck extends Module implements Listener {
                         return;
                     }
                 }
-                String[] result = executeRconCommand(Config.RconIP, Config.RconPort, command);
+                String[] result = executeRconCommand(Config.RconIP, Config.RconPort, Config.RconPassword, command);
                 handleConsoleResult(result, event);
             }
         });
