@@ -7,10 +7,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static fun.xd.suka.Main.LOGGER;
 
@@ -73,9 +71,9 @@ public class Webhook4Email {
     /**
      * 将邮件内容和主题封装为JSON格式并通过webhook发送。
      *
-     * @param subject 邮件主题
-     * @param content 邮件内容
-     * @param originEmail    发送邮件的邮箱地址
+     * @param subject     邮件主题
+     * @param content     邮件内容
+     * @param originEmail 发送邮件的邮箱地址
      */
     public void formatAndSendWebhook(String subject, String content, String originEmail) {
         List<String> emailList = Arrays.asList(originEmail.split(";"));

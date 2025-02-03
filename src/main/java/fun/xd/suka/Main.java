@@ -34,10 +34,25 @@ public class Main extends JavaPlugin implements Listener {
     public static File DATA_FILE = new File(BASE_DIR, "data.json");
     public static File CONFIG_FILE = new File(BASE_DIR, "config.properties");
     public static File REPORT_DATA_FILE = new File(BASE_DIR, "report.csv");
+    public static GlobalEventChannel eventChannel;
     public DataManager dataManager;
     public ConfigManager configManager;
     public ModuleManager moduleManager;
-    public GlobalEventChannel eventChannel;
+
+    public static void Boot_QQBot() {
+        if (BOT != null) {
+            BOT.close();
+        }
+        if (Config.QQRobotEnabled) {
+            BOT = BotBuilder.positive(Config.BotWsUrl).token(Config.BotWsToken).connect(); // 连接 LLOneBot
+            eventChannel = GlobalEventChannel.INSTANCE;
+            if (BOT == null) {
+                LOGGER.warning("Failed to get bot instance");
+            }
+        } else {
+            LOGGER.info("QQ Robot has been disabled in this running regin.");
+        }
+    }
 
     @Override
     public void onLoad() {
@@ -87,16 +102,7 @@ public class Main extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(this, this); // 注册事件
 
         LoggerAdapters.useLog4j2(); // 使用 Log4j2 作为日志记录器
-        if (Config.QQRobotEnabled) {
-            BOT = BotBuilder.positive(Config.BotWsUrl).token(Config.BotWsToken).connect(); // 连接 LLOneBot
-            eventChannel = GlobalEventChannel.INSTANCE;
-            if (BOT == null) {
-                LOGGER.warning("Failed to get bot instance");
-                return;
-            }
-        } else {
-            LOGGER.info("QQ Robot has been disabled in this running regin.");
-        }
+        Boot_QQBot();
         DefaultMessages.TurnOnPlugin();
         CommandRegister.registerCommand(this);
         moduleManager.onEnable();

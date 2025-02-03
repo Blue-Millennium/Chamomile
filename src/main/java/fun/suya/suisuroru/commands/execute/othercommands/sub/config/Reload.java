@@ -6,6 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import static fun.xd.suka.Main.Boot_QQBot;
 import static fun.xd.suka.Main.LOGGER;
 
 /**
@@ -27,6 +28,7 @@ public class Reload implements CommandExecutor {
             ConfigManager manager = new ConfigManager();
             // 调用 load 方法加载配置
             manager.load();
+            Boot_QQBot();
             sender.sendMessage("重新加载配置文件成功！");
             return true;
         } catch (Exception e) {
