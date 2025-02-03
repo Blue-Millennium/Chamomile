@@ -7,10 +7,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static fun.xd.suka.Main.LOGGER;
 
@@ -19,7 +17,7 @@ import static fun.xd.suka.Main.LOGGER;
  * Date: 2024/9/26 21:21
  * function: Webhook for Email
  */
-public class Webhook4Email {
+public class WebhookForEmail {
 
     public static String ensureValidUrl(String url) {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
@@ -33,7 +31,18 @@ public class Webhook4Email {
      *
      * @param data 包含邮件内容和主题的数据对象
      */
-    public void sendWebhookData(Data data) {
+
+    public boolean sendWebhookData(Data_Full data) {
+        // 处理 Data_Full 类型的数据
+        return processWebhookData(data);
+    }
+
+    public boolean sendWebhookData(Data_Sub data) {
+        // 处理 Data_Sub 类型的数据
+        return processWebhookData(data);
+    }
+
+    public boolean processWebhookData(Object data) {
         try {
             // 确保 URL 格式正确
             String webhookUrl = ensureValidUrl(Config.WebhookUrl);
@@ -60,42 +69,58 @@ public class Webhook4Email {
             if (responseCode != 200) {
                 LOGGER.info("Unexpected response code: " + responseCode);
                 LOGGER.info("Response body: " + response.body());
+                return false;
             } else {
                 LOGGER.info("Webhook sent successfully.");
+                return true;
             }
-
         } catch (Exception e) {
             LOGGER.warning(e.getMessage());
             LOGGER.info("Error sending webhook: " + e.getMessage());
+            return false;
         }
     }
 
     /**
      * 将邮件内容和主题封装为JSON格式并通过webhook发送。
      *
-     * @param subject 邮件主题
-     * @param content 邮件内容
-     * @param originEmail    发送邮件的邮箱地址
+     * @param subject     邮件主题
+     * @param content     邮件内容
+     * @param originEmail 发送邮件的邮箱地址
      */
     public void formatAndSendWebhook(String subject, String content, String originEmail) {
         List<String> emailList = Arrays.asList(originEmail.split(";"));
-        Data data = new Data("来自" + Config.ServerName + "的信息：\n" + content, subject, emailList);
-        LOGGER.info("Webhook data: " + new Gson().toJson(data));
-        sendWebhookData(data);
+        Data_Full data = new Data_Full("来自" + Config.ServerName + "的信息：\n" + content, subject, emailList);
+        if (!sendWebhookData(data)) {
+            Data_Sub data_new = new Data_Sub("来自" + Config.ServerName + "的信息：\n" + content, subject);
+            if (!sendWebhookData(data_new)) {
+                LOGGER.warning("Failed to send webhook.");
+            }
+        }
     }
 
     /**
      * 报告数据类
      */
-    static class Data {
+    static class Data_Full {
         String content;
         String subject;
         List email;
 
-        public Data(String content, String subject, List email) {
+        public Data_Full(String content, String subject, List email) {
             this.content = content;
             this.subject = subject;
             this.email = email;
+        }
+    }
+
+    static class Data_Sub {
+        String content;
+        String subject;
+
+        public Data_Sub(String content, String subject) {
+            this.content = content;
+            this.subject = subject;
         }
     }
 }

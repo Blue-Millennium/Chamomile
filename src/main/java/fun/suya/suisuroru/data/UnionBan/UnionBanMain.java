@@ -3,7 +3,7 @@ package fun.suya.suisuroru.data.UnionBan;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fun.suya.suisuroru.config.Config;
-import fun.suya.suisuroru.message.Webhook4Email;
+import fun.suya.suisuroru.message.WebhookForEmail;
 import org.bukkit.BanEntry;
 import org.bukkit.Bukkit;
 import org.bukkit.ban.ProfileBanList;
@@ -46,7 +46,7 @@ public class UnionBanMain {
     public static ArrayList<BanPair<UUID, String, Date, String>> loadRemoteBanList() {
         ArrayList<BanPair<UUID, String, Date, String>> banList = new ArrayList<>();
         // 确保 URL 格式正确
-        String webhookUrl = Webhook4Email.ensureValidUrl(Config.WebhookUrl);
+        String webhookUrl = WebhookForEmail.ensureValidUrl(Config.WebhookUrl);
 
         try {
             // 创建 HttpClient 实例
@@ -78,7 +78,7 @@ public class UnionBanMain {
     public static void reportBanData(BanPair<UUID, String, Date, String> banPair) {
         if (!Config.UnionBanCheckOnly) {
             // 确保 URL 格式正确
-            String reportUrl = Webhook4Email.ensureValidUrl(Config.UnionBanReportUrl);
+            String reportUrl = WebhookForEmail.ensureValidUrl(Config.UnionBanReportUrl);
 
             try {
                 // 创建 HttpClient 实例
@@ -124,7 +124,7 @@ public class UnionBanMain {
     public static void checkBanData() {
         if (Config.UnionBanEnabled) {
             // 确保 URL 格式正确
-            String checkUrl = Webhook4Email.ensureValidUrl(Config.UnionBanCheckUrl);
+            String checkUrl = WebhookForEmail.ensureValidUrl(Config.UnionBanCheckUrl);
 
             try {
                 // 创建 HttpClient 实例

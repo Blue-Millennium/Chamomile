@@ -50,12 +50,13 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Check if commit message contains [skip]
-        id: check_skip
+      - name: Check if commit message contains [skip] and if branch is master
+        id: check_skip_and_branch
         if: env.SKIP_BUILD == 'false'
         run: |
           COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-          if [[ "$COMMIT_MESSAGE" == "[skip]"* ]]; then
+          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+          if [[ "$COMMIT_MESSAGE" == "[skip]"* || "$BRANCH_NAME" != "master" ]]; then
             echo "SKIP_RELEASE=true" >> $GITHUB_ENV
           else
             echo "SKIP_RELEASE=false" >> $GITHUB_ENV

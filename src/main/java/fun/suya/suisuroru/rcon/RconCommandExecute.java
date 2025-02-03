@@ -1,6 +1,5 @@
 package fun.suya.suisuroru.rcon;
 
-import fun.suya.suisuroru.config.Config;
 import org.bukkit.Bukkit;
 import org.glavo.rcon.AuthenticationException;
 import org.glavo.rcon.Rcon;
@@ -16,10 +15,10 @@ public class RconCommandExecute {
 
     private static final int MAX_RETRIES = 3; // 最大重试次数
 
-    public static String[] executeRconCommand(String command) {
+    public static String[] executeRconCommand(String IP, int port, String psd, String command) {
         for (int retry = 0; retry < MAX_RETRIES; retry++) {
-            try (Rcon rcon = new Rcon(Config.RconIP, Config.RconPort, Config.RconPassword)) {
-                logInfo("Connected to " + Config.RconIP + ":" + Config.RconPort);
+            try (Rcon rcon = new Rcon(IP, port, psd)) {
+                logInfo("Connected to " + IP + ":" + port);
 
                 String response = rcon.command(command);
                 logInfo("Sent command: " + command);

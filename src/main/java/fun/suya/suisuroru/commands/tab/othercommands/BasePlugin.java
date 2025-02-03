@@ -34,6 +34,7 @@ public class BasePlugin implements TabCompleter {
             completions.add("data");
             completions.add("query-report");
             completions.add("kill");
+            completions.add("rcon");
         } else if (args.length >= 2) {
             String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
             switch (args[0].toLowerCase()) {

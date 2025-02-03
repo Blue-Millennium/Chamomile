@@ -1,7 +1,7 @@
 package fun.suya.suisuroru.commands.execute.othercommands;
 
 import fun.suya.suisuroru.commands.execute.othercommands.sub.*;
-import fun.xd.suka.command.ReportCommand;
+import fun.suya.suisuroru.commands.execute.othercommands.sub.Report;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,12 +16,13 @@ import java.util.Arrays;
  */
 public class BasePlugin implements CommandExecutor {
 
-    ReportCommand report = new ReportCommand();
+    Report report = new Report();
     Config config = new Config();
     ReportQuery query = new ReportQuery();
     Help help = new Help();
     Data data = new Data();
     Kill kill = new Kill();
+    Rcon rcon = new Rcon();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -58,6 +59,10 @@ public class BasePlugin implements CommandExecutor {
             }
             case "kill": {
                 kill.onCommand(sender, command, label, subArgs);
+                break;
+            }
+            case "rcon": {
+                rcon.onCommand(sender, command, label, subArgs);
                 break;
             }
             default: {

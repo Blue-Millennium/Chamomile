@@ -29,7 +29,7 @@ public class ImageProcess {
             builder.append("[[CICode,url=").append(imageurl).append("]]");
             // mohist端BUG导致，使用tellraw代替直接发送
             String command = "tellraw @a \"" + Config.SayQQMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()) + "\"";
-            executeRconCommand(command);
+            executeRconCommand(Config.RconIP, Config.RconPort, Config.RconPassword, command);
         } catch (Exception e) {
             Main.INSTANCE.getServer().broadcastMessage("一个错误发生于BasePlugin内部，图片无法被展示，请前往控制台查看");
         }

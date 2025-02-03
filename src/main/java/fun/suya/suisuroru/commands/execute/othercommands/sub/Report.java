@@ -1,8 +1,8 @@
-package fun.xd.suka.command;
+package fun.suya.suisuroru.commands.execute.othercommands.sub;
 
 import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.data.Report.ReportDataManager;
-import fun.suya.suisuroru.message.Webhook4Email;
+import fun.suya.suisuroru.message.WebhookForEmail;
 import fun.xd.suka.Main;
 import fun.xd.suka.module.impl.Reporter;
 import fun.xd.suka.util.TimeUtil;
@@ -21,7 +21,7 @@ import java.util.Objects;
 
 import static fun.xd.suka.Main.LOGGER;
 
-public class ReportCommand implements CommandExecutor {
+public class Report implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
@@ -62,8 +62,8 @@ public class ReportCommand implements CommandExecutor {
                         String content = builder.build().contentToString();
                         try {
                             String subject = "玩家举报-" + number;
-                            Webhook4Email webhook4Email = new Webhook4Email();
-                            webhook4Email.formatAndSendWebhook(subject, content, Config.WebHookEmail);
+                            WebhookForEmail webhookForEmail = new WebhookForEmail();
+                            webhookForEmail.formatAndSendWebhook(subject, content, Config.WebHookEmail);
                         } catch (Exception e) {
                             sender.sendMessage("§c邮件发送失败");
                             LOGGER.warning(e.getMessage());
