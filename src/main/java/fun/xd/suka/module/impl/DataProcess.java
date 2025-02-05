@@ -29,7 +29,9 @@ public class DataProcess extends Module implements Listener {
         if (data.firstJoinIp == null) {
             data.firstJoinIp = event.getAddress().getHostAddress();
         }
-
+        if (data.qqNumber > 0) {
+            data.qqChecked = true;
+        }
         data.lastJoin = System.currentTimeMillis();
         data.lastJoinIp = event.getAddress().getHostAddress();
 
