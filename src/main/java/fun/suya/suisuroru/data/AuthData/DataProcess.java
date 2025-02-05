@@ -12,21 +12,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import static fun.xd.suka.Main.LOGGER;
+
 public class DataProcess {
 
     public static String processData(String jsonData) {
         Gson gson = new Gson();
         Data data = gson.fromJson(jsonData, Data.class);
         StringBuilder result = new StringBuilder();
-
-        appendIfNotNull(result, "玩家名称: ", data.playerData.playerName);
-        appendIfNotNull(result, "玩家UUID: ", data.playerData.playerUuid);
+        appendPlayerData(result, data);
         appendIfNotNull(result, "首次加入时间: ", transferTime(data.firstJoin));
         appendIfNotNull(result, "首次加入时间(原始): ", data.firstJoin);
         appendIfNotNull(result, "最后加入时间: ", transferTime(data.lastJoin));
         appendIfNotNull(result, "最后加入时间(原始): ", data.lastJoin);
-        appendIfNotNull(result, "QQ号码: ", data.qqNumber);
-        appendIfNotNull(result, "绑定时间: ", data.linkedTime);
+        appendQQData(result, data);
         appendIfNotNull(result, "首次加入IP: ", data.firstJoinIp);
         appendIfNotNull(result, "最后加入IP: ", data.lastJoinIp);
 
@@ -36,6 +35,42 @@ public class DataProcess {
     private static void appendIfNotNull(StringBuilder result, String label, Object value) {
         if (value != null) {
             result.append(label).append(value).append("\n");
+        }
+    }
+
+    private static void appendQQData(StringBuilder result, Data data) {
+        if (data.qqChecked == null) {
+            appendIfNotNull(result, "QQ绑定标志: ", "未知");
+            appendIfNotNull(result, "QQ号码: ", data.qqNumber);
+            appendIfNotNull(result, "绑定时间: ", data.linkedTime);
+        } else {
+            appendIfNotNull(result, "QQ绑定标志: ", transferBoolean(data.qqChecked));
+            if (data.qqChecked) {
+                appendIfNotNull(result, "QQ号码: ", data.qqNumber);
+                appendIfNotNull(result, "绑定时间: ", data.linkedTime);
+            }
+        }
+    }
+
+    private static void appendPlayerData(StringBuilder result, Data data) {
+        if (data.playerData != null) {
+            appendIfNotNull(result, "玩家名称: ", data.playerData.playerName);
+            appendIfNotNull(result, "玩家UUID: ", data.playerData.playerUuid);
+        } else {
+            LOGGER.warning("Player data is Null.");
+        }
+    }
+
+    private static String transferBoolean(Boolean value) {
+        try {
+            if (value) {
+                return "是";
+            } else {
+                return "否";
+            }
+        } catch (Exception e) {
+            LOGGER.warning("Error when transfer Boolean");
+            return null;
         }
     }
 
@@ -65,11 +100,16 @@ public class DataProcess {
     }
 
     private static String transferTime(long timestamp) {
-        Date date = new Date(timestamp);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-        String transferredTime = sdf.format(date);
-        return transferredTime + "(GMT+8)";
+        try {
+            Date date = new Date(timestamp);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+            String transferredTime = sdf.format(date);
+            return transferredTime + "(GMT+8)";
+        } catch (Exception e) {
+            LOGGER.warning("Error when transfer time");
+            return null;
+        }
     }
 
 }
