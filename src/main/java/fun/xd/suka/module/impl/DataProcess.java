@@ -7,12 +7,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
+import static fun.xd.suka.module.impl.QQCheck.NullCheck;
+
 public class DataProcess extends Module implements Listener {
     public DataProcess() {
         super("DataProcess");
     }
 
     static void BaseDataProcess(AsyncPlayerPreLoginEvent event, Data data) {
+        data = NullCheck(data);
         if (data.firstJoin < 0) {
             data.firstJoin = System.currentTimeMillis();
         }

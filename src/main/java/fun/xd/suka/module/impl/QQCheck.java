@@ -94,6 +94,7 @@ public class QQCheck extends Module implements Listener {
 
         if (Config.QQCheckEnabled) {
             Data data = Main.INSTANCE.dataManager.getPlayerData(event.getUniqueId());
+            data = NullCheck(data);
             // 首次登录
             if (data.qqNumber == 0) {
                 int code;
@@ -117,10 +118,19 @@ public class QQCheck extends Module implements Listener {
                 // 拒绝加入服务器
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.DisTitle.replace("%CODE%", String.valueOf(code)));
                 return;
+            } else {
+                data.qqChecked = true;
             }
 
             // 设置首次登陆数据
             BaseDataProcess(event, data);
         }
+    }
+
+    public static Data NullCheck(Data data) {
+        if (data == null) {
+            data = new Data();
+        }
+        return data;
     }
 }
