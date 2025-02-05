@@ -2,7 +2,9 @@ package fun.suya.suisuroru.commands;
 
 import fun.suya.suisuroru.commands.execute.othercommands.sub.*;
 import fun.suya.suisuroru.commands.execute.othercommands.sub.config.Reload;
+import fun.suya.suisuroru.commands.execute.othercommands.sub.data.Bind;
 import fun.suya.suisuroru.commands.tab.othercommands.BasePlugin;
+import fun.suya.suisuroru.commands.tab.othercommands.sub.Link;
 import fun.suya.suisuroru.commands.tab.vanilla.Ban;
 import fun.suya.suisuroru.commands.tab.vanilla.Kill;
 import fun.suya.suisuroru.commands.tab.vanilla.Pardon;
@@ -18,6 +20,7 @@ public class CommandRegister {
             plugin.getCommand("pardon").setTabCompleter(new Pardon());
             plugin.getCommand("kill").setExecutor(new fun.suya.suisuroru.commands.execute.vanilla.Kill());
             plugin.getCommand("kill").setTabCompleter(new Kill());
+            plugin.getCommand("link").setTabCompleter(new Link());
         }
         // new functions
         plugin.getCommand("basepluginhelp").setExecutor(new Help());
@@ -32,5 +35,6 @@ public class CommandRegister {
         plugin.getCommand("bpdata").setExecutor(new Data());
         plugin.getCommand("bpdata").setTabCompleter(new fun.suya.suisuroru.commands.tab.othercommands.sub.Data());
         plugin.getCommand("rcon").setExecutor(new Rcon());
+        plugin.getCommand("link").setExecutor(new Bind());
     }
 }
