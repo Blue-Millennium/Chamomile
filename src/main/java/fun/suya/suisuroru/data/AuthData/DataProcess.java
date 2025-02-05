@@ -20,22 +20,16 @@ public class DataProcess {
         Gson gson = new Gson();
         Data data = gson.fromJson(jsonData, Data.class);
         StringBuilder result = new StringBuilder();
-
-        if (data != null) {
-            appendIfNotNull(result, "玩家名称: ", data.playerData != null ? data.playerData.playerName : null);
-            appendIfNotNull(result, "玩家UUID: ", data.playerData != null ? data.playerData.playerUuid : null);
-            appendIfNotNull(result, "首次加入时间: ", data.firstJoin != -1 ? transferTime(data.firstJoin) : null);
-            appendIfNotNull(result, "首次加入时间(原始): ", data.firstJoin);
-            appendIfNotNull(result, "最后加入时间: ", data.lastJoin != -1 ? transferTime(data.lastJoin) : null);
-            appendIfNotNull(result, "最后加入时间(原始): ", data.lastJoin);
-            appendIfNotNull(result, "QQ绑定标志: ", transferBoolean(data.qqChecked));
-            appendIfNotNull(result, "QQ号码: ", data.qqNumber);
-            appendIfNotNull(result, "绑定时间: ", data.linkedTime);
-            appendIfNotNull(result, "首次加入IP: ", data.firstJoinIp);
-            appendIfNotNull(result, "最后加入IP: ", data.lastJoinIp);
-        } else {
-            LOGGER.warning("Data object is null");
-        }
+        appendPlayerData(result, data);
+        appendIfNotNull(result, "首次加入时间: ", transferTime(data.firstJoin));
+        appendIfNotNull(result, "首次加入时间(原始): ", data.firstJoin);
+        appendIfNotNull(result, "最后加入时间: ", transferTime(data.lastJoin));
+        appendIfNotNull(result, "最后加入时间(原始): ", data.lastJoin);
+        appendIfNotNull(result, "QQ绑定标志: ", transferBoolean(data.qqChecked));
+        appendIfNotNull(result, "QQ号码: ", data.qqNumber);
+        appendIfNotNull(result, "绑定时间: ", data.linkedTime);
+        appendIfNotNull(result, "首次加入IP: ", data.firstJoinIp);
+        appendIfNotNull(result, "最后加入IP: ", data.lastJoinIp);
 
         return result.toString();
     }
@@ -46,11 +40,25 @@ public class DataProcess {
         }
     }
 
-    private static String transferBoolean(Boolean value) {
-        if (value != null) {
-            return value ? "是" : "否";
+    private static StringBuilder appendPlayerData(StringBuilder result, Data data) {
+        if (data.playerData != null) {
+            appendIfNotNull(result, "玩家名称: ", data.playerData.playerName);
+            appendIfNotNull(result, "玩家UUID: ", data.playerData.playerUuid);
         } else {
-            LOGGER.warning("Boolean value is null");
+            LOGGER.warning("Player data is Null.");
+        }
+        return result;
+    }
+
+    private static String transferBoolean(Boolean value) {
+        try {
+            if (value) {
+                return "是";
+            } else {
+                return "否";
+            }
+        } catch (Exception e) {
+            LOGGER.warning("Error when transfer Boolean");
             return null;
         }
     }
@@ -58,7 +66,8 @@ public class DataProcess {
     public static boolean ProcessFinalData(@NotNull CommandSender sender, String playerJson) {
         if (!playerJson.isEmpty() && !playerJson.equals("[]")) {
             Gson gson = new Gson();
-            Type listType = new TypeToken<List<Object>>() {}.getType();
+            Type listType = new TypeToken<List<Object>>() {
+            }.getType();
             List<Object> playerList = gson.fromJson(playerJson, listType);
             int Count = 1;
             StringBuilder result = new StringBuilder();
@@ -79,21 +88,17 @@ public class DataProcess {
         return true;
     }
 
-    private static String transferTime(Long timestamp) {
-        if (timestamp != null) {
-            try {
-                Date date = new Date(timestamp);
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-                String transferredTime = sdf.format(date);
-                return transferredTime + "(GMT+8)";
-            } catch (Exception e) {
-                LOGGER.warning("Error when transfer time");
-                return null;
-            }
-        } else {
-            LOGGER.warning("Timestamp is null");
+    private static String transferTime(long timestamp) {
+        try {
+            Date date = new Date(timestamp);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+            String transferredTime = sdf.format(date);
+            return transferredTime + "(GMT+8)";
+        } catch (Exception e) {
+            LOGGER.warning("Error when transfer time");
             return null;
         }
     }
+
 }
