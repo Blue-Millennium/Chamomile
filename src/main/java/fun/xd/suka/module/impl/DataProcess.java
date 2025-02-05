@@ -2,6 +2,7 @@ package fun.xd.suka.module.impl;
 
 import fun.xd.suka.Main;
 import fun.xd.suka.data.Data;
+import fun.xd.suka.data.PlayerData;
 import fun.xd.suka.module.Module;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,6 +17,12 @@ public class DataProcess extends Module implements Listener {
 
     static void BaseDataProcess(AsyncPlayerPreLoginEvent event, Data data) {
         data = NullCheck(data);
+        if (data.playerData == null) {
+            PlayerData playerData = new PlayerData();
+            playerData.playerName = event.getName();
+            playerData.playerUuid = event.getUniqueId();
+            data.playerData = playerData;
+        }
         if (data.firstJoin < 0) {
             data.firstJoin = System.currentTimeMillis();
         }
