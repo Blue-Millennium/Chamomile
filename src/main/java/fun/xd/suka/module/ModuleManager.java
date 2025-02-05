@@ -3,6 +3,7 @@ package fun.xd.suka.module;
 import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.module.impl.RconPreCheck;
 import fun.xd.suka.Main;
+import fun.xd.suka.module.impl.DataProcess;
 import fun.xd.suka.module.impl.QQCheck;
 import fun.xd.suka.module.impl.Reporter;
 import fun.xd.suka.module.impl.SyncChat;
@@ -18,6 +19,8 @@ public class ModuleManager {
             modules.add(new SyncChat());
             modules.add(new QQCheck());
             modules.add(new RconPreCheck());
+        } else {
+            modules.add(new DataProcess());
         }
         modules.add(new Reporter());
 
