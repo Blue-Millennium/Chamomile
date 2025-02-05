@@ -1,7 +1,6 @@
 package fun.suya.suisuroru.commands.execute.othercommands;
 
 import fun.suya.suisuroru.commands.execute.othercommands.sub.*;
-import fun.suya.suisuroru.commands.execute.othercommands.sub.Report;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

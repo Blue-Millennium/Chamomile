@@ -16,11 +16,11 @@ import static fun.xd.suka.Main.DATA_FILE;
 import static fun.xd.suka.Main.LOGGER;
 
 public class DataGet {
-    private final List<Data> playerRecords;
+    private final List<Data> dataList;
     private final Gson gson = new Gson();  // 创建 Gson 实例
 
     public DataGet() {
-        this.playerRecords = readDataFromFile(DATA_FILE);
+        this.dataList = readDataFromFile(DATA_FILE);
     }
 
     private List<Data> readDataFromFile(File file) {
@@ -35,19 +35,19 @@ public class DataGet {
     }
 
     public List<Data> getPlayersByQQ(long qqNumber) {
-        return playerRecords.stream()
+        return dataList.stream()
                 .filter(record -> record.qqNumber == qqNumber)
                 .toList();
     }
 
     public List<Data> getPlayersByName(String playerName) {
-        return playerRecords.stream()
+        return dataList.stream()
                 .filter(record -> record.playerData.playerName.equals(playerName))
                 .toList();
     }
 
     public List<Data> getPlayersByUUID(UUID playerUuid) {
-        return playerRecords.stream()
+        return dataList.stream()
                 .filter(record -> {
                     UUID recordUuid = record.playerData.playerUuid;
                     return recordUuid.equals(playerUuid);

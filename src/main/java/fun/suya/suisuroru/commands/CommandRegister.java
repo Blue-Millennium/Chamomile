@@ -6,7 +6,6 @@ import fun.suya.suisuroru.commands.tab.othercommands.BasePlugin;
 import fun.suya.suisuroru.commands.tab.vanilla.Ban;
 import fun.suya.suisuroru.commands.tab.vanilla.Kill;
 import fun.suya.suisuroru.commands.tab.vanilla.Pardon;
-import fun.suya.suisuroru.commands.execute.othercommands.sub.Report;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandRegister {
