@@ -7,8 +7,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
-import static fun.xd.suka.Main.LOGGER;
-
 public class DataProcess extends Module implements Listener {
     public DataProcess() {
         super("DataProcess");
@@ -33,7 +31,6 @@ public class DataProcess extends Module implements Listener {
         if (event == null) {
             return;
         }
-        LOGGER.info("已发送");
         Data data = Main.INSTANCE.dataManager.getPlayerData(event.getUniqueId());
         BaseDataProcess(event, data);
     }
