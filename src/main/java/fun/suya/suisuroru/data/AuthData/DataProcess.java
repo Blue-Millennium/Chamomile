@@ -2,6 +2,7 @@ package fun.suya.suisuroru.data.AuthData;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import fun.xd.suka.data.Data;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,19 +16,19 @@ public class DataProcess {
 
     public static String processData(String jsonData) {
         Gson gson = new Gson();
-        PlayerRecord playerRecord = gson.fromJson(jsonData, PlayerRecord.class);
+        Data data = gson.fromJson(jsonData, Data.class);
         StringBuilder result = new StringBuilder();
 
-        appendIfNotNull(result, "玩家名称: ", playerRecord.playerData().playerName());
-        appendIfNotNull(result, "玩家UUID: ", playerRecord.playerData().playerUuid());
-        appendIfNotNull(result, "首次加入时间: ", transferTime(playerRecord.firstJoin()));
-        appendIfNotNull(result, "首次加入时间(原始): ", playerRecord.firstJoin());
-        appendIfNotNull(result, "最后加入时间: ", transferTime(playerRecord.lastJoin()));
-        appendIfNotNull(result, "最后加入时间(原始): ", playerRecord.lastJoin());
-        appendIfNotNull(result, "QQ号码: ", playerRecord.qqNumber());
-        appendIfNotNull(result, "绑定时间: ", playerRecord.linkedTime());
-        appendIfNotNull(result, "首次加入IP: ", playerRecord.firstJoinIp());
-        appendIfNotNull(result, "最后加入IP: ", playerRecord.lastJoinIp());
+        appendIfNotNull(result, "玩家名称: ", data.playerData.playerName);
+        appendIfNotNull(result, "玩家UUID: ", data.playerData.playerUuid);
+        appendIfNotNull(result, "首次加入时间: ", transferTime(data.firstJoin));
+        appendIfNotNull(result, "首次加入时间(原始): ", data.firstJoin);
+        appendIfNotNull(result, "最后加入时间: ", transferTime(data.lastJoin));
+        appendIfNotNull(result, "最后加入时间(原始): ", data.lastJoin);
+        appendIfNotNull(result, "QQ号码: ", data.qqNumber);
+        appendIfNotNull(result, "绑定时间: ", data.linkedTime);
+        appendIfNotNull(result, "首次加入IP: ", data.firstJoinIp);
+        appendIfNotNull(result, "最后加入IP: ", data.lastJoinIp);
 
         return result.toString();
     }

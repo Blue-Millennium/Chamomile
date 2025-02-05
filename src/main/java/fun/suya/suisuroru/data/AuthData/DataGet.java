@@ -2,6 +2,7 @@ package fun.suya.suisuroru.data.AuthData;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import fun.xd.suka.data.Data;
 
 import java.io.File;
 import java.io.FileReader;
@@ -15,16 +16,16 @@ import static fun.xd.suka.Main.DATA_FILE;
 import static fun.xd.suka.Main.LOGGER;
 
 public class DataGet {
-    private final List<PlayerRecord> playerRecords;
+    private final List<Data> dataList;
     private final Gson gson = new Gson();  // 创建 Gson 实例
 
     public DataGet() {
-        this.playerRecords = readDataFromFile(DATA_FILE);
+        this.dataList = readDataFromFile(DATA_FILE);
     }
 
-    private List<PlayerRecord> readDataFromFile(File file) {
+    private List<Data> readDataFromFile(File file) {
         try (FileReader reader = new FileReader(file)) {
-            Type listType = new TypeToken<List<PlayerRecord>>() {
+            Type listType = new TypeToken<List<Data>>() {
             }.getType();
             return gson.fromJson(reader, listType);
         } catch (IOException e) {
@@ -33,39 +34,39 @@ public class DataGet {
         }
     }
 
-    public List<PlayerRecord> getPlayersByQQ(long qqNumber) {
-        return playerRecords.stream()
-                .filter(record -> record.qqNumber() == qqNumber)
+    public List<Data> getPlayersByQQ(long qqNumber) {
+        return dataList.stream()
+                .filter(record -> record.qqNumber == qqNumber)
                 .toList();
     }
 
-    public List<PlayerRecord> getPlayersByName(String playerName) {
-        return playerRecords.stream()
-                .filter(record -> record.playerData().playerName().equals(playerName))
+    public List<Data> getPlayersByName(String playerName) {
+        return dataList.stream()
+                .filter(record -> record.playerData.playerName.equals(playerName))
                 .toList();
     }
 
-    public List<PlayerRecord> getPlayersByUUID(UUID playerUuid) {
-        return playerRecords.stream()
+    public List<Data> getPlayersByUUID(UUID playerUuid) {
+        return dataList.stream()
                 .filter(record -> {
-                    UUID recordUuid = record.playerData().playerUuid();
+                    UUID recordUuid = record.playerData.playerUuid;
                     return recordUuid.equals(playerUuid);
                 })
                 .toList();
     }
 
     public String getPlayersByQQAsJson(long qqNumber) {
-        List<PlayerRecord> players = getPlayersByQQ(qqNumber);
+        List<Data> players = getPlayersByQQ(qqNumber);
         return gson.toJson(players);
     }
 
     public String getPlayersByNameAsJson(String playerName) {
-        List<PlayerRecord> players = getPlayersByName(playerName);
+        List<Data> players = getPlayersByName(playerName);
         return gson.toJson(players);
     }
 
     public String getPlayersByUUIDAsJson(UUID playerUuid) {
-        List<PlayerRecord> players = getPlayersByUUID(playerUuid);
+        List<Data> players = getPlayersByUUID(playerUuid);
         return gson.toJson(players);
     }
 
