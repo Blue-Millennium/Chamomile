@@ -23,6 +23,11 @@ public class DataProcess extends Module implements Listener {
             playerData.playerUuid = event.getUniqueId();
             data.playerData = playerData;
         }
+        if (!(data.qqNumber > 0)) {
+            data.qqChecked = true;
+        } else {
+            data.qqChecked = false;
+        }
         if (data.firstJoin < 0) {
             data.firstJoin = System.currentTimeMillis();
         }
