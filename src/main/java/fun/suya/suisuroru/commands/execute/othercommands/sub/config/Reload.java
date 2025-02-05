@@ -7,7 +7,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.xd.suka.Main.Boot_QQBot;
 import static fun.xd.suka.Main.LOGGER;
 
 /**

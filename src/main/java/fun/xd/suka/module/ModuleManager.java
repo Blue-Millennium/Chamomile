@@ -11,6 +11,8 @@ import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 
+import static fun.xd.suka.Main.LOGGER;
+
 public class ModuleManager {
     public ArrayList<Module> modules = new ArrayList<>();
 
@@ -21,21 +23,21 @@ public class ModuleManager {
             modules.add(new RconPreCheck());
         } else {
             modules.add(new DataProcess());
+            LOGGER.info("QQRobot is disabled, DataProcess will be enabled.");
         }
         modules.add(new Reporter());
 
         modules.forEach(Module::onLoad);
     }
+
     public void reload() {
         modules.clear();
         load();
     }
 
     public void onEnable() {
-        if (Config.QQRobotEnabled) {
-            modules.forEach(module -> Bukkit.getPluginManager().registerEvents(module, Main.INSTANCE));
-            modules.forEach(Module::onEnable);
-        }
+        modules.forEach(module -> Bukkit.getPluginManager().registerEvents(module, Main.INSTANCE));
+        modules.forEach(Module::onEnable);
     }
 
     public void onDisable() {
