@@ -47,6 +47,9 @@ public class Main extends JavaPlugin implements Listener {
             BOT = BotBuilder.positive(Config.BotWsUrl).token(Config.BotWsToken).connect(); // 连接 LLOneBot
             eventChannel = GlobalEventChannel.INSTANCE;
             if (BOT == null) {
+                Config.QQRobotEnabled = false;
+                ConfigManager manager = new ConfigManager();
+                manager.save();
                 LOGGER.warning("Failed to get bot instance");
             }
         } else {

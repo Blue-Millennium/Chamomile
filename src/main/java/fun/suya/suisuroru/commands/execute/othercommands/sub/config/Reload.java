@@ -1,12 +1,12 @@
 package fun.suya.suisuroru.commands.execute.othercommands.sub.config;
 
 import fun.suya.suisuroru.config.ConfigManager;
+import fun.xd.suka.module.ModuleManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.xd.suka.Main.Boot_QQBot;
 import static fun.xd.suka.Main.LOGGER;
 
 /**
@@ -28,7 +28,8 @@ public class Reload implements CommandExecutor {
             ConfigManager manager = new ConfigManager();
             // 调用 load 方法加载配置
             manager.load();
-            Boot_QQBot();
+            ModuleManager mgr = new ModuleManager();
+            mgr.reload();
             sender.sendMessage("重新加载配置文件成功！");
             return true;
         } catch (Exception e) {

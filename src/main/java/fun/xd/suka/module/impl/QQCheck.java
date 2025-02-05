@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import static fun.xd.suka.module.impl.DataProcess.BaseDataProcess;
+
 public class QQCheck extends Module implements Listener {
     private static final HashMap<PlayerData, Integer> playerCodeMap = new HashMap<>();
 
@@ -93,7 +95,7 @@ public class QQCheck extends Module implements Listener {
         if (Config.QQCheckEnabled) {
             Data data = Main.INSTANCE.dataManager.getPlayerData(event.getUniqueId());
             // 首次登录
-            if (data == null) {
+            if (data.qqNumber == 0) {
                 int code;
 
                 // 生成不重复的验证码
@@ -118,17 +120,7 @@ public class QQCheck extends Module implements Listener {
             }
 
             // 设置首次登陆数据
-            if (data.firstJoin < 0) {
-                data.firstJoin = System.currentTimeMillis();
-            }
-            if (data.firstJoinIp == null) {
-                data.firstJoinIp = event.getAddress().getHostAddress();
-            }
-
-            data.lastJoin = System.currentTimeMillis();
-            data.lastJoinIp = event.getAddress().getHostAddress();
-
-            Main.INSTANCE.dataManager.setPlayerData(event.getUniqueId(), data);
+            BaseDataProcess(event, data);
         }
     }
 }
