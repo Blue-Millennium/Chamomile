@@ -17,6 +17,7 @@ public class Data implements TabCompleter {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             completions.add("query");
+            completions.add("bind");
         } else if (args.length >= 2) {
             switch (args[0].toLowerCase()) {
                 case "query": {
@@ -40,6 +41,11 @@ public class Data implements TabCompleter {
                         }
                     }
                     break;
+                }
+                case "bind": {
+                    if (args.length == 2) {
+                        completions.addAll(OnlinePlayerListGet.GetOnlinePlayerList());
+                    }
                 }
             }
         }
