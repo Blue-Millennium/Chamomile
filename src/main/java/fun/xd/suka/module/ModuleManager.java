@@ -26,6 +26,10 @@ public class ModuleManager {
 
         modules.forEach(Module::onLoad);
     }
+    public void reload() {
+        modules.clear();
+        load();
+    }
 
     public void onEnable() {
         if (Config.QQRobotEnabled) {
