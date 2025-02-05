@@ -67,6 +67,13 @@ public class QQCheck extends Module implements Listener {
         return checkMessage;
     }
 
+    public static Data NullCheck(Data data) {
+        if (data == null) {
+            data = new Data();
+        }
+        return data;
+    }
+
     @Override
     public void onEnable() {
         Main.INSTANCE.eventChannel.subscribeAlways(NewFriendRequestEvent.class, NewFriendRequestEvent::accept);
@@ -125,12 +132,5 @@ public class QQCheck extends Module implements Listener {
             // 设置首次登陆数据
             BaseDataProcess(event, data);
         }
-    }
-
-    public static Data NullCheck(Data data) {
-        if (data == null) {
-            data = new Data();
-        }
-        return data;
     }
 }

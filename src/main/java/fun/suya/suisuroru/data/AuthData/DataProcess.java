@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import static fun.xd.suka.Main.LOGGER;
+
 public class DataProcess {
 
     public static String processData(String jsonData) {
@@ -25,6 +27,7 @@ public class DataProcess {
         appendIfNotNull(result, "首次加入时间(原始): ", data.firstJoin);
         appendIfNotNull(result, "最后加入时间: ", transferTime(data.lastJoin));
         appendIfNotNull(result, "最后加入时间(原始): ", data.lastJoin);
+        appendIfNotNull(result, "QQ绑定标志: ", transferBoolean(data.qqChecked));
         appendIfNotNull(result, "QQ号码: ", data.qqNumber);
         appendIfNotNull(result, "绑定时间: ", data.linkedTime);
         appendIfNotNull(result, "首次加入IP: ", data.firstJoinIp);
@@ -36,6 +39,19 @@ public class DataProcess {
     private static void appendIfNotNull(StringBuilder result, String label, Object value) {
         if (value != null) {
             result.append(label).append(value).append("\n");
+        }
+    }
+
+    private static String transferBoolean(Boolean value) {
+        try {
+            if (value) {
+                return "是";
+            } else {
+                return "否";
+            }
+        } catch (Exception e) {
+            LOGGER.warning("Error when transfer Boolean");
+            return null;
         }
     }
 
@@ -65,11 +81,16 @@ public class DataProcess {
     }
 
     private static String transferTime(long timestamp) {
-        Date date = new Date(timestamp);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-        String transferredTime = sdf.format(date);
-        return transferredTime + "(GMT+8)";
+        try {
+            Date date = new Date(timestamp);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+            String transferredTime = sdf.format(date);
+            return transferredTime + "(GMT+8)";
+        } catch (Exception e) {
+            LOGGER.warning("Error when transfer time");
+            return null;
+        }
     }
 
 }
