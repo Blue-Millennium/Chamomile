@@ -1,5 +1,6 @@
 package fun.suya.suisuroru.commands.execute.othercommands.sub;
 
+import fun.suya.suisuroru.commands.execute.othercommands.sub.data.Bind;
 import fun.suya.suisuroru.commands.execute.othercommands.sub.data.Query;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,6 +11,7 @@ import java.util.Arrays;
 
 public class Data implements CommandExecutor {
     Query query = new Query();
+    Bind bind = new Bind();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -25,6 +27,10 @@ public class Data implements CommandExecutor {
         switch (args[0].toLowerCase()) {
             case "query": {
                 query.onCommand(sender, command, label, subArgs);
+                break;
+            }
+            case "bind": {
+                bind.onCommand(sender, command, label, subArgs);
                 break;
             }
             default: {

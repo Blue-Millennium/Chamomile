@@ -57,8 +57,25 @@ public class DataManager {
         return null;
     }
 
+    public Data getPlayerDataByName(String name) {
+        if (DATA_LIST != null) {
+            for (Data data : DATA_LIST) {
+                if (data.playerData.playerName.equals(name)) {
+                    return data;
+                }
+            }
+        }
+        return null;
+    }
+
     public void setPlayerData(UUID uuid, Data data) {
         DATA_LIST.remove(getPlayerData(uuid));
+        DATA_LIST.add(data);
+        save();
+    }
+
+    public void setPlayerDataByName(String name, Data data) {
+        DATA_LIST.remove(getPlayerDataByName(name));
         DATA_LIST.add(data);
         save();
     }
