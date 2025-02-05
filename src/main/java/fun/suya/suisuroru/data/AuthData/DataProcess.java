@@ -25,9 +25,7 @@ public class DataProcess {
         appendIfNotNull(result, "首次加入时间(原始): ", data.firstJoin);
         appendIfNotNull(result, "最后加入时间: ", transferTime(data.lastJoin));
         appendIfNotNull(result, "最后加入时间(原始): ", data.lastJoin);
-        appendIfNotNull(result, "QQ绑定标志: ", transferBoolean(data.qqChecked));
-        appendIfNotNull(result, "QQ号码: ", data.qqNumber);
-        appendIfNotNull(result, "绑定时间: ", data.linkedTime);
+        appendQQData(result, data);
         appendIfNotNull(result, "首次加入IP: ", data.firstJoinIp);
         appendIfNotNull(result, "最后加入IP: ", data.lastJoinIp);
 
@@ -40,14 +38,27 @@ public class DataProcess {
         }
     }
 
-    private static StringBuilder appendPlayerData(StringBuilder result, Data data) {
+    private static void appendQQData(StringBuilder result, Data data) {
+        if (data.qqChecked == null) {
+            appendIfNotNull(result, "QQ绑定标志: ", "未知");
+            appendIfNotNull(result, "QQ号码: ", data.qqNumber);
+            appendIfNotNull(result, "绑定时间: ", data.linkedTime);
+        } else {
+            appendIfNotNull(result, "QQ绑定标志: ", transferBoolean(data.qqChecked));
+            if (data.qqChecked) {
+                appendIfNotNull(result, "QQ号码: ", data.qqNumber);
+                appendIfNotNull(result, "绑定时间: ", data.linkedTime);
+            }
+        }
+    }
+
+    private static void appendPlayerData(StringBuilder result, Data data) {
         if (data.playerData != null) {
             appendIfNotNull(result, "玩家名称: ", data.playerData.playerName);
             appendIfNotNull(result, "玩家UUID: ", data.playerData.playerUuid);
         } else {
             LOGGER.warning("Player data is Null.");
         }
-        return result;
     }
 
     private static String transferBoolean(Boolean value) {
