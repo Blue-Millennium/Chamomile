@@ -167,7 +167,7 @@ public class QQCheck extends Module implements Listener {
                 return;
             } else {
                 if (Config.BotModeOfficial) {
-                    data.appidChecked = true;
+                    data.useridChecked = true;
                 } else {
                     data.qqChecked = true;
                 }
