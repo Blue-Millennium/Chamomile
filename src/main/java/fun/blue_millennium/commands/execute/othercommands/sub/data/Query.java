@@ -3,6 +3,7 @@ package fun.blue_millennium.commands.execute.othercommands.sub.data;
 import fun.blue_millennium.commands.execute.othercommands.sub.data.query.DataQueryByName;
 import fun.blue_millennium.commands.execute.othercommands.sub.data.query.DataQueryByQQ;
 import fun.blue_millennium.commands.execute.othercommands.sub.data.query.DataQueryByUUID;
+import fun.blue_millennium.commands.execute.othercommands.sub.data.query.DataQueryByUserID;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,6 +15,7 @@ public class Query implements CommandExecutor {
     DataQueryByQQ qq = new DataQueryByQQ();
     DataQueryByName name = new DataQueryByName();
     DataQueryByUUID uuid = new DataQueryByUUID();
+    DataQueryByUserID userid = new DataQueryByUserID();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -39,6 +41,10 @@ public class Query implements CommandExecutor {
             }
             case "uuid": {
                 uuid.onCommand(sender, command, label, subArgs);
+                break;
+            }
+            case "userid": {
+                userid.onCommand(sender, command, label, subArgs);
                 break;
             }
             default: {

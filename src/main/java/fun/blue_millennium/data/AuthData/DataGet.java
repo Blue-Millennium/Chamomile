@@ -42,6 +42,11 @@ public class DataGet {
                 .toList();
     }
 
+    public List<Data> getPlayersByUserID(long userID) {
+        return dataList.stream()
+                .filter(record -> record.userid == userID)
+                .toList();
+    }
 
     public List<Data> getPlayersByQQ(long qqNumber) {
         return dataList.stream()
@@ -62,6 +67,11 @@ public class DataGet {
                     return recordUuid.equals(playerUuid);
                 })
                 .toList();
+    }
+
+    public String getPlayersByUserIDAsJson(long userID) {
+        List<Data> players = getPlayersByUserID(userID);
+        return gson.toJson(players);
     }
 
     public String getPlayersByQQAsJson(long qqNumber) {
