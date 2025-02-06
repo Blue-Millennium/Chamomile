@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.module;
+package fun.suya.suisuroru.module.impl;
 
 import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.data.AuthData.DataGet;
@@ -74,9 +74,9 @@ public class RconPreCheck extends Module implements Listener {
                 int prefixLength = Config.ExecuteCommandPrefix.length();
                 String command = content.substring(prefixLength);
                 boolean isOperator = false;
-                if (!Config.BotModeOfficial){
-                isOperator = event.getSender().getPermission().equals(MemberPermission.ADMINISTRATOR)
-                        || event.getSender().getPermission().equals(MemberPermission.OWNER);
+                if (!Config.BotModeOfficial) {
+                    isOperator = event.getSender().getPermission().equals(MemberPermission.ADMINISTRATOR)
+                            || event.getSender().getPermission().equals(MemberPermission.OWNER);
                 } else {
                     DataGet dp = new DataGet();
                     List<PlayerData> PlayerDataList = dp.getPlayerDataByUserID(event.getSender().getId());

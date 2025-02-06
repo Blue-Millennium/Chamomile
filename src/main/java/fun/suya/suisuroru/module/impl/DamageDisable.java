@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.module;
+package fun.suya.suisuroru.module.impl;
 
 import fun.xd.suka.module.Module;
 import org.bukkit.GameMode;

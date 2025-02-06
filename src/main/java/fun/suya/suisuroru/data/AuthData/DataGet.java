@@ -43,7 +43,6 @@ public class DataGet {
     }
 
 
-
     public List<Data> getPlayersByQQ(long qqNumber) {
         return dataList.stream()
                 .filter(record -> record.qqNumber == qqNumber)

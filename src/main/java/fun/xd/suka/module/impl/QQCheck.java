@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import static fun.suya.suisuroru.module.DataProcess.BaseDataProcess;
+import static fun.suya.suisuroru.module.impl.DataProcess.BaseDataProcess;
 
 public class QQCheck extends Module implements Listener {
     private static final HashMap<PlayerData, Integer> playerCodeMap = new HashMap<>();

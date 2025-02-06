@@ -49,14 +49,14 @@ public class SyncChat extends Module implements Listener {
             }
 
             if (!builder.isEmpty()) {
-                if (Config.BotModeOfficial & builder.build().contentToString().replace("/","").replace(" ","").startsWith(Config.SyncChatStartWord)) {
-                    String message = Config.SayQQMessage.replace("%NAME%", event.getSenderName()).replace(Config.SyncChatStartWord,"").replace("%MESSAGE%", builder.build().contentToString());
+                if (Config.BotModeOfficial & builder.build().contentToString().replace("/", "").replace(" ", "").startsWith(Config.SyncChatStartWord)) {
+                    String message = Config.SayQQMessage.replace("%NAME%", event.getSenderName()).replace(Config.SyncChatStartWord, "").replace("%MESSAGE%", builder.build().contentToString());
                     Main.INSTANCE.getServer().broadcastMessage(message);
                     event.getGroup().sendMessage("已成功发送消息至服务器，以下为发送至服务器的原始数据：\n" + message);
-                } else if (!Config.BotModeOfficial){
+                } else if (!Config.BotModeOfficial) {
                     Main.INSTANCE.getServer().broadcastMessage(Config.SayQQMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()));
                 }
-                if (builder.build().contentToString().replace("/","").replace(" ","").startsWith(Config.QQCheckStartWord)) {
+                if (builder.build().contentToString().replace("/", "").replace(" ", "").startsWith(Config.QQCheckStartWord)) {
                     QQCheck.GroupCheck(event, builder);
                 }
             }

@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.module;
+package fun.suya.suisuroru.module.impl;
 
 import fun.xd.suka.Main;
 import fun.xd.suka.data.Data;

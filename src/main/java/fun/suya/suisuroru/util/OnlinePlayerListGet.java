@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.module.impl;
+package fun.suya.suisuroru.util;
 
 import org.bukkit.Bukkit;
 

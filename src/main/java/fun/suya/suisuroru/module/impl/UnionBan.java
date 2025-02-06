@@ -1,8 +1,9 @@
-package fun.suya.suisuroru.module;
+package fun.suya.suisuroru.module.impl;
 
 import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.data.UnionBan.LocalCache;
 import fun.suya.suisuroru.data.UnionBan.UnionBanMain;
+import fun.xd.suka.module.Module;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,7 +20,11 @@ import static fun.suya.suisuroru.commands.execute.vanilla.Ban.BanMessage;
  * Date: 2024/10/28 23:08
  * function: Load banlist when player join
  */
-public class LoadBanlist implements Listener {
+public class UnionBan extends Module implements Listener {
+
+    public UnionBan() {
+        super("UnionBan");
+    }
 
     @EventHandler
     public void PlayerJoinMessage(PlayerJoinEvent event) {
