@@ -30,10 +30,10 @@ public class Report implements CommandExecutor {
             if (args.length == 0) {
                 if (command.getName().equals("report")) {
                     sender.sendMessage("§c/report <玩家名> <原因>");
-                } else if (command.getName().equals("baseplugin")) {
-                    sender.sendMessage("§c/baseplugin report <玩家名> <原因>");
-                } else if (command.getName().equals("bp")) {
-                    sender.sendMessage("§c/bp report <玩家名> <原因>");
+                } else if (command.getName().equals("chamomile")) {
+                    sender.sendMessage("§c/chamomile report <玩家名> <原因>");
+                } else if (command.getName().equals("cm")) {
+                    sender.sendMessage("§c/cm report <玩家名> <原因>");
                 }
             } else {
                 if (reportGroup != null) {

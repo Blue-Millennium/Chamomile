@@ -35,7 +35,7 @@ public class Data implements TabCompleter {
                                 break;
                             }
                             default: {
-                                sender.sendMessage("Unknown command. Usage: /baseplugin data query [qq|name|uuid] [args...]");
+                                sender.sendMessage("Unknown command. Usage: /Chamomile data query [qq|name|uuid] [args...]");
                                 break;
                             }
                         }

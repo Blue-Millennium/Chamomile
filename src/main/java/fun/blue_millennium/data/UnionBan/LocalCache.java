@@ -73,7 +73,7 @@ public class LocalCache {
     }
 
     private static File initial() {
-        File cacheDir = new File("BasePlugin/UnionBan");
+        File cacheDir = new File("Chamomile/UnionBan");
         if (!cacheDir.exists() && !cacheDir.mkdirs()) {
             throw new RuntimeException("Failed to create directory: " + cacheDir.getAbsolutePath());
         }

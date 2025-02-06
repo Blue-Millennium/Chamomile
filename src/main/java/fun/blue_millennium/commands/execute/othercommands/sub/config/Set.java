@@ -25,10 +25,10 @@ public class Set implements CommandExecutor {
             return true;
         }
         if (args.length == 1) {
-            if (command.getName().equals("bp")) {
-                sender.sendMessage("§c/bp config set [修改参数] [修改值]");
-            } else if (command.getName().equals("baseplugin")) {
-                sender.sendMessage("§c/baseplugin config set [修改参数] [修改值]");
+            if (command.getName().equals("cm")) {
+                sender.sendMessage("§c/cm config set [修改参数] [修改值]");
+            } else if (command.getName().equals("chamomile")) {
+                sender.sendMessage("§c/chamomile config set [修改参数] [修改值]");
             }
             String allConfigNames = String.join("|", getConfigFieldNames());
             sender.sendMessage("§a所有配置项名称: " + allConfigNames);

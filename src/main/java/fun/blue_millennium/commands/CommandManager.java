@@ -1,6 +1,6 @@
 package fun.blue_millennium.commands;
 
-import fun.blue_millennium.commands.execute.othercommands.BasePlugin;
+import fun.blue_millennium.commands.execute.othercommands.Chamomile;
 import fun.blue_millennium.commands.execute.othercommands.sub.Help;
 import fun.blue_millennium.commands.execute.othercommands.sub.Rcon;
 import fun.blue_millennium.commands.execute.othercommands.sub.ReportQuery;
@@ -28,17 +28,17 @@ public class CommandManager {
             plugin.getCommand("link").setTabCompleter(new Link());
         }
         // new functions
-        plugin.getCommand("basepluginhelp").setExecutor(new Help());
+        plugin.getCommand("chamomilehelp").setExecutor(new Help());
         plugin.getCommand("report").setExecutor(new fun.blue_millennium.commands.execute.othercommands.sub.Report());
         plugin.getCommand("report").setTabCompleter(new Report());
-        plugin.getCommand("bpconfig").setExecutor(new fun.blue_millennium.commands.execute.othercommands.sub.Config());
-        plugin.getCommand("bpconfig").setTabCompleter(new Config());
-        plugin.getCommand("bpreload").setExecutor(new Reload());
-        plugin.getCommand("baseplugin").setExecutor(new BasePlugin());
-        plugin.getCommand("baseplugin").setTabCompleter(new fun.blue_millennium.commands.tab.othercommands.BasePlugin());
+        plugin.getCommand("cmconfig").setExecutor(new fun.blue_millennium.commands.execute.othercommands.sub.Config());
+        plugin.getCommand("cmconfig").setTabCompleter(new Config());
+        plugin.getCommand("cmreload").setExecutor(new Reload());
+        plugin.getCommand("chamomile").setExecutor(new Chamomile());
+        plugin.getCommand("chamomile").setTabCompleter(new fun.blue_millennium.commands.tab.othercommands.Chamomile());
         plugin.getCommand("query-report").setExecutor(new ReportQuery());
-        plugin.getCommand("bpdata").setExecutor(new fun.blue_millennium.commands.execute.othercommands.sub.Data());
-        plugin.getCommand("bpdata").setTabCompleter(new Data());
+        plugin.getCommand("cmdata").setExecutor(new fun.blue_millennium.commands.execute.othercommands.sub.Data());
+        plugin.getCommand("cmdata").setTabCompleter(new Data());
         plugin.getCommand("rcon").setExecutor(new Rcon());
         plugin.getCommand("link").setExecutor(new Bind());
     }

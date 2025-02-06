@@ -17,8 +17,8 @@ public class Data implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
             if (sender.isOp()) {
-                sender.sendMessage("§e在下方的指令中，您可以使用bp来代替输入baseplugin");
-                sender.sendMessage("§e查询绑定数据:使用/baseplugin data query <依据>");
+                sender.sendMessage("§e在下方的指令中，您可以使用cm来代替输入chamomile");
+                sender.sendMessage("§e查询绑定数据:使用/chamomile data query <依据>");
             } else if (!sender.isOp()) {
                 sender.sendMessage("§4对不起，您没有权限执行此分支下的任何命令");
             }
@@ -34,7 +34,7 @@ public class Data implements CommandExecutor {
                 break;
             }
             default: {
-                sender.sendMessage("Unknown command. Usage: /baseplugin data query [args...]");
+                sender.sendMessage("Unknown command. Usage: /chamomile data query [args...]");
                 break;
             }
         }

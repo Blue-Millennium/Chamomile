@@ -26,10 +26,10 @@ public class Query implements CommandExecutor {
             return true;
         }
         if (args.length == 0) {
-            if (command.getName().equals("bp")) {
-                sender.sendMessage("§c/bp config query [查询配置]");
-            } else if (command.getName().equals("baseplugin")) {
-                sender.sendMessage("§c/baseplugin config query [查询配置]");
+            if (command.getName().equals("cm")) {
+                sender.sendMessage("§c/cm config query [查询配置]");
+            } else if (command.getName().equals("chamomile")) {
+                sender.sendMessage("§c/chamomile config query [查询配置]");
             }
             String allConfigNames = String.join("|", getConfigFieldNames());
             sender.sendMessage("§a所有配置项名称: " + allConfigNames);

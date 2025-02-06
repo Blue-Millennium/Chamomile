@@ -11,9 +11,9 @@ import java.util.Arrays;
 /**
  * @author Suisuroru
  * Date: 2024/9/28 13:43
- * function: Manager command in baseplugin
+ * function: Manager command in Chamomile
  */
-public class BasePlugin implements CommandExecutor {
+public class Chamomile implements CommandExecutor {
 
     Report report = new Report();
     Config config = new Config();
@@ -26,10 +26,10 @@ public class BasePlugin implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
-            if (command.getName().equals("bp")) {
-                sender.sendMessage("§c使用/bp help来获取帮助");
-            } else if (command.getName().equals("baseplugin")) {
-                sender.sendMessage("§c使用/baseplugin help来获取帮助");
+            if (command.getName().equals("cm")) {
+                sender.sendMessage("§c使用/cm help来获取帮助");
+            } else if (command.getName().equals("Chamomile")) {
+                sender.sendMessage("§c使用/chamomile help来获取帮助");
             }
             return true;
         }
@@ -65,7 +65,7 @@ public class BasePlugin implements CommandExecutor {
                 break;
             }
             default: {
-                sender.sendMessage("Unknown command. Usage: /baseplugin [report|reload|config|data|query-report] [args...]");
+                sender.sendMessage("Unknown command. Usage: /chamomile [report|reload|config|data|query-report] [args...]");
                 break;
             }
         }

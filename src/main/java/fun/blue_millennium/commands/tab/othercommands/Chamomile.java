@@ -16,9 +16,9 @@ import java.util.List;
 /**
  * @author Suisuroru
  * Date: 2024/10/15 03:01
- * function: Provides tab completion for the baseplugin command
+ * function: Provides tab completion for the Chamomile command
  */
-public class BasePlugin implements TabCompleter {
+public class Chamomile implements TabCompleter {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -55,7 +55,7 @@ public class BasePlugin implements TabCompleter {
                     break;
                 }
                 default: {
-                    sender.sendMessage("Unknown command. Usage: /baseplugin config [reload|query|set] [args...]");
+                    sender.sendMessage("Unknown command. Usage: /chamomile config [reload|query|set] [args...]");
                     break;
                 }
             }

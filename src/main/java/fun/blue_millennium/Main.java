@@ -17,6 +17,7 @@ import top.mrxiaom.overflow.BotBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -27,8 +28,8 @@ public class Main extends JavaPlugin implements Listener {
     public static Logger LOGGER = null;
     public static Main INSTANCE = null;
     public static Bot BOT;
-    public static File OLD_BASE_DIR = new File("BasePlugin");
-    public static File BASE_DIR = new File("plugins/BasePlugin");
+    public static List<File> OLD_BASE_DIR = List.of(new File("BasePlugin"), new File("plugins/BasePlugin"));
+    public static File BASE_DIR = new File("plugins/Chamomile");
     public static File DATA_FILE = new File(BASE_DIR, "data.json");
     public static File CONFIG_FILE = new File(BASE_DIR, "config.properties");
     public static File REPORT_DATA_FILE = new File(BASE_DIR, "report.csv");
@@ -67,14 +68,16 @@ public class Main extends JavaPlugin implements Listener {
         moduleManager = new ModuleManager();
 
         if (!BASE_DIR.exists()) {
-            if (OLD_BASE_DIR.exists()) {
-                try {
-                    DirectoryActions.copyDirectory(OLD_BASE_DIR, BASE_DIR);
-                    LOGGER.info("复制配置文件完成");
-                    DirectoryActions.deleteDirectory(OLD_BASE_DIR);
-                    LOGGER.info("删除旧配置文件完成");
-                } catch (IOException e) {
-                    LOGGER.warning("复制配置文件时出现异常: " + e.getMessage());
+            for (File file : OLD_BASE_DIR) {
+                if (file.exists()) {
+                    try {
+                        DirectoryActions.copyDirectory(file, BASE_DIR);
+                        LOGGER.info("复制配置文件完成");
+                        DirectoryActions.deleteDirectory(file);
+                        LOGGER.info("删除旧配置文件完成");
+                    } catch (IOException e) {
+                        LOGGER.warning("复制配置文件时出现异常: " + e.getMessage());
+                    }
                 }
             }
             if (!BASE_DIR.mkdir()) {

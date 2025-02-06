@@ -18,6 +18,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static fun.blue_millennium.Main.BASE_DIR;
 import static fun.blue_millennium.Main.LOGGER;
 import static fun.blue_millennium.data.Report.ReportCharmProcess.reportCharmProcess;
 import static fun.blue_millennium.rcon.RconCommandExecute.executeRconCommand;
@@ -107,11 +108,11 @@ public class RconPreCheck extends Module implements Listener {
                 MessageChainBuilder message = new MessageChainBuilder();
                 message.append(new PlainText(Config.ServerName + "Console command result: \n"))
                         .append(result[0]);
-                String PREFIX = "[BasePlugin Report]\n已查询到以下数据，下面的数据将按照以下顺序排列\n";
+                String PREFIX = "[Chamomile Report]\n已查询到以下数据，下面的数据将按照以下顺序排列\n";
                 if (!result[1].isEmpty() && result[1].startsWith(PREFIX)) {
                     reportCharmProcess(result[1].substring(PREFIX.length()));
                     message.append(PREFIX)
-                            .append(event.getGroup().uploadImage(ExternalResource.create(new File(".\\BasePlugin\\CharmProcess\\latest.png"))));
+                            .append(event.getGroup().uploadImage(ExternalResource.create(new File(BASE_DIR,"CharmProcess\\latest.png"))));
                 } else {
                     message.append(result[1]);
                 }

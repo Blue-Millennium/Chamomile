@@ -20,7 +20,7 @@ public class Kill implements CommandExecutor {
             Player target = sender.getServer().getPlayer(args[0]);
             if (target != null && target.isOnline()) {
                 target.setHealth(0);
-                Bukkit.broadcastMessage("§4BasePlugin已尝试清除玩家: " + args[0]);
+                Bukkit.broadcastMessage("§4Chamomile已尝试清除玩家: " + args[0]);
             } else {
                 sender.sendMessage("§4玩家不在线或不存在");
             }
