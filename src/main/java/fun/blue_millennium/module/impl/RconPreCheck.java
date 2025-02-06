@@ -112,7 +112,7 @@ public class RconPreCheck extends Module implements Listener {
                 if (!result[1].isEmpty() && result[1].startsWith(PREFIX)) {
                     reportCharmProcess(result[1].substring(PREFIX.length()));
                     message.append(PREFIX)
-                            .append(event.getGroup().uploadImage(ExternalResource.create(new File(BASE_DIR,"CharmProcess\\latest.png"))));
+                            .append(event.getGroup().uploadImage(ExternalResource.create(new File(BASE_DIR, "CharmProcess\\latest.png"))));
                 } else {
                     message.append(result[1]);
                 }
