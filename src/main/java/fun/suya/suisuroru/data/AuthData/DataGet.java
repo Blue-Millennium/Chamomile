@@ -3,6 +3,7 @@ package fun.suya.suisuroru.data.AuthData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import fun.xd.suka.data.Data;
+import fun.xd.suka.data.PlayerData;
 
 import java.io.File;
 import java.io.FileReader;
@@ -33,6 +34,15 @@ public class DataGet {
             return new ArrayList<>();
         }
     }
+
+    public List<PlayerData> getPlayerDataByUserID(long userID) {
+        return dataList.stream()
+                .filter(record -> record.userid == userID)
+                .map(record -> record.playerData)
+                .toList();
+    }
+
+
 
     public List<Data> getPlayersByQQ(long qqNumber) {
         return dataList.stream()

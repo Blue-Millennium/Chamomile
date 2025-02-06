@@ -1,13 +1,17 @@
 package fun.suya.suisuroru.module.impl;
 
 import fun.suya.suisuroru.config.Config;
+import fun.suya.suisuroru.data.AuthData.DataGet;
 import fun.xd.suka.Main;
+import fun.xd.suka.data.PlayerData;
 import fun.xd.suka.module.Module;
+import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import net.mamoe.mirai.message.data.PlainText;
 import net.mamoe.mirai.utils.ExternalResource;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
 import java.io.File;
@@ -32,31 +36,32 @@ public class RconPreCheck extends Module implements Listener {
 
     @Override
     public void onEnable() {
-        String enabledGroupStr = Config.RconEnabledGroups;
-        if (enabledGroupStr == null || enabledGroupStr.isEmpty()) {
-            LOGGER.warning("[RCONCommandCheck] RCON commands will be disabled due to empty or null RCONEnabledGroups");
-            Config.RconEnabled = false;
-            Main.INSTANCE.configManager.save();
-            return;
-        }
+        if (!Config.BotModeOfficial) {
+            String enabledGroupStr = Config.RconEnabledGroups;
+            if (enabledGroupStr == null || enabledGroupStr.isEmpty()) {
+                LOGGER.warning("[RCONCommandCheck] RCON commands will be disabled due to empty or null RCONEnabledGroups");
+                Config.RconEnabled = false;
+                Main.INSTANCE.configManager.save();
+                return;
+            }
 
-        String[] groupIds = enabledGroupStr.split(";");
-        for (String groupId : groupIds) {
-            try {
-                long id = Long.parseLong(groupId.trim());
-                EnabledGroups.add(id);
-            } catch (NumberFormatException e) {
-                LOGGER.warning("[RCONCommandCheck] Invalid group ID: " + groupId);
+            String[] groupIds = enabledGroupStr.split(";");
+            for (String groupId : groupIds) {
+                try {
+                    long id = Long.parseLong(groupId.trim());
+                    EnabledGroups.add(id);
+                } catch (NumberFormatException e) {
+                    LOGGER.warning("[RCONCommandCheck] Invalid group ID: " + groupId);
+                }
+            }
+
+            if (EnabledGroups.isEmpty()) {
+                LOGGER.warning("[RCONCommandCheck] RCON commands will be disabled");
+                Config.RconEnabled = false;
+                Main.INSTANCE.configManager.save();
+                return;
             }
         }
-
-        if (EnabledGroups.isEmpty()) {
-            LOGGER.warning("[RCONCommandCheck] RCON commands will be disabled");
-            Config.RconEnabled = false;
-            Main.INSTANCE.configManager.save();
-            return;
-        }
-
         Main.INSTANCE.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
             if (!Config.RconEnabled || !EnabledGroups.contains(event.getGroup().getId())) {
                 return;
@@ -68,8 +73,20 @@ public class RconPreCheck extends Module implements Listener {
             if (content.startsWith(Config.ExecuteCommandPrefix)) {
                 int prefixLength = Config.ExecuteCommandPrefix.length();
                 String command = content.substring(prefixLength);
-                boolean isOperator = event.getSender().getPermission().equals(net.mamoe.mirai.contact.MemberPermission.ADMINISTRATOR)
-                        || event.getSender().getPermission().equals(net.mamoe.mirai.contact.MemberPermission.OWNER);
+                boolean isOperator = false;
+                if (!Config.BotModeOfficial){
+                isOperator = event.getSender().getPermission().equals(MemberPermission.ADMINISTRATOR)
+                        || event.getSender().getPermission().equals(MemberPermission.OWNER);
+                } else {
+                    DataGet dp = new DataGet();
+                    List<PlayerData> PlayerDataList = dp.getPlayerDataByUserID(event.getSender().getId());
+                    for (PlayerData pd : PlayerDataList) {
+                        if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(pd.playerUuid))) {
+                            isOperator = true;
+                            break;
+                        }
+                    }
+                }
                 if (Config.RconEnforceOperator) {
                     if (!isOperator) {
                         event.getGroup().sendMessage(new MessageChainBuilder()
