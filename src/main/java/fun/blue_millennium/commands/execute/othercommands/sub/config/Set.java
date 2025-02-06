@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static fun.blue_millennium.Main.LOGGER;
 import static fun.blue_millennium.config.ConfigManager.getConfigFieldNames;
+import static fun.blue_millennium.util.CommandOperatorCheck.checkNotOperator;
 
 /**
  * @author Suisuroru
@@ -20,10 +21,10 @@ public class Set implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         // 检查发送者是否具有OP权限
-        if (!sender.isOp()) {
-            sender.sendMessage("你没有权限执行此命令！");
+        if (checkNotOperator(sender)) {
             return true;
         }
+
         if (args.length == 1) {
             if (command.getName().equals("cm")) {
                 sender.sendMessage("§c/cm config set [修改参数] [修改值]");

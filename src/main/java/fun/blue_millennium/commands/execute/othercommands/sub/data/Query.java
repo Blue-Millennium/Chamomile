@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
+import static fun.blue_millennium.util.CommandOperatorCheck.checkNotOperator;
+
 public class Query implements CommandExecutor {
     DataQueryByQQ qq = new DataQueryByQQ();
     DataQueryByName name = new DataQueryByName();
@@ -25,8 +27,8 @@ public class Query implements CommandExecutor {
                 sender.sendMessage("§e根据QQ号查询数据:使用/chamomile data query qq <QQ号>");
                 sender.sendMessage("§e根据玩家名字查询数据:使用/chamomile data query name <玩家名字>");
                 sender.sendMessage("§e根据UUID查询数据:使用/chamomile data query uuid <玩家UUID>");
-            } else if (!sender.isOp()) {
-                sender.sendMessage("§4对不起，您没有权限执行此分支下的任何命令");
+            } else if (checkNotOperator(sender)) {
+                return true;
             }
         }
         String[] subArgs = Arrays.copyOfRange(args, 1, args.length);

@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
+import static fun.blue_millennium.util.CommandOperatorCheck.checkNotOperator;
+
 /**
  * @author Suisuroru
  * Date: 2024/10/14 22:41
@@ -32,8 +34,8 @@ public class Config implements CommandExecutor {
                     sender.sendMessage("§4重载配置文件:使用/chamomile config reload");
                     sender.sendMessage("§4查询配置项:/chamomile config query <配置项>");
                     sender.sendMessage("§4修改配置项:/chamomile config set <配置项> <修改值>");
-                } else if (!sender.isOp()) {
-                    sender.sendMessage("§4对不起，您没有权限执行此分支下的任何命令");
+                } else        if (checkNotOperator(sender)) {
+                    return true;
                 }
             } else {
                 sender.sendMessage("检查到执行者为控制台，已使用前缀区分玩家指令及管理员指令");

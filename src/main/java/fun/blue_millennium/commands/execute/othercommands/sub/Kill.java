@@ -7,11 +7,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import static fun.blue_millennium.util.CommandOperatorCheck.checkNotOperator;
+
 public class Kill implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!sender.isOp()) {
-            sender.sendMessage("你没有权限执行此命令！");
+        if (checkNotOperator(sender)) {
             return true;
         }
         if (args.length == 0) {

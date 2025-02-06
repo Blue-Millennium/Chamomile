@@ -8,27 +8,35 @@ import org.jetbrains.annotations.NotNull;
 
 import static fun.blue_millennium.Main.LOGGER;
 import static fun.blue_millennium.data.AuthData.DataProcess.ProcessFinalData;
+import static fun.blue_millennium.util.CommandOperatorCheck.checkNotOperator;
 
 public class DataQueryByQQ implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!sender.isOp()) {
-            sender.sendMessage("您没有权限这么做");
+        if (checkNotOperator(sender)) {
             return true;
         }
         DataGet dataGet = new DataGet();
-        long QQNum = 0;
-        try {
-            QQNum = Long.parseLong(args[0]);
-        } catch (NumberFormatException e) {
-            sender.sendMessage("§c输入的数据不是数字");
-            return true;
-        } catch (Exception e) {
-            LOGGER.info(String.valueOf(e));
+        long QQNum = LongProcess(sender, args);
+        if (QQNum == 0) {
             return true;
         }
         String playerJson = dataGet.getPlayersByQQAsJson(QQNum);
         return ProcessFinalData(sender, playerJson);
+    }
+
+    public static long LongProcess(CommandSender sender, String[] args) {
+        long long_num = 0;
+        try {
+            long_num = Long.parseLong(args[0]);
+        } catch (NumberFormatException e) {
+            sender.sendMessage("§c输入的数据不是数字");
+            return 0;
+        } catch (Exception e) {
+            LOGGER.info(String.valueOf(e));
+            return 0;
+        }
+        return long_num;
     }
 }

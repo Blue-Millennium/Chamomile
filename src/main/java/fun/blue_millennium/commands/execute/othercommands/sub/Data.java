@@ -9,6 +9,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
+import static fun.blue_millennium.util.CommandOperatorCheck.checkNotOperator;
+
 public class Data implements CommandExecutor {
     Query query = new Query();
     Bind bind = new Bind();
@@ -19,8 +21,8 @@ public class Data implements CommandExecutor {
             if (sender.isOp()) {
                 sender.sendMessage("§e在下方的指令中，您可以使用cm来代替输入chamomile");
                 sender.sendMessage("§e查询绑定数据:使用/chamomile data query <依据>");
-            } else if (!sender.isOp()) {
-                sender.sendMessage("§4对不起，您没有权限执行此分支下的任何命令");
+            } else         if (checkNotOperator(sender)) {
+                return true;
             }
         }
         String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
