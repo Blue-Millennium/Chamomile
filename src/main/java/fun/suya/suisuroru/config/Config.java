@@ -6,6 +6,7 @@ package fun.suya.suisuroru.config;
  * function: Initialize config
  */
 public class Config {
+    public static boolean BotModeOfficial = true;
     public static boolean QQCheckEnabled = true;
     public static boolean QQRobotEnabled = true;
     public static boolean RconEnabled = true;

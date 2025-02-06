@@ -1,9 +1,10 @@
 package fun.xd.suka.module;
 
 import fun.suya.suisuroru.config.Config;
+import fun.suya.suisuroru.module.impl.DamageDisable;
+import fun.suya.suisuroru.module.impl.DataProcess;
 import fun.suya.suisuroru.module.impl.RconPreCheck;
 import fun.xd.suka.Main;
-import fun.xd.suka.module.impl.DataProcess;
 import fun.xd.suka.module.impl.QQCheck;
 import fun.xd.suka.module.impl.Reporter;
 import fun.xd.suka.module.impl.SyncChat;
@@ -18,13 +19,16 @@ public class ModuleManager {
 
     public void load() {
         if (Config.QQRobotEnabled) {
-            modules.add(new SyncChat());
             modules.add(new QQCheck());
             modules.add(new RconPreCheck());
+            if (!Config.BotModeOfficial) {
+                modules.add(new SyncChat());
+            }
         } else {
             modules.add(new DataProcess());
             LOGGER.info("QQRobot is disabled, DataProcess will be enabled.");
         }
+        modules.add(new DamageDisable());
         modules.add(new Reporter());
 
         modules.forEach(Module::onLoad);

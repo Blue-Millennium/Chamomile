@@ -1,12 +1,17 @@
 package fun.suya.suisuroru.module.impl;
 
+import fun.xd.suka.module.Module;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-public class DamageDisableListener implements Listener {
+public class DamageDisable extends Module implements Listener {
+
+    public DamageDisable() {
+        super("DamageDisable");
+    }
 
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {

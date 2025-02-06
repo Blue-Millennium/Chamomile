@@ -1,4 +1,4 @@
-package fun.xd.suka.module.impl;
+package fun.suya.suisuroru.module.impl;
 
 import fun.xd.suka.Main;
 import fun.xd.suka.data.Data;
@@ -15,7 +15,7 @@ public class DataProcess extends Module implements Listener {
         super("DataProcess");
     }
 
-    static void BaseDataProcess(AsyncPlayerPreLoginEvent event, Data data) {
+    public static void BaseDataProcess(AsyncPlayerPreLoginEvent event, Data data) {
         data = NullCheck(data);
         if (data.playerData == null) {
             PlayerData playerData = new PlayerData();

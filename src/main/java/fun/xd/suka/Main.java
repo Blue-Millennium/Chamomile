@@ -5,7 +5,6 @@ import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.config.ConfigManager;
 import fun.suya.suisuroru.data.DirectoryActions;
 import fun.suya.suisuroru.message.DefaultMessages;
-import fun.suya.suisuroru.module.impl.DamageDisableListener;
 import fun.suya.suisuroru.module.impl.UnionBanModule;
 import fun.xd.suka.data.DataManager;
 import fun.xd.suka.module.ModuleManager;
@@ -101,9 +100,7 @@ public class Main extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        Bukkit.getPluginManager().registerEvents(new DamageDisableListener(), this);
         Bukkit.getPluginManager().registerEvents(this, this); // 注册事件
-
         LoggerAdapters.useLog4j2(); // 使用 Log4j2 作为日志记录器
         Boot_QQBot();
         DefaultMessages.TurnOnPlugin();
