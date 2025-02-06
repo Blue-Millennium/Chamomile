@@ -25,6 +25,7 @@ public class Data implements TabCompleter {
                         completions.add("uuid");
                         completions.add("name");
                         completions.add("qq");
+                        completions.add("userid");
                     } else if (args.length == 3) {
                         switch (args[1].toLowerCase()) {
                             case "uuid", "qq", "userid": {
