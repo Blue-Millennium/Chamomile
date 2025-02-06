@@ -33,7 +33,7 @@ public class QQCheck extends Module implements Listener {
         if (Config.QQCheckEnabled) {
             int code = -1;
             try {
-                code = Integer.parseInt(builder.build().contentToString().replace(Config.QQCheckStartWord, ""));
+                code = Integer.parseInt(builder.build().contentToString().replace(" ","").replace(Config.QQCheckStartWord, ""));
             } catch (Exception exception) {
                 return;
             }

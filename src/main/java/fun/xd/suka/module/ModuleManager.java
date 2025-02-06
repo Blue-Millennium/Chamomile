@@ -21,9 +21,7 @@ public class ModuleManager {
         if (Config.QQRobotEnabled) {
             modules.add(new QQCheck());
             modules.add(new RconPreCheck());
-            if (!Config.BotModeOfficial) {
-                modules.add(new SyncChat());
-            }
+            modules.add(new SyncChat());
         } else {
             modules.add(new DataProcess());
             LOGGER.info("QQRobot is disabled, DataProcess will be enabled.");
