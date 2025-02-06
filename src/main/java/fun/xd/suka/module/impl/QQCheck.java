@@ -42,7 +42,7 @@ public class QQCheck extends Module implements Listener {
     }
 
     private static MessageChain DataCheck(MessageEvent event, int code) {
-        MessageChain checkMessage = null;
+        MessageChainBuilder checkMessage = null;
         for (Map.Entry<PlayerData, Integer> entry : playerCodeMap.entrySet()) {
             if (entry.getValue().equals(code)) {
                 playerCodeMap.remove(entry.getKey());
@@ -50,21 +50,30 @@ public class QQCheck extends Module implements Listener {
                 // 保存数据
                 Data data = new Data();
                 data.playerData = entry.getKey();
-                data.qqNumber = event.getSender().getId();
-                data.linkedTime = System.currentTimeMillis();
+                if (Config.BotModeOfficial) {
+                    data.userid = event.getSender().getId();
+                    data.useridLinkedTime = System.currentTimeMillis();
+                } else {
+                    data.qqNumber = event.getSender().getId();
+                    data.linkedTime = System.currentTimeMillis();
+                }
                 Main.INSTANCE.dataManager.DATA_LIST.add(data);
                 Main.INSTANCE.dataManager.save();
 
                 // 构建确认消息
                 checkMessage = new MessageChainBuilder()
                         .append("Your account was linked!").append("\n")
-                        .append("Player Name: ").append(entry.getKey().playerName).append("\n")
-                        .append("Linked QQ: ").append(String.valueOf(event.getSender().getId())).append("\n")
-                        .append("Linked Time: ").append(TimeUtil.getNowTime())
-                        .build();
+                        .append("Player Name: ").append(entry.getKey().playerName).append("\n");
+                if (Config.BotModeOfficial) {
+                    checkMessage.append("Linked UserID: ").append(String.valueOf(event.getSender().getId())).append("\n")
+                            .append("Linked Time: ").append(TimeUtil.getNowTime());
+                } else {
+                    checkMessage.append("Linked QQ: ").append(String.valueOf(event.getSender().getId())).append("\n")
+                            .append("Linked Time: ").append(TimeUtil.getNowTime());
+                }
             }
         }
-        return checkMessage;
+        return checkMessage.build();
     }
 
     public static Data NullCheck(Data data) {
@@ -103,7 +112,7 @@ public class QQCheck extends Module implements Listener {
             Data data = Main.INSTANCE.dataManager.getPlayerData(event.getUniqueId());
             data = NullCheck(data);
             // 首次登录
-            if (data.qqNumber == 0) {
+            if (data.qqNumber == 0 || data.userid == 0) {
                 int code;
 
                 // 生成不重复的验证码
@@ -126,7 +135,11 @@ public class QQCheck extends Module implements Listener {
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.DisTitle.replace("%CODE%", String.valueOf(code)));
                 return;
             } else {
-                data.qqChecked = true;
+                if (Config.BotModeOfficial) {
+                    data.appidChecked = true;
+                } else {
+                    data.qqChecked = true;
+                }
             }
 
             // 设置首次登陆数据
