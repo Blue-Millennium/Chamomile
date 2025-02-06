@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'Blue-Millennium'
-version = '2.7.4'
+version = '1.0.0'
 
 idea {
     module {

@@ -1,6 +1,6 @@
-name: BasePlugin
-version: 2.7.4
-main: fun.xd.suka.Main
+name: Chamomile
+version: 2.7.5
+main: fun.blue_millennium.Main
 description: Encoded by Blue Millennium
 authors: [ SukaXD, Suisuroru ]
 
@@ -14,26 +14,26 @@ commands:
   pardon:
     description: Unban a player
     usage: /pardon <player>
-  basepluginhelp:
-    description: Baseplugin help
-    usage: /basepluginhelp
-    aliases: [ bphelp ]
+  chamomilehelp:
+    description: Chamomile help
+    usage: /chamomilehelp
+    aliases: [ cmhelp ]
   report:
     description: Report a player
     usage: /report <player> <reason>
-    aliases: [ bprp ]
-  bpreload:
+    aliases: [ cmrp ]
+  cmreload:
     description: Reload config
-    usage: /bpreload
-    aliases: [ bprl ]
-  bpconfig:
+    usage: /cmreload
+    aliases: [ cmrl ]
+  cmconfig:
     description: config functions
-    usage: /bpconfig [reload|query|set] [args...]
-    aliases: [ bpcfg ]
-  bpdata:
+    usage: /cmconfig [reload|query|set] [args...]
+    aliases: [ cmcfg ]
+  cmdata:
     description: data functions
-    usage: /bpdata [query] [args...]
-    aliases: [ bpd ]
+    usage: /cmdata [query] [args...]
+    aliases: [ cmd ]
   query-report:
     description: Query reports
     usage: /query-report
@@ -44,7 +44,7 @@ commands:
   link:
     description: link account and qq
     usage: /link name qq
-  baseplugin:
-    description: Baseplugin functions
-    usage: /baseplugin [help|data|report|reload|query-report] [args...]
-    aliases: [ bp ]
+  chamomile:
+    description: Chamomile functions
+    usage: /chamomile [help|data|report|reload|query-report] [args...]
+    aliases: [ cm ]
