@@ -56,7 +56,7 @@ public class SyncChat extends Module implements Listener {
                 } else if (!Config.BotModeOfficial){
                     Main.INSTANCE.getServer().broadcastMessage(Config.SayQQMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()));
                 }
-                if (builder.build().contentToString().startsWith(Config.QQCheckStartWord)) {
+                if (builder.build().contentToString().replace("/","").replace(" ","").startsWith(Config.QQCheckStartWord)) {
                     QQCheck.GroupCheck(event, builder);
                 }
             }

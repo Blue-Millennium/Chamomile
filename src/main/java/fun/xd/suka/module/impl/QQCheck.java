@@ -1,6 +1,7 @@
 package fun.xd.suka.module.impl;
 
 import fun.suya.suisuroru.config.Config;
+import fun.suya.suisuroru.data.AuthData.DataGet;
 import fun.xd.suka.Main;
 import fun.xd.suka.data.Data;
 import fun.xd.suka.data.PlayerData;
@@ -12,15 +13,18 @@ import net.mamoe.mirai.event.events.MessageEvent;
 import net.mamoe.mirai.event.events.NewFriendRequestEvent;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import static fun.suya.suisuroru.module.impl.DataProcess.BaseDataProcess;
+import static fun.suya.suisuroru.module.DataProcess.BaseDataProcess;
 
 public class QQCheck extends Module implements Listener {
     private static final HashMap<PlayerData, Integer> playerCodeMap = new HashMap<>();
@@ -31,13 +35,33 @@ public class QQCheck extends Module implements Listener {
 
     public static void GroupCheck(GroupMessageEvent event, MessageChainBuilder builder) {
         if (Config.QQCheckEnabled) {
-            int code = -1;
-            try {
-                code = Integer.parseInt(builder.build().contentToString().replace(" ","").replace(Config.QQCheckStartWord, ""));
-            } catch (Exception exception) {
-                return;
+            boolean tag = false;
+            DataGet dp = new DataGet();
+            List<PlayerData> pdl = dp.getPlayerDataByUserID(event.getSender().getId());
+            List<MessageChainBuilder> builderList = new java.util.ArrayList<>(List.of());
+            for (PlayerData pd : pdl) {
+                if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(pd.playerUuid))) {
+                    tag = true;
+                    builderList.add(BuildMessage(event, pd.playerName));
+                }
             }
-            event.getGroup().sendMessage(DataCheck(event, code));
+            if (tag) {
+                MessageChainBuilder finalBuilder = new MessageChainBuilder();
+                for (MessageChainBuilder txt : builderList) {
+                    finalBuilder.add("-----------------\n");
+                    finalBuilder.add(txt.build());
+                }
+                finalBuilder.add("-----------------\n");
+                event.getGroup().sendMessage(finalBuilder.build());
+            } else {
+                int code = -1;
+                try {
+                    code = Integer.parseInt(builder.build().contentToString().replace(" ", "").replace(Config.QQCheckStartWord, ""));
+                } catch (Exception exception) {
+                    return;
+                }
+                event.getGroup().sendMessage(DataCheck(event, code));
+            }
         }
     }
 
@@ -61,19 +85,26 @@ public class QQCheck extends Module implements Listener {
                 Main.INSTANCE.dataManager.save();
 
                 // 构建确认消息
-                checkMessage = new MessageChainBuilder()
-                        .append("Your account was linked!").append("\n")
-                        .append("Player Name: ").append(entry.getKey().playerName).append("\n");
-                if (Config.BotModeOfficial) {
-                    checkMessage.append("Linked UserID: ").append(String.valueOf(event.getSender().getId())).append("\n")
-                            .append("Linked Time: ").append(TimeUtil.getNowTime());
-                } else {
-                    checkMessage.append("Linked QQ: ").append(String.valueOf(event.getSender().getId())).append("\n")
-                            .append("Linked Time: ").append(TimeUtil.getNowTime());
-                }
+                checkMessage = BuildMessage(event, entry.getKey().playerName);
             }
         }
         return checkMessage.build();
+    }
+
+    @NotNull
+    private static MessageChainBuilder BuildMessage(MessageEvent event, String playerName) {
+        MessageChainBuilder checkMessage;
+        checkMessage = new MessageChainBuilder()
+                .append("Your account was linked!").append("\n")
+                .append("Player Name: ").append(playerName).append("\n");
+        if (Config.BotModeOfficial) {
+            checkMessage.append("Linked UserID: ").append(String.valueOf(event.getSender().getId())).append("\n")
+                    .append("Linked Time: ").append(TimeUtil.getNowTime());
+        } else {
+            checkMessage.append("Linked QQ: ").append(String.valueOf(event.getSender().getId())).append("\n")
+                    .append("Linked Time: ").append(TimeUtil.getNowTime());
+        }
+        return checkMessage;
     }
 
     public static Data NullCheck(Data data) {

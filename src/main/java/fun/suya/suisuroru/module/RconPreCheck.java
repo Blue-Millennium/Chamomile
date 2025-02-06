@@ -1,4 +1,4 @@
-package fun.suya.suisuroru.module.impl;
+package fun.suya.suisuroru.module;
 
 import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.data.AuthData.DataGet;

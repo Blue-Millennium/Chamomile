@@ -1,9 +1,9 @@
 package fun.xd.suka.module;
 
 import fun.suya.suisuroru.config.Config;
-import fun.suya.suisuroru.module.impl.DamageDisable;
-import fun.suya.suisuroru.module.impl.DataProcess;
-import fun.suya.suisuroru.module.impl.RconPreCheck;
+import fun.suya.suisuroru.module.DamageDisable;
+import fun.suya.suisuroru.module.DataProcess;
+import fun.suya.suisuroru.module.RconPreCheck;
 import fun.xd.suka.Main;
 import fun.xd.suka.module.impl.QQCheck;
 import fun.xd.suka.module.impl.Reporter;
