@@ -5,7 +5,6 @@ import fun.suya.suisuroru.config.Config;
 import fun.suya.suisuroru.config.ConfigManager;
 import fun.suya.suisuroru.data.DirectoryActions;
 import fun.suya.suisuroru.message.DefaultMessages;
-import fun.suya.suisuroru.module.impl.UnionBanModule;
 import fun.xd.suka.data.DataManager;
 import fun.xd.suka.module.ModuleManager;
 import net.mamoe.mirai.Bot;
@@ -95,7 +94,6 @@ public class Main extends JavaPlugin implements Listener {
         dataManager.load();
         configManager.load();
         moduleManager.load();
-        UnionBanModule.EnableUnionBan(this);
     }
 
     @Override
