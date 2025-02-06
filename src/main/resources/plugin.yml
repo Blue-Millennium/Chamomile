@@ -1,6 +1,6 @@
 name: BasePlugin
 version: 2.7.4
-main: fun.xd.suka.Main
+main: fun.blue_millennium.Main
 description: Encoded by Blue Millennium
 authors: [ SukaXD, Suisuroru ]
 
