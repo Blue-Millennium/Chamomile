@@ -56,9 +56,10 @@ public class SyncChat extends Module implements Listener {
 
             if (!builder.isEmpty()) {
                 if (Config.BotModeOfficial & builder.build().contentToString().replace(" ", "").startsWith(Config.SyncChatStartWord)) {
-                    String avatarUrl = processImageUrl(event.getSender().getAvatarUrl());
+//                    String avatar = "头像为" + processImageUrl(event.getSender().getAvatarUrl()) + "的QQ用户";
+                    String avatar = "QQ用户";
                     String id = GetID(event);
-                    String message = Config.SayQQMessage.replace("%NAME%", "头像为" + avatarUrl + "的QQ用户" + id + "发送了以下消息").replace("%MESSAGE%", builder.build().contentToString().replace(Config.SyncChatStartWord, ""));
+                    String message = Config.SayQQMessage.replace("%NAME%", avatar + id + "发送了以下消息").replace("%MESSAGE%", builder.build().contentToString().replace(Config.SyncChatStartWord, ""));
                     sendMessage(message);
                     event.getGroup().sendMessage("已成功发送消息至服务器，以下为发送至服务器的原始数据：\n" + message);
                 } else if (!Config.BotModeOfficial) {
