@@ -21,8 +21,7 @@ public class ReportDataManager {
      * @param data 新的数据行
      */
     public void appendDataToCsv(List<String> data) {
-        ReportDataActions writer = new ReportDataActions();
-        writer.writeNewData(data);
+        ReportDataActions.writeNewData(data);
     }
 
     public void ProcessData(@NotNull CommandSender sender, @NotNull String[] args) {

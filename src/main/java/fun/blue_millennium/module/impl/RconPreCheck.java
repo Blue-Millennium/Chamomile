@@ -29,7 +29,7 @@ import static fun.blue_millennium.rcon.RconCommandExecute.executeRconCommand;
  * function: Check message if need rcon function
  */
 public class RconPreCheck extends Module implements Listener {
-    private List<Long> EnabledGroups = new ArrayList<>();
+    private final List<Long> EnabledGroups = new ArrayList<>();
 
     public RconPreCheck() {
         super("DirectConsoleCommandCheck");
@@ -63,7 +63,7 @@ public class RconPreCheck extends Module implements Listener {
                 return;
             }
         }
-        Main.INSTANCE.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
+        Main.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
             if (!Config.RconEnabled || !EnabledGroups.contains(event.getGroup().getId())) {
                 return;
             }

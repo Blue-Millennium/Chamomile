@@ -1,6 +1,8 @@
 package fun.blue_millennium.commands.execute.othercommands;
 
 import fun.blue_millennium.commands.execute.othercommands.sub.*;
+import fun.blue_millennium.commands.execute.othercommands.sub.report.Report;
+import fun.blue_millennium.commands.execute.othercommands.sub.report.ReportQuery;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

@@ -2,6 +2,8 @@ package fun.blue_millennium.module.impl;
 
 import fun.blue_millennium.Main;
 import fun.blue_millennium.config.Config;
+import fun.blue_millennium.data.AuthData.DataGet;
+import fun.blue_millennium.data.PlayerData;
 import fun.blue_millennium.module.Module;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
@@ -11,6 +13,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+
+import java.util.List;
 
 import static fun.blue_millennium.Main.LOGGER;
 import static fun.blue_millennium.message.ImageProcess.processImageUrl;
@@ -26,7 +30,7 @@ public class SyncChat extends Module implements Listener {
 
     @Override
     public void onEnable() {
-        syncGroup = Main.INSTANCE.BOT.getGroup(Config.SyncChatGroup);
+        syncGroup = Main.BOT.getGroup(Config.SyncChatGroup);
 
         if (!Config.BotModeOfficial) {
             if (syncGroup == null) {
@@ -37,7 +41,7 @@ public class SyncChat extends Module implements Listener {
             }
         }
 
-        Main.INSTANCE.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
+        Main.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
             if (!Config.BotModeOfficial & (!Config.SyncChatEnabled || event.getGroup() != syncGroup)) {
                 return;
             }
@@ -53,7 +57,8 @@ public class SyncChat extends Module implements Listener {
             if (!builder.isEmpty()) {
                 if (Config.BotModeOfficial & builder.build().contentToString().replace(" ", "").startsWith(Config.SyncChatStartWord)) {
                     String avatarUrl = processImageUrl(event.getSender().getAvatarUrl());
-                    String message = Config.SayQQMessage.replace("%NAME%", "头像为" + avatarUrl + "的QQ用户(Userid:" + event.getSender().getId() + ")发送了以下消息").replace("%MESSAGE%", builder.build().contentToString().replace(Config.SyncChatStartWord, ""));
+                    String id = GetID(event);
+                    String message = Config.SayQQMessage.replace("%NAME%", "头像为" + avatarUrl + "的QQ用户" + id + "发送了以下消息").replace("%MESSAGE%", builder.build().contentToString().replace(Config.SyncChatStartWord, ""));
                     sendMessage(message);
                     event.getGroup().sendMessage("已成功发送消息至服务器，以下为发送至服务器的原始数据：\n" + message);
                 } else if (!Config.BotModeOfficial) {
@@ -69,6 +74,23 @@ public class SyncChat extends Module implements Listener {
     public void sendMessage(String message) {
         String command = "tellraw @a \"" + message + "\"";
         executeRconCommand(Config.RconIP, Config.RconPort, Config.RconPassword, command);
+    }
+
+    public String GetID(GroupMessageEvent event) {
+        DataGet dp = new DataGet();
+        List<PlayerData> pd = dp.getPlayerDataByUserID(event.getSender().getId());
+        if (pd.isEmpty()) {
+            return "(Userid: " + event.getSender().getId() + ")";
+        } else {
+            StringBuilder sb = new StringBuilder();
+            sb.append("(游戏内ID: ");
+            for (PlayerData p : pd) {
+                sb.append(p.playerName).append("/");
+            }
+            sb.delete(sb.length() - 1, sb.length());
+            sb.append(")");
+            return sb.toString();
+        }
     }
 
     @EventHandler

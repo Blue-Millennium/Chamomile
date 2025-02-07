@@ -66,7 +66,7 @@ public class QQCheck extends Module implements Listener {
                 finalBuilder.add("-----------------\n");
                 event.getGroup().sendMessage(finalBuilder.build());
             } else {
-                int code = -1;
+                int code;
                 try {
                     code = Integer.parseInt(builder.build().contentToString().replace(" ", "").replace(Config.QQCheckStartWord, ""));
                 } catch (Exception exception) {
@@ -128,13 +128,13 @@ public class QQCheck extends Module implements Listener {
 
     @Override
     public void onEnable() {
-        Main.INSTANCE.eventChannel.subscribeAlways(NewFriendRequestEvent.class, NewFriendRequestEvent::accept);
+        Main.eventChannel.subscribeAlways(NewFriendRequestEvent.class, NewFriendRequestEvent::accept);
 
-        Main.INSTANCE.eventChannel.subscribeAlways(FriendMessageEvent.class, event -> {
+        Main.eventChannel.subscribeAlways(FriendMessageEvent.class, event -> {
             String message = event.getMessage().contentToString();
 
             if (Config.QQCheckEnabled) {
-                int code = -1;
+                int code;
                 try {
                     code = Integer.parseInt(message);
                 } catch (Exception exception) {

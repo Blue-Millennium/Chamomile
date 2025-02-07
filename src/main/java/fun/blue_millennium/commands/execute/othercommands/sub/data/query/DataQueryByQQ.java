@@ -13,7 +13,7 @@ import static fun.blue_millennium.util.CommandOperatorCheck.checkNotOperator;
 public class DataQueryByQQ implements CommandExecutor {
 
     public static long LongProcess(CommandSender sender, String[] args) {
-        long long_num = 0;
+        long long_num;
         try {
             long_num = Long.parseLong(args[0]);
         } catch (NumberFormatException e) {

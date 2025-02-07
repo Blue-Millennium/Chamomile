@@ -35,7 +35,7 @@ public class Pardon implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (Config.UnionBanEnabled) {
             if (!sender.isOp()) {
                 sender.sendMessage("您没有权限这么做");
