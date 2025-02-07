@@ -29,7 +29,7 @@ public class Reporter extends Module implements Listener {
     public void onEnable() {
         if (!Config.QQRobotEnabled) {
             try {
-                reportGroup = Main.INSTANCE.BOT.getGroup(Config.ReportGroup);
+                reportGroup = Main.BOT.getGroup(Config.ReportGroup);
             } catch (Exception e) {
                 LOGGER.warning("Failed to get report group");
             }

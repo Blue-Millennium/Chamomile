@@ -1,4 +1,4 @@
-package fun.blue_millennium.commands.execute.othercommands.sub;
+package fun.blue_millennium.commands.execute.othercommands.sub.report;
 
 import fun.blue_millennium.data.Report.ReportDataActions;
 import org.bukkit.command.Command;

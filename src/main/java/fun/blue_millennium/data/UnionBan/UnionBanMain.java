@@ -177,9 +177,9 @@ public class UnionBanMain {
 
 
     public static class BanPair<T1, T2, T3, T4> {
-        private T1 uuid;
-        private T2 reason;
-        private T3 time;
+        private final T1 uuid;
+        private final T2 reason;
+        private final T3 time;
         private T4 sourceServer;
 
         public BanPair(T1 uuid, T2 reason, T3 time, T4 sourceServer) {

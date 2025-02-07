@@ -20,7 +20,7 @@ public class DataManager {
     public ArrayList<Data> DATA_LIST = new ArrayList<>();
 
     public void load() {
-        try (JsonReader jsonReader = new JsonReader(new FileReader(Main.INSTANCE.DATA_FILE))) {
+        try (JsonReader jsonReader = new JsonReader(new FileReader(Main.DATA_FILE))) {
             DATA_LIST = new Gson().fromJson(jsonReader, new TypeToken<ArrayList<Data>>() {
             }.getType());
 
@@ -38,7 +38,7 @@ public class DataManager {
 
     public void save() {
         try {
-            FileWriter fileWriter = new FileWriter(Main.INSTANCE.DATA_FILE);
+            FileWriter fileWriter = new FileWriter(Main.DATA_FILE);
             fileWriter.write(new Gson().toJson(DATA_LIST));
             fileWriter.close();
         } catch (Exception exception) {

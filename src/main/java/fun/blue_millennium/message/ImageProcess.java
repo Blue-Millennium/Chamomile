@@ -1,13 +1,9 @@
 package fun.blue_millennium.message;
 
 import fun.blue_millennium.Main;
-import fun.blue_millennium.config.Config;
-import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.bukkit.Bukkit;
-
-import static fun.blue_millennium.rcon.RconCommandExecute.executeRconCommand;
 
 /**
  * @author Suisuroru
@@ -22,16 +18,26 @@ public class ImageProcess {
         return imageurl;
     }
 
-    public static void sendImageUrl(Image message, GroupMessageEvent event) {
+    public static String sendImageUrl(Image message) {
+        String value = null;
         try {
             String imageurl = getImageUrl(message);
-            MessageChainBuilder builder = new MessageChainBuilder();
-            builder.append("[[CICode,url=").append(imageurl).append("]]");
-            // mohist端BUG导致，使用tellraw代替直接发送
-            String command = "tellraw @a \"" + Config.SayQQMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()) + "\"";
-            executeRconCommand(Config.RconIP, Config.RconPort, Config.RconPassword, command);
+            value = processImageUrl(imageurl);
         } catch (Exception e) {
             Main.INSTANCE.getServer().broadcastMessage("一个错误发生于Chamomile内部，图片无法被展示，请前往控制台查看");
         }
+        return value;
+    }
+
+    public static String processImageUrl(String imageurl) {
+        try {
+            MessageChainBuilder builder = new MessageChainBuilder();
+            builder.append("[[CICode,url=").append(imageurl).append("]]");
+            Bukkit.getLogger().info("Processed image " + imageurl);
+            return builder.build().contentToString();
+        } catch (Exception e) {
+            Main.INSTANCE.getServer().broadcastMessage("一个错误发生于Chamomile内部，图片无法被展示，请前往控制台查看");
+        }
+        return imageurl;
     }
 }

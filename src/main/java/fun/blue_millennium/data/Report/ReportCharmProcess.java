@@ -24,7 +24,7 @@ public class ReportCharmProcess {
         int firstColumnWidth = 30; // 第一列宽度
         int otherColumnWidth = 200; // 其他列宽度
         int width = 0;
-        int height = 0;
+        int height;
 
         // 计算最大宽度
         for (String line : lines) {
