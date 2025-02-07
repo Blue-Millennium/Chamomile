@@ -45,7 +45,7 @@ public class QQCheck extends Module implements Listener {
                         .append("Player Name: ").append("test").append("\n")
                         .append("Linked UserID: ").append("ed0da36d-5cd6-4eb1-8fdb-33823927d2fc").append("\n")
                         .append("Linked Time: ").append(TimeUtil.getNowTime());
-                    event.getGroup().sendMessage(checkMessage.build());
+                event.getGroup().sendMessage(checkMessage.build());
             }
             boolean check_tag = false;
             DataGet dp = new DataGet();
