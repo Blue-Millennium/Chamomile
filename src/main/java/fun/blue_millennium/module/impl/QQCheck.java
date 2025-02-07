@@ -38,17 +38,26 @@ public class QQCheck extends Module implements Listener {
 
     public static void GroupCheck(GroupMessageEvent event, MessageChainBuilder builder) {
         if (Config.QQCheckEnabled) {
-            boolean tag = false;
+            if (builder.build().contentToString().replace(" ", "").replace(Config.QQCheckStartWord, "").equals("test")) {
+                MessageChainBuilder checkMessage;
+                checkMessage = new MessageChainBuilder()
+                        .append("Your account was linked!").append("\n")
+                        .append("Player Name: ").append("test").append("\n")
+                        .append("Linked UserID: ").append("ed0da36d-5cd6-4eb1-8fdb-33823927d2fc").append("\n")
+                        .append("Linked Time: ").append(TimeUtil.getNowTime());
+                    event.getGroup().sendMessage(checkMessage.build());
+            }
+            boolean check_tag = false;
             DataGet dp = new DataGet();
             List<PlayerData> pdl = dp.getPlayerDataByUserID(event.getSender().getId());
             List<MessageChainBuilder> builderList = new java.util.ArrayList<>(List.of());
             for (PlayerData pd : pdl) {
                 if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(pd.playerUuid))) {
-                    tag = true;
+                    check_tag = true;
                     builderList.add(BuildMessage(event, pd.playerName));
                 }
             }
-            if (tag) {
+            if (check_tag) {
                 MessageChainBuilder finalBuilder = new MessageChainBuilder();
                 for (MessageChainBuilder txt : builderList) {
                     finalBuilder.add("-----------------\n");
