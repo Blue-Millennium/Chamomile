@@ -6,7 +6,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.blue_millennium.Main.LOGGER;
 import static fun.blue_millennium.commands.execute.othercommands.sub.data.query.DataQueryByQQ.LongProcess;
 import static fun.blue_millennium.data.AuthData.DataProcess.ProcessFinalData;
 import static fun.blue_millennium.util.CommandOperatorCheck.checkNotOperator;

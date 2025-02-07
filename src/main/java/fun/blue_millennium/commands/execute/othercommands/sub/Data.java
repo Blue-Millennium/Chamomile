@@ -21,7 +21,8 @@ public class Data implements CommandExecutor {
             if (sender.isOp()) {
                 sender.sendMessage("§e在下方的指令中，您可以使用cm来代替输入chamomile");
                 sender.sendMessage("§e查询绑定数据:使用/chamomile data query <依据>");
-            } else         if (checkNotOperator(sender)) {
+                sender.sendMessage("§e绑定数据:使用/chamomile data bind <游戏ID> <QQ号>");
+            } else if (checkNotOperator(sender)) {
                 return true;
             }
         }

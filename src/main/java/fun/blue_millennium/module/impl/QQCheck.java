@@ -14,9 +14,11 @@ import net.mamoe.mirai.event.events.NewFriendRequestEvent;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -24,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import static fun.blue_millennium.Main.LOGGER;
 import static fun.blue_millennium.module.impl.DataProcess.BaseDataProcess;
 
 public class QQCheck extends Module implements Listener {
@@ -162,8 +165,12 @@ public class QQCheck extends Module implements Listener {
                 playerData.playerUuid = event.getUniqueId();
                 playerCodeMap.put(playerData, code);
 
-                // 拒绝加入服务器
-                event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.DisTitle.replace("%CODE%", String.valueOf(code)));
+                if (Config.EnforceCheckEnabled) {
+                    // 拒绝加入服务器
+                    event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.DisTitle.replace("%CODE%", String.valueOf(code)));
+                } else {
+                    LOGGER.info(Config.DisTitle.replace("%CODE%", String.valueOf(code)));
+                }
                 return;
             } else {
                 if (Config.BotModeOfficial) {
@@ -175,6 +182,24 @@ public class QQCheck extends Module implements Listener {
 
             // 设置首次登陆数据
             BaseDataProcess(event, data);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        try {
+            Player player = event.getPlayer();
+            int code = -1;
+            for (Map.Entry<PlayerData, Integer> entry : playerCodeMap.entrySet()) {
+                if (entry.getKey().playerUuid.equals(player.getUniqueId())) {
+                    code = entry.getValue();
+                }
+            }
+            if (code != -1) {
+                player.sendMessage(Config.DisTitle.replace("%CODE%", String.valueOf(code)));
+            }
+        } catch (Exception e) {
+            LOGGER.warning(e.getMessage());
         }
     }
 }
