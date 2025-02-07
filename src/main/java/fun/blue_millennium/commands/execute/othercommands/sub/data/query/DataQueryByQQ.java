@@ -12,20 +12,6 @@ import static fun.blue_millennium.util.CommandOperatorCheck.checkNotOperator;
 
 public class DataQueryByQQ implements CommandExecutor {
 
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (checkNotOperator(sender)) {
-            return true;
-        }
-        DataGet dataGet = new DataGet();
-        long QQNum = LongProcess(sender, args);
-        if (QQNum == 0) {
-            return true;
-        }
-        String playerJson = dataGet.getPlayersByQQAsJson(QQNum);
-        return ProcessFinalData(sender, playerJson);
-    }
-
     public static long LongProcess(CommandSender sender, String[] args) {
         long long_num = 0;
         try {
@@ -38,5 +24,19 @@ public class DataQueryByQQ implements CommandExecutor {
             return 0;
         }
         return long_num;
+    }
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (checkNotOperator(sender)) {
+            return true;
+        }
+        DataGet dataGet = new DataGet();
+        long QQNum = LongProcess(sender, args);
+        if (QQNum == 0) {
+            return true;
+        }
+        String playerJson = dataGet.getPlayersByQQAsJson(QQNum);
+        return ProcessFinalData(sender, playerJson);
     }
 }

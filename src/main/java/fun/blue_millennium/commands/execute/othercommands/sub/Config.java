@@ -34,7 +34,7 @@ public class Config implements CommandExecutor {
                     sender.sendMessage("§4重载配置文件:使用/chamomile config reload");
                     sender.sendMessage("§4查询配置项:/chamomile config query <配置项>");
                     sender.sendMessage("§4修改配置项:/chamomile config set <配置项> <修改值>");
-                } else        if (checkNotOperator(sender)) {
+                } else if (checkNotOperator(sender)) {
                     return true;
                 }
             } else {
