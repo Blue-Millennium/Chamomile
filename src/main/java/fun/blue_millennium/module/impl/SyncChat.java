@@ -13,7 +13,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import static fun.blue_millennium.Main.LOGGER;
+import static fun.blue_millennium.message.ImageProcess.processImageUrl;
 import static fun.blue_millennium.message.ImageProcess.sendImageUrl;
+import static fun.blue_millennium.rcon.RconCommandExecute.executeRconCommand;
 
 public class SyncChat extends Module implements Listener {
     private Group syncGroup = null;
@@ -44,23 +46,29 @@ public class SyncChat extends Module implements Listener {
                 if (message instanceof PlainText || message instanceof At || message instanceof AtAll) {
                     builder.add(message);
                 } else if (message instanceof Image image) {
-                    sendImageUrl(image, event);
+                    builder.add(sendImageUrl(image));
                 }
             }
 
             if (!builder.isEmpty()) {
-                if (Config.BotModeOfficial & builder.build().contentToString().replace("/", "").replace(" ", "").startsWith(Config.SyncChatStartWord)) {
-                    String message = Config.SayQQMessage.replace("%NAME%", event.getSenderName()).replace(Config.SyncChatStartWord, "").replace("%MESSAGE%", builder.build().contentToString());
-                    Main.INSTANCE.getServer().broadcastMessage(message);
+                if (Config.BotModeOfficial & builder.build().contentToString().replace(" ", "").startsWith(Config.SyncChatStartWord)) {
+                    String avatarUrl = processImageUrl(event.getSender().getAvatarUrl());
+                    String message = Config.SayQQMessage.replace("%NAME%", "头像为" + avatarUrl + "的QQ用户(Userid:" + event.getSender().getId() + ")发送了以下消息").replace("%MESSAGE%", builder.build().contentToString().replace(Config.SyncChatStartWord, ""));
+                    sendMessage(message);
                     event.getGroup().sendMessage("已成功发送消息至服务器，以下为发送至服务器的原始数据：\n" + message);
                 } else if (!Config.BotModeOfficial) {
-                    Main.INSTANCE.getServer().broadcastMessage(Config.SayQQMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()));
+                    sendMessage(Config.SayQQMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()));
                 }
-                if (builder.build().contentToString().replace("/", "").replace(" ", "").startsWith(Config.QQCheckStartWord)) {
+                if (builder.build().contentToString().replace(" ", "").startsWith(Config.QQCheckStartWord)) {
                     QQCheck.GroupCheck(event, builder);
                 }
             }
         });
+    }
+
+    public void sendMessage(String message) {
+        String command = "tellraw @a \"" + message + "\"";
+        executeRconCommand(Config.RconIP, Config.RconPort, Config.RconPassword, command);
     }
 
     @EventHandler
