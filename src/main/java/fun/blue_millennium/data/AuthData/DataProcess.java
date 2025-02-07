@@ -43,12 +43,13 @@ public class DataProcess {
         if (data.qqChecked == null) {
             appendIfNotNull(result, "QQ绑定标志: ", "未知");
             appendIfNotNull(result, "QQ号码: ", data.qqNumber);
-            appendIfNotNull(result, "QQ绑定时间: ", data.linkedTime);
+            appendIfNotNull(result, "QQ绑定时间: ", transferTime(data.linkedTime));
+            appendIfNotNull(result, "QQ绑定时间(原始): ", data.linkedTime);
         } else {
             appendIfNotNull(result, "QQ绑定标志: ", transferBoolean(data.qqChecked));
             if (data.qqChecked) {
-                appendIfNotNull(result, "QQ号码: ", data.qqNumber);
-                appendIfNotNull(result, "QQ绑定时间: ", data.linkedTime);
+                appendIfNotNull(result, "QQ绑定时间: ", transferTime(data.linkedTime));
+                appendIfNotNull(result, "QQ绑定时间(原始): ", data.linkedTime);
             }
         }
     }
@@ -57,12 +58,13 @@ public class DataProcess {
         if (data.useridChecked == null) {
             appendIfNotNull(result, "UserID绑定标志: ", "未知");
             appendIfNotNull(result, "UserID识别码: ", data.useridChecked);
-            appendIfNotNull(result, "UserID绑定时间: ", data.useridLinkedTime);
+            appendIfNotNull(result, "UserID绑定时间: ", transferTime(data.linkedTime));
+            appendIfNotNull(result, "UserID绑定时间(原始): ", data.linkedTime);
         } else {
             appendIfNotNull(result, "UserID绑定标志: ", transferBoolean(data.useridChecked));
             if (data.useridChecked) {
-                appendIfNotNull(result, "UserID识别码: ", data.userid);
-                appendIfNotNull(result, "UserID绑定时间: ", data.useridLinkedTime);
+                appendIfNotNull(result, "UserID绑定时间: ", transferTime(data.linkedTime));
+                appendIfNotNull(result, "UserID绑定时间(原始): ", data.linkedTime);
             }
         }
     }
