@@ -1,4 +1,4 @@
-package fun.blue_millennium.rcon;
+package fun.blue_millennium.util;
 
 import org.bukkit.Bukkit;
 import org.glavo.rcon.AuthenticationException;

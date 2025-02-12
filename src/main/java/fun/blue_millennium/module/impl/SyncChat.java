@@ -17,9 +17,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.List;
 
 import static fun.blue_millennium.Main.LOGGER;
-import static fun.blue_millennium.message.ImageProcess.processImageUrl;
 import static fun.blue_millennium.message.ImageProcess.sendImageUrl;
-import static fun.blue_millennium.rcon.RconCommandExecute.executeRconCommand;
+import static fun.blue_millennium.util.RconCommandExecute.executeRconCommand;
 
 public class SyncChat extends Module implements Listener {
     private Group syncGroup = null;

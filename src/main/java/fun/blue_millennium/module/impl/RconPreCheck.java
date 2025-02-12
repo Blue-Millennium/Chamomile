@@ -21,7 +21,7 @@ import java.util.List;
 import static fun.blue_millennium.Main.BASE_DIR;
 import static fun.blue_millennium.Main.LOGGER;
 import static fun.blue_millennium.data.Report.ReportCharmProcess.reportCharmProcess;
-import static fun.blue_millennium.rcon.RconCommandExecute.executeRconCommand;
+import static fun.blue_millennium.util.RconCommandExecute.executeRconCommand;
 
 /**
  * @author Suisuroru

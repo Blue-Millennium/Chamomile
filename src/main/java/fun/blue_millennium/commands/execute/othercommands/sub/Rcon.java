@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.blue_millennium.rcon.RconCommandExecute.executeRconCommand;
+import static fun.blue_millennium.util.RconCommandExecute.executeRconCommand;
 
 public class Rcon implements CommandExecutor {
     @Override
