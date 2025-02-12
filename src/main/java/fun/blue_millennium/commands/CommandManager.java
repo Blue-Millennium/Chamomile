@@ -1,7 +1,5 @@
 package fun.blue_millennium.commands;
 
-import fun.blue_millennium.commands.execute.othercommands.sub.report.Report;
-import fun.blue_millennium.commands.execute.othercommands.sub.report.ReportQuery;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandManager {
@@ -35,9 +33,9 @@ public class CommandManager {
         plugin.getCommand("link").setExecutor(new fun.blue_millennium.commands.execute.othercommands.sub.data.Bind());
         plugin.getCommand("link").setTabCompleter(new fun.blue_millennium.commands.tab.othercommands.sub.Link());
 
-        plugin.getCommand("query-report").setExecutor(new ReportQuery());
+        plugin.getCommand("query-report").setExecutor(new fun.blue_millennium.commands.execute.othercommands.sub.report.ReportQuery());
 
-        plugin.getCommand("report").setExecutor(new Report());
+        plugin.getCommand("report").setExecutor(new fun.blue_millennium.commands.execute.othercommands.sub.report.Report());
         plugin.getCommand("report").setTabCompleter(new fun.blue_millennium.commands.tab.othercommands.sub.Report());
 
         plugin.getCommand("rcon").setExecutor(new fun.blue_millennium.commands.execute.othercommands.sub.Rcon());
