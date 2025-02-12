@@ -35,7 +35,7 @@ public class Kill implements CommandExecutor {
                 return Bukkit.dispatchCommand(sender, "minecraft:kill @e[type=item]");
             }
             default -> {
-                return Bukkit.dispatchCommand(sender, "minecraft:kill " + String.join(" ", args));
+                return Bukkit.dispatchCommand(sender, "minecraft:kill " + String.join("", args));
             }
         }
     }
