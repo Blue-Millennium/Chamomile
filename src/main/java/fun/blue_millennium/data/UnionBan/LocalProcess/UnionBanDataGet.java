@@ -3,6 +3,7 @@ package fun.blue_millennium.data.UnionBan.LocalProcess;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import fun.blue_millennium.data.UnionBan.UnionBanData;
 
 import java.io.FileReader;
 import java.io.FileWriter;

@@ -1,10 +1,11 @@
 package fun.blue_millennium.data.UnionBan.LocalProcess;
 
-import fun.blue_millennium.data.UnionBan.OnlineProcess.DataProcessOnline;
+import fun.blue_millennium.data.UnionBan.OnlineProcess.OnlinePush;
+import fun.blue_millennium.data.UnionBan.UnionBanData;
 
 import java.util.List;
 
-import static fun.blue_millennium.data.UnionBan.OnlineProcess.DataProcessOnline.loadRemoteBanList;
+import static fun.blue_millennium.data.UnionBan.OnlineProcess.OnlineGet.loadRemoteBanList;
 
 public class OnlineDataMerge {
     public static void mergeData() {
@@ -18,7 +19,7 @@ public class OnlineDataMerge {
                 if (data.time < banData.time) {
                     dgl.setPlayerData(banData.playerUuid, banData);
                 } else if (data.time > banData.time) {
-                    DataProcessOnline.reportRemoteBanList(banData);
+                    OnlinePush.reportRemoteBanList(banData);
                 }
             }
         }

@@ -1,5 +1,7 @@
 package fun.blue_millennium.data.UnionBan.LocalProcess;
 
+import fun.blue_millennium.data.UnionBan.UnionBanData;
+
 import java.util.UUID;
 
 

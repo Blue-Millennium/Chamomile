@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fun.blue_millennium.config.Config;
-import fun.blue_millennium.data.UnionBan.LocalProcess.UnionBanData;
+import fun.blue_millennium.data.UnionBan.UnionBanData;
 import fun.blue_millennium.data.UnionBan.LocalProcess.UnionBanDataGet;
 import fun.blue_millennium.message.WebhookForEmail;
 
@@ -13,42 +13,10 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.List;
 
 import static fun.blue_millennium.Main.LOGGER;
 
-public class DataProcessOnline {
-    public static ArrayList<UnionBanData> loadRemoteBanList() {
-        ArrayList<UnionBanData> banList = new ArrayList<>();
-        // 确保 URL 格式正确
-        String checkUrl = WebhookForEmail.ensureValidUrl(Config.UnionBanCheckUrl);
-
-        try {
-            // 创建 HttpClient 实例
-            HttpClient httpClient = HttpClient.newHttpClient();
-
-            // 创建 HttpRequest
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(checkUrl))
-                    .header("Content-Type", "application/json; utf-8")
-                    .header("Accept", "application/json")
-                    .build();
-
-            // 发送请求并获取响应
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            String jsonResponse = response.body();
-            ObjectMapper objectMapper = new ObjectMapper();
-            List<UnionBanData> remoteBans = objectMapper.readValue(jsonResponse, objectMapper.getTypeFactory().constructCollectionType(List.class, UnionBanData.class));
-            banList.addAll(remoteBans);
-
-        } catch (IOException | InterruptedException e) {
-            LOGGER.info(String.valueOf(e));
-        }
-
-        return banList;
-    }
-
+public class OnlinePush {
     public static void reportRemoteBanList(UnionBanData data) {
         // 创建 JSON 数据
         ObjectMapper objectMapper = new ObjectMapper();
