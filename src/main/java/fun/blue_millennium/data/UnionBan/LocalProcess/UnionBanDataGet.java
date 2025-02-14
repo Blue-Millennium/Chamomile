@@ -59,4 +59,8 @@ public class UnionBanDataGet {
         dataList.add(data);
         save();
     }
+
+    public List<UnionBanData> returnAllData() {
+        return dataList;
+    }
 }
