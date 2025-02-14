@@ -1,4 +1,4 @@
-package fun.blue_millennium.data.UnionBan;
+package fun.blue_millennium.data.UnionBan.LocalProcess;
 
 import java.util.UUID;
 
@@ -8,5 +8,5 @@ public class UnionBanData {
     public long time;
     public String reason;
     public String sourceServer;
-    public String reportTag;
+    public Boolean reportTag;
 }

@@ -1,7 +1,7 @@
 package fun.blue_millennium.module.impl;
 
 import fun.blue_millennium.config.Config;
-import fun.blue_millennium.data.UnionBan.UnionBanDataGet;
+import fun.blue_millennium.data.UnionBan.LocalProcess.UnionBanDataGet;
 import fun.blue_millennium.module.Module;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

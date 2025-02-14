@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-import static fun.blue_millennium.data.UnionBan.ReportedDataProcess.reportBanData;
+import static fun.blue_millennium.data.UnionBan.LocalProcess.ReportedDataProcess.reportBanData;
 
 /**
  * @author Suisuroru

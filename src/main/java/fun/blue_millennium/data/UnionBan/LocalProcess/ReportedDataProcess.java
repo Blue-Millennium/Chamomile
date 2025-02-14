@@ -1,4 +1,4 @@
-package fun.blue_millennium.data.UnionBan;
+package fun.blue_millennium.data.UnionBan.LocalProcess;
 
 import java.util.UUID;
 
@@ -11,6 +11,7 @@ public class ReportedDataProcess {
         data.time = time;
         data.reason = reason;
         data.sourceServer = sourceServer;
+        data.reportTag = false;
         UnionBanDataGet dg = new UnionBanDataGet();
         dg.setPlayerData(uuid, data);
     }

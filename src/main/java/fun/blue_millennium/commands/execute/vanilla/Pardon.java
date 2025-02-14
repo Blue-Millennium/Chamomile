@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.blue_millennium.commands.execute.vanilla.Ban.BanMessage;
-import static fun.blue_millennium.data.UnionBan.ReportedDataProcess.reportBanData;
+import static fun.blue_millennium.data.UnionBan.LocalProcess.ReportedDataProcess.reportBanData;
 
 /**
  * @author Suisuroru
