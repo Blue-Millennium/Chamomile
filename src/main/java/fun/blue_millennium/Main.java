@@ -95,6 +95,16 @@ public class Main extends JavaPlugin implements Listener {
             }
         }
 
+        if (!UNION_BAN_DATA_FILE.exists()) {
+            try {
+                if (!UNION_BAN_DATA_FILE.createNewFile()) {
+                    LOGGER.warning("Failed to create unionban data file");
+                }
+            } catch (Exception e) {
+                LOGGER.warning("Failed to create unionban data file " + e.getMessage());
+            }
+        }
+
         dataManager.load();
         configManager.load();
         moduleManager.load();
