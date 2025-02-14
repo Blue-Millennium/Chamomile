@@ -9,4 +9,5 @@ public class UnionBanData {
     public String reason;
     public String sourceServer;
     public Boolean reportTag = false;
+    public Boolean localTag = false;
 }

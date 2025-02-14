@@ -17,7 +17,7 @@ import java.net.http.HttpResponse;
 import static fun.blue_millennium.Main.LOGGER;
 
 public class OnlinePush {
-    public static void reportRemoteBanList(UnionBanData data) {
+    public static Boolean reportRemoteBanList(UnionBanData data) {
         // 创建 JSON 数据
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode dataNode = objectMapper.createObjectNode();
@@ -36,7 +36,7 @@ public class OnlinePush {
         }
 
         if (json == null) {
-            return;
+            return false;
         }
 
         // 确保 URL 格式正确
@@ -62,6 +62,7 @@ public class OnlinePush {
                 data.reportTag = true;
                 UnionBanDataGet dp = new UnionBanDataGet();
                 dp.setPlayerData(data.playerUuid, data);
+                return true;
             } else {
                 LOGGER.info("封禁数据上报失败，状态码: " + response.statusCode());
                 LOGGER.info("回传信息: " + response);
@@ -70,5 +71,6 @@ public class OnlinePush {
         } catch (IOException | InterruptedException e) {
             LOGGER.info(String.valueOf(e));
         }
+        return false;
     }
 }
