@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import static fun.blue_millennium.data.UnionBan.LocalBanListImport.importBanList;
 import static fun.blue_millennium.data.UnionBan.LocalProcess.OnlineDataMerge.mergeAndReportData;
 
 public class UnionBan extends Module implements Listener {
@@ -20,6 +21,7 @@ public class UnionBan extends Module implements Listener {
         if (Config.UnionBanEnabled) {
             UnionBanDataGet dg = new UnionBanDataGet();
             dg.load();
+            importBanList();
             mergeAndReportData();
         }
     }
