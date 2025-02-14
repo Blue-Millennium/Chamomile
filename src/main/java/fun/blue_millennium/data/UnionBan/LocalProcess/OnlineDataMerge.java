@@ -11,7 +11,7 @@ import static fun.blue_millennium.data.UnionBan.LocalProcess.BanDataProcess.Loca
 import static fun.blue_millennium.data.UnionBan.OnlineProcess.OnlineGet.loadRemoteBanList;
 
 public class OnlineDataMerge {
-    public static void mergeData() {
+    public static void mergeAndReportData() {
         UnionBanDataGet dgl = new UnionBanDataGet();
         List<UnionBanData> remote = loadRemoteBanList();
         List<String> namelist1 = new ArrayList<>(List.of());

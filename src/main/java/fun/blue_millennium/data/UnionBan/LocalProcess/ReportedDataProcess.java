@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 
 import java.util.UUID;
 
-import static fun.blue_millennium.data.UnionBan.LocalProcess.OnlineDataMerge.mergeData;
+import static fun.blue_millennium.data.UnionBan.LocalProcess.OnlineDataMerge.mergeAndReportData;
 
 
 public class ReportedDataProcess {
@@ -21,6 +21,6 @@ public class ReportedDataProcess {
         data.localTag = true;
         UnionBanDataGet dg = new UnionBanDataGet();
         dg.setPlayerData(uuid, data);
-        mergeData();
+        mergeAndReportData();
     }
 }

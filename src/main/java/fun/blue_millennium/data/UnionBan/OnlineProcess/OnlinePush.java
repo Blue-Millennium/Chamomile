@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fun.blue_millennium.config.Config;
-import fun.blue_millennium.data.UnionBan.UnionBanData;
 import fun.blue_millennium.data.UnionBan.LocalProcess.UnionBanDataGet;
+import fun.blue_millennium.data.UnionBan.UnionBanData;
 import fun.blue_millennium.message.WebhookForEmail;
 
 import java.io.IOException;
