@@ -33,6 +33,7 @@ public class Main extends JavaPlugin implements Listener {
     public static File DATA_FILE = new File(BASE_DIR, "data.json");
     public static File CONFIG_FILE = new File(BASE_DIR, "config.properties");
     public static File REPORT_DATA_FILE = new File(BASE_DIR, "report.csv");
+    public static File UNION_BAN_DATA_FILE = new File(BASE_DIR, "unionbandata.json");
     public static GlobalEventChannel eventChannel;
     public DataManager dataManager;
     public ConfigManager configManager;
@@ -91,6 +92,16 @@ public class Main extends JavaPlugin implements Listener {
                 }
             } catch (Exception e) {
                 LOGGER.warning("Failed to create data file " + e.getMessage());
+            }
+        }
+
+        if (!UNION_BAN_DATA_FILE.exists()) {
+            try {
+                if (!UNION_BAN_DATA_FILE.createNewFile()) {
+                    LOGGER.warning("Failed to create unionban data file");
+                }
+            } catch (Exception e) {
+                LOGGER.warning("Failed to create unionban data file " + e.getMessage());
             }
         }
 

@@ -18,7 +18,7 @@ import static fun.blue_millennium.Main.LOGGER;
 
 public class DataGet {
     private final List<Data> dataList;
-    private final Gson gson = new Gson();  // 创建 Gson 实例
+    private final Gson gson = new Gson();
 
     public DataGet() {
         this.dataList = readDataFromFile(DATA_FILE);

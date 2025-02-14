@@ -2,7 +2,6 @@ package fun.blue_millennium.commands.execute.vanilla;
 
 import fun.blue_millennium.Main;
 import fun.blue_millennium.config.Config;
-import fun.blue_millennium.data.UnionBan.UnionBanMain;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,9 +10,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
-import java.util.Date;
 
-import static fun.blue_millennium.data.UnionBan.UnionBanMain.reportBanData;
+import static fun.blue_millennium.data.UnionBan.LocalProcess.ReportedDataProcess.reportBanData;
 
 /**
  * @author Suisuroru
@@ -75,7 +73,7 @@ public class Ban implements CommandExecutor {
         String message = "玩家 " + targetPlayer.getName() + " 已被 " + sender.getName() + " 以[ " + reason + " ]的理由封禁";
         BanMessage(message);
         if (!Config.UnionBanCheckOnly) {
-            reportBanData(new UnionBanMain.BanPair<>(targetPlayer.getUniqueId(), reason, new Date(), Config.ServerName));
+            reportBanData(targetPlayer.getName(), targetPlayer.getUniqueId(), System.currentTimeMillis(), reason, Config.ServerName);
         }
     }
 }
