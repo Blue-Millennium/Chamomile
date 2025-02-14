@@ -1,7 +1,6 @@
 package fun.blue_millennium.commands.execute.vanilla;
 
 import fun.blue_millennium.config.Config;
-import fun.blue_millennium.data.UnionBan.UnionBanMain;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -10,10 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Date;
-
 import static fun.blue_millennium.commands.execute.vanilla.Ban.BanMessage;
-import static fun.blue_millennium.data.UnionBan.UnionBanMain.reportBanData;
+import static fun.blue_millennium.data.UnionBan.ReportedDataProcess.reportBanData;
 
 /**
  * @author Suisuroru
@@ -27,9 +24,8 @@ public class Pardon implements CommandExecutor {
         BanMessage(message);
         if (!Config.UnionBanCheckOnly) {
             Player targetPlayer = Bukkit.getPlayer(playerName);
-            String reason = "Pardon";
             if (targetPlayer != null) {
-                reportBanData(new UnionBanMain.BanPair<>(targetPlayer.getUniqueId(), reason, new Date(), "Pardon"));
+                reportBanData(targetPlayer.getName(), targetPlayer.getUniqueId(), System.currentTimeMillis(), "Pardon", Config.ServerName);
             }
         }
     }
