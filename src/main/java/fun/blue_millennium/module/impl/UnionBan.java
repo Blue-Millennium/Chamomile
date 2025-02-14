@@ -25,7 +25,7 @@ public class UnionBan extends Module implements Listener {
     }
 
     @EventHandler
-    public void PlayerJoinMessage(PlayerJoinEvent event) {
+    public void PlayerJoinProcess(PlayerJoinEvent event) {
         if (Config.UnionBanEnabled) {
             mergeData();
         }
