@@ -1,7 +1,7 @@
-package fun.blue_millennium.data.UnionBan;
+package fun.blue_millennium.data.UnionBan.LocalProcess;
 
 import fun.blue_millennium.config.Config;
-import fun.blue_millennium.data.UnionBan.LocalProcess.UnionBanDataGet;
+import fun.blue_millennium.data.UnionBan.UnionBanData;
 import org.bukkit.BanEntry;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
