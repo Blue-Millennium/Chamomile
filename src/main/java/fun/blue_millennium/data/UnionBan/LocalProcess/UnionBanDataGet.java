@@ -37,7 +37,7 @@ public class UnionBanDataGet {
     public void save() {
         try {
             FileWriter fileWriter = new FileWriter(UNION_BAN_DATA_FILE);
-            fileWriter.write(new Gson().toJson(UNION_BAN_DATA_FILE));
+            fileWriter.write(new Gson().toJson(dataList));
             fileWriter.close();
         } catch (Exception exception) {
             LOGGER.warning("Failed to save UnionBan data file" + exception.getMessage());
