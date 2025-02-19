@@ -2,6 +2,7 @@ package fun.blue_millennium.commands.execute.vanilla;
 
 import fun.blue_millennium.Chamomile;
 import fun.blue_millennium.config.Config;
+import fun.blue_millennium.message.WebhookForEmail;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,9 +24,11 @@ public class Ban implements CommandExecutor {
     public static void BanMessage(String message) {
         Bukkit.broadcastMessage("本地黑名单: " + message);
         try {
-            if (Config.QQRobotEnabled) {
+            if (Config.QQRobotEnabled & !Config.BotModeOfficial) {
                 Chamomile.BOT.getGroup(Config.SyncChatGroup).sendMessage(message);
                 Chamomile.BOT.getGroup(Config.ReportGroup).sendMessage(message);
+                WebhookForEmail webhook = new WebhookForEmail();
+                webhook.formatAndSendWebhook("本地黑名单: " + message, message, Config.WebHookEmail);
             }
         } catch (Exception e) {
             Chamomile.LOGGER.info("Error when report message to QQ group");

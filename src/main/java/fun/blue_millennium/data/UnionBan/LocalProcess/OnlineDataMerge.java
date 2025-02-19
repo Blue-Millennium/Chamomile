@@ -1,7 +1,8 @@
 package fun.blue_millennium.data.UnionBan.LocalProcess;
 
-import fun.blue_millennium.data.UnionBan.OnlineProcess.OnlinePush;
+import fun.blue_millennium.config.Config;
 import fun.blue_millennium.data.UnionBan.UnionBanData;
+import fun.blue_millennium.message.WebhookForEmail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 import static fun.blue_millennium.commands.execute.vanilla.Ban.BanMessage;
 import static fun.blue_millennium.data.UnionBan.LocalProcess.BanDataProcess.LocalBanDataProcess;
 import static fun.blue_millennium.data.UnionBan.OnlineProcess.OnlineGet.loadRemoteBanList;
+import static fun.blue_millennium.data.UnionBan.OnlineProcess.OnlinePush.reportRemoteBanList;
 
 public class OnlineDataMerge {
     public static void mergeAndReportData() {
@@ -25,7 +27,7 @@ public class OnlineDataMerge {
                     dgl.setPlayerData(banData.playerUuid, banData);
                     namelist1.add(banData.playerName);
                 } else if (data.time > banData.time) {
-                    if (OnlinePush.reportRemoteBanList(banData)) {
+                    if (reportRemoteBanList(banData)) {
                         namelist2.add(banData.playerName);
                     }
                 }
@@ -38,6 +40,8 @@ public class OnlineDataMerge {
             }
             LocalBanDataProcess();
             BanMessage(msg + "的封禁数据已被同步至本地服务器");
+            WebhookForEmail webhook = new WebhookForEmail();
+            webhook.formatAndSendWebhook("本地黑名单: " + msg + "的封禁数据已被同步至本地服务器", msg.toString(), Config.WebHookEmail);
         }
         if (!namelist2.isEmpty()) {
             StringBuilder msg = new StringBuilder().append(" ");
@@ -45,6 +49,8 @@ public class OnlineDataMerge {
                 msg.append(name).append(" ");
             }
             BanMessage(msg + "的封禁数据已被上报至UnionBan服务器");
+            WebhookForEmail webhook = new WebhookForEmail();
+            webhook.formatAndSendWebhook("UnionBan: " + msg + "的封禁数据已被上报至UnionBan服务器", msg.toString(), Config.WebHookEmail);
         }
     }
 }
