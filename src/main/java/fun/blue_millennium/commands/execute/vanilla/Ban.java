@@ -1,6 +1,6 @@
 package fun.blue_millennium.commands.execute.vanilla;
 
-import fun.blue_millennium.Main;
+import fun.blue_millennium.Chamomile;
 import fun.blue_millennium.config.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -24,11 +24,11 @@ public class Ban implements CommandExecutor {
         Bukkit.broadcastMessage("本地黑名单: " + message);
         try {
             if (Config.QQRobotEnabled) {
-                Main.BOT.getGroup(Config.SyncChatGroup).sendMessage(message);
-                Main.BOT.getGroup(Config.ReportGroup).sendMessage(message);
+                Chamomile.BOT.getGroup(Config.SyncChatGroup).sendMessage(message);
+                Chamomile.BOT.getGroup(Config.ReportGroup).sendMessage(message);
             }
         } catch (Exception e) {
-            Main.LOGGER.info("Error when report message to QQ group");
+            Chamomile.LOGGER.info("Error when report message to QQ group");
         }
     }
 

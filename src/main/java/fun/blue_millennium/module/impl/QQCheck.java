@@ -1,6 +1,6 @@
 package fun.blue_millennium.module.impl;
 
-import fun.blue_millennium.Main;
+import fun.blue_millennium.Chamomile;
 import fun.blue_millennium.config.Config;
 import fun.blue_millennium.data.AuthData.DataGet;
 import fun.blue_millennium.data.Data;
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import static fun.blue_millennium.Main.LOGGER;
+import static fun.blue_millennium.Chamomile.LOGGER;
 import static fun.blue_millennium.module.impl.DataProcess.BaseDataProcess;
 
 public class QQCheck extends Module implements Listener {
@@ -93,8 +93,8 @@ public class QQCheck extends Module implements Listener {
                     data.qqNumber = event.getSender().getId();
                     data.linkedTime = System.currentTimeMillis();
                 }
-                Main.INSTANCE.dataManager.DATA_LIST.add(data);
-                Main.INSTANCE.dataManager.save();
+                Chamomile.INSTANCE.dataManager.DATA_LIST.add(data);
+                Chamomile.INSTANCE.dataManager.save();
 
                 // 构建确认消息
                 checkMessage = BuildMessage(event, entry.getKey().playerName);
@@ -128,9 +128,9 @@ public class QQCheck extends Module implements Listener {
 
     @Override
     public void onEnable() {
-        Main.eventChannel.subscribeAlways(NewFriendRequestEvent.class, NewFriendRequestEvent::accept);
+        Chamomile.eventChannel.subscribeAlways(NewFriendRequestEvent.class, NewFriendRequestEvent::accept);
 
-        Main.eventChannel.subscribeAlways(FriendMessageEvent.class, event -> {
+        Chamomile.eventChannel.subscribeAlways(FriendMessageEvent.class, event -> {
             String message = event.getMessage().contentToString();
 
             if (Config.QQCheckEnabled) {
@@ -152,7 +152,7 @@ public class QQCheck extends Module implements Listener {
         }
 
         if (Config.QQCheckEnabled) {
-            Data data = Main.INSTANCE.dataManager.getPlayerData(event.getUniqueId());
+            Data data = Chamomile.INSTANCE.dataManager.getPlayerData(event.getUniqueId());
             data = NullCheck(data);
             // 首次登录
             if (data.qqNumber == 0 || data.userid == 0) {

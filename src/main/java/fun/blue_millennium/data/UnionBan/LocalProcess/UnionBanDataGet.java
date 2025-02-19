@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static fun.blue_millennium.Main.LOGGER;
-import static fun.blue_millennium.Main.UNION_BAN_DATA_FILE;
+import static fun.blue_millennium.Chamomile.LOGGER;
+import static fun.blue_millennium.Chamomile.UNION_BAN_DATA_FILE;
 
 public class UnionBanDataGet {
     private List<UnionBanData> dataList;
@@ -37,7 +37,7 @@ public class UnionBanDataGet {
     public void save() {
         try {
             FileWriter fileWriter = new FileWriter(UNION_BAN_DATA_FILE);
-            fileWriter.write(new Gson().toJson(UNION_BAN_DATA_FILE));
+            fileWriter.write(new Gson().toJson(dataList));
             fileWriter.close();
         } catch (Exception exception) {
             LOGGER.warning("Failed to save UnionBan data file" + exception.getMessage());

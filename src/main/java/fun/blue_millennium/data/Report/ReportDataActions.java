@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static fun.blue_millennium.Main.LOGGER;
-import static fun.blue_millennium.Main.REPORT_DATA_FILE;
+import static fun.blue_millennium.Chamomile.LOGGER;
+import static fun.blue_millennium.Chamomile.REPORT_DATA_FILE;
 
 /**
  * @author Suisuroru

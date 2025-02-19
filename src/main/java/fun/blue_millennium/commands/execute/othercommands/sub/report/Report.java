@@ -1,6 +1,6 @@
 package fun.blue_millennium.commands.execute.othercommands.sub.report;
 
-import fun.blue_millennium.Main;
+import fun.blue_millennium.Chamomile;
 import fun.blue_millennium.config.Config;
 import fun.blue_millennium.data.Report.ReportDataManager;
 import fun.blue_millennium.message.WebhookForEmail;
@@ -19,13 +19,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-import static fun.blue_millennium.Main.LOGGER;
+import static fun.blue_millennium.Chamomile.LOGGER;
 
 public class Report implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
-            Group reportGroup = ((Reporter) Main.INSTANCE.moduleManager.getModuleByName("Reporter")).reportGroup;
+            Group reportGroup = ((Reporter) Chamomile.INSTANCE.moduleManager.getModuleByName("Reporter")).reportGroup;
 
             if (args.length == 0) {
                 if (command.getName().equals("report")) {

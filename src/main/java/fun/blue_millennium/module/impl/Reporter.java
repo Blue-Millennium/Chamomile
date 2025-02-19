@@ -1,6 +1,6 @@
 package fun.blue_millennium.module.impl;
 
-import fun.blue_millennium.Main;
+import fun.blue_millennium.Chamomile;
 import fun.blue_millennium.config.Config;
 import fun.blue_millennium.module.Module;
 import fun.blue_millennium.util.IpinfoUtil;
@@ -11,7 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
-import static fun.blue_millennium.Main.LOGGER;
+import static fun.blue_millennium.Chamomile.LOGGER;
 
 public class Reporter extends Module implements Listener {
     public Group reportGroup = null;
@@ -29,7 +29,7 @@ public class Reporter extends Module implements Listener {
     public void onEnable() {
         if (!Config.QQRobotEnabled) {
             try {
-                reportGroup = Main.BOT.getGroup(Config.ReportGroup);
+                reportGroup = Chamomile.BOT.getGroup(Config.ReportGroup);
             } catch (Exception e) {
                 LOGGER.warning("Failed to get report group");
             }

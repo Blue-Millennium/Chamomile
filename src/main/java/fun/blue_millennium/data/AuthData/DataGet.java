@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static fun.blue_millennium.Main.DATA_FILE;
-import static fun.blue_millennium.Main.LOGGER;
+import static fun.blue_millennium.Chamomile.DATA_FILE;
+import static fun.blue_millennium.Chamomile.LOGGER;
 
 public class DataGet {
     private final List<Data> dataList;

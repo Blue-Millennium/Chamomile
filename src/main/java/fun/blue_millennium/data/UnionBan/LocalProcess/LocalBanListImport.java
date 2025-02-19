@@ -1,14 +1,14 @@
-package fun.blue_millennium.data.UnionBan;
+package fun.blue_millennium.data.UnionBan.LocalProcess;
 
 import fun.blue_millennium.config.Config;
-import fun.blue_millennium.data.UnionBan.LocalProcess.UnionBanDataGet;
+import fun.blue_millennium.data.UnionBan.UnionBanData;
 import org.bukkit.BanEntry;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.ban.ProfileBanList;
 import org.bukkit.profile.PlayerProfile;
 
-import static fun.blue_millennium.Main.LOGGER;
+import static fun.blue_millennium.Chamomile.LOGGER;
 import static fun.blue_millennium.data.UnionBan.OnlineProcess.OnlinePush.reportRemoteBanList;
 
 public class LocalBanListImport {

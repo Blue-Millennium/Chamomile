@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import static fun.blue_millennium.Main.LOGGER;
+import static fun.blue_millennium.Chamomile.LOGGER;
 
 public class DataProcess {
 

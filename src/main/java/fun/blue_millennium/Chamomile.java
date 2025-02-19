@@ -24,9 +24,9 @@ import java.util.logging.Logger;
  * @author Liycxc
  * Date: 2024/7/16 下午8:38
  */
-public class Main extends JavaPlugin implements Listener {
+public class Chamomile extends JavaPlugin implements Listener {
     public static Logger LOGGER = null;
-    public static Main INSTANCE = null;
+    public static Chamomile INSTANCE = null;
     public static Bot BOT;
     public static List<File> OLD_BASE_DIR = List.of(new File("BasePlugin"), new File("plugins/BasePlugin"));
     public static File BASE_DIR = new File("plugins/Chamomile");

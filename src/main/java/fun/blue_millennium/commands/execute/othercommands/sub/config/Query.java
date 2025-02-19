@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 
-import static fun.blue_millennium.Main.LOGGER;
+import static fun.blue_millennium.Chamomile.LOGGER;
 import static fun.blue_millennium.config.ConfigManager.getConfigFieldNames;
 import static fun.blue_millennium.util.CommandOperatorCheck.checkNotOperator;
 

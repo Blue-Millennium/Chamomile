@@ -6,8 +6,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static fun.blue_millennium.Main.BASE_DIR;
-import static fun.blue_millennium.Main.LOGGER;
+import static fun.blue_millennium.Chamomile.BASE_DIR;
+import static fun.blue_millennium.Chamomile.LOGGER;
 
 /**
  * @author Suisuroru

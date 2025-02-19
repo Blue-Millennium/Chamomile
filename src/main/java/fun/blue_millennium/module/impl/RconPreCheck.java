@@ -1,6 +1,6 @@
 package fun.blue_millennium.module.impl;
 
-import fun.blue_millennium.Main;
+import fun.blue_millennium.Chamomile;
 import fun.blue_millennium.config.Config;
 import fun.blue_millennium.data.AuthData.DataGet;
 import fun.blue_millennium.data.PlayerData;
@@ -18,8 +18,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.blue_millennium.Main.BASE_DIR;
-import static fun.blue_millennium.Main.LOGGER;
+import static fun.blue_millennium.Chamomile.BASE_DIR;
+import static fun.blue_millennium.Chamomile.LOGGER;
 import static fun.blue_millennium.data.Report.ReportCharmProcess.reportCharmProcess;
 import static fun.blue_millennium.util.RconCommandExecute.executeRconCommand;
 
@@ -42,7 +42,7 @@ public class RconPreCheck extends Module implements Listener {
             if (enabledGroupStr == null || enabledGroupStr.isEmpty()) {
                 LOGGER.warning("[RCONCommandCheck] RCON commands will be disabled due to empty or null RCONEnabledGroups");
                 Config.RconEnabled = false;
-                Main.INSTANCE.configManager.save();
+                Chamomile.INSTANCE.configManager.save();
                 return;
             }
 
@@ -59,11 +59,11 @@ public class RconPreCheck extends Module implements Listener {
             if (EnabledGroups.isEmpty()) {
                 LOGGER.warning("[RCONCommandCheck] RCON commands will be disabled");
                 Config.RconEnabled = false;
-                Main.INSTANCE.configManager.save();
+                Chamomile.INSTANCE.configManager.save();
                 return;
             }
         }
-        Main.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
+        Chamomile.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
             if (!Config.RconEnabled || !EnabledGroups.contains(event.getGroup().getId())) {
                 return;
             }
