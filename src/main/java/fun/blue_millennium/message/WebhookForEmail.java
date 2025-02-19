@@ -10,7 +10,7 @@ import java.net.http.HttpResponse;
 import java.util.Arrays;
 import java.util.List;
 
-import static fun.blue_millennium.Main.LOGGER;
+import static fun.blue_millennium.Chamomile.LOGGER;
 
 /**
  * @author Suisuroru

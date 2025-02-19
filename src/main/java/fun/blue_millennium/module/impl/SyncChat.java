@@ -1,6 +1,6 @@
 package fun.blue_millennium.module.impl;
 
-import fun.blue_millennium.Main;
+import fun.blue_millennium.Chamomile;
 import fun.blue_millennium.config.Config;
 import fun.blue_millennium.data.AuthData.DataGet;
 import fun.blue_millennium.data.PlayerData;
@@ -16,7 +16,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.List;
 
-import static fun.blue_millennium.Main.LOGGER;
+import static fun.blue_millennium.Chamomile.LOGGER;
 import static fun.blue_millennium.message.ImageProcess.sendImageUrl;
 import static fun.blue_millennium.util.RconCommandExecute.executeRconCommand;
 
@@ -29,18 +29,18 @@ public class SyncChat extends Module implements Listener {
 
     @Override
     public void onEnable() {
-        syncGroup = Main.BOT.getGroup(Config.SyncChatGroup);
+        syncGroup = Chamomile.BOT.getGroup(Config.SyncChatGroup);
 
         if (!Config.BotModeOfficial) {
             if (syncGroup == null) {
                 LOGGER.warning("Failed to get sync group");
                 Config.SyncChatEnabled = false;
-                Main.INSTANCE.configManager.save();
+                Chamomile.INSTANCE.configManager.save();
                 return;
             }
         }
 
-        Main.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
+        Chamomile.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
             if (!Config.BotModeOfficial & (!Config.SyncChatEnabled || event.getGroup() != syncGroup)) {
                 return;
             }

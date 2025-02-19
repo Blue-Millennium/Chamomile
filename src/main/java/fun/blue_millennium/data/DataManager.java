@@ -3,14 +3,14 @@ package fun.blue_millennium.data;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import fun.blue_millennium.Main;
+import fun.blue_millennium.Chamomile;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static fun.blue_millennium.Main.LOGGER;
+import static fun.blue_millennium.Chamomile.LOGGER;
 
 /**
  * @author Liycxc
@@ -20,7 +20,7 @@ public class DataManager {
     public ArrayList<Data> DATA_LIST = new ArrayList<>();
 
     public void load() {
-        try (JsonReader jsonReader = new JsonReader(new FileReader(Main.DATA_FILE))) {
+        try (JsonReader jsonReader = new JsonReader(new FileReader(Chamomile.DATA_FILE))) {
             DATA_LIST = new Gson().fromJson(jsonReader, new TypeToken<ArrayList<Data>>() {
             }.getType());
 
@@ -38,7 +38,7 @@ public class DataManager {
 
     public void save() {
         try {
-            FileWriter fileWriter = new FileWriter(Main.DATA_FILE);
+            FileWriter fileWriter = new FileWriter(Chamomile.DATA_FILE);
             fileWriter.write(new Gson().toJson(DATA_LIST));
             fileWriter.close();
         } catch (Exception exception) {

@@ -2,7 +2,7 @@ package fun.blue_millennium.message;
 
 import fun.blue_millennium.config.Config;
 
-import static fun.blue_millennium.Main.LOGGER;
+import static fun.blue_millennium.Chamomile.LOGGER;
 
 public class DefaultMessages {
     public static void TurnOffPlugin() {

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-import static fun.blue_millennium.Main.LOGGER;
+import static fun.blue_millennium.Chamomile.LOGGER;
 import static fun.blue_millennium.data.AuthData.DataProcess.ProcessFinalData;
 import static fun.blue_millennium.util.CommandOperatorCheck.checkNotOperator;
 

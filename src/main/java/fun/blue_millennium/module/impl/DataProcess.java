@@ -1,6 +1,6 @@
 package fun.blue_millennium.module.impl;
 
-import fun.blue_millennium.Main;
+import fun.blue_millennium.Chamomile;
 import fun.blue_millennium.data.Data;
 import fun.blue_millennium.data.PlayerData;
 import fun.blue_millennium.module.Module;
@@ -35,7 +35,7 @@ public class DataProcess extends Module implements Listener {
         data.lastJoin = System.currentTimeMillis();
         data.lastJoinIp = event.getAddress().getHostAddress();
 
-        Main.INSTANCE.dataManager.setPlayerData(event.getUniqueId(), data);
+        Chamomile.INSTANCE.dataManager.setPlayerData(event.getUniqueId(), data);
     }
 
     @EventHandler
@@ -43,7 +43,7 @@ public class DataProcess extends Module implements Listener {
         if (event == null) {
             return;
         }
-        Data data = Main.INSTANCE.dataManager.getPlayerData(event.getUniqueId());
+        Data data = Chamomile.INSTANCE.dataManager.getPlayerData(event.getUniqueId());
         BaseDataProcess(event, data);
     }
 }

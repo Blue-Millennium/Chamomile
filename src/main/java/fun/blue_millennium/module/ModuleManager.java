@@ -1,13 +1,13 @@
 package fun.blue_millennium.module;
 
-import fun.blue_millennium.Main;
+import fun.blue_millennium.Chamomile;
 import fun.blue_millennium.config.Config;
 import fun.blue_millennium.module.impl.*;
 import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 
-import static fun.blue_millennium.Main.LOGGER;
+import static fun.blue_millennium.Chamomile.LOGGER;
 
 public class ModuleManager {
     public ArrayList<Module> modules = new ArrayList<>();
@@ -36,7 +36,7 @@ public class ModuleManager {
     }
 
     public void onEnable() {
-        modules.forEach(module -> Bukkit.getPluginManager().registerEvents(module, Main.INSTANCE));
+        modules.forEach(module -> Bukkit.getPluginManager().registerEvents(module, Chamomile.INSTANCE));
         modules.forEach(Module::onEnable);
     }
 
