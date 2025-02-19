@@ -21,17 +21,21 @@ import static fun.blue_millennium.data.UnionBan.LocalProcess.ReportedDataProcess
  */
 public class Ban implements CommandExecutor {
 
-    public static void BanMessage(String message) {
-        Bukkit.broadcastMessage("本地黑名单: " + message);
-        try {
-            if (Config.QQRobotEnabled & !Config.BotModeOfficial) {
+    public static void BanMessage(String origin, String message) {
+        Bukkit.broadcastMessage(origin + " Ban : " + message);
+        if (Config.QQRobotEnabled & !Config.BotModeOfficial) {
+            try {
                 Chamomile.BOT.getGroup(Config.SyncChatGroup).sendMessage(message);
                 Chamomile.BOT.getGroup(Config.ReportGroup).sendMessage(message);
-                WebhookForEmail webhook = new WebhookForEmail();
-                webhook.formatAndSendWebhook("本地黑名单: " + message, message, Config.WebHookEmail);
+            } catch (Exception e) {
+                Chamomile.LOGGER.info("Error when report message to QQ group");
             }
-        } catch (Exception e) {
-            Chamomile.LOGGER.info("Error when report message to QQ group");
+            try {
+                WebhookForEmail webhook = new WebhookForEmail();
+                webhook.formatAndSendWebhook(origin + " Ban : " + message, message, Config.WebHookEmail);
+            } catch (Exception e) {
+                Chamomile.LOGGER.info("Error when report message to Email");
+            }
         }
     }
 
@@ -74,7 +78,7 @@ public class Ban implements CommandExecutor {
 
     private void TransferToUnionBan(Player targetPlayer, CommandSender sender, String reason) {
         String message = "玩家 " + targetPlayer.getName() + " 已被 " + sender.getName() + " 以[ " + reason + " ]的理由封禁";
-        BanMessage(message);
+        BanMessage("Local", message);
         if (!Config.UnionBanCheckOnly) {
             reportBanData(targetPlayer.getName(), targetPlayer.getUniqueId(), System.currentTimeMillis(), reason, Config.ServerName);
         }

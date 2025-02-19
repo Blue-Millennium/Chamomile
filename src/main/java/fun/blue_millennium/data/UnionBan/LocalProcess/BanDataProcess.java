@@ -25,7 +25,7 @@ public class BanDataProcess {
                 }
                 data.reportTag = true;
                 dg.setPlayerData(data.playerUuid, data);
-                BanMessage(message);
+                BanMessage("Local", message);
             }
         }
     }
