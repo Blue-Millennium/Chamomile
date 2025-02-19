@@ -81,6 +81,7 @@ jobs:
           mv "${SOURCE_JAR}" "${TARGET_JAR}.jar"
 
       - name: Upload Artifact
+        if: env.SKIP_BUILD == 'false'
         uses: "actions/upload-artifact@v4"
         with:
           name: ${{ env.FINAL_JAR_NAME }}
