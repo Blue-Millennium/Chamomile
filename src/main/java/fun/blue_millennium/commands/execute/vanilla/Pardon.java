@@ -21,7 +21,7 @@ public class Pardon implements CommandExecutor {
 
     public static void TransferToUnionPardon(String playerName, CommandSender sender) {
         String message = "玩家 " + playerName + " 已被 " + sender.getName() + "解除封禁";
-        BanMessage(message);
+        BanMessage("Local", message);
         if (!Config.UnionBanCheckOnly) {
             Player targetPlayer = Bukkit.getPlayer(playerName);
             if (targetPlayer != null) {
