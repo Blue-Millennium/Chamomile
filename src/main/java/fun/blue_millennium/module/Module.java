@@ -17,4 +17,8 @@ public class Module implements Listener {
 
     public void onLoad() {
     }
+
+    public void onReload() {
+        onLoad();
+    }
 }

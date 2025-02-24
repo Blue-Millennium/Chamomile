@@ -13,6 +13,26 @@ public class ModuleManager {
     public ArrayList<Module> modules = new ArrayList<>();
 
     public void load() {
+        modulesSet();
+        modules.forEach(Module::onLoad);
+    }
+
+    public void reload() {
+        modules.clear();
+        modulesSet();
+        modules.forEach(Module::onReload);
+    }
+
+    public void onEnable() {
+        modules.forEach(module -> Bukkit.getPluginManager().registerEvents(module, Chamomile.INSTANCE));
+        modules.forEach(Module::onEnable);
+    }
+
+    public void onDisable() {
+        modules.forEach(Module::onDisable);
+    }
+
+    private void modulesSet() {
         if (Config.QQRobotEnabled) {
             modules.add(new QQCheck());
             modules.add(new ExecuteRcon());
@@ -27,21 +47,6 @@ public class ModuleManager {
             modules.add(new UnionBan());
         }
 
-        modules.forEach(Module::onLoad);
-    }
-
-    public void reload() {
-        modules.clear();
-        load();
-    }
-
-    public void onEnable() {
-        modules.forEach(module -> Bukkit.getPluginManager().registerEvents(module, Chamomile.INSTANCE));
-        modules.forEach(Module::onEnable);
-    }
-
-    public void onDisable() {
-        modules.forEach(Module::onDisable);
     }
 
     public Module getModuleByName(String name) {
