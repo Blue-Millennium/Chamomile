@@ -28,11 +28,11 @@ import static fun.blue_millennium.util.RconCommandExecute.executeRconCommand;
  * Date: 2024/9/28 16:06
  * function: Check message if need rcon function
  */
-public class RconPreCheck extends Module implements Listener {
+public class ExecuteRcon extends Module implements Listener {
     public static final List<Long> RconGroups = new ArrayList<>();
 
-    public RconPreCheck() {
-        super("DirectConsoleCommandCheck");
+    public ExecuteRcon() {
+        super("RCONCommandCheck");
     }
 
     @Override

@@ -15,7 +15,7 @@ public class ModuleManager {
     public void load() {
         if (Config.QQRobotEnabled) {
             modules.add(new QQCheck());
-            modules.add(new RconPreCheck());
+            modules.add(new ExecuteRcon());
             modules.add(new SyncChat());
         } else {
             modules.add(new DataProcess());
