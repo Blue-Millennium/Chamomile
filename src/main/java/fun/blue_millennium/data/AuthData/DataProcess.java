@@ -3,6 +3,7 @@ package fun.blue_millennium.data.AuthData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import fun.blue_millennium.data.Data;
+import fun.blue_millennium.data.OldUsedName;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -73,8 +74,24 @@ public class DataProcess {
         if (data.playerData != null) {
             appendIfNotNull(result, "玩家名称: ", data.playerData.playerName);
             appendIfNotNull(result, "玩家UUID: ", data.playerData.playerUuid);
+            appendOldNameData(result, data.playerData.oldNames);
         } else {
             LOGGER.warning("Player data is Null.");
+        }
+    }
+
+    private static void appendOldNameData(StringBuilder result, List<OldUsedName> oldNamesList) {
+        if (!oldNamesList.isEmpty()) {
+            appendIfNotNull(result, "旧的玩家名称: ", "存在，共 " + oldNamesList.size() + " 个");
+            int i = 1;
+            for (OldUsedName oldName : oldNamesList) {
+                i++;
+                appendIfNotNull(result, "玩家名称 " + i + " : ", oldName.oldName);
+                appendIfNotNull(result, "玩家名称 " + i + " 服务器内被替换时间: ", transferTime(oldName.updateTime));
+                appendIfNotNull(result, "玩家名称 " + i++ + " 服务器内被替换时间(原始): ", oldName.updateTime);
+            }
+        } else {
+            LOGGER.warning("Old name data is Null.");
         }
     }
 
@@ -101,11 +118,17 @@ public class DataProcess {
             StringBuilder result = new StringBuilder();
             result.append("\n");
             appendIfNotNull(result, "§a", "-------------------");
-            appendIfNotNull(result, "§a", "查询到" + playerList.size() + "个玩家数据");
-            appendIfNotNull(result, "§a", "-------------------");
-            for (Object player : playerList) {
-                appendIfNotNull(result, "§a", "第" + Count++ + "个玩家数据");
-                String processedData = DataProcess.processData(gson.toJson(player));
+            if (playerList.size() > 1) {
+                appendIfNotNull(result, "§a", "查询到多个玩家数据，共 " + playerList.size() + " 个");
+                appendIfNotNull(result, "§a", "-------------------");
+                for (Object player : playerList) {
+                    appendIfNotNull(result, "§a", "第 " + Count++ + " 个玩家数据");
+                    String processedData = DataProcess.processData(gson.toJson(player));
+                    appendIfNotNull(result, "§a", processedData);
+                    appendIfNotNull(result, "§a", "-------------------");
+                }
+            } else {
+                String processedData = DataProcess.processData(gson.toJson(playerList.getFirst()));
                 appendIfNotNull(result, "§a", processedData);
                 appendIfNotNull(result, "§a", "-------------------");
             }

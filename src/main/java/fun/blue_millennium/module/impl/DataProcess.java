@@ -2,6 +2,7 @@ package fun.blue_millennium.module.impl;
 
 import fun.blue_millennium.Chamomile;
 import fun.blue_millennium.data.Data;
+import fun.blue_millennium.data.OldUsedName;
 import fun.blue_millennium.data.PlayerData;
 import fun.blue_millennium.module.Module;
 import org.bukkit.event.EventHandler;
@@ -21,6 +22,14 @@ public class DataProcess extends Module {
             playerData.playerName = event.getName();
             playerData.playerUuid = event.getUniqueId();
             data.playerData = playerData;
+        } else {
+            if (!data.playerData.playerName.equals(event.getName())) {
+                OldUsedName oldUsedName = new OldUsedName();
+                oldUsedName.oldName = data.playerData.playerName;
+                oldUsedName.updateTime = System.currentTimeMillis();
+                data.playerData.playerName = event.getName();
+                data.playerData.oldNames.add(oldUsedName);
+            }
         }
         data.qqChecked = data.qqNumber > 0;
         if (data.firstJoin < 0) {
