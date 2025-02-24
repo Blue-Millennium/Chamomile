@@ -8,6 +8,9 @@ import fun.blue_millennium.module.Module;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static fun.blue_millennium.module.impl.QQCheck.NullCheck;
 
 public class DataProcess extends Module {
@@ -27,8 +30,15 @@ public class DataProcess extends Module {
                 OldUsedName oldUsedName = new OldUsedName();
                 oldUsedName.oldName = data.playerData.playerName;
                 oldUsedName.updateTime = System.currentTimeMillis();
+                List<OldUsedName> oldNames;
+                try {
+                    oldNames = data.playerData.oldNames == null ? new ArrayList<>() : data.playerData.oldNames;
+                } catch (NullPointerException e) {
+                    oldNames = new ArrayList<>();
+                }
+                oldNames.add(oldUsedName);
+                data.playerData.oldNames = oldNames;
                 data.playerData.playerName = event.getName();
-                data.playerData.oldNames.add(oldUsedName);
             }
         }
         data.qqChecked = data.qqNumber > 0;
