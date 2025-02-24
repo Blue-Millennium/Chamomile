@@ -1,7 +1,7 @@
 package fun.blue_millennium.data.Report;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -48,7 +48,7 @@ public class ReportDataActions {
     }
 
     private static void saveToCsv(List<List<String>> data) {
-        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(REPORT_DATA_FILE), StandardCharsets.UTF_8))) {
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(REPORT_DATA_FILE), Charset.forName("GBK")))) {
             for (List<String> row : data) {
                 bw.write(String.join(",", row));
                 bw.newLine();
@@ -62,7 +62,7 @@ public class ReportDataActions {
         List<List<String>> allRows = new ArrayList<>();
         EnsureFileExist();
 
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(REPORT_DATA_FILE), StandardCharsets.UTF_8))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(REPORT_DATA_FILE), Charset.forName("GBK")))) {
             String line;
             while ((line = br.readLine()) != null) { // 逐行读取
                 String[] values = line.split(","); // 根据逗号分割
