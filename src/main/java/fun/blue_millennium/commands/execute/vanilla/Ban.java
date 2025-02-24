@@ -3,6 +3,7 @@ package fun.blue_millennium.commands.execute.vanilla;
 import fun.blue_millennium.Chamomile;
 import fun.blue_millennium.config.Config;
 import fun.blue_millennium.message.WebhookForEmail;
+import net.mamoe.mirai.contact.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 
 import static fun.blue_millennium.data.UnionBan.LocalProcess.ReportedDataProcess.reportBanData;
+import static fun.blue_millennium.module.impl.Reporter.ReportGroups;
+import static fun.blue_millennium.module.impl.SyncChat.SyncGroups;
 
 /**
  * @author Suisuroru
@@ -25,8 +28,14 @@ public class Ban implements CommandExecutor {
         Bukkit.broadcastMessage(origin + " Ban : " + message);
         if (Config.QQRobotEnabled & !Config.BotModeOfficial) {
             try {
-                Chamomile.BOT.getGroup(Config.SyncChatGroup).sendMessage(message);
-                Chamomile.BOT.getGroup(Config.ReportGroup).sendMessage(message);
+                for (long groupId : ReportGroups) {
+                    Group reportGroup = Chamomile.BOT.getGroup(groupId);
+                    reportGroup.sendMessage(message);
+                }
+                for (long groupId : SyncGroups) {
+                    Group reportGroup = Chamomile.BOT.getGroup(groupId);
+                    reportGroup.sendMessage(message);
+                }
             } catch (Exception e) {
                 Chamomile.LOGGER.info("Error when report message to QQ group");
             }

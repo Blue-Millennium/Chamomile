@@ -29,7 +29,7 @@ import static fun.blue_millennium.util.RconCommandExecute.executeRconCommand;
  * function: Check message if need rcon function
  */
 public class RconPreCheck extends Module implements Listener {
-    private final List<Long> EnabledGroups = new ArrayList<>();
+    public static final List<Long> RconGroups = new ArrayList<>();
 
     public RconPreCheck() {
         super("DirectConsoleCommandCheck");
@@ -49,14 +49,13 @@ public class RconPreCheck extends Module implements Listener {
             String[] groupIds = enabledGroupStr.split(";");
             for (String groupId : groupIds) {
                 try {
-                    long id = Long.parseLong(groupId.trim());
-                    EnabledGroups.add(id);
+                    RconGroups.add(Long.parseLong(groupId.trim()));
                 } catch (NumberFormatException e) {
                     LOGGER.warning("[RCONCommandCheck] Invalid group ID: " + groupId);
                 }
             }
 
-            if (EnabledGroups.isEmpty()) {
+            if (RconGroups.isEmpty()) {
                 LOGGER.warning("[RCONCommandCheck] RCON commands will be disabled");
                 Config.RconEnabled = false;
                 Chamomile.INSTANCE.configManager.save();
@@ -64,7 +63,7 @@ public class RconPreCheck extends Module implements Listener {
             }
         }
         Chamomile.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
-            if (!Config.RconEnabled || !EnabledGroups.contains(event.getGroup().getId())) {
+            if (!Config.RconEnabled || !RconGroups.contains(event.getGroup().getId())) {
                 return;
             }
 
