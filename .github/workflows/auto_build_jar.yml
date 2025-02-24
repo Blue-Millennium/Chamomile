@@ -47,7 +47,7 @@ jobs:
         run: |
           COMMIT_MESSAGE=$(git log -1 --pretty=%B)
           BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-          if [[ "$COMMIT_MESSAGE" == "[skip]"* || "$BRANCH_NAME" != "master" ]]; then
+          if [[ "$COMMIT_MESSAGE" == "[skip]"* || ("$BRANCH_NAME" != "master" && "$COMMIT_MESSAGE" != "[ci]"*) ]]; then
             echo "SKIP_RELEASE=true" >> $GITHUB_ENV
           else
             echo "SKIP_RELEASE=false" >> $GITHUB_ENV

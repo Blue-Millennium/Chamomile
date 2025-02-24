@@ -1,5 +1,6 @@
 package fun.blue_millennium.data;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -9,4 +10,5 @@ import java.util.UUID;
 public class PlayerData {
     public String playerName;
     public UUID playerUuid;
+    public List<OldUsedName> oldNames;
 }

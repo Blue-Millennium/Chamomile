@@ -9,19 +9,19 @@ import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.*;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static fun.blue_millennium.Chamomile.LOGGER;
 import static fun.blue_millennium.message.ImageProcess.sendImageUrl;
 import static fun.blue_millennium.util.RconCommandExecute.executeRconCommand;
 
-public class SyncChat extends Module implements Listener {
-    private Group syncGroup = null;
+public class SyncChat extends Module {
+    public static final List<Long> SyncGroups = new ArrayList<>();
 
     public SyncChat() {
         super("SyncChat");
@@ -29,10 +29,17 @@ public class SyncChat extends Module implements Listener {
 
     @Override
     public void onEnable() {
-        syncGroup = Chamomile.BOT.getGroup(Config.SyncChatGroup);
+        String[] groupIds = Config.SyncChatGroup.split(";");
+        for (String groupId : groupIds) {
+            try {
+                SyncGroups.add(Long.parseLong(groupId.trim()));
+            } catch (NumberFormatException e) {
+                LOGGER.warning("[SyncChat] Invalid group ID: " + groupId);
+            }
+        }
 
         if (!Config.BotModeOfficial) {
-            if (syncGroup == null) {
+            if (SyncGroups.isEmpty()) {
                 LOGGER.warning("Failed to get sync group");
                 Config.SyncChatEnabled = false;
                 Chamomile.INSTANCE.configManager.save();
@@ -41,8 +48,11 @@ public class SyncChat extends Module implements Listener {
         }
 
         Chamomile.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
-            if (!Config.BotModeOfficial & (!Config.SyncChatEnabled || event.getGroup() != syncGroup)) {
-                return;
+            for (Long groupId : SyncGroups) {
+                Group syncGroup = Chamomile.BOT.getGroup(groupId);
+                if (!Config.BotModeOfficial & (!Config.SyncChatEnabled || event.getGroup() != syncGroup)) {
+                    return;
+                }
             }
             MessageChainBuilder builder = new MessageChainBuilder();
             for (Message message : event.getMessage()) {
@@ -96,21 +106,30 @@ public class SyncChat extends Module implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (Config.SyncChatEnabled & !Config.SyncChatEnabledQ2SOnly & !Config.BotModeOfficial) {
-            syncGroup.sendMessage(Config.JoinServerMessage.replace("%NAME%", event.getPlayer().getName()));
+            for (Long groupId : SyncGroups) {
+                Group syncGroup = Chamomile.BOT.getGroup(groupId);
+                syncGroup.sendMessage(Config.JoinServerMessage.replace("%NAME%", event.getPlayer().getName()));
+            }
         }
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         if (Config.SyncChatEnabled & !Config.SyncChatEnabledQ2SOnly & !Config.BotModeOfficial) {
-            syncGroup.sendMessage(Config.LeaveServerMessage.replace("%NAME%", event.getPlayer().getName()));
+            for (Long groupId : SyncGroups) {
+                Group syncGroup = Chamomile.BOT.getGroup(groupId);
+                syncGroup.sendMessage(Config.LeaveServerMessage.replace("%NAME%", event.getPlayer().getName()));
+            }
         }
     }
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         if (Config.SyncChatEnabled & !Config.SyncChatEnabledQ2SOnly & !Config.BotModeOfficial) {
-            syncGroup.sendMessage(Config.SayServerMessage.replace("%NAME%", event.getPlayer().getName()).replace("%MESSAGE%", event.getMessage()));
+            for (Long groupId : SyncGroups) {
+                Group syncGroup = Chamomile.BOT.getGroup(groupId);
+                syncGroup.sendMessage(Config.SayServerMessage.replace("%NAME%", event.getPlayer().getName()).replace("%MESSAGE%", event.getMessage()));
+            }
         }
     }
 }

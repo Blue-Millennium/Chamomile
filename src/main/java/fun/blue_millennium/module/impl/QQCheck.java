@@ -16,7 +16,6 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +28,7 @@ import java.util.Random;
 import static fun.blue_millennium.Chamomile.LOGGER;
 import static fun.blue_millennium.module.impl.DataProcess.BaseDataProcess;
 
-public class QQCheck extends Module implements Listener {
+public class QQCheck extends Module {
     private static final HashMap<PlayerData, Integer> playerCodeMap = new HashMap<>();
 
     public QQCheck() {

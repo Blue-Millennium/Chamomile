@@ -2,15 +2,18 @@ package fun.blue_millennium.module.impl;
 
 import fun.blue_millennium.Chamomile;
 import fun.blue_millennium.data.Data;
+import fun.blue_millennium.data.OldUsedName;
 import fun.blue_millennium.data.PlayerData;
 import fun.blue_millennium.module.Module;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static fun.blue_millennium.module.impl.QQCheck.NullCheck;
 
-public class DataProcess extends Module implements Listener {
+public class DataProcess extends Module {
     public DataProcess() {
         super("DataProcess");
     }
@@ -22,6 +25,21 @@ public class DataProcess extends Module implements Listener {
             playerData.playerName = event.getName();
             playerData.playerUuid = event.getUniqueId();
             data.playerData = playerData;
+        } else {
+            if (!data.playerData.playerName.equals(event.getName())) {
+                OldUsedName oldUsedName = new OldUsedName();
+                oldUsedName.oldName = data.playerData.playerName;
+                oldUsedName.updateTime = System.currentTimeMillis();
+                List<OldUsedName> oldNames;
+                try {
+                    oldNames = data.playerData.oldNames == null ? new ArrayList<>() : data.playerData.oldNames;
+                } catch (NullPointerException e) {
+                    oldNames = new ArrayList<>();
+                }
+                oldNames.add(oldUsedName);
+                data.playerData.oldNames = oldNames;
+                data.playerData.playerName = event.getName();
+            }
         }
         data.qqChecked = data.qqNumber > 0;
         if (data.firstJoin < 0) {

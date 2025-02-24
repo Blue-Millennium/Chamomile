@@ -13,26 +13,14 @@ public class ModuleManager {
     public ArrayList<Module> modules = new ArrayList<>();
 
     public void load() {
-        if (Config.QQRobotEnabled) {
-            modules.add(new QQCheck());
-            modules.add(new RconPreCheck());
-            modules.add(new SyncChat());
-        } else {
-            modules.add(new DataProcess());
-            LOGGER.info("QQRobot is disabled, DataProcess will be enabled.");
-        }
-        modules.add(new DamageDisable());
-        modules.add(new Reporter());
-        if (Config.UnionBanEnabled) {
-            modules.add(new UnionBan());
-        }
-
+        modulesSet();
         modules.forEach(Module::onLoad);
     }
 
     public void reload() {
         modules.clear();
-        load();
+        modulesSet();
+        modules.forEach(Module::onReload);
     }
 
     public void onEnable() {
@@ -42,6 +30,23 @@ public class ModuleManager {
 
     public void onDisable() {
         modules.forEach(Module::onDisable);
+    }
+
+    private void modulesSet() {
+        if (Config.QQRobotEnabled) {
+            modules.add(new QQCheck());
+            modules.add(new ExecuteRcon());
+            modules.add(new SyncChat());
+            modules.add(new Reporter());
+        } else {
+            modules.add(new DataProcess());
+            LOGGER.info("QQRobot is disabled, DataProcess will be enabled.");
+        }
+        modules.add(new DamageDisable());
+        if (Config.UnionBanEnabled) {
+            modules.add(new UnionBan());
+        }
+
     }
 
     public Module getModuleByName(String name) {
