@@ -8,7 +8,6 @@ import fun.blue_millennium.util.map.IpLocationResponse;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.List;
 
 import static fun.blue_millennium.Chamomile.LOGGER;
 
-public class Reporter extends Module implements Listener {
+public class Reporter extends Module {
     public static final List<Long> ReportGroups = new ArrayList<>();
 
     public Reporter() {

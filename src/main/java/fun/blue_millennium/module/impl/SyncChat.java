@@ -9,7 +9,6 @@ import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.*;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -21,7 +20,7 @@ import static fun.blue_millennium.Chamomile.LOGGER;
 import static fun.blue_millennium.message.ImageProcess.sendImageUrl;
 import static fun.blue_millennium.util.RconCommandExecute.executeRconCommand;
 
-public class SyncChat extends Module implements Listener {
+public class SyncChat extends Module {
     public static final List<Long> SyncGroups = new ArrayList<>();
 
     public SyncChat() {

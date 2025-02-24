@@ -4,10 +4,9 @@ import fun.blue_millennium.module.Module;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-public class DamageDisable extends Module implements Listener {
+public class DamageDisable extends Module {
 
     public DamageDisable() {
         super("DamageDisable");

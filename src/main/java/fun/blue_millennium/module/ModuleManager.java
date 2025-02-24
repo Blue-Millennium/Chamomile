@@ -17,12 +17,12 @@ public class ModuleManager {
             modules.add(new QQCheck());
             modules.add(new ExecuteRcon());
             modules.add(new SyncChat());
+            modules.add(new Reporter());
         } else {
             modules.add(new DataProcess());
             LOGGER.info("QQRobot is disabled, DataProcess will be enabled.");
         }
         modules.add(new DamageDisable());
-        modules.add(new Reporter());
         if (Config.UnionBanEnabled) {
             modules.add(new UnionBan());
         }

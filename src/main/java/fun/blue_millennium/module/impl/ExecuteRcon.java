@@ -12,7 +12,6 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 import net.mamoe.mirai.message.data.PlainText;
 import net.mamoe.mirai.utils.ExternalResource;
 import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ import static fun.blue_millennium.util.RconCommandExecute.executeRconCommand;
  * Date: 2024/9/28 16:06
  * function: Check message if need rcon function
  */
-public class ExecuteRcon extends Module implements Listener {
+public class ExecuteRcon extends Module {
     public static final List<Long> RconGroups = new ArrayList<>();
 
     public ExecuteRcon() {

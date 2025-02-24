@@ -5,12 +5,11 @@ import fun.blue_millennium.data.Data;
 import fun.blue_millennium.data.PlayerData;
 import fun.blue_millennium.module.Module;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
 import static fun.blue_millennium.module.impl.QQCheck.NullCheck;
 
-public class DataProcess extends Module implements Listener {
+public class DataProcess extends Module {
     public DataProcess() {
         super("DataProcess");
     }
