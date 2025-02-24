@@ -114,21 +114,19 @@ public class DataProcess {
             Type listType = new TypeToken<List<Object>>() {
             }.getType();
             List<Object> playerList = gson.fromJson(playerJson, listType);
-            int Count = 1;
             StringBuilder result = new StringBuilder();
             result.append("\n");
             appendIfNotNull(result, "§a", "-------------------");
             if (playerList.size() > 1) {
                 appendIfNotNull(result, "§a", "查询到多个玩家数据，共 " + playerList.size() + " 个");
                 appendIfNotNull(result, "§a", "-------------------");
-                for (Object player : playerList) {
+            }
+            int Count = 1;
+            for (Object player : playerList) {
+                if (playerList.size() > 1) {
                     appendIfNotNull(result, "§a", "第 " + Count++ + " 个玩家数据");
-                    String processedData = DataProcess.processData(gson.toJson(player));
-                    appendIfNotNull(result, "§a", processedData);
-                    appendIfNotNull(result, "§a", "-------------------");
                 }
-            } else {
-                String processedData = DataProcess.processData(gson.toJson(playerList.getFirst()));
+                String processedData = DataProcess.processData(gson.toJson(player));
                 appendIfNotNull(result, "§a", processedData);
                 appendIfNotNull(result, "§a", "-------------------");
             }
