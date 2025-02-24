@@ -67,10 +67,10 @@ public class Report implements CommandExecutor {
                             sender.sendMessage("§c邮件发送失败");
                             LOGGER.warning(e.getMessage());
                         }
-                        MessageChainBuilder builder_qq = new MessageChainBuilder();
 
-                        if (Config.QQRobotEnabled) {
+                        if (Config.QQRobotEnabled && !Config.BotModeOfficial) {
                             for (long groupId : ReportGroups) {
+                                MessageChainBuilder builder_qq = new MessageChainBuilder();
                                 Group reportGroup = Chamomile.BOT.getGroup(groupId);
                                 if (reportGroup.getBotPermission() == MemberPermission.ADMINISTRATOR || reportGroup.getBotPermission() == MemberPermission.OWNER) {
                                     builder_qq.append(" ").append(AtAll.INSTANCE).append("\n");
