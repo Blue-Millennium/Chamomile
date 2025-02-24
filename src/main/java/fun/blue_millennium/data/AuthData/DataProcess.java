@@ -85,7 +85,6 @@ public class DataProcess {
             appendIfNotNull(result, "旧的玩家名称: ", "存在，共 " + oldNamesList.size() + " 个");
             int i = 1;
             for (OldUsedName oldName : oldNamesList) {
-                i++;
                 appendIfNotNull(result, "玩家名称 " + i + " : ", oldName.oldName);
                 appendIfNotNull(result, "玩家名称 " + i + " 服务器内被替换时间: ", transferTime(oldName.updateTime));
                 appendIfNotNull(result, "玩家名称 " + i++ + " 服务器内被替换时间(原始): ", oldName.updateTime);
