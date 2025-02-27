@@ -41,9 +41,9 @@ commands:
   rcon:
     description: rcon functions
     usage: /rcon ip:port psd command
-  link:
+  bind:
     description: link account and qq
-    usage: /link name qq
+    usage: /bind name qq
   chamomile:
     description: Chamomile functions
     usage: /chamomile [help|data|report|reload|query-report] [args...]
