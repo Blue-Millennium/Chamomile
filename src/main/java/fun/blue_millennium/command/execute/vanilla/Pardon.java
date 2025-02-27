@@ -1,10 +1,10 @@
 package fun.blue_millennium.command.execute.vanilla;
 
+import fun.blue_millennium.command.execute.Executor;
 import fun.blue_millennium.config.Config;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +17,11 @@ import static fun.blue_millennium.data.UnionBan.LocalProcess.ReportedDataProcess
  * Date: 2024/10/27 14:30
  * function: Add some function to the vanilla pardon command
  */
-public class Pardon implements CommandExecutor {
+public class Pardon extends Executor {
+
+    public Pardon() {
+        super("pardon");
+    }
 
     public static void TransferToUnionPardon(String playerName, CommandSender sender) {
         String message = "玩家 " + playerName + " 已被 " + sender.getName() + "解除封禁";
@@ -29,8 +33,6 @@ public class Pardon implements CommandExecutor {
             }
         }
     }
-
-    @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (Config.UnionBanEnabled) {
             if (!sender.isOp()) {

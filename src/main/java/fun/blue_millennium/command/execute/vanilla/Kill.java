@@ -1,15 +1,18 @@
 package fun.blue_millennium.command.execute.vanilla;
 
+import fun.blue_millennium.command.execute.Executor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.blue_millennium.util.CommandOperatorCheck.checkNotOperator;
 
-public class Kill implements CommandExecutor {
-    @Override
+public class Kill extends Executor {
+    public Kill() {
+        super("kill");
+    }
+
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (checkNotOperator(sender)) {
             return true;

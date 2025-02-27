@@ -1,12 +1,12 @@
 package fun.blue_millennium.command.execute.vanilla;
 
 import fun.blue_millennium.Chamomile;
+import fun.blue_millennium.command.execute.Executor;
 import fun.blue_millennium.config.Config;
 import fun.blue_millennium.message.WebhookForEmail;
 import net.mamoe.mirai.contact.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +22,11 @@ import static fun.blue_millennium.module.impl.SyncChat.SyncGroups;
  * Date: 2024/10/27 14:18
  * function: Add some function to the vanilla ban command
  */
-public class Ban implements CommandExecutor {
+public class Ban extends Executor {
+
+    public Ban() {
+        super("ban");
+    }
 
     public static void BanMessage(String origin, String message) {
         Bukkit.broadcastMessage(origin + " Ban : " + message);
@@ -48,7 +52,6 @@ public class Ban implements CommandExecutor {
         }
     }
 
-    @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (Config.UnionBanEnabled) {
             if (!sender.isOp()) {

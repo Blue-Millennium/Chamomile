@@ -1,19 +1,20 @@
 package fun.blue_millennium.command.tab.vanilla;
 
+import fun.blue_millennium.command.tab.Completer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static fun.blue_millennium.command.tab.vanilla.Ban.getOnlinePlayerNames;
 
-public class Kill implements TabCompleter {
-    @Nullable
-    @Override
+public class Kill extends Completer {
+    public Kill() {
+        super("kill");
+    }
+
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
         List<String> completions = new ArrayList<>();
 

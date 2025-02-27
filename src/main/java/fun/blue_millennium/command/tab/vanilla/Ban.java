@@ -1,15 +1,19 @@
 package fun.blue_millennium.command.tab.vanilla;
 
+import fun.blue_millennium.command.tab.Completer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ban implements TabCompleter {
+public class Ban extends Completer {
+
+    public Ban() {
+        super("ban");
+    }
 
     public static List<String> getOnlinePlayerNames(CommandSender sender, String partialName) {
         List<String> playerNames = new ArrayList<>();
@@ -22,7 +26,6 @@ public class Ban implements TabCompleter {
         return playerNames;
     }
 
-    @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
         if (args.length == 1) {
             // 第一个参数：玩家名称
