@@ -1,6 +1,6 @@
 package fun.blue_millennium;
 
-import fun.blue_millennium.commands.CommandManager;
+import fun.blue_millennium.command.CommandManager;
 import fun.blue_millennium.config.Config;
 import fun.blue_millennium.config.ConfigManager;
 import fun.blue_millennium.data.DataManager;
