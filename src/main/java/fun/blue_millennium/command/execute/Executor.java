@@ -16,6 +16,7 @@ public class Executor implements CommandExecutor {
     public String getCommandName() {
         return this.commandName;
     }
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         return true;

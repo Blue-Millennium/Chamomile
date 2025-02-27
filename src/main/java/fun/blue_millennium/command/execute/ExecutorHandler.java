@@ -10,6 +10,7 @@ import static fun.blue_millennium.util.ClassesFinder.getClassesInPackage;
 
 public class ExecutorHandler {
     public static ArrayList<Executor> executor = new ArrayList<>();
+
     public static ArrayList<Executor> handleExecutor() {
         List<Class<?>> extra = getClassesInPackage("fun.blue_millennium.command.execute.extra");
         List<Class<?>> vanilla = getClassesInPackage("fun.blue_millennium.command.execute.vanilla");

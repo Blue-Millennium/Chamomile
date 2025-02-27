@@ -33,6 +33,7 @@ public class Pardon extends Executor {
             }
         }
     }
+
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (Config.UnionBanEnabled) {
             if (!sender.isOp()) {
