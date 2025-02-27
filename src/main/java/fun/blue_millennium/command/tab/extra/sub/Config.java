@@ -13,7 +13,7 @@ import static fun.blue_millennium.config.ConfigManager.getConfigFieldNames;
 /**
  * @author Suisuroru
  * Date: 2024/10/18 22:11
- * function: Provides tab completion for the bpconfig command
+ * function: Provides tab completion for the config command
  */
 public class Config extends Completer {
     public Config() {
