@@ -19,7 +19,7 @@ public class Data extends CompleterE {
         if (args.length == 1) {
             completions.add("query");
             completions.add("bind");
-        } else if (args.length >= 2) {
+        } else {
             switch (args[0].toLowerCase()) {
                 case "query": {
                     if (args.length == 2) {

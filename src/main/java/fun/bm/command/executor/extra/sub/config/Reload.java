@@ -34,11 +34,10 @@ public class Reload extends ExecutorE {
             ModuleManager mgr = new ModuleManager();
             mgr.reload();
             sender.sendMessage("重新加载配置文件成功！");
-            return true;
         } catch (Exception e) {
             sender.sendMessage("重新加载配置文件失败！");
             LOGGER.warning(e.getMessage());
-            return true;
         }
+        return true;
     }
 }

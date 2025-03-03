@@ -36,27 +36,21 @@ public class Set extends ExecutorE {
             }
             String allConfigNames = String.join("|", getConfigFieldNames());
             sender.sendMessage("§a所有配置项名称: " + allConfigNames);
-            return true;
+        } else {
+            String configName = args[0];
+            String value = args[1];
+            // 检查配置项是否存在
+            if (!getConfigFieldNames().contains(configName)) {
+                sender.sendMessage("§c配置项 " + configName + " 不存在，请检查拼写");
+            }
+            try {
+                configManager.setConfigValue(configName, value);
+                sender.sendMessage("§a配置项 " + configName + " 已成功设置为 " + value);
+            } catch (Exception e) {
+                sender.sendMessage("§c修改配置项 " + configName + " 的值时出错，请检查配置文件或联系开发人员。");
+                LOGGER.warning(e.getMessage());
+            }
         }
-
-        String configName = args[0];
-        String value = args[1];
-
-        // 检查配置项是否存在
-        if (!getConfigFieldNames().contains(configName)) {
-            sender.sendMessage("§c配置项 " + configName + " 不存在，请检查拼写");
-            return true;
-        }
-
-        try {
-            configManager.setConfigValue(configName, value);
-            sender.sendMessage("§a配置项 " + configName + " 已成功设置为 " + value);
-        } catch (Exception e) {
-            sender.sendMessage("§c修改配置项 " + configName + " 的值时出错，请检查配置文件或联系开发人员。");
-            LOGGER.warning(e.getMessage());
-            return true;
-        }
-
         return true;
     }
 

@@ -36,42 +36,41 @@ public class Chamomile extends ExecutorE {
             } else if (command.getName().equals("Chamomile")) {
                 sender.sendMessage("§c使用/chamomile help来获取帮助");
             }
-            return true;
-        }
-
-        String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
-        switch (args[0].toLowerCase()) {
-            case "help": {
-                help.onCommand(sender, command, label, subArgs);
-                break;
-            }
-            case "report": {
-                report.onCommand(sender, command, label, subArgs);
-                break;
-            }
-            case "config": {
-                config.onCommand(sender, command, label, subArgs);
-                break;
-            }
-            case "query-report": {
-                query.onCommand(sender, command, label, subArgs);
-                break;
-            }
-            case "data": {
-                data.onCommand(sender, command, label, subArgs);
-                break;
-            }
-            case "kill": {
-                kill.onCommand(sender, command, label, subArgs);
-                break;
-            }
-            case "rcon": {
-                rcon.onCommand(sender, command, label, subArgs);
-                break;
-            }
-            default: {
-                sender.sendMessage("Unknown command. Usage: /chamomile [report|reload|config|data|query-report] [args...]");
-                break;
+        } else {
+            String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
+            switch (args[0].toLowerCase()) {
+                case "help": {
+                    help.onCommand(sender, command, label, subArgs);
+                    break;
+                }
+                case "report": {
+                    report.onCommand(sender, command, label, subArgs);
+                    break;
+                }
+                case "config": {
+                    config.onCommand(sender, command, label, subArgs);
+                    break;
+                }
+                case "query-report": {
+                    query.onCommand(sender, command, label, subArgs);
+                    break;
+                }
+                case "data": {
+                    data.onCommand(sender, command, label, subArgs);
+                    break;
+                }
+                case "kill": {
+                    kill.onCommand(sender, command, label, subArgs);
+                    break;
+                }
+                case "rcon": {
+                    rcon.onCommand(sender, command, label, subArgs);
+                    break;
+                }
+                default: {
+                    sender.sendMessage("Unknown command. Usage: /chamomile [report|reload|config|data|query-report] [args...]");
+                    break;
+                }
             }
         }
         return true;

@@ -37,8 +37,8 @@ public class Config extends ExecutorE {
                     sender.sendMessage("§4重载配置文件:使用/chamomile config reload");
                     sender.sendMessage("§4查询配置项:/chamomile config query <配置项>");
                     sender.sendMessage("§4修改配置项:/chamomile config set <配置项> <修改值>");
-                } else if (checkNotOperator(sender)) {
-                    return true;
+                } else {
+                    checkNotOperator(sender);
                 }
             } else {
                 sender.sendMessage("检查到执行者为控制台，已使用前缀区分玩家指令及管理员指令");
@@ -47,25 +47,26 @@ public class Config extends ExecutorE {
                 sender.sendMessage("[管理员/控制台]查询配置项:/chamomile config query <配置项>");
                 sender.sendMessage("[管理员/控制台]修改配置项:/chamomile config set <配置项> <修改值>");
             }
-        }
+        } else {
 
-        String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
-        switch (args[0].toLowerCase()) {
-            case "reload": {
-                reload.onCommand(sender, command, label, subArgs);
-                break;
-            }
-            case "query": {
-                query.onCommand(sender, command, label, subArgs);
-                break;
-            }
-            case "set": {
-                set.onCommand(sender, command, label, subArgs);
-                break;
-            }
-            default: {
-                sender.sendMessage("Unknown command. Usage: /chamomile config [reload|query|set] [args...]");
-                break;
+            String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
+            switch (args[0].toLowerCase()) {
+                case "reload": {
+                    reload.onCommand(sender, command, label, subArgs);
+                    break;
+                }
+                case "query": {
+                    query.onCommand(sender, command, label, subArgs);
+                    break;
+                }
+                case "set": {
+                    set.onCommand(sender, command, label, subArgs);
+                    break;
+                }
+                default: {
+                    sender.sendMessage("Unknown command. Usage: /chamomile config [reload|query|set] [args...]");
+                    break;
+                }
             }
         }
         return true;

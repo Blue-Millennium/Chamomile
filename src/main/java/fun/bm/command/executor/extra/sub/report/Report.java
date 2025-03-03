@@ -28,7 +28,6 @@ public class Report extends ExecutorE {
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
-
             if (args.length == 0) {
                 if (command.getName().equals("report")) {
                     sender.sendMessage("§c/report <玩家名> <原因>");
