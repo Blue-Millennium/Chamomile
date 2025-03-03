@@ -46,4 +46,17 @@ public class ClassesFinder {
 
         return classes;
     }
+
+    public static ArrayList<Object> loadClazz(String dir) {
+        ArrayList<Object> list = new ArrayList<>();
+        List<Class<?>> classes = getClassesInPackage(dir);
+        for (Class<?> clazz : classes) {
+            try {
+                list.add(clazz.getDeclaredConstructor().newInstance());
+            } catch (Exception e) {
+                LOGGER.warning("Failed to loadClass: " + clazz.getName());
+            }
+        }
+        return list;
+    }
 }

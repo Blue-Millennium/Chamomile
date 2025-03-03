@@ -6,22 +6,24 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 
-import static fun.bm.command.manager.CommandHandler.handleCommand;
+import static fun.bm.util.ClassesFinder.loadClazz;
 
 public class CommandManager {
     public static void registerCommand(JavaPlugin plugin) {
-        ArrayList<ExecutorE> executor = handleCommand().getFirst();
-        ArrayList<CompleterE> completer = handleCommand().getSecond();
-        executor.forEach(ExecutorE::setCommandName);
-        completer.forEach(CompleterE::setCommandName);
-        for (ExecutorE e : executor) {
-            if (e.getCommandName() != null) {
-                plugin.getCommand(e.getCommandName()).setExecutor(e);
+        ArrayList<Object> executor = loadClazz("fun.bm.command.executor");
+        ArrayList<Object> completer = loadClazz("fun.bm.command.completer");
+        for (Object e : executor) {
+            ExecutorE e1 = (ExecutorE) e;
+            e1.setCommandName();
+            if (e1.getCommandName() != null) {
+                plugin.getCommand(e1.getCommandName()).setExecutor(e1);
             }
         }
-        for (CompleterE c : completer) {
-            if (c.getCommandName() != null) {
-                plugin.getCommand(c.getCommandName()).setTabCompleter(c);
+        for (Object c : completer) {
+            CompleterE c1 = (CompleterE) c;
+            c1.setCommandName();
+            if (c1.getCommandName() != null) {
+                plugin.getCommand(c1.getCommandName()).setTabCompleter(c1);
             }
         }
     }
