@@ -17,18 +17,20 @@ public class UnionBan extends Module {
 
     @Override
     public void onLoad() {
-        if (Config.UnionBanEnabled) {
-            UnionBanDataGet dg = new UnionBanDataGet();
-            dg.load();
-            importBanList();
-            mergeAndReportData();
-        }
+        UnionBanDataGet dg = new UnionBanDataGet();
+        dg.load();
+        importBanList();
+        mergeAndReportData();
     }
 
     @EventHandler
     public void PlayerJoinProcess(PlayerJoinEvent event) {
-        if (Config.UnionBanEnabled) {
-            mergeAndReportData();
+        mergeAndReportData();
+    }
+
+    public void setModuleName() {
+        if (!Config.UnionBanEnabled) {
+            this.moduleName = null;
         }
     }
 }

@@ -132,4 +132,10 @@ public class SyncChat extends Module {
             }
         }
     }
+
+    public void setModuleName() {
+        if (!Config.QQRobotEnabled) {
+            this.moduleName = null;
+        }
+    }
 }

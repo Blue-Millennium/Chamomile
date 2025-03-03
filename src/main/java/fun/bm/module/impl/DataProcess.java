@@ -1,6 +1,7 @@
 package fun.bm.module.impl;
 
 import fun.bm.Chamomile;
+import fun.bm.config.Config;
 import fun.bm.data.Data;
 import fun.bm.data.OldUsedName;
 import fun.bm.data.PlayerData;
@@ -63,5 +64,11 @@ public class DataProcess extends Module {
         }
         Data data = Chamomile.INSTANCE.dataManager.getPlayerData(event.getUniqueId());
         BaseDataProcess(event, data);
+    }
+
+    public void setModuleName() {
+        if (Config.QQRobotEnabled) {
+            this.moduleName = null;
+        }
     }
 }

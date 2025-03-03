@@ -210,4 +210,10 @@ public class QQCheck extends Module {
             LOGGER.warning(e.getMessage());
         }
     }
+
+    public void setModuleName() {
+        if (!Config.QQRobotEnabled) {
+            this.moduleName = null;
+        }
+    }
 }

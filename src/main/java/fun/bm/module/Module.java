@@ -9,6 +9,17 @@ public class Module implements Listener {
         this.moduleName = moduleName;
     }
 
+    public String getModuleName() {
+        return moduleName;
+    }
+
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
+
+    public void setModuleName() {
+    }
+
     public void onEnable() {
     }
 

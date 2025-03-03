@@ -71,4 +71,10 @@ public class Reporter extends Module {
             reportGroup.sendMessage(builder.build());
         }
     }
+
+    public void setModuleName() {
+        if (!Config.QQRobotEnabled) {
+            this.moduleName = null;
+        }
+    }
 }

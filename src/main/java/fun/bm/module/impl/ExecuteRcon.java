@@ -126,4 +126,10 @@ public class ExecuteRcon extends Module {
                     .build());
         }
     }
+
+    public void setModuleName() {
+        if (!Config.QQRobotEnabled) {
+            this.moduleName = null;
+        }
+    }
 }

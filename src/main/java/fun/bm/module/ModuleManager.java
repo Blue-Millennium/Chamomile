@@ -1,25 +1,23 @@
 package fun.bm.module;
 
 import fun.bm.Chamomile;
-import fun.bm.config.Config;
-import fun.bm.module.impl.*;
 import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 
-import static fun.bm.Chamomile.LOGGER;
+import static fun.bm.util.ClassesFinder.loadClazz;
 
 public class ModuleManager {
     public ArrayList<Module> modules = new ArrayList<>();
 
     public void load() {
-        modulesSet();
+        setupModule(true);
         modules.forEach(Module::onLoad);
     }
 
     public void reload() {
         modules.clear();
-        modulesSet();
+        setupModule(false);
         modules.forEach(Module::onReload);
     }
 
@@ -32,23 +30,6 @@ public class ModuleManager {
         modules.forEach(Module::onDisable);
     }
 
-    private void modulesSet() {
-        if (Config.QQRobotEnabled) {
-            modules.add(new QQCheck());
-            modules.add(new ExecuteRcon());
-            modules.add(new SyncChat());
-            modules.add(new Reporter());
-        } else {
-            modules.add(new DataProcess());
-            LOGGER.info("QQRobot is disabled, DataProcess will be enabled.");
-        }
-        modules.add(new DamageDisable());
-        if (Config.UnionBanEnabled) {
-            modules.add(new UnionBan());
-        }
-
-    }
-
     public Module getModuleByName(String name) {
         for (Module module : modules) {
             if (module.moduleName.equals(name)) {
@@ -56,5 +37,15 @@ public class ModuleManager {
             }
         }
         return null;
+    }
+
+    public void setupModule(Boolean setup) {
+        for (Object clazz : loadClazz("fun.bm.module.impl")) {
+            Module module = (Module) clazz;
+            module.setModuleName();
+            if (module.getModuleName() != null) {
+                modules.add(module);
+            }
+        }
     }
 }
