@@ -116,7 +116,7 @@ public class Chamomile extends JavaPlugin implements Listener {
         LoggerAdapters.useLog4j2(); // 使用 Log4j2 作为日志记录器
         Boot_QQBot();
         DefaultMessages.TurnOnPlugin();
-        CommandManager.registerCommand(this);
+        CommandManager.registerCommand();
         moduleManager.onEnable();
     }
 
