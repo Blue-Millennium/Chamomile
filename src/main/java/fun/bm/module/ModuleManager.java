@@ -11,13 +11,13 @@ public class ModuleManager {
     public ArrayList<Module> modules = new ArrayList<>();
 
     public void load() {
-        setupModule(true);
+        setupModules(true);
         modules.forEach(Module::onLoad);
     }
 
     public void reload() {
         modules.clear();
-        setupModule(false);
+        setupModules(false);
         modules.forEach(Module::onReload);
     }
 
@@ -39,7 +39,7 @@ public class ModuleManager {
         return null;
     }
 
-    public void setupModule(Boolean setup) {
+    private void setupModules(Boolean setup) {
         for (Object clazz : loadClazz("fun.bm.module.impl")) {
             Module module = (Module) clazz;
             module.setModuleName();

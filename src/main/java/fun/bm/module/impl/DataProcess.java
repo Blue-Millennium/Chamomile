@@ -12,6 +12,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import static fun.bm.Chamomile.LOGGER;
 import static fun.bm.module.impl.QQCheck.NullCheck;
 
 public class DataProcess extends Module {
@@ -69,6 +70,8 @@ public class DataProcess extends Module {
     public void setModuleName() {
         if (Config.QQRobotEnabled) {
             this.moduleName = null;
+        } else {
+            LOGGER.info("QQ机器人未启用，模块" + this.getModuleName() + "将会被加载");
         }
     }
 }
