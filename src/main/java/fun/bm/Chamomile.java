@@ -107,7 +107,7 @@ public class Chamomile extends JavaPlugin implements Listener {
 
         dataManager.load();
         configManager.load();
-        moduleManager.load();
+        moduleManager.setupModules(true);
     }
 
     @Override

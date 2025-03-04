@@ -32,7 +32,7 @@ public class Reload extends ExecutorE {
             // 调用 load 方法加载配置
             manager.load();
             ModuleManager mgr = new ModuleManager();
-            mgr.reload();
+            mgr.setupModules(false);
             sender.sendMessage("重新加载配置文件成功！");
         } catch (Exception e) {
             sender.sendMessage("重新加载配置文件失败！");

@@ -10,17 +10,6 @@ import static fun.bm.util.ClassesFinder.loadClazz;
 public class ModuleManager {
     public ArrayList<Module> modules = new ArrayList<>();
 
-    public void load() {
-        setupModules(true);
-        modules.forEach(Module::onLoad);
-    }
-
-    public void reload() {
-        modules.clear();
-        setupModules(false);
-        modules.forEach(Module::onReload);
-    }
-
     public void onEnable() {
         modules.forEach(module -> Bukkit.getPluginManager().registerEvents(module, Chamomile.INSTANCE));
         modules.forEach(Module::onEnable);
@@ -39,12 +28,18 @@ public class ModuleManager {
         return null;
     }
 
-    private void setupModules(Boolean setup) {
+    public void setupModules(Boolean setup) {
+        modules.clear();
         for (Object clazz : loadClazz("fun.bm.module.impl")) {
             Module module = (Module) clazz;
             module.setModuleName();
             if (module.getModuleName() != null) {
                 modules.add(module);
+                if (setup) {
+                    module.onLoad();
+                } else {
+                    module.onReload();
+                }
             }
         }
     }
