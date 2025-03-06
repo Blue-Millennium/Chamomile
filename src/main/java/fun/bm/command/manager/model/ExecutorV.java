@@ -10,7 +10,7 @@ public class ExecutorV extends ExecutorE {
     }
 
     public void setCommandName() {
-        if (Config.VanillaCommandsRewritten) {
+        if (!Config.VanillaCommandsRewritten) {
             this.commandName = null;
         }
     }

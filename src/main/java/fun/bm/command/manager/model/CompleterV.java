@@ -10,7 +10,7 @@ public class CompleterV extends CompleterE {
     }
 
     public void setCommandName() {
-        if (Config.VanillaCommandsRewritten) {
+        if (!Config.VanillaCommandsRewritten) {
             this.commandName = null;
         }
     }
