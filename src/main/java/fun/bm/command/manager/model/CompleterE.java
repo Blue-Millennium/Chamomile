@@ -27,9 +27,13 @@ public class CompleterE implements TabCompleter {
     public void setCommandName() {
     }
 
+    public List<String> tabCompleteMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        return List.of();
+    }
+
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        return List.of();
+        return tabCompleteMain(sender, command, label, args);
     }
 }

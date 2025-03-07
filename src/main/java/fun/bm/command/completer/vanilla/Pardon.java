@@ -15,7 +15,7 @@ public class Pardon extends CompleterV {
         super("pardon");
     }
 
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String alias, String[] args) {
+    public List<String> tabCompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String alias, String[] args) {
         if (args.length == 1) {
             return StringUtil.copyPartialMatches(args[0], getBannedPlayerNames(), new ArrayList<>());
         }
