@@ -20,6 +20,9 @@ public class Kill extends ExecutorV {
         if (checkNotOperator(sender)) {
             return true;
         }
+        if (args.length == 0) {
+            return vanillaCommand(sender, args);
+        }
         if (args[0].startsWith("@e")) {
             if (args[0].equals("@e")) {
                 Command.broadcastCommandMessage(sender, "§c拒绝执行清除全部实体，请指定具体实体类型");
