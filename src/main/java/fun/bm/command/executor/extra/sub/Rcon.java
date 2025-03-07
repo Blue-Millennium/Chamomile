@@ -12,7 +12,7 @@ public class Rcon extends ExecutorE {
         super("rcon");
     }
 
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executeMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         sender.sendMessage("此命令为测试命令，不显示使用方法");
         String address = args[0];
         String[] parts = address.split(":");

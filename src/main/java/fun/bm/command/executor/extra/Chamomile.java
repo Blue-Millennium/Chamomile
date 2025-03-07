@@ -29,7 +29,7 @@ public class Chamomile extends ExecutorE {
         super("chamomile");
     }
 
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executeMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
             if (command.getName().equals("cm")) {
                 sender.sendMessage("§c使用/cm help来获取帮助");

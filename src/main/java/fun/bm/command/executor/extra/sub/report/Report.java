@@ -26,7 +26,7 @@ public class Report extends ExecutorE {
         super("report");
     }
 
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executeMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
             if (args.length == 0) {
                 if (command.getName().equals("report")) {

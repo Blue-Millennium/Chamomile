@@ -22,7 +22,7 @@ public class Set extends ExecutorE {
         super(null);
     }
 
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executeMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         // 检查发送者是否具有OP权限
         if (checkNotOperator(sender)) {
             return true;

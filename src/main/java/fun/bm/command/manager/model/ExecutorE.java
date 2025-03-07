@@ -1,5 +1,6 @@
 package fun.bm.command.manager.model;
 
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -24,8 +25,11 @@ public class ExecutorE implements CommandExecutor {
         this.commandName = commandName;
     }
 
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executeMain(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
         return true;
+    }
+
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        return executeMain(sender, command, label, args);
     }
 }
