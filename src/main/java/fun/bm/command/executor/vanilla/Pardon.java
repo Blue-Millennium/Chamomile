@@ -35,6 +35,9 @@ public class Pardon extends ExecutorV {
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (vanilla) {
+            vanillaCommand(sender, args);
+        }
         if (Config.UnionBanEnabled) {
             if (!sender.isOp()) {
                 sender.sendMessage("您没有权限这么做");
@@ -54,7 +57,7 @@ public class Pardon extends ExecutorV {
             }
 
             // 调用原版的 pardon 命令
-            boolean result = Bukkit.dispatchCommand(sender, "minecraft:pardon " + playerName);
+            boolean result = vanillaCommand(sender, args);
 
             if (result) {
                 // 额外操作---to UnionBan
@@ -63,7 +66,7 @@ public class Pardon extends ExecutorV {
 
             return result;
         } else {
-            return Bukkit.dispatchCommand(sender, "minecraft:pardon " + args[0]);
+            return vanillaCommand(sender, args);
         }
     }
 }

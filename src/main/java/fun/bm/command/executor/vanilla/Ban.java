@@ -53,6 +53,9 @@ public class Ban extends ExecutorV {
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (vanilla) {
+            vanillaCommand(sender, args);
+        }
         if (Config.UnionBanEnabled) {
             if (!sender.isOp()) {
                 sender.sendMessage("您没有权限这么做");
@@ -74,7 +77,7 @@ public class Ban extends ExecutorV {
             }
 
             // 调用原版的 ban 命令
-            boolean result = Bukkit.dispatchCommand(sender, "minecraft:ban " + playerName + " " + reason);
+            boolean result = vanillaCommand(sender, args);
 
             if (result) {
                 // 额外操作---to UnionBan
@@ -83,8 +86,7 @@ public class Ban extends ExecutorV {
 
             return result;
         } else {
-            String reason = args.length > 1 ? String.join(" ", Arrays.copyOfRange(args, 1, args.length)) : "";
-            return Bukkit.dispatchCommand(sender, "minecraft:ban " + args[0] + " " + reason);
+            return vanillaCommand(sender, args);
         }
     }
 

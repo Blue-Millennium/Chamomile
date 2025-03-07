@@ -14,6 +14,9 @@ public class Kill extends ExecutorV {
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (vanilla) {
+            vanillaCommand(sender, args);
+        }
         if (checkNotOperator(sender)) {
             return true;
         }
@@ -39,7 +42,7 @@ public class Kill extends ExecutorV {
                 return Bukkit.dispatchCommand(sender, "minecraft:kill @e[type=item]");
             }
             default -> {
-                return Bukkit.dispatchCommand(sender, "minecraft:kill " + String.join("", args));
+                return vanillaCommand(sender, args);
             }
         }
     }
