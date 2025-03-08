@@ -10,20 +10,21 @@ import static fun.bm.util.ClassesFinder.loadClazz;
 
 public class CommandManager {
     public static void registerCommand() {
-        ArrayList<Object> executor = loadClazz("fun.bm.command.executor");
-        ArrayList<Object> completer = loadClazz("fun.bm.command.completer");
-        for (Object e : executor) {
-            ExecutorE e1 = (ExecutorE) e;
-            e1.setCommandName();
-            if (e1.getCommandName() != null) {
-                Chamomile.INSTANCE.getCommand(e1.getCommandName()).setExecutor(e1);
+        registerCommands(loadClazz("fun.bm.command.executor"), ExecutorE.class, (e, commandName) -> Chamomile.INSTANCE.getCommand(commandName).setExecutor(e));
+        registerCommands(loadClazz("fun.bm.command.completer"), CompleterE.class, (c, commandName) -> Chamomile.INSTANCE.getCommand(commandName).setTabCompleter(c));
+    }
+
+    private static <T> void registerCommands(ArrayList<Object> commands, Class<T> clazz, java.util.function.BiConsumer<T, String> commandSetter) {
+        for (Object command : commands) {
+            T cmd = clazz.cast(command);
+            String commandName = null;
+            if (cmd instanceof ExecutorE) {
+                commandName = ((ExecutorE) cmd).getCommandName();
+            } else if (cmd instanceof CompleterE) {
+                commandName = ((CompleterE) cmd).getCommandName();
             }
-        }
-        for (Object c : completer) {
-            CompleterE c1 = (CompleterE) c;
-            c1.setCommandName();
-            if (c1.getCommandName() != null) {
-                Chamomile.INSTANCE.getCommand(c1.getCommandName()).setTabCompleter(c1);
+            if (commandName != null) {
+                commandSetter.accept(cmd, commandName);
             }
         }
     }
