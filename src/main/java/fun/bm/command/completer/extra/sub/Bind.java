@@ -14,7 +14,7 @@ public class Bind extends CompleterE {
         super("bind");
     }
 
-    public List<String> tabCompleteMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             completions.addAll(OnlinePlayerListGet.GetOnlinePlayerList());

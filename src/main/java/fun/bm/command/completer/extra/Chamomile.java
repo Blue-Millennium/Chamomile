@@ -22,7 +22,7 @@ public class Chamomile extends CompleterE {
         super("chamomile");
     }
 
-    public List<String> tabCompleteMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Config config = new Config();
         Config report = new Config();
         Data data = new Data();

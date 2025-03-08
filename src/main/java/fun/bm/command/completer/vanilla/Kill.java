@@ -15,7 +15,7 @@ public class Kill extends CompleterV {
         super("kill");
     }
 
-    public List<String> tabCompleteMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
+    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {

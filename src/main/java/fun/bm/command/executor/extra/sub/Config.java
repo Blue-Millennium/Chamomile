@@ -28,7 +28,7 @@ public class Config extends ExecutorE {
         super("cmconfig");
     }
 
-    public boolean executeMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
             if (sender instanceof Player) {
                 if (sender.isOp()) {

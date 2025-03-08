@@ -23,7 +23,7 @@ public class Query extends ExecutorE {
         super(null);
     }
 
-    public boolean executeMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
             if (sender.isOp()) {
                 sender.sendMessage("§e在下方的指令中，您可以使用cm来代替输入chamomile");

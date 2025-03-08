@@ -25,11 +25,11 @@ public class ExecutorE implements CommandExecutor {
         this.commandName = commandName;
     }
 
-    public boolean executeMain(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+    public boolean executorMain(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
         return true;
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        return executeMain(sender, command, label, args);
+        return executorMain(sender, command, label, args);
     }
 }

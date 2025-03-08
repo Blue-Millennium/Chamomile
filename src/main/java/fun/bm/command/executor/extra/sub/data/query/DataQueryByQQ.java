@@ -30,7 +30,7 @@ public class DataQueryByQQ extends ExecutorE {
         return long_num;
     }
 
-    public boolean executeMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (checkNotOperator(sender)) {
             return true;
         }

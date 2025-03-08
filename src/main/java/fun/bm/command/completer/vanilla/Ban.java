@@ -26,7 +26,7 @@ public class Ban extends CompleterV {
         return playerNames;
     }
 
-    public List<String> tabCompleteMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
+    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
         if (args.length == 1) {
             // 第一个参数：玩家名称
             return getOnlinePlayerNames(sender, args[0]);

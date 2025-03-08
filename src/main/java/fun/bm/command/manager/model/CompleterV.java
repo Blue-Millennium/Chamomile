@@ -22,7 +22,7 @@ public class CompleterV extends CompleterE {
 
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (Config.VanillaCommandsRewritten) {
-            return tabCompleteMain(sender, command, label, args);
+            return CompleteMain(sender, command, label, args);
         } else {
             return List.of();
         }

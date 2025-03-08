@@ -29,7 +29,7 @@ public class ExecutorV extends ExecutorE {
         if (vanilla) {
             return vanillaCommand(sender, args);
         } else {
-            return executeMain(sender, command, label, args);
+            return executorMain(sender, command, label, args);
         }
     }
 }
