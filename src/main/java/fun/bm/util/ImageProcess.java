@@ -1,4 +1,4 @@
-package fun.bm.message;
+package fun.bm.util;
 
 import fun.bm.Chamomile;
 import net.mamoe.mirai.message.data.Image;

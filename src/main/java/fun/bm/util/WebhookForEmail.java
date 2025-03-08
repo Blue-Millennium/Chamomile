@@ -1,4 +1,4 @@
-package fun.bm.message;
+package fun.bm.util;
 
 import com.google.gson.Gson;
 import fun.bm.config.Config;
@@ -24,6 +24,17 @@ public class WebhookForEmail {
             url = "http://" + url;
         }
         return url;
+    }
+
+    public static void TurnPlugin(String title) {
+        try {
+            String subject = "服务器" + title + "通知";
+            String content = Config.ServerName + "服务器已" + title;
+            WebhookForEmail webhookForEmail = new WebhookForEmail();
+            webhookForEmail.formatAndSendWebhook(subject, content, Config.WebHookEmail);
+        } catch (Exception e) {
+            LOGGER.warning(e.getMessage());
+        }
     }
 
     /**

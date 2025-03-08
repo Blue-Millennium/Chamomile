@@ -3,7 +3,7 @@ package fun.bm.data.UnionBan.OnlineProcess;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fun.bm.config.Config;
 import fun.bm.data.UnionBan.UnionBanData;
-import fun.bm.message.WebhookForEmail;
+import fun.bm.util.WebhookForEmail;
 
 import java.io.IOException;
 import java.net.URI;

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static fun.bm.Chamomile.LOGGER;
-import static fun.bm.message.ImageProcess.sendImageUrl;
+import static fun.bm.util.ImageProcess.sendImageUrl;
 import static fun.bm.util.RconCommandExecute.executeRconCommand;
 
 public class SyncChat extends Module {

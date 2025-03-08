@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import fun.bm.config.Config;
 import fun.bm.data.UnionBan.LocalProcess.UnionBanDataGet;
 import fun.bm.data.UnionBan.UnionBanData;
-import fun.bm.message.WebhookForEmail;
+import fun.bm.util.WebhookForEmail;
 
 import java.io.IOException;
 import java.net.URI;

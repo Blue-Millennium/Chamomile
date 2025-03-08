@@ -4,9 +4,9 @@ import fun.bm.command.CommandManager;
 import fun.bm.config.Config;
 import fun.bm.config.ConfigManager;
 import fun.bm.data.DataManager;
-import fun.bm.message.DefaultMessages;
 import fun.bm.module.ModuleManager;
 import fun.bm.util.DirectoryActions;
+import fun.bm.util.WebhookForEmail;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.utils.LoggerAdapters;
@@ -115,14 +115,14 @@ public class Chamomile extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(this, this); // 注册事件
         LoggerAdapters.useLog4j2(); // 使用 Log4j2 作为日志记录器
         Boot_QQBot();
-        DefaultMessages.TurnOnPlugin();
+        WebhookForEmail.TurnPlugin("启动");
         CommandManager.registerCommand();
         moduleManager.onEnable();
     }
 
     @Override
     public void onDisable() {
-        DefaultMessages.TurnOffPlugin();
+        WebhookForEmail.TurnPlugin("关闭");
         moduleManager.onDisable();
     }
 }

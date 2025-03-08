@@ -3,7 +3,7 @@ package fun.bm.command.executor.vanilla;
 import fun.bm.Chamomile;
 import fun.bm.command.Command;
 import fun.bm.config.Config;
-import fun.bm.message.WebhookForEmail;
+import fun.bm.util.WebhookForEmail;
 import net.mamoe.mirai.contact.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
