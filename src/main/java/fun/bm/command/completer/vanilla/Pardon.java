@@ -1,6 +1,6 @@
 package fun.bm.command.completer.vanilla;
 
-import fun.bm.command.CommandModel;
+import fun.bm.command.Command;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pardon extends CommandModel.CompleterV {
+public class Pardon extends Command.CompleterV {
     public Pardon() {
         super("pardon");
     }

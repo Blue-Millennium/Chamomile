@@ -1,10 +1,9 @@
 package fun.bm.command.completer.extra;
 
-import fun.bm.command.CommandModel;
+import fun.bm.command.Command;
 import fun.bm.command.completer.extra.sub.Config;
 import fun.bm.command.completer.extra.sub.Data;
 import fun.bm.command.completer.extra.sub.Kill;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,12 +16,12 @@ import java.util.List;
  * Date: 2024/10/15 03:01
  * function: Provides tab completion for the Chamomile command
  */
-public class Chamomile extends CommandModel.CompleterE {
+public class Chamomile extends Command.CompleterE {
     public Chamomile() {
         super("chamomile");
     }
 
-    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         Config config = new Config();
         Config report = new Config();
         Data data = new Data();

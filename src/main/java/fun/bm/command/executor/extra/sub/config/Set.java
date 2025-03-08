@@ -1,8 +1,7 @@
 package fun.bm.command.executor.extra.sub.config;
 
-import fun.bm.command.CommandModel;
+import fun.bm.command.Command;
 import fun.bm.config.ConfigManager;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,14 +14,14 @@ import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
  * Date: 2024/10/15 02:06
  * function: Set new config
  */
-public class Set extends CommandModel.ExecutorE {
+public class Set extends Command.ExecutorE {
     ConfigManager configManager = new ConfigManager();
 
     public Set() {
         super(null);
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         // 检查发送者是否具有OP权限
         if (checkNotOperator(sender)) {
             return true;

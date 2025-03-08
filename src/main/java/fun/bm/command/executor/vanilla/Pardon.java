@@ -1,10 +1,9 @@
 package fun.bm.command.executor.vanilla;
 
-import fun.bm.command.CommandModel;
+import fun.bm.command.Command;
 import fun.bm.config.Config;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +16,7 @@ import static fun.bm.data.UnionBan.LocalProcess.ReportedDataProcess.reportBanDat
  * Date: 2024/10/27 14:30
  * function: Add some function to the vanilla pardon command
  */
-public class Pardon extends CommandModel.ExecutorV {
+public class Pardon extends Command.ExecutorV {
 
     public Pardon() {
         super("pardon");
@@ -34,7 +33,7 @@ public class Pardon extends CommandModel.ExecutorV {
         }
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (Config.UnionBanEnabled) {
             if (!sender.isOp()) {
                 sender.sendMessage("您没有权限这么做");

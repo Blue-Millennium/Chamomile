@@ -1,8 +1,7 @@
 package fun.bm.command.completer.extra.sub;
 
-import fun.bm.command.CommandModel;
+import fun.bm.command.Command;
 import fun.bm.util.OnlinePlayerListGet;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,13 +13,13 @@ import java.util.List;
  * Date: 2024/10/15 01:41
  * function: Provides tab completion for the report command
  */
-public class Report extends CommandModel.CompleterE {
+public class Report extends Command.CompleterE {
 
     public Report() {
         super("report");
     }
 
-    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             // 返回所有在线玩家的名字

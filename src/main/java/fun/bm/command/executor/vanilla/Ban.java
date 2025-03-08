@@ -1,12 +1,11 @@
 package fun.bm.command.executor.vanilla;
 
 import fun.bm.Chamomile;
-import fun.bm.command.CommandModel;
+import fun.bm.command.Command;
 import fun.bm.config.Config;
 import fun.bm.message.WebhookForEmail;
 import net.mamoe.mirai.contact.Group;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +21,7 @@ import static fun.bm.module.impl.SyncChat.SyncGroups;
  * Date: 2024/10/27 14:18
  * function: Add some function to the vanilla ban command
  */
-public class Ban extends CommandModel.ExecutorV {
+public class Ban extends Command.ExecutorV {
 
     public Ban() {
         super("ban");
@@ -52,7 +51,7 @@ public class Ban extends CommandModel.ExecutorV {
         }
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (Config.UnionBanEnabled) {
             if (!sender.isOp()) {
                 sender.sendMessage("您没有权限这么做");

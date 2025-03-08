@@ -1,20 +1,19 @@
 package fun.bm.command.executor.extra.sub;
 
-import fun.bm.command.CommandModel;
+import fun.bm.command.Command;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
 
-public class Kill extends CommandModel.ExecutorE {
+public class Kill extends Command.ExecutorE {
     public Kill() {
         super(null);
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (checkNotOperator(sender)) {
             return true;
         }

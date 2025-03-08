@@ -1,11 +1,10 @@
 package fun.bm.command.executor.extra.sub.data;
 
-import fun.bm.command.CommandModel;
+import fun.bm.command.Command;
 import fun.bm.command.executor.extra.sub.data.query.DataQueryByName;
 import fun.bm.command.executor.extra.sub.data.query.DataQueryByQQ;
 import fun.bm.command.executor.extra.sub.data.query.DataQueryByUUID;
 import fun.bm.command.executor.extra.sub.data.query.DataQueryByUserID;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,7 +12,7 @@ import java.util.Arrays;
 
 import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
 
-public class Query extends CommandModel.ExecutorE {
+public class Query extends Command.ExecutorE {
     DataQueryByQQ qq = new DataQueryByQQ();
     DataQueryByName name = new DataQueryByName();
     DataQueryByUUID uuid = new DataQueryByUUID();
@@ -23,7 +22,7 @@ public class Query extends CommandModel.ExecutorE {
         super(null);
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
             if (sender.isOp()) {
                 sender.sendMessage("§e在下方的指令中，您可以使用cm来代替输入chamomile");

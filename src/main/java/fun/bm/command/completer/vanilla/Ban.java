@@ -1,7 +1,6 @@
 package fun.bm.command.completer.vanilla;
 
-import fun.bm.command.CommandModel;
-import org.bukkit.command.Command;
+import fun.bm.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -9,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ban extends CommandModel.CompleterV {
+public class Ban extends Command.CompleterV {
 
     public Ban() {
         super("ban");
@@ -26,7 +25,7 @@ public class Ban extends CommandModel.CompleterV {
         return playerNames;
     }
 
-    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
+    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String alias, String[] args) {
         if (args.length == 1) {
             // 第一个参数：玩家名称
             return getOnlinePlayerNames(sender, args[0]);

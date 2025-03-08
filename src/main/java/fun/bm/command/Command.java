@@ -2,7 +2,6 @@ package fun.bm.command;
 
 import fun.bm.config.Config;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -11,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class CommandModel {
+public class Command {
     public static class CompleterE implements TabCompleter {
         public String commandName;
 
@@ -31,13 +30,13 @@ public class CommandModel {
         public void setCommandName() {
         }
 
-        public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
             return List.of();
         }
 
         @Nullable
         @Override
-        public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
             return CompleteMain(sender, command, label, args);
         }
     }
@@ -54,7 +53,7 @@ public class CommandModel {
             }
         }
 
-        public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
             if (Config.VanillaCommandsRewritten) {
                 return CompleteMain(sender, command, label, args);
             } else {
@@ -86,7 +85,7 @@ public class CommandModel {
             return true;
         }
 
-        public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
             return executorMain(sender, command, label, args);
         }
     }
@@ -109,7 +108,7 @@ public class CommandModel {
             return Bukkit.dispatchCommand(sender, "minecraft:" + commandName + " " + String.join(" ", args));
         }
 
-        public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
             if (vanilla) {
                 return vanillaCommand(sender, args);
             } else {

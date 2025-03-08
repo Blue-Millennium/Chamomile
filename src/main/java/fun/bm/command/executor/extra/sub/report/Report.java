@@ -1,7 +1,7 @@
 package fun.bm.command.executor.extra.sub.report;
 
 import fun.bm.Chamomile;
-import fun.bm.command.CommandModel;
+import fun.bm.command.Command;
 import fun.bm.config.Config;
 import fun.bm.data.Report.ReportDataManager;
 import fun.bm.message.WebhookForEmail;
@@ -11,7 +11,6 @@ import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.message.data.AtAll;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -21,12 +20,12 @@ import java.util.Objects;
 import static fun.bm.Chamomile.LOGGER;
 import static fun.bm.module.impl.Reporter.ReportGroups;
 
-public class Report extends CommandModel.ExecutorE {
+public class Report extends Command.ExecutorE {
     public Report() {
         super("report");
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
             if (args.length == 0) {
                 if (command.getName().equals("report")) {

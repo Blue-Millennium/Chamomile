@@ -1,8 +1,7 @@
 package fun.bm.command.executor.extra.sub.config;
 
-import fun.bm.command.CommandModel;
+import fun.bm.command.Command;
 import fun.bm.config.Config;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,13 +16,13 @@ import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
  * Date: 2024/10/15 00:43
  * function: Query config
  */
-public class Query extends CommandModel.ExecutorE {
+public class Query extends Command.ExecutorE {
 
     public Query() {
         super(null);
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         // 检查发送者是否具有OP权限
         if (checkNotOperator(sender)) {
             return true;

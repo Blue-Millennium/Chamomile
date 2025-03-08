@@ -1,10 +1,9 @@
 package fun.bm.command.executor.extra.sub;
 
-import fun.bm.command.CommandModel;
+import fun.bm.command.Command;
 import fun.bm.command.executor.extra.sub.config.Query;
 import fun.bm.command.executor.extra.sub.config.Reload;
 import fun.bm.command.executor.extra.sub.config.Set;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +17,7 @@ import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
  * Date: 2024/10/14 22:41
  * function: Config settings
  */
-public class Config extends CommandModel.ExecutorE {
+public class Config extends Command.ExecutorE {
 
     Reload reload = new Reload();
     Query query = new Query();
@@ -28,7 +27,7 @@ public class Config extends CommandModel.ExecutorE {
         super("cmconfig");
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
             if (sender instanceof Player) {
                 if (sender.isOp()) {
