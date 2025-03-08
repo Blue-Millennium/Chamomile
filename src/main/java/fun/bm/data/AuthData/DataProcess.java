@@ -2,8 +2,8 @@ package fun.bm.data.AuthData;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import fun.bm.data.Data;
-import fun.bm.data.OldName;
+import fun.bm.data.PlayerData.Data;
+import fun.bm.data.PlayerData.OldName;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 

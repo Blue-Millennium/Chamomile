@@ -3,7 +3,7 @@ package fun.bm.module.impl;
 import fun.bm.Chamomile;
 import fun.bm.config.Config;
 import fun.bm.data.AuthData.DataGet;
-import fun.bm.data.PlayerData;
+import fun.bm.data.PlayerData.PlayerData;
 import fun.bm.module.Module;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.event.events.GroupMessageEvent;

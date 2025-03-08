@@ -2,9 +2,9 @@ package fun.bm.module.impl;
 
 import fun.bm.Chamomile;
 import fun.bm.config.Config;
-import fun.bm.data.Data;
-import fun.bm.data.OldName;
-import fun.bm.data.PlayerData;
+import fun.bm.data.PlayerData.Data;
+import fun.bm.data.PlayerData.OldName;
+import fun.bm.data.PlayerData.PlayerData;
 import fun.bm.module.Module;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;

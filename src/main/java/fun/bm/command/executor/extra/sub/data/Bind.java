@@ -2,7 +2,7 @@ package fun.bm.command.executor.extra.sub.data;
 
 import fun.bm.Chamomile;
 import fun.bm.command.Command;
-import fun.bm.data.Data;
+import fun.bm.data.PlayerData.Data;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 

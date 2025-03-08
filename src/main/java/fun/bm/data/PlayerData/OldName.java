@@ -1,4 +1,4 @@
-package fun.bm.data;
+package fun.bm.data.PlayerData;
 
 public class OldName {
     public String oldName;

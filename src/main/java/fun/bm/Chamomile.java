@@ -3,7 +3,7 @@ package fun.bm;
 import fun.bm.command.CommandManager;
 import fun.bm.config.Config;
 import fun.bm.config.ConfigManager;
-import fun.bm.data.DataManager;
+import fun.bm.data.PlayerData.DataManager;
 import fun.bm.module.ModuleManager;
 import fun.bm.util.helper.DirectoryExecutor;
 import fun.bm.util.helper.EmailSender;
