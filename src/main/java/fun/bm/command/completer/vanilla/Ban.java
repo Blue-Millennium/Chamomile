@@ -1,6 +1,6 @@
 package fun.bm.command.completer.vanilla;
 
-import fun.bm.command.manager.model.CompleterV;
+import fun.bm.command.CommandModel;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ban extends CompleterV {
+public class Ban extends CommandModel.CompleterV {
 
     public Ban() {
         super("ban");

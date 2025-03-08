@@ -1,10 +1,10 @@
 package fun.bm.command.executor.extra.sub.data;
 
+import fun.bm.command.CommandModel;
 import fun.bm.command.executor.extra.sub.data.query.DataQueryByName;
 import fun.bm.command.executor.extra.sub.data.query.DataQueryByQQ;
 import fun.bm.command.executor.extra.sub.data.query.DataQueryByUUID;
 import fun.bm.command.executor.extra.sub.data.query.DataQueryByUserID;
-import fun.bm.command.manager.model.ExecutorE;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
 
-public class Query extends ExecutorE {
+public class Query extends CommandModel.ExecutorE {
     DataQueryByQQ qq = new DataQueryByQQ();
     DataQueryByName name = new DataQueryByName();
     DataQueryByUUID uuid = new DataQueryByUUID();

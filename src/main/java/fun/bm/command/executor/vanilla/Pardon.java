@@ -1,6 +1,6 @@
 package fun.bm.command.executor.vanilla;
 
-import fun.bm.command.manager.model.ExecutorV;
+import fun.bm.command.CommandModel;
 import fun.bm.config.Config;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
@@ -17,7 +17,7 @@ import static fun.bm.data.UnionBan.LocalProcess.ReportedDataProcess.reportBanDat
  * Date: 2024/10/27 14:30
  * function: Add some function to the vanilla pardon command
  */
-public class Pardon extends ExecutorV {
+public class Pardon extends CommandModel.ExecutorV {
 
     public Pardon() {
         super("pardon");

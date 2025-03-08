@@ -1,8 +1,8 @@
 package fun.bm.command.executor.extra.sub;
 
+import fun.bm.command.CommandModel;
 import fun.bm.command.executor.extra.sub.data.Bind;
 import fun.bm.command.executor.extra.sub.data.Query;
-import fun.bm.command.manager.model.ExecutorE;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
 
-public class Data extends ExecutorE {
+public class Data extends CommandModel.ExecutorE {
     Query query = new Query();
     Bind bind = new Bind();
 

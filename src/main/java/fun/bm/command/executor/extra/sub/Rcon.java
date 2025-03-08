@@ -1,13 +1,13 @@
 package fun.bm.command.executor.extra.sub;
 
-import fun.bm.command.manager.model.ExecutorE;
+import fun.bm.command.CommandModel;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.util.RconCommandExecute.executeRconCommand;
 
-public class Rcon extends ExecutorE {
+public class Rcon extends CommandModel.ExecutorE {
     public Rcon() {
         super("rcon");
     }

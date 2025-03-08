@@ -1,9 +1,9 @@
 package fun.bm.command.completer.extra;
 
+import fun.bm.command.CommandModel;
 import fun.bm.command.completer.extra.sub.Config;
 import fun.bm.command.completer.extra.sub.Data;
 import fun.bm.command.completer.extra.sub.Kill;
-import fun.bm.command.manager.model.CompleterE;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +17,7 @@ import java.util.List;
  * Date: 2024/10/15 03:01
  * function: Provides tab completion for the Chamomile command
  */
-public class Chamomile extends CompleterE {
+public class Chamomile extends CommandModel.CompleterE {
     public Chamomile() {
         super("chamomile");
     }

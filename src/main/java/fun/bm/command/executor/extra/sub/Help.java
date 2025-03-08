@@ -1,6 +1,6 @@
 package fun.bm.command.executor.extra.sub;
 
-import fun.bm.command.manager.model.ExecutorE;
+import fun.bm.command.CommandModel;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * Date: 2024/10/10 20:30
  * function: Show help to players
  */
-public class Help extends ExecutorE {
+public class Help extends CommandModel.ExecutorE {
 
     public Help() {
         super("chamomilehelp");

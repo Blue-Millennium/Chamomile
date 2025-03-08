@@ -1,6 +1,6 @@
 package fun.bm.command.executor.extra.sub.config;
 
-import fun.bm.command.manager.model.ExecutorE;
+import fun.bm.command.CommandModel;
 import fun.bm.config.ConfigManager;
 import fun.bm.module.ModuleManager;
 import org.bukkit.command.Command;
@@ -15,7 +15,7 @@ import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
  * Date: 2024/9/28 13:24
  * function: Reload config
  */
-public class Reload extends ExecutorE {
+public class Reload extends CommandModel.ExecutorE {
 
     public Reload() {
         super("cmreload");

@@ -1,6 +1,6 @@
 package fun.bm;
 
-import fun.bm.command.manager.CommandManager;
+import fun.bm.command.CommandManager;
 import fun.bm.config.Config;
 import fun.bm.config.ConfigManager;
 import fun.bm.data.DataManager;

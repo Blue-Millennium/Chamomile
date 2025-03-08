@@ -1,7 +1,7 @@
 package fun.bm.command.executor.vanilla;
 
 import fun.bm.Chamomile;
-import fun.bm.command.manager.model.ExecutorV;
+import fun.bm.command.CommandModel;
 import fun.bm.config.Config;
 import fun.bm.message.WebhookForEmail;
 import net.mamoe.mirai.contact.Group;
@@ -22,7 +22,7 @@ import static fun.bm.module.impl.SyncChat.SyncGroups;
  * Date: 2024/10/27 14:18
  * function: Add some function to the vanilla ban command
  */
-public class Ban extends ExecutorV {
+public class Ban extends CommandModel.ExecutorV {
 
     public Ban() {
         super("ban");

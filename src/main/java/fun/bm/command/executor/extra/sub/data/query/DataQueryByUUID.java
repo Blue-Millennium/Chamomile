@@ -1,6 +1,6 @@
 package fun.bm.command.executor.extra.sub.data.query;
 
-import fun.bm.command.manager.model.ExecutorE;
+import fun.bm.command.CommandModel;
 import fun.bm.data.AuthData.DataGet;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,7 +12,7 @@ import static fun.bm.Chamomile.LOGGER;
 import static fun.bm.data.AuthData.DataProcess.ProcessFinalData;
 import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
 
-public class DataQueryByUUID extends ExecutorE {
+public class DataQueryByUUID extends CommandModel.ExecutorE {
 
     public DataQueryByUUID() {
         super(null);

@@ -1,6 +1,6 @@
 package fun.bm.command.executor.vanilla;
 
-import fun.bm.command.manager.model.ExecutorV;
+import fun.bm.command.CommandModel;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
 
-public class Kill extends ExecutorV {
+public class Kill extends CommandModel.ExecutorV {
     public Kill() {
         super("kill");
     }

@@ -1,9 +1,9 @@
 package fun.bm.command.executor.extra;
 
+import fun.bm.command.CommandModel;
 import fun.bm.command.executor.extra.sub.*;
 import fun.bm.command.executor.extra.sub.report.Report;
 import fun.bm.command.executor.extra.sub.report.ReportQuery;
-import fun.bm.command.manager.model.ExecutorE;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +15,7 @@ import java.util.Arrays;
  * Date: 2024/9/28 13:43
  * function: Manager command in Chamomile
  */
-public class Chamomile extends ExecutorE {
+public class Chamomile extends CommandModel.ExecutorE {
 
     Report report = new Report();
     Config config = new Config();

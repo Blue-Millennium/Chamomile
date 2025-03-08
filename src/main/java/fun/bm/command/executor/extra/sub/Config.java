@@ -1,9 +1,9 @@
 package fun.bm.command.executor.extra.sub;
 
+import fun.bm.command.CommandModel;
 import fun.bm.command.executor.extra.sub.config.Query;
 import fun.bm.command.executor.extra.sub.config.Reload;
 import fun.bm.command.executor.extra.sub.config.Set;
-import fun.bm.command.manager.model.ExecutorE;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,7 +18,7 @@ import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
  * Date: 2024/10/14 22:41
  * function: Config settings
  */
-public class Config extends ExecutorE {
+public class Config extends CommandModel.ExecutorE {
 
     Reload reload = new Reload();
     Query query = new Query();

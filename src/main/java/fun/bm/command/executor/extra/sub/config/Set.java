@@ -1,6 +1,6 @@
 package fun.bm.command.executor.extra.sub.config;
 
-import fun.bm.command.manager.model.ExecutorE;
+import fun.bm.command.CommandModel;
 import fun.bm.config.ConfigManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -15,7 +15,7 @@ import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
  * Date: 2024/10/15 02:06
  * function: Set new config
  */
-public class Set extends ExecutorE {
+public class Set extends CommandModel.ExecutorE {
     ConfigManager configManager = new ConfigManager();
 
     public Set() {

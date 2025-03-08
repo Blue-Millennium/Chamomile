@@ -1,6 +1,6 @@
 package fun.bm.command.completer.vanilla;
 
-import fun.bm.command.manager.model.CompleterV;
+import fun.bm.command.CommandModel;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -10,7 +10,7 @@ import java.util.List;
 
 import static fun.bm.command.completer.vanilla.Ban.getOnlinePlayerNames;
 
-public class Kill extends CompleterV {
+public class Kill extends CommandModel.CompleterV {
     public Kill() {
         super("kill");
     }

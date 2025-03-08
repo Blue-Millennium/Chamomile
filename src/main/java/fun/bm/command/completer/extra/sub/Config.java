@@ -1,6 +1,7 @@
 package fun.bm.command.completer.extra.sub;
 
-import fun.bm.command.manager.model.CompleterE;
+
+import fun.bm.command.CommandModel;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +16,7 @@ import static fun.bm.config.ConfigManager.getConfigFieldNames;
  * Date: 2024/10/18 22:11
  * function: Provides tab completion for the config command
  */
-public class Config extends CompleterE {
+public class Config extends CommandModel.CompleterE {
     public Config() {
         super("cmconfig");
     }

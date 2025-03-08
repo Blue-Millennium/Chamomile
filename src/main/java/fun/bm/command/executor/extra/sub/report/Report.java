@@ -1,7 +1,7 @@
 package fun.bm.command.executor.extra.sub.report;
 
 import fun.bm.Chamomile;
-import fun.bm.command.manager.model.ExecutorE;
+import fun.bm.command.CommandModel;
 import fun.bm.config.Config;
 import fun.bm.data.Report.ReportDataManager;
 import fun.bm.message.WebhookForEmail;
@@ -21,7 +21,7 @@ import java.util.Objects;
 import static fun.bm.Chamomile.LOGGER;
 import static fun.bm.module.impl.Reporter.ReportGroups;
 
-public class Report extends ExecutorE {
+public class Report extends CommandModel.ExecutorE {
     public Report() {
         super("report");
     }

@@ -1,6 +1,6 @@
 package fun.bm.command.executor.extra.sub.config;
 
-import fun.bm.command.manager.model.ExecutorE;
+import fun.bm.command.CommandModel;
 import fun.bm.config.Config;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -17,7 +17,7 @@ import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
  * Date: 2024/10/15 00:43
  * function: Query config
  */
-public class Query extends ExecutorE {
+public class Query extends CommandModel.ExecutorE {
 
     public Query() {
         super(null);

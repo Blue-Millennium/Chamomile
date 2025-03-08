@@ -1,7 +1,7 @@
 package fun.bm.command.executor.extra.sub.data;
 
 import fun.bm.Chamomile;
-import fun.bm.command.manager.model.ExecutorE;
+import fun.bm.command.CommandModel;
 import fun.bm.data.Data;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import static fun.bm.Chamomile.LOGGER;
 import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
 
-public class Bind extends ExecutorE {
+public class Bind extends CommandModel.ExecutorE {
     public Bind() {
         super("bind");
     }

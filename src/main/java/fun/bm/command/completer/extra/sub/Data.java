@@ -1,6 +1,6 @@
 package fun.bm.command.completer.extra.sub;
 
-import fun.bm.command.manager.model.CompleterE;
+import fun.bm.command.CommandModel;
 import fun.bm.util.OnlinePlayerListGet;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Data extends CompleterE {
+public class Data extends CommandModel.CompleterE {
     public Data() {
         super("cmdata");
     }

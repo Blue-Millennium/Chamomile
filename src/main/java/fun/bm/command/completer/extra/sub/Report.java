@@ -1,6 +1,6 @@
 package fun.bm.command.completer.extra.sub;
 
-import fun.bm.command.manager.model.CompleterE;
+import fun.bm.command.CommandModel;
 import fun.bm.util.OnlinePlayerListGet;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -14,7 +14,7 @@ import java.util.List;
  * Date: 2024/10/15 01:41
  * function: Provides tab completion for the report command
  */
-public class Report extends CompleterE {
+public class Report extends CommandModel.CompleterE {
 
     public Report() {
         super("report");

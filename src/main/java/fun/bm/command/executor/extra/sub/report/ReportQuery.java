@@ -1,6 +1,6 @@
 package fun.bm.command.executor.extra.sub.report;
 
-import fun.bm.command.manager.model.ExecutorE;
+import fun.bm.command.CommandModel;
 import fun.bm.data.Report.ReportDataActions;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -16,7 +16,7 @@ import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
  * Date: 2024/9/29 22:08
  * function: Query report data
  */
-public class ReportQuery extends ExecutorE {
+public class ReportQuery extends CommandModel.ExecutorE {
 
     public ReportQuery() {
         super("query-report");
