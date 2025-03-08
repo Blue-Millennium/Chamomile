@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.command.executor.vanilla.Ban.BanMessage;
-import static fun.bm.data.UnionBan.LocalProcess.ReportedDataProcess.reportBanData;
+import static fun.bm.data.UnionBan.LocalProcessor.ReportedDataProcess.reportBanData;
 
 /**
  * @author Suisuroru

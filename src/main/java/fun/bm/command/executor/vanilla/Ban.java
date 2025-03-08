@@ -3,7 +3,7 @@ package fun.bm.command.executor.vanilla;
 import fun.bm.Chamomile;
 import fun.bm.command.Command;
 import fun.bm.config.Config;
-import fun.bm.util.WebhookForEmail;
+import fun.bm.util.helper.EmailSender;
 import net.mamoe.mirai.contact.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-import static fun.bm.data.UnionBan.LocalProcess.ReportedDataProcess.reportBanData;
+import static fun.bm.data.UnionBan.LocalProcessor.ReportedDataProcess.reportBanData;
 import static fun.bm.module.impl.Reporter.ReportGroups;
 import static fun.bm.module.impl.SyncChat.SyncGroups;
 
@@ -43,7 +43,7 @@ public class Ban extends Command.ExecutorV {
                 Chamomile.LOGGER.info("Error when report message to QQ group");
             }
             try {
-                WebhookForEmail webhook = new WebhookForEmail();
+                EmailSender webhook = new EmailSender();
                 webhook.formatAndSendWebhook(origin + " Ban : " + message, message, Config.WebHookEmail);
             } catch (Exception e) {
                 Chamomile.LOGGER.info("Error when report message to Email");

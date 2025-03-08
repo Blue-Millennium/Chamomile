@@ -1,4 +1,4 @@
-package fun.bm.util;
+package fun.bm.util.helper;
 
 import java.net.URL;
 import java.net.URLDecoder;

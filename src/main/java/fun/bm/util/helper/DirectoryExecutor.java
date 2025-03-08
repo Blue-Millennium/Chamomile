@@ -1,11 +1,11 @@
-package fun.bm.util;
+package fun.bm.util.helper;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 
-public class DirectoryActions {
+public class DirectoryExecutor {
     public static void copyDirectory(File sourceDir, File destDir) throws IOException {
         Path sourcePath = sourceDir.toPath();
         Path destPath = destDir.toPath();

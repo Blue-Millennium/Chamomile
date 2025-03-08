@@ -1,4 +1,4 @@
-package fun.bm.util;
+package fun.bm.util.helper;
 
 import com.google.gson.Gson;
 import fun.bm.config.Config;
@@ -17,7 +17,7 @@ import static fun.bm.Chamomile.LOGGER;
  * Date: 2024/9/26 21:21
  * function: Webhook for Email
  */
-public class WebhookForEmail {
+public class EmailSender {
 
     public static String ensureValidUrl(String url) {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
@@ -30,8 +30,8 @@ public class WebhookForEmail {
         try {
             String subject = "服务器" + title + "通知";
             String content = Config.ServerName + "服务器已" + title;
-            WebhookForEmail webhookForEmail = new WebhookForEmail();
-            webhookForEmail.formatAndSendWebhook(subject, content, Config.WebHookEmail);
+            EmailSender emailSender = new EmailSender();
+            emailSender.formatAndSendWebhook(subject, content, Config.WebHookEmail);
         } catch (Exception e) {
             LOGGER.warning(e.getMessage());
         }

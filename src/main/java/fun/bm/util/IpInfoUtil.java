@@ -2,7 +2,7 @@ package fun.bm.util;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
-import fun.bm.util.map.IpLocationResponse;
+import fun.bm.util.map.IpLocationMap;
 import fun.bm.util.map.IpinfoMap;
 
 import java.io.BufferedReader;
@@ -13,7 +13,7 @@ import java.net.URL;
 
 import static fun.bm.Chamomile.LOGGER;
 
-public class IpinfoUtil {
+public class IpInfoUtil {
     public static IpinfoMap getIpinfo(String ip) {
         try {
             URL url = new URL("https://rs.miku39.cloudns.be/https://ipinfo.io/widget/demo/" + ip);
@@ -37,7 +37,7 @@ public class IpinfoUtil {
         }
     }
 
-    public static IpLocationResponse getIpinfoCN(String ip) {
+    public static IpLocationMap getIpinfoCN(String ip) {
         try {
             URL url = new URL("https://webapi-pc.meitu.com/common/ip_location?ip=" + ip);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -54,7 +54,7 @@ public class IpinfoUtil {
 
             in.close();
 
-            return new Gson().fromJson(JsonParser.parseString(response.toString()).getAsJsonObject().get("data").getAsJsonObject().get(ip), IpLocationResponse.class);
+            return new Gson().fromJson(JsonParser.parseString(response.toString()).getAsJsonObject().get("data").getAsJsonObject().get(ip), IpLocationMap.class);
         } catch (IOException e) {
             LOGGER.warning("Error getting IP CN info: " + e.getMessage());
         }

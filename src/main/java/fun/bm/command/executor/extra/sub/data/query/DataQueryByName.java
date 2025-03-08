@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.Chamomile.LOGGER;
 import static fun.bm.data.AuthData.DataProcess.ProcessFinalData;
-import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
+import static fun.bm.util.helper.OperatorChecker.checkNotOperator;
 
 public class DataQueryByName extends Command.ExecutorE {
     public DataQueryByName() {

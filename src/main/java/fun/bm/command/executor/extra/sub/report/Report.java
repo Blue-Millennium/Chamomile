@@ -5,7 +5,7 @@ import fun.bm.command.Command;
 import fun.bm.config.Config;
 import fun.bm.data.Report.ReportDataManager;
 import fun.bm.util.TimeUtil;
-import fun.bm.util.WebhookForEmail;
+import fun.bm.util.helper.EmailSender;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.message.data.AtAll;
@@ -62,8 +62,8 @@ public class Report extends Command.ExecutorE {
                         String content = builder.build().contentToString();
                         try {
                             String subject = "玩家举报-" + number;
-                            WebhookForEmail webhookForEmail = new WebhookForEmail();
-                            webhookForEmail.formatAndSendWebhook(subject, content, Config.WebHookEmail);
+                            EmailSender emailSender = new EmailSender();
+                            emailSender.formatAndSendWebhook(subject, content, Config.WebHookEmail);
                         } catch (Exception e) {
                             sender.sendMessage("§c邮件发送失败");
                             LOGGER.warning(e.getMessage());

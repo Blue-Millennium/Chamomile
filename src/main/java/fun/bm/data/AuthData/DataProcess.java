@@ -3,7 +3,7 @@ package fun.bm.data.AuthData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import fun.bm.data.Data;
-import fun.bm.data.OldUsedName;
+import fun.bm.data.OldName;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -84,11 +84,11 @@ public class DataProcess {
         }
     }
 
-    private static void appendOldNameData(StringBuilder result, List<OldUsedName> oldNamesList) {
+    private static void appendOldNameData(StringBuilder result, List<OldName> oldNamesList) {
         if (!oldNamesList.isEmpty()) {
             appendIfNotNull(result, "旧的玩家名称: ", "存在，共 " + oldNamesList.size() + " 个");
             int i = 1;
-            for (OldUsedName oldName : oldNamesList) {
+            for (OldName oldName : oldNamesList) {
                 appendIfNotNull(result, "玩家名称 " + i + " : ", oldName.oldName);
                 appendIfNotNull(result, "玩家名称 " + i + " 服务器内被替换时间: ", transferTime(oldName.updateTime));
                 appendIfNotNull(result, "玩家名称 " + i++ + " 服务器内被替换时间(原始): ", oldName.updateTime);

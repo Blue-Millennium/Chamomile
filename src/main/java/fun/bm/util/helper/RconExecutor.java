@@ -1,4 +1,4 @@
-package fun.bm.util;
+package fun.bm.util.helper;
 
 import org.bukkit.Bukkit;
 import org.glavo.rcon.AuthenticationException;
@@ -11,7 +11,7 @@ import java.io.IOException;
  * Date: 2024/9/28 15:24
  * function: Executes a command through the RCON protocol and returns the console feedback
  */
-public class RconCommandExecute {
+public class RconExecutor {
 
     private static final int MAX_RETRIES = 3; // 最大重试次数
 

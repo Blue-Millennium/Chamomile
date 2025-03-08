@@ -1,7 +1,7 @@
 package fun.bm.command.completer.extra.sub;
 
 import fun.bm.command.Command;
-import fun.bm.util.OnlinePlayerListGet;
+import fun.bm.util.helper.PlayerListGetter;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +23,7 @@ public class Report extends Command.CompleterE {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             // 返回所有在线玩家的名字
-            completions.addAll(OnlinePlayerListGet.GetOnlinePlayerList());
+            completions.addAll(PlayerListGetter.GetOnlinePlayerList());
         }
         return completions;
     }

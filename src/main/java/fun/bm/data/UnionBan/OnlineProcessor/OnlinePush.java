@@ -1,12 +1,12 @@
-package fun.bm.data.UnionBan.OnlineProcess;
+package fun.bm.data.UnionBan.OnlineProcessor;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fun.bm.config.Config;
-import fun.bm.data.UnionBan.LocalProcess.UnionBanDataGet;
+import fun.bm.data.UnionBan.LocalProcessor.UnionBanDataGet;
 import fun.bm.data.UnionBan.UnionBanData;
-import fun.bm.util.WebhookForEmail;
+import fun.bm.util.helper.EmailSender;
 
 import java.io.IOException;
 import java.net.URI;
@@ -40,7 +40,7 @@ public class OnlinePush {
         }
 
         // 确保 URL 格式正确
-        String reportUrl = WebhookForEmail.ensureValidUrl(Config.UnionBanReportUrl);
+        String reportUrl = EmailSender.ensureValidUrl(Config.UnionBanReportUrl);
 
         try {
             // 创建 HttpClient 实例

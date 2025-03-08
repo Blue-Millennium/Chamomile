@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
+import static fun.bm.util.helper.OperatorChecker.checkNotOperator;
 
 public class Data extends Command.ExecutorE {
     Query query = new Query();

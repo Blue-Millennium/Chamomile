@@ -4,7 +4,7 @@ import fun.bm.Chamomile;
 
 import java.util.ArrayList;
 
-import static fun.bm.util.ClassesFinder.loadClazz;
+import static fun.bm.util.helper.ClassesFinder.loadClazz;
 
 public class CommandManager {
     public static void registerCommand() {

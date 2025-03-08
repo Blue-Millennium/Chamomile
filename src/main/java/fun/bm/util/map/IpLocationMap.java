@@ -1,6 +1,6 @@
 package fun.bm.util.map;
 
-public class IpLocationResponse {
+public class IpLocationMap {
     public String area_code;
     public String city;
     public int city_id;

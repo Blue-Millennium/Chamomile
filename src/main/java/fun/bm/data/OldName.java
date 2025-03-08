@@ -1,6 +1,6 @@
 package fun.bm.data;
 
-public class OldUsedName {
+public class OldName {
     public String oldName;
     public long updateTime;
 }

@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
+import static fun.bm.util.helper.OperatorChecker.checkNotOperator;
 
 public class Query extends Command.ExecutorE {
     DataQueryByQQ qq = new DataQueryByQQ();

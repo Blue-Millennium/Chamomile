@@ -1,8 +1,8 @@
-package fun.bm.util;
+package fun.bm.util.helper;
 
 import org.bukkit.command.CommandSender;
 
-public class CommandOperatorCheck {
+public class OperatorChecker {
     public static boolean checkNotOperator(CommandSender sender) {
         boolean isNotOperator = !sender.isOp();
         if (isNotOperator) {
