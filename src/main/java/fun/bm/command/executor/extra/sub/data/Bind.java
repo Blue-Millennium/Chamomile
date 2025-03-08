@@ -1,21 +1,20 @@
 package fun.bm.command.executor.extra.sub.data;
 
 import fun.bm.Chamomile;
-import fun.bm.command.manager.model.ExecutorE;
-import fun.bm.data.Data;
-import org.bukkit.command.Command;
+import fun.bm.command.Command;
+import fun.bm.data.PlayerData.Data;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.Chamomile.LOGGER;
-import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
+import static fun.bm.util.helper.OperatorChecker.checkNotOperator;
 
-public class Bind extends ExecutorE {
+public class Bind extends Command.ExecutorE {
     public Bind() {
         super("bind");
     }
 
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (checkNotOperator(sender)) {
             return true;
         }

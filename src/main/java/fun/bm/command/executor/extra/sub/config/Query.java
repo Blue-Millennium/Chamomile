@@ -1,8 +1,7 @@
 package fun.bm.command.executor.extra.sub.config;
 
-import fun.bm.command.manager.model.ExecutorE;
+import fun.bm.command.Command;
 import fun.bm.config.Config;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,20 +9,20 @@ import java.lang.reflect.Field;
 
 import static fun.bm.Chamomile.LOGGER;
 import static fun.bm.config.ConfigManager.getConfigFieldNames;
-import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
+import static fun.bm.util.helper.OperatorChecker.checkNotOperator;
 
 /**
  * @author Suisuroru
  * Date: 2024/10/15 00:43
  * function: Query config
  */
-public class Query extends ExecutorE {
+public class Query extends Command.ExecutorE {
 
     public Query() {
         super(null);
     }
 
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         // 检查发送者是否具有OP权限
         if (checkNotOperator(sender)) {
             return true;

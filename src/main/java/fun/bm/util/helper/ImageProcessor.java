@@ -1,4 +1,4 @@
-package fun.bm.message;
+package fun.bm.util.helper;
 
 import fun.bm.Chamomile;
 import net.mamoe.mirai.message.data.Image;
@@ -10,7 +10,7 @@ import org.bukkit.Bukkit;
  * Date: 2024/10/3 21:58
  * function: Process image message
  */
-public class ImageProcess {
+public class ImageProcessor {
 
     public static String getImageUrl(Image message) {
         String imageurl = Image.queryUrl(message);

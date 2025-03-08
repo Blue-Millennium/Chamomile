@@ -1,23 +1,22 @@
 package fun.bm.command.executor.vanilla;
 
-import fun.bm.command.manager.model.ExecutorV;
+import fun.bm.command.Command;
 import fun.bm.config.Config;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.command.executor.vanilla.Ban.BanMessage;
-import static fun.bm.data.UnionBan.LocalProcess.ReportedDataProcess.reportBanData;
+import static fun.bm.data.UnionBan.LocalProcessor.ReportedDataProcess.reportBanData;
 
 /**
  * @author Suisuroru
  * Date: 2024/10/27 14:30
  * function: Add some function to the vanilla pardon command
  */
-public class Pardon extends ExecutorV {
+public class Pardon extends Command.ExecutorV {
 
     public Pardon() {
         super("pardon");
@@ -34,7 +33,7 @@ public class Pardon extends ExecutorV {
         }
     }
 
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (Config.UnionBanEnabled) {
             if (!sender.isOp()) {
                 sender.sendMessage("您没有权限这么做");
@@ -54,7 +53,7 @@ public class Pardon extends ExecutorV {
             }
 
             // 调用原版的 pardon 命令
-            boolean result = Bukkit.dispatchCommand(sender, "minecraft:pardon " + playerName);
+            boolean result = vanillaCommand(sender, args);
 
             if (result) {
                 // 额外操作---to UnionBan
@@ -63,7 +62,7 @@ public class Pardon extends ExecutorV {
 
             return result;
         } else {
-            return Bukkit.dispatchCommand(sender, "minecraft:pardon " + args[0]);
+            return vanillaCommand(sender, args);
         }
     }
 }

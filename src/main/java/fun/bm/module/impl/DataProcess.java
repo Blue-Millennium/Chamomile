@@ -2,9 +2,9 @@ package fun.bm.module.impl;
 
 import fun.bm.Chamomile;
 import fun.bm.config.Config;
-import fun.bm.data.Data;
-import fun.bm.data.OldUsedName;
-import fun.bm.data.PlayerData;
+import fun.bm.data.PlayerData.Data;
+import fun.bm.data.PlayerData.OldName;
+import fun.bm.data.PlayerData.PlayerData;
 import fun.bm.module.Module;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
@@ -29,16 +29,16 @@ public class DataProcess extends Module {
             data.playerData = playerData;
         } else {
             if (!data.playerData.playerName.equals(event.getName())) {
-                OldUsedName oldUsedName = new OldUsedName();
-                oldUsedName.oldName = data.playerData.playerName;
-                oldUsedName.updateTime = System.currentTimeMillis();
-                List<OldUsedName> oldNames;
+                OldName oldName = new OldName();
+                oldName.oldName = data.playerData.playerName;
+                oldName.updateTime = System.currentTimeMillis();
+                List<OldName> oldNames;
                 try {
                     oldNames = data.playerData.oldNames == null ? new ArrayList<>() : data.playerData.oldNames;
                 } catch (NullPointerException e) {
                     oldNames = new ArrayList<>();
                 }
-                oldNames.add(oldUsedName);
+                oldNames.add(oldName);
                 data.playerData.oldNames = oldNames;
                 data.playerData.playerName = event.getName();
             }

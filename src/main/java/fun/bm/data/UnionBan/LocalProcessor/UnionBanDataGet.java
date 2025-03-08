@@ -1,4 +1,4 @@
-package fun.bm.data.UnionBan.LocalProcess;
+package fun.bm.data.UnionBan.LocalProcessor;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

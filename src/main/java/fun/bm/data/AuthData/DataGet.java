@@ -2,8 +2,8 @@ package fun.bm.data.AuthData;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import fun.bm.data.Data;
-import fun.bm.data.PlayerData;
+import fun.bm.data.PlayerData.Data;
+import fun.bm.data.PlayerData.PlayerData;
 
 import java.io.File;
 import java.io.FileReader;

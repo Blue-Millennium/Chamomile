@@ -1,18 +1,17 @@
 package fun.bm.command.executor.extra.sub;
 
-import fun.bm.command.manager.model.ExecutorE;
-import org.bukkit.command.Command;
+import fun.bm.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.bm.util.RconCommandExecute.executeRconCommand;
+import static fun.bm.util.helper.RconExecutor.executeRconCommand;
 
-public class Rcon extends ExecutorE {
+public class Rcon extends Command.ExecutorE {
     public Rcon() {
         super("rcon");
     }
 
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         sender.sendMessage("此命令为测试命令，不显示使用方法");
         String address = args[0];
         String[] parts = address.split(":");

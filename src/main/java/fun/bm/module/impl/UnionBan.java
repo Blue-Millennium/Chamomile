@@ -1,13 +1,13 @@
 package fun.bm.module.impl;
 
 import fun.bm.config.Config;
-import fun.bm.data.UnionBan.LocalProcess.UnionBanDataGet;
+import fun.bm.data.UnionBan.LocalProcessor.UnionBanDataGet;
 import fun.bm.module.Module;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import static fun.bm.data.UnionBan.LocalProcess.LocalBanListImport.importBanList;
-import static fun.bm.data.UnionBan.LocalProcess.OnlineDataMerge.mergeAndReportData;
+import static fun.bm.data.UnionBan.LocalProcessor.LocalBanListImport.importBanList;
+import static fun.bm.data.UnionBan.LocalProcessor.OnlineDataMerge.mergeAndReportData;
 
 public class UnionBan extends Module {
 

@@ -1,28 +1,27 @@
 package fun.bm.command.executor.extra.sub.config;
 
-import fun.bm.command.manager.model.ExecutorE;
+import fun.bm.command.Command;
 import fun.bm.config.ConfigManager;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.Chamomile.LOGGER;
 import static fun.bm.config.ConfigManager.getConfigFieldNames;
-import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
+import static fun.bm.util.helper.OperatorChecker.checkNotOperator;
 
 /**
  * @author Suisuroru
  * Date: 2024/10/15 02:06
  * function: Set new config
  */
-public class Set extends ExecutorE {
+public class Set extends Command.ExecutorE {
     ConfigManager configManager = new ConfigManager();
 
     public Set() {
         super(null);
     }
 
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         // 检查发送者是否具有OP权限
         if (checkNotOperator(sender)) {
             return true;

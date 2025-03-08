@@ -1,7 +1,6 @@
 package fun.bm.command.completer.vanilla;
 
-import fun.bm.command.manager.model.CompleterV;
-import org.bukkit.command.Command;
+import fun.bm.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,12 +9,12 @@ import java.util.List;
 
 import static fun.bm.command.completer.vanilla.Ban.getOnlinePlayerNames;
 
-public class Kill extends CompleterV {
+public class Kill extends Command.CompleterV {
     public Kill() {
         super("kill");
     }
 
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
+    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String alias, String[] args) {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {

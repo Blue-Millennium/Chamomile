@@ -3,8 +3,8 @@ package fun.bm.module.impl;
 import fun.bm.Chamomile;
 import fun.bm.config.Config;
 import fun.bm.module.Module;
-import fun.bm.util.IpinfoUtil;
-import fun.bm.util.map.IpLocationResponse;
+import fun.bm.util.IpInfoUtil;
+import fun.bm.util.map.IpLocationMap;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.bukkit.event.EventHandler;
@@ -58,7 +58,7 @@ public class Reporter extends Module {
 
         MessageChainBuilder builder = new MessageChainBuilder();
         String ip = event.getAddress().getHostAddress();
-        IpLocationResponse response = IpinfoUtil.getIpinfoCN(ip);
+        IpLocationMap response = IpInfoUtil.getIpinfoCN(ip);
 
         if (response != null) {
             builder.append(Config.ReportMessage.replace("%NAME%", event.getName()).replace("%IP%", ip).replace("%IPINFO%", response.nation + " " + response.subdivision_1_name + " " + response.subdivision_2_name + " " + response.isp).replace("%RESULT%", event.getLoginResult().toString()));

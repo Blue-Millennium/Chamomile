@@ -1,4 +1,4 @@
-package fun.bm.data;
+package fun.bm.data.PlayerData;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

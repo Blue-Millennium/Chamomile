@@ -1,17 +1,16 @@
 package fun.bm.command.executor.extra.sub;
 
+import fun.bm.command.Command;
 import fun.bm.command.executor.extra.sub.data.Bind;
 import fun.bm.command.executor.extra.sub.data.Query;
-import fun.bm.command.manager.model.ExecutorE;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
+import static fun.bm.util.helper.OperatorChecker.checkNotOperator;
 
-public class Data extends ExecutorE {
+public class Data extends Command.ExecutorE {
     Query query = new Query();
     Bind bind = new Bind();
 
@@ -19,7 +18,7 @@ public class Data extends ExecutorE {
         super("cmdata");
     }
 
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
             if (sender.isOp()) {
                 sender.sendMessage("§e在下方的指令中，您可以使用cm来代替输入chamomile");

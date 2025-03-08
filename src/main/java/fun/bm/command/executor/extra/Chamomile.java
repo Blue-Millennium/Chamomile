@@ -1,10 +1,9 @@
 package fun.bm.command.executor.extra;
 
+import fun.bm.command.Command;
 import fun.bm.command.executor.extra.sub.*;
 import fun.bm.command.executor.extra.sub.report.Report;
 import fun.bm.command.executor.extra.sub.report.ReportQuery;
-import fun.bm.command.manager.model.ExecutorE;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +14,7 @@ import java.util.Arrays;
  * Date: 2024/9/28 13:43
  * function: Manager command in Chamomile
  */
-public class Chamomile extends ExecutorE {
+public class Chamomile extends Command.ExecutorE {
 
     Report report = new Report();
     Config config = new Config();
@@ -29,7 +28,7 @@ public class Chamomile extends ExecutorE {
         super("chamomile");
     }
 
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
             if (command.getName().equals("cm")) {
                 sender.sendMessage("§c使用/cm help来获取帮助");

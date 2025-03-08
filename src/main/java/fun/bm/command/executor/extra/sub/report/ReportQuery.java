@@ -1,22 +1,21 @@
 package fun.bm.command.executor.extra.sub.report;
 
-import fun.bm.command.manager.model.ExecutorE;
+import fun.bm.command.Command;
 import fun.bm.data.Report.ReportDataActions;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 import static fun.bm.Chamomile.LOGGER;
-import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
+import static fun.bm.util.helper.OperatorChecker.checkNotOperator;
 
 /**
  * @author Suisuroru
  * Date: 2024/9/29 22:08
  * function: Query report data
  */
-public class ReportQuery extends ExecutorE {
+public class ReportQuery extends Command.ExecutorE {
 
     public ReportQuery() {
         super("query-report");
@@ -40,7 +39,7 @@ public class ReportQuery extends ExecutorE {
     }
 
 
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         // 检查发送者是否具有OP权限
         if (checkNotOperator(sender)) {
         } else {

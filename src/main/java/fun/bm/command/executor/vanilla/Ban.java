@@ -1,19 +1,18 @@
 package fun.bm.command.executor.vanilla;
 
 import fun.bm.Chamomile;
-import fun.bm.command.manager.model.ExecutorV;
+import fun.bm.command.Command;
 import fun.bm.config.Config;
-import fun.bm.message.WebhookForEmail;
+import fun.bm.util.helper.EmailSender;
 import net.mamoe.mirai.contact.Group;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-import static fun.bm.data.UnionBan.LocalProcess.ReportedDataProcess.reportBanData;
+import static fun.bm.data.UnionBan.LocalProcessor.ReportedDataProcess.reportBanData;
 import static fun.bm.module.impl.Reporter.ReportGroups;
 import static fun.bm.module.impl.SyncChat.SyncGroups;
 
@@ -22,7 +21,7 @@ import static fun.bm.module.impl.SyncChat.SyncGroups;
  * Date: 2024/10/27 14:18
  * function: Add some function to the vanilla ban command
  */
-public class Ban extends ExecutorV {
+public class Ban extends Command.ExecutorV {
 
     public Ban() {
         super("ban");
@@ -44,7 +43,7 @@ public class Ban extends ExecutorV {
                 Chamomile.LOGGER.info("Error when report message to QQ group");
             }
             try {
-                WebhookForEmail webhook = new WebhookForEmail();
+                EmailSender webhook = new EmailSender();
                 webhook.formatAndSendWebhook(origin + " Ban : " + message, message, Config.WebHookEmail);
             } catch (Exception e) {
                 Chamomile.LOGGER.info("Error when report message to Email");
@@ -52,7 +51,7 @@ public class Ban extends ExecutorV {
         }
     }
 
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (Config.UnionBanEnabled) {
             if (!sender.isOp()) {
                 sender.sendMessage("您没有权限这么做");
@@ -74,7 +73,7 @@ public class Ban extends ExecutorV {
             }
 
             // 调用原版的 ban 命令
-            boolean result = Bukkit.dispatchCommand(sender, "minecraft:ban " + playerName + " " + reason);
+            boolean result = vanillaCommand(sender, args);
 
             if (result) {
                 // 额外操作---to UnionBan
@@ -83,8 +82,7 @@ public class Ban extends ExecutorV {
 
             return result;
         } else {
-            String reason = args.length > 1 ? String.join(" ", Arrays.copyOfRange(args, 1, args.length)) : "";
-            return Bukkit.dispatchCommand(sender, "minecraft:ban " + args[0] + " " + reason);
+            return vanillaCommand(sender, args);
         }
     }
 

@@ -1,16 +1,15 @@
 package fun.bm.command.executor.extra.sub.data.query;
 
-import fun.bm.command.manager.model.ExecutorE;
+import fun.bm.command.Command;
 import fun.bm.data.AuthData.DataGet;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.Chamomile.LOGGER;
 import static fun.bm.data.AuthData.DataProcess.ProcessFinalData;
-import static fun.bm.util.CommandOperatorCheck.checkNotOperator;
+import static fun.bm.util.helper.OperatorChecker.checkNotOperator;
 
-public class DataQueryByQQ extends ExecutorE {
+public class DataQueryByQQ extends Command.ExecutorE {
 
     public DataQueryByQQ() {
         super(null);
@@ -30,7 +29,7 @@ public class DataQueryByQQ extends ExecutorE {
         return long_num;
     }
 
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (checkNotOperator(sender)) {
             return true;
         }

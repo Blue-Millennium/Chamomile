@@ -1,11 +1,11 @@
-package fun.bm.data.UnionBan.LocalProcess;
+package fun.bm.data.UnionBan.LocalProcessor;
 
 import fun.bm.data.UnionBan.UnionBanData;
 import org.bukkit.Bukkit;
 
 import java.util.UUID;
 
-import static fun.bm.data.UnionBan.LocalProcess.OnlineDataMerge.mergeAndReportData;
+import static fun.bm.data.UnionBan.LocalProcessor.OnlineDataMerge.mergeAndReportData;
 
 
 public class ReportedDataProcess {

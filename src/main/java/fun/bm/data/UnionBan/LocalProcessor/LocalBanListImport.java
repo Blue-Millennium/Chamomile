@@ -1,4 +1,4 @@
-package fun.bm.data.UnionBan.LocalProcess;
+package fun.bm.data.UnionBan.LocalProcessor;
 
 import fun.bm.config.Config;
 import fun.bm.data.UnionBan.UnionBanData;
@@ -9,7 +9,7 @@ import org.bukkit.ban.ProfileBanList;
 import org.bukkit.profile.PlayerProfile;
 
 import static fun.bm.Chamomile.LOGGER;
-import static fun.bm.data.UnionBan.OnlineProcess.OnlinePush.reportRemoteBanList;
+import static fun.bm.data.UnionBan.OnlineProcessor.OnlinePush.reportRemoteBanList;
 
 public class LocalBanListImport {
     public static void importBanList() {

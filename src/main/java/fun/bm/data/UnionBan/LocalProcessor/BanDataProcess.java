@@ -1,4 +1,4 @@
-package fun.bm.data.UnionBan.LocalProcess;
+package fun.bm.data.UnionBan.LocalProcessor;
 
 import fun.bm.data.UnionBan.UnionBanData;
 import org.bukkit.Bukkit;

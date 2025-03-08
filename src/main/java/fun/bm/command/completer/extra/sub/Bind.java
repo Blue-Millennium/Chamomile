@@ -1,23 +1,23 @@
 package fun.bm.command.completer.extra.sub;
 
-import fun.bm.command.manager.model.CompleterE;
-import fun.bm.util.OnlinePlayerListGet;
-import org.bukkit.command.Command;
+
+import fun.bm.command.Command;
+import fun.bm.util.helper.PlayerListGetter;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Bind extends CompleterE {
+public class Bind extends Command.CompleterE {
     public Bind() {
         super("bind");
     }
 
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
-            completions.addAll(OnlinePlayerListGet.GetOnlinePlayerList());
+            completions.addAll(PlayerListGetter.GetOnlinePlayerList());
         }
         return completions;
     }

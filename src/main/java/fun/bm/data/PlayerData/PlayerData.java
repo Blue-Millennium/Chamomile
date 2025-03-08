@@ -1,4 +1,4 @@
-package fun.bm.data;
+package fun.bm.data.PlayerData;
 
 import java.util.List;
 import java.util.UUID;
@@ -10,5 +10,5 @@ import java.util.UUID;
 public class PlayerData {
     public String playerName;
     public UUID playerUuid;
-    public List<OldUsedName> oldNames;
+    public List<OldName> oldNames;
 }

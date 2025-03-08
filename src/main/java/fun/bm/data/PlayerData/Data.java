@@ -1,4 +1,4 @@
-package fun.bm.data;
+package fun.bm.data.PlayerData;
 
 /**
  * @author Liycxc

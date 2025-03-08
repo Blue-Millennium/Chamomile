@@ -1,12 +1,12 @@
 package fun.bm;
 
-import fun.bm.command.manager.CommandManager;
+import fun.bm.command.CommandManager;
 import fun.bm.config.Config;
 import fun.bm.config.ConfigManager;
-import fun.bm.data.DataManager;
-import fun.bm.message.DefaultMessages;
+import fun.bm.data.PlayerData.DataManager;
 import fun.bm.module.ModuleManager;
-import fun.bm.util.DirectoryActions;
+import fun.bm.util.helper.DirectoryExecutor;
+import fun.bm.util.helper.EmailSender;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.utils.LoggerAdapters;
@@ -72,9 +72,9 @@ public class Chamomile extends JavaPlugin implements Listener {
             for (File file : OLD_BASE_DIR) {
                 if (file.exists()) {
                     try {
-                        DirectoryActions.copyDirectory(file, BASE_DIR);
+                        DirectoryExecutor.copyDirectory(file, BASE_DIR);
                         LOGGER.info("复制配置文件完成");
-                        DirectoryActions.deleteDirectory(file);
+                        DirectoryExecutor.deleteDirectory(file);
                         LOGGER.info("删除旧配置文件完成");
                     } catch (IOException e) {
                         LOGGER.warning("复制配置文件时出现异常: " + e.getMessage());
@@ -115,14 +115,14 @@ public class Chamomile extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(this, this); // 注册事件
         LoggerAdapters.useLog4j2(); // 使用 Log4j2 作为日志记录器
         Boot_QQBot();
-        DefaultMessages.TurnOnPlugin();
+        EmailSender.TurnPlugin("启动");
         CommandManager.registerCommand();
         moduleManager.onEnable();
     }
 
     @Override
     public void onDisable() {
-        DefaultMessages.TurnOffPlugin();
+        EmailSender.TurnPlugin("关闭");
         moduleManager.onDisable();
     }
 }

@@ -1,6 +1,6 @@
 package fun.bm.command.completer.vanilla;
 
-import fun.bm.command.manager.model.CompleterV;
+import fun.bm.command.Command;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -10,12 +10,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pardon extends CompleterV {
+public class Pardon extends Command.CompleterV {
     public Pardon() {
         super("pardon");
     }
 
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String alias, String[] args) {
+    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String alias, String[] args) {
         if (args.length == 1) {
             return StringUtil.copyPartialMatches(args[0], getBannedPlayerNames(), new ArrayList<>());
         }
