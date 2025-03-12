@@ -112,17 +112,23 @@ public class Chamomile extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        EmailSender.TurnPlugin("启动");
+        // 启动逻辑 - Start
         Bukkit.getPluginManager().registerEvents(this, this); // 注册事件
         LoggerAdapters.useLog4j2(); // 使用 Log4j2 作为日志记录器
         Boot_QQBot();
-        EmailSender.TurnPlugin("启动");
         CommandManager.registerCommand();
         moduleManager.onEnable();
+        // 启动逻辑 - End
+        EmailSender.CheckPlugin("启动");
     }
 
     @Override
     public void onDisable() {
         EmailSender.TurnPlugin("关闭");
+        // 关闭逻辑 - Start
         moduleManager.onDisable();
+        // 关闭逻辑 - End
+        EmailSender.CheckPlugin("关闭");
     }
 }

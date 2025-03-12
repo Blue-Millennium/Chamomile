@@ -29,7 +29,18 @@ public class EmailSender {
     public static void TurnPlugin(String title) {
         try {
             String subject = "服务器" + title + "通知";
-            String content = Config.ServerName + "服务器已" + title;
+            String content = Config.ServerName + "服务器正在" + title;
+            EmailSender emailSender = new EmailSender();
+            emailSender.formatAndSendWebhook(subject, content, Config.WebHookEmail);
+        } catch (Exception e) {
+            LOGGER.warning(e.getMessage());
+        }
+    }
+
+    public static void CheckPlugin(String title) {
+        try {
+            String subject = "服务器" + title + "通知";
+            String content = Config.ServerName + "服务器已" + title + "完成";
             EmailSender emailSender = new EmailSender();
             emailSender.formatAndSendWebhook(subject, content, Config.WebHookEmail);
         } catch (Exception e) {
