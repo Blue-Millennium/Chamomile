@@ -5,7 +5,7 @@ import fun.bm.data.UnionBan.UnionBanData;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.bm.command.executor.vanilla.Ban.BanMessage;
+import static fun.bm.command.main.executor.vanilla.Ban.BanMessage;
 import static fun.bm.data.UnionBan.LocalProcessor.BanDataProcess.LocalBanDataProcess;
 import static fun.bm.data.UnionBan.OnlineProcessor.OnlineGet.loadRemoteBanList;
 import static fun.bm.data.UnionBan.OnlineProcessor.OnlinePush.reportRemoteBanList;

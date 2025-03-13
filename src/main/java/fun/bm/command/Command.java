@@ -102,7 +102,7 @@ public class Command {
         }
     }
 
-    public static class GlobalV extends GlobalE{
+    public static class GlobalV extends GlobalE {
         public boolean vanilla = false;
 
         public GlobalV(@Nullable String commandName) {

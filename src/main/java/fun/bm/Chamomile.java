@@ -24,7 +24,7 @@ public class Chamomile extends JavaPlugin implements Listener {
     public void onEnable() {
         // 启动逻辑 - Start
         MainThreadHelper.Boot_QQBot();
-        CommandManager.registerCommand();
+        CommandManager.registerCommands();
         MainEnv.moduleManager.onEnable();
         // 启动逻辑 - End
         EmailSender.CheckPlugin("启动");
