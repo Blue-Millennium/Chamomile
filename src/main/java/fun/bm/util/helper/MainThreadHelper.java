@@ -1,8 +1,12 @@
 package fun.bm.util.helper;
 
+import fun.bm.Chamomile;
 import fun.bm.config.Config;
 import fun.bm.config.ConfigManager;
+import fun.bm.data.PlayerData.DataManager;
+import fun.bm.module.ModuleManager;
 import net.mamoe.mirai.event.GlobalEventChannel;
+import net.mamoe.mirai.utils.LoggerAdapters;
 import top.mrxiaom.overflow.BotBuilder;
 
 import java.io.File;
@@ -13,6 +17,7 @@ import static fun.bm.util.helper.MainEnv.LOGGER;
 
 public class MainThreadHelper {
     public static void Boot_QQBot() {
+        LoggerAdapters.useLog4j2(); // 使用 Log4j2 作为日志记录器
         if (MainEnv.BOT != null) {
             MainEnv.BOT.close();
         }
@@ -30,7 +35,21 @@ public class MainThreadHelper {
         }
     }
 
-    public static void SetupDirectories() {
+    public static void SetupBaseEnv(Chamomile plugin) {
+        if (MainEnv.INSTANCE == null) {
+            MainEnv.INSTANCE = plugin;
+            MainEnv.LOGGER = MainEnv.INSTANCE.getLogger();
+        }
+        MainEnv.configManager = new ConfigManager();
+        MainEnv.dataManager = new DataManager();
+        MainEnv.moduleManager = new ModuleManager();
+        SetupDirectories();
+        MainEnv.dataManager.load();
+        MainEnv.configManager.load();
+        MainEnv.moduleManager.setupModules(true);
+    }
+
+    private static void SetupDirectories() {
         if (!MainEnv.BASE_DIR.exists()) {
             for (File file : MainEnv.OLD_BASE_DIR) {
                 if (file.exists()) {
