@@ -3,7 +3,6 @@ package fun.bm.util.helper;
 import fun.bm.config.Config;
 import fun.bm.config.ConfigManager;
 import net.mamoe.mirai.event.GlobalEventChannel;
-import org.bukkit.plugin.java.JavaPlugin;
 import top.mrxiaom.overflow.BotBuilder;
 
 import java.io.File;
