@@ -1,6 +1,8 @@
 package fun.bm.command;
 
 import fun.bm.util.helper.MainEnv;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.TabCompleter;
 
 import java.util.ArrayList;
 
@@ -8,17 +10,16 @@ import static fun.bm.util.helper.ClassesFinder.loadClazz;
 
 public class CommandManager {
     public static void registerCommand() {
-        registerCommands(loadClazz("fun.bm.command.executor"), Command.ExecutorE.class, (e, commandName) -> MainEnv.INSTANCE.getCommand(commandName).setExecutor(e));
-        registerCommands(loadClazz("fun.bm.command.completer"), Command.CompleterE.class, (c, commandName) -> MainEnv.INSTANCE.getCommand(commandName).setTabCompleter(c));
+        registerCommands(loadClazz("fun.bm.command.executor"), (e, commandName) -> MainEnv.INSTANCE.getCommand(commandName).setExecutor((CommandExecutor) e));
+        registerCommands(loadClazz("fun.bm.command.completer"), (c, commandName) -> MainEnv.INSTANCE.getCommand(commandName).setTabCompleter((TabCompleter) c));
     }
 
-    private static <T> void registerCommands(ArrayList<Object> commands, Class<T> clazz, java.util.function.BiConsumer<T, String> commandSetter) {
+    private static <T> void registerCommands(ArrayList<Object> commands, java.util.function.BiConsumer<Object, String> commandSetter) {
         for (Object command : commands) {
-            T cmd = clazz.cast(command);
-            String commandName = null;
-            commandName = ((Command.Global) cmd).getCommandName();
+            String commandName;
+            commandName = ((Command.GlobalE) command).getCommandName();
             if (commandName != null) {
-                commandSetter.accept(cmd, commandName);
+                commandSetter.accept(command, commandName);
             }
         }
     }
