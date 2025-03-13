@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static fun.bm.Chamomile.LOGGER;
+import static fun.bm.util.helper.MainEnv.LOGGER;
 import static fun.bm.util.helper.OperatorChecker.checkNotOperator;
 
 /**

@@ -1,9 +1,9 @@
 package fun.bm.command.executor.vanilla;
 
-import fun.bm.Chamomile;
 import fun.bm.command.Command;
 import fun.bm.config.Config;
 import fun.bm.util.helper.EmailSender;
+import fun.bm.util.helper.MainEnv;
 import net.mamoe.mirai.contact.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -15,6 +15,7 @@ import java.util.Arrays;
 import static fun.bm.data.UnionBan.LocalProcessor.ReportedDataProcess.reportBanData;
 import static fun.bm.module.impl.Reporter.ReportGroups;
 import static fun.bm.module.impl.SyncChat.SyncGroups;
+import static fun.bm.util.helper.MainEnv.LOGGER;
 
 /**
  * @author Suisuroru
@@ -32,21 +33,21 @@ public class Ban extends Command.ExecutorV {
         if (Config.QQRobotEnabled & !Config.BotModeOfficial) {
             try {
                 for (long groupId : ReportGroups) {
-                    Group reportGroup = Chamomile.BOT.getGroup(groupId);
+                    Group reportGroup = MainEnv.BOT.getGroup(groupId);
                     reportGroup.sendMessage(message);
                 }
                 for (long groupId : SyncGroups) {
-                    Group reportGroup = Chamomile.BOT.getGroup(groupId);
+                    Group reportGroup = MainEnv.BOT.getGroup(groupId);
                     reportGroup.sendMessage(message);
                 }
             } catch (Exception e) {
-                Chamomile.LOGGER.info("Error when report message to QQ group");
+                LOGGER.info("Error when report message to QQ group");
             }
             try {
                 EmailSender webhook = new EmailSender();
                 webhook.formatAndSendWebhook(origin + " Ban : " + message, message, Config.WebHookEmail);
             } catch (Exception e) {
-                Chamomile.LOGGER.info("Error when report message to Email");
+                LOGGER.info("Error when report message to Email");
             }
         }
     }

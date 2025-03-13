@@ -5,8 +5,8 @@ import fun.bm.config.ConfigManager;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.bm.Chamomile.LOGGER;
 import static fun.bm.config.ConfigManager.getConfigFieldNames;
+import static fun.bm.util.helper.MainEnv.LOGGER;
 import static fun.bm.util.helper.OperatorChecker.checkNotOperator;
 
 /**

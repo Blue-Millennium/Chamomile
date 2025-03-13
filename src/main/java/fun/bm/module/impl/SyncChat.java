@@ -1,10 +1,10 @@
 package fun.bm.module.impl;
 
-import fun.bm.Chamomile;
 import fun.bm.config.Config;
 import fun.bm.data.AuthData.DataGet;
 import fun.bm.data.PlayerData.PlayerData;
 import fun.bm.module.Module;
+import fun.bm.util.helper.MainEnv;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.*;
@@ -16,8 +16,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.bm.Chamomile.LOGGER;
 import static fun.bm.util.helper.ImageProcessor.sendImageUrl;
+import static fun.bm.util.helper.MainEnv.LOGGER;
 import static fun.bm.util.helper.RconExecutor.executeRconCommand;
 
 public class SyncChat extends Module {
@@ -42,14 +42,14 @@ public class SyncChat extends Module {
             if (SyncGroups.isEmpty()) {
                 LOGGER.warning("Failed to get sync group");
                 Config.SyncChatEnabled = false;
-                Chamomile.INSTANCE.configManager.save();
+                MainEnv.configManager.save();
                 return;
             }
         }
 
-        Chamomile.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
+        MainEnv.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
             for (Long groupId : SyncGroups) {
-                Group syncGroup = Chamomile.BOT.getGroup(groupId);
+                Group syncGroup = MainEnv.BOT.getGroup(groupId);
                 if (!Config.BotModeOfficial & (!Config.SyncChatEnabled || event.getGroup() != syncGroup)) {
                     return;
                 }
@@ -107,7 +107,7 @@ public class SyncChat extends Module {
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (Config.SyncChatEnabled & !Config.SyncChatEnabledQ2SOnly & !Config.BotModeOfficial) {
             for (Long groupId : SyncGroups) {
-                Group syncGroup = Chamomile.BOT.getGroup(groupId);
+                Group syncGroup = MainEnv.BOT.getGroup(groupId);
                 syncGroup.sendMessage(Config.JoinServerMessage.replace("%NAME%", event.getPlayer().getName()));
             }
         }
@@ -117,7 +117,7 @@ public class SyncChat extends Module {
     public void onPlayerQuit(PlayerQuitEvent event) {
         if (Config.SyncChatEnabled & !Config.SyncChatEnabledQ2SOnly & !Config.BotModeOfficial) {
             for (Long groupId : SyncGroups) {
-                Group syncGroup = Chamomile.BOT.getGroup(groupId);
+                Group syncGroup = MainEnv.BOT.getGroup(groupId);
                 syncGroup.sendMessage(Config.LeaveServerMessage.replace("%NAME%", event.getPlayer().getName()));
             }
         }
@@ -127,7 +127,7 @@ public class SyncChat extends Module {
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         if (Config.SyncChatEnabled & !Config.SyncChatEnabledQ2SOnly & !Config.BotModeOfficial) {
             for (Long groupId : SyncGroups) {
-                Group syncGroup = Chamomile.BOT.getGroup(groupId);
+                Group syncGroup = MainEnv.BOT.getGroup(groupId);
                 syncGroup.sendMessage(Config.SayServerMessage.replace("%NAME%", event.getPlayer().getName()).replace("%MESSAGE%", event.getMessage()));
             }
         }

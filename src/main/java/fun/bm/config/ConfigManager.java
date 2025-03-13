@@ -1,6 +1,6 @@
 package fun.bm.config;
 
-import fun.bm.Chamomile;
+import fun.bm.util.helper.MainEnv;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.FileReader;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import static fun.bm.Chamomile.LOGGER;
+import static fun.bm.util.helper.MainEnv.LOGGER;
 
 /**
  * @author Suisuroru
@@ -63,10 +63,10 @@ public class ConfigManager {
     }
 
     public void load() {
-        try (FileReader reader = new FileReader(Chamomile.CONFIG_FILE)) {
+        try (FileReader reader = new FileReader(MainEnv.CONFIG_FILE)) {
             Properties properties = new Properties();
             properties.load(reader);
-            LOGGER.info("Loaded config file: " + Chamomile.CONFIG_FILE.getAbsolutePath());
+            LOGGER.info("Loaded config file: " + MainEnv.CONFIG_FILE.getAbsolutePath());
 
             Properties defaultProperties = getDefaultProperties();
             List<String> fieldNames = getConfigFieldNames();
@@ -91,7 +91,7 @@ public class ConfigManager {
                 save();
             }
         } catch (IOException e) {
-            LOGGER.warning("Failed to load config file " + Chamomile.CONFIG_FILE.getAbsolutePath() + ": " + e.getMessage());
+            LOGGER.warning("Failed to load config file " + MainEnv.CONFIG_FILE.getAbsolutePath() + ": " + e.getMessage());
             LOGGER.info("Using default config values.");
             save();
         }
@@ -129,9 +129,9 @@ public class ConfigManager {
     }
 
     public void save() {
-        if (!Chamomile.CONFIG_FILE.exists()) {
+        if (!MainEnv.CONFIG_FILE.exists()) {
             try {
-                if (!Chamomile.CONFIG_FILE.createNewFile()) {
+                if (!MainEnv.CONFIG_FILE.createNewFile()) {
                     LOGGER.warning("Failed to create config file");
                 }
             } catch (IOException e) {
@@ -139,10 +139,10 @@ public class ConfigManager {
             }
         }
 
-        try (FileWriter writer = new FileWriter(Chamomile.CONFIG_FILE)) {
+        try (FileWriter writer = new FileWriter(MainEnv.CONFIG_FILE)) {
             Properties properties = getProperties();
             properties.store(writer, null);
-            LOGGER.info("Saved config file: " + Chamomile.CONFIG_FILE.getAbsolutePath());
+            LOGGER.info("Saved config file: " + MainEnv.CONFIG_FILE.getAbsolutePath());
         } catch (IOException e) {
             LOGGER.warning("Failed to save config " + e.getMessage());
         }

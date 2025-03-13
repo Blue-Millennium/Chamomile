@@ -10,7 +10,7 @@ import java.net.http.HttpResponse;
 import java.util.Arrays;
 import java.util.List;
 
-import static fun.bm.Chamomile.LOGGER;
+import static fun.bm.util.helper.MainEnv.LOGGER;
 
 /**
  * @author Suisuroru
@@ -35,7 +35,7 @@ public class EmailSender {
         } catch (Exception e) {
             LOGGER.warning(e.getMessage());
         }
-    }
+    } // Use CheckPlugin instead.
 
     public static void CheckPlugin(String title) {
         try {

@@ -1,6 +1,6 @@
 package fun.bm.command;
 
-import fun.bm.Chamomile;
+import fun.bm.util.helper.MainEnv;
 
 import java.util.ArrayList;
 
@@ -8,8 +8,8 @@ import static fun.bm.util.helper.ClassesFinder.loadClazz;
 
 public class CommandManager {
     public static void registerCommand() {
-        registerCommands(loadClazz("fun.bm.command.executor"), Command.ExecutorE.class, (e, commandName) -> Chamomile.INSTANCE.getCommand(commandName).setExecutor(e));
-        registerCommands(loadClazz("fun.bm.command.completer"), Command.CompleterE.class, (c, commandName) -> Chamomile.INSTANCE.getCommand(commandName).setTabCompleter(c));
+        registerCommands(loadClazz("fun.bm.command.executor"), Command.ExecutorE.class, (e, commandName) -> MainEnv.INSTANCE.getCommand(commandName).setExecutor(e));
+        registerCommands(loadClazz("fun.bm.command.completer"), Command.CompleterE.class, (c, commandName) -> MainEnv.INSTANCE.getCommand(commandName).setTabCompleter(c));
     }
 
     private static <T> void registerCommands(ArrayList<Object> commands, Class<T> clazz, java.util.function.BiConsumer<T, String> commandSetter) {

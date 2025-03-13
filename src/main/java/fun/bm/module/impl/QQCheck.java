@@ -1,12 +1,12 @@
 package fun.bm.module.impl;
 
-import fun.bm.Chamomile;
 import fun.bm.config.Config;
 import fun.bm.data.AuthData.DataGet;
 import fun.bm.data.PlayerData.Data;
 import fun.bm.data.PlayerData.PlayerData;
 import fun.bm.module.Module;
 import fun.bm.util.TimeUtil;
+import fun.bm.util.helper.MainEnv;
 import net.mamoe.mirai.event.events.FriendMessageEvent;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.event.events.MessageEvent;
@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import static fun.bm.Chamomile.LOGGER;
 import static fun.bm.module.impl.DataProcess.BaseDataProcess;
+import static fun.bm.util.helper.MainEnv.LOGGER;
 
 public class QQCheck extends Module {
     private static final HashMap<PlayerData, Integer> playerCodeMap = new HashMap<>();
@@ -92,8 +92,8 @@ public class QQCheck extends Module {
                     data.qqNumber = event.getSender().getId();
                     data.linkedTime = System.currentTimeMillis();
                 }
-                Chamomile.INSTANCE.dataManager.DATA_LIST.add(data);
-                Chamomile.INSTANCE.dataManager.save();
+                MainEnv.dataManager.DATA_LIST.add(data);
+                MainEnv.dataManager.save();
 
                 // 构建确认消息
                 checkMessage = BuildMessage(event, entry.getKey().playerName);
@@ -127,9 +127,9 @@ public class QQCheck extends Module {
 
     @Override
     public void onEnable() {
-        Chamomile.eventChannel.subscribeAlways(NewFriendRequestEvent.class, NewFriendRequestEvent::accept);
+        MainEnv.eventChannel.subscribeAlways(NewFriendRequestEvent.class, NewFriendRequestEvent::accept);
 
-        Chamomile.eventChannel.subscribeAlways(FriendMessageEvent.class, event -> {
+        MainEnv.eventChannel.subscribeAlways(FriendMessageEvent.class, event -> {
             String message = event.getMessage().contentToString();
 
             if (Config.QQCheckEnabled) {
@@ -151,7 +151,7 @@ public class QQCheck extends Module {
         }
 
         if (Config.QQCheckEnabled) {
-            Data data = Chamomile.INSTANCE.dataManager.getPlayerData(event.getUniqueId());
+            Data data = MainEnv.dataManager.getPlayerData(event.getUniqueId());
             data = NullCheck(data);
             // 首次登录
             if (data.qqNumber == 0 || data.userid == 0) {

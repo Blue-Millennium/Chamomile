@@ -1,19 +1,19 @@
 package fun.bm.module.impl;
 
-import fun.bm.Chamomile;
 import fun.bm.config.Config;
 import fun.bm.data.PlayerData.Data;
 import fun.bm.data.PlayerData.OldName;
 import fun.bm.data.PlayerData.PlayerData;
 import fun.bm.module.Module;
+import fun.bm.util.helper.MainEnv;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.bm.Chamomile.LOGGER;
 import static fun.bm.module.impl.QQCheck.NullCheck;
+import static fun.bm.util.helper.MainEnv.LOGGER;
 
 public class DataProcess extends Module {
     public DataProcess() {
@@ -55,7 +55,7 @@ public class DataProcess extends Module {
         data.lastJoin = System.currentTimeMillis();
         data.lastJoinIp = event.getAddress().getHostAddress();
 
-        Chamomile.INSTANCE.dataManager.setPlayerData(event.getUniqueId(), data);
+        MainEnv.dataManager.setPlayerData(event.getUniqueId(), data);
     }
 
     @EventHandler
@@ -63,7 +63,7 @@ public class DataProcess extends Module {
         if (event == null) {
             return;
         }
-        Data data = Chamomile.INSTANCE.dataManager.getPlayerData(event.getUniqueId());
+        Data data = MainEnv.dataManager.getPlayerData(event.getUniqueId());
         BaseDataProcess(event, data);
     }
 

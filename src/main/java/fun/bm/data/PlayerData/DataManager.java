@@ -3,14 +3,14 @@ package fun.bm.data.PlayerData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import fun.bm.Chamomile;
+import fun.bm.util.helper.MainEnv;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static fun.bm.Chamomile.LOGGER;
+import static fun.bm.util.helper.MainEnv.LOGGER;
 
 /**
  * @author Liycxc
@@ -20,7 +20,7 @@ public class DataManager {
     public ArrayList<Data> DATA_LIST = new ArrayList<>();
 
     public void load() {
-        try (JsonReader jsonReader = new JsonReader(new FileReader(Chamomile.DATA_FILE))) {
+        try (JsonReader jsonReader = new JsonReader(new FileReader(MainEnv.DATA_FILE))) {
             DATA_LIST = new Gson().fromJson(jsonReader, new TypeToken<ArrayList<Data>>() {
             }.getType());
 
@@ -38,7 +38,7 @@ public class DataManager {
 
     public void save() {
         try {
-            FileWriter fileWriter = new FileWriter(Chamomile.DATA_FILE);
+            FileWriter fileWriter = new FileWriter(MainEnv.DATA_FILE);
             fileWriter.write(new Gson().toJson(DATA_LIST));
             fileWriter.close();
         } catch (Exception exception) {

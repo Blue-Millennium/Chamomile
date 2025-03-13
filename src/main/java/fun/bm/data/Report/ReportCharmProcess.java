@@ -1,13 +1,14 @@
 package fun.bm.data.Report;
 
+import fun.bm.util.helper.MainEnv;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static fun.bm.Chamomile.BASE_DIR;
-import static fun.bm.Chamomile.LOGGER;
+import static fun.bm.util.helper.MainEnv.LOGGER;
 
 /**
  * @author Suisuroru
@@ -76,7 +77,7 @@ public class ReportCharmProcess {
         g2d.dispose();
 
         // 保存图片到指定路径
-        File outputDir = new File(BASE_DIR, "CharmProcess");
+        File outputDir = new File(MainEnv.BASE_DIR, "CharmProcess");
         if (!outputDir.exists() && !outputDir.mkdirs()) {
             LOGGER.warning("Failed to create directory: " + outputDir.getAbsolutePath());
         }

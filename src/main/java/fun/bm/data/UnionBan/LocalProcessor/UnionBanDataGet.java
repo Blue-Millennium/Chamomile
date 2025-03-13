@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import fun.bm.data.UnionBan.UnionBanData;
+import fun.bm.util.helper.MainEnv;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -11,14 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static fun.bm.Chamomile.LOGGER;
-import static fun.bm.Chamomile.UNION_BAN_DATA_FILE;
+import static fun.bm.util.helper.MainEnv.LOGGER;
 
 public class UnionBanDataGet {
     private List<UnionBanData> dataList;
 
     public void load() {
-        try (JsonReader jsonReader = new JsonReader(new FileReader(UNION_BAN_DATA_FILE))) {
+        try (JsonReader jsonReader = new JsonReader(new FileReader(MainEnv.UNION_BAN_DATA_FILE))) {
             dataList = new Gson().fromJson(jsonReader, new TypeToken<ArrayList<UnionBanData>>() {
             }.getType());
 
@@ -36,7 +36,7 @@ public class UnionBanDataGet {
 
     public void save() {
         try {
-            FileWriter fileWriter = new FileWriter(UNION_BAN_DATA_FILE);
+            FileWriter fileWriter = new FileWriter(MainEnv.UNION_BAN_DATA_FILE);
             fileWriter.write(new Gson().toJson(dataList));
             fileWriter.close();
         } catch (Exception exception) {

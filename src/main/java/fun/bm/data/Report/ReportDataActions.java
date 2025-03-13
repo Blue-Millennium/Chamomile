@@ -1,13 +1,14 @@
 package fun.bm.data.Report;
 
+import fun.bm.util.helper.MainEnv;
+
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static fun.bm.Chamomile.LOGGER;
-import static fun.bm.Chamomile.REPORT_DATA_FILE;
+import static fun.bm.util.helper.MainEnv.LOGGER;
 
 /**
  * @author Suisuroru
@@ -22,9 +23,9 @@ public class ReportDataActions {
     }
 
     private static void EnsureFileExist() {
-        if (!REPORT_DATA_FILE.exists()) {
+        if (!MainEnv.REPORT_DATA_FILE.exists()) {
             try {
-                if (!REPORT_DATA_FILE.createNewFile()) {
+                if (!MainEnv.REPORT_DATA_FILE.createNewFile()) {
                     LOGGER.warning("Failed to create data file");
                 } else {
                     List<String> defaultRows = new ArrayList<>();
@@ -48,7 +49,7 @@ public class ReportDataActions {
     }
 
     private static void saveToCsv(List<List<String>> data) {
-        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(REPORT_DATA_FILE), Charset.forName("GBK")))) {
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(MainEnv.REPORT_DATA_FILE), Charset.forName("GBK")))) {
             for (List<String> row : data) {
                 bw.write(String.join(",", row));
                 bw.newLine();
@@ -61,8 +62,7 @@ public class ReportDataActions {
     List<List<String>> readCsvToList() {
         List<List<String>> allRows = new ArrayList<>();
         EnsureFileExist();
-
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(REPORT_DATA_FILE), Charset.forName("GBK")))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(MainEnv.REPORT_DATA_FILE), Charset.forName("GBK")))) {
             String line;
             while ((line = br.readLine()) != null) { // 逐行读取
                 String[] values = line.split(","); // 根据逗号分割
@@ -73,7 +73,6 @@ public class ReportDataActions {
         } catch (IOException e) {
             LOGGER.warning("Failed to read CSV file: " + e.getMessage());
         }
-
         return allRows;
     }
 }

@@ -1,11 +1,11 @@
 package fun.bm.command.executor.extra.sub.report;
 
-import fun.bm.Chamomile;
 import fun.bm.command.Command;
 import fun.bm.config.Config;
 import fun.bm.data.Report.ReportDataManager;
 import fun.bm.util.TimeUtil;
 import fun.bm.util.helper.EmailSender;
+import fun.bm.util.helper.MainEnv;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.message.data.AtAll;
@@ -17,8 +17,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-import static fun.bm.Chamomile.LOGGER;
 import static fun.bm.module.impl.Reporter.ReportGroups;
+import static fun.bm.util.helper.MainEnv.LOGGER;
 
 public class Report extends Command.ExecutorE {
     public Report() {
@@ -72,7 +72,7 @@ public class Report extends Command.ExecutorE {
                         if (Config.QQRobotEnabled && !Config.BotModeOfficial) {
                             for (long groupId : ReportGroups) {
                                 MessageChainBuilder builder_qq = new MessageChainBuilder();
-                                Group reportGroup = Chamomile.BOT.getGroup(groupId);
+                                Group reportGroup = MainEnv.BOT.getGroup(groupId);
                                 if (reportGroup.getBotPermission() == MemberPermission.ADMINISTRATOR || reportGroup.getBotPermission() == MemberPermission.OWNER) {
                                     builder_qq.append(" ").append(AtAll.INSTANCE).append("\n");
                                 }
