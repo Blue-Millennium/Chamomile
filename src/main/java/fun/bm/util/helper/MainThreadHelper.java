@@ -8,6 +8,7 @@ import top.mrxiaom.overflow.BotBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import static fun.bm.util.helper.MainEnv.LOGGER;
 
@@ -66,5 +67,12 @@ public class MainThreadHelper extends JavaPlugin {
                 LOGGER.warning("Failed to create unionban data file " + e.getMessage());
             }
         }
+    }
+
+    public static void initOldDirectory() {
+        List<File> dir = new java.util.ArrayList<>(List.of());
+        dir.add(new File("BasePlugin"));
+        dir.add(new File("plugins/BasePlugin"));
+        MainEnv.OLD_BASE_DIR = dir;
     }
 }

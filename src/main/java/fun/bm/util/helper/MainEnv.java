@@ -15,7 +15,7 @@ public class MainEnv {
     public static Logger LOGGER = null;
     public static Chamomile INSTANCE = null;
     public static Bot BOT;
-    public static List<File> OLD_BASE_DIR = List.of(new File("BasePlugin"), new File("plugins/BasePlugin"));
+    public static List<File> OLD_BASE_DIR = List.of();
     public static File BASE_DIR = new File("plugins/Chamomile");
     public static File DATA_FILE = new File(BASE_DIR, "data.json");
     public static File CONFIG_FILE = new File(BASE_DIR, "config.properties");
