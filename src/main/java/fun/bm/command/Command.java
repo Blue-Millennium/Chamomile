@@ -11,23 +11,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class Command {
-    public static class CompleterE implements TabCompleter {
-        public String commandName;
-
+    public static class CompleterE extends Global implements TabCompleter {
         public CompleterE(@Nullable String commandName) {
             this.commandName = commandName;
-        }
-
-        @Nullable
-        public String getCommandName() {
-            return this.commandName;
-        }
-
-        public void setCommandName(String commandName) {
-            this.commandName = commandName;
-        }
-
-        public void setCommandName() {
         }
 
         public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
@@ -62,22 +48,9 @@ public class Command {
         }
     }
 
-    public static class ExecutorE implements CommandExecutor {
-        String commandName;
+    public static class ExecutorE extends Global implements CommandExecutor {
 
         public ExecutorE(@Nullable String commandName) {
-            this.commandName = commandName;
-        }
-
-        public void setCommandName() {
-        }
-
-        @Nullable
-        public String getCommandName() {
-            return this.commandName;
-        }
-
-        public void setCommandName(String commandName) {
             this.commandName = commandName;
         }
 
@@ -114,6 +87,22 @@ public class Command {
             } else {
                 return executorMain(sender, command, label, args);
             }
+        }
+    }
+
+    public static class Global {
+        public String commandName;
+
+        @Nullable
+        public String getCommandName() {
+            return this.commandName;
+        }
+
+        public void setCommandName(String commandName) {
+            this.commandName = commandName;
+        }
+
+        public void setCommandName() {
         }
     }
 }

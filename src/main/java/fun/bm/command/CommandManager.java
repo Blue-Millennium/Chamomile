@@ -16,11 +16,7 @@ public class CommandManager {
         for (Object command : commands) {
             T cmd = clazz.cast(command);
             String commandName = null;
-            if (cmd instanceof Command.ExecutorE) {
-                commandName = ((Command.ExecutorE) cmd).getCommandName();
-            } else if (cmd instanceof Command.CompleterE) {
-                commandName = ((Command.CompleterE) cmd).getCommandName();
-            }
+            commandName = ((Command.Global) cmd).getCommandName();
             if (commandName != null) {
                 commandSetter.accept(cmd, commandName);
             }
