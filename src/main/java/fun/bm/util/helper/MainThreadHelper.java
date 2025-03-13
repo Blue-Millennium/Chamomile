@@ -12,7 +12,7 @@ import java.util.List;
 
 import static fun.bm.util.helper.MainEnv.LOGGER;
 
-public class MainThreadHelper extends JavaPlugin {
+public class MainThreadHelper {
     public static void Boot_QQBot() {
         if (MainEnv.BOT != null) {
             MainEnv.BOT.close();
