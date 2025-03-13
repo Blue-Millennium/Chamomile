@@ -1,28 +1,22 @@
 package fun.bm.command;
 
-import fun.bm.Chamomile;
-
-import java.util.ArrayList;
+import fun.bm.util.helper.MainEnv;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.TabCompleter;
 
 import static fun.bm.util.helper.ClassesFinder.loadClazz;
 
 public class CommandManager {
-    public static void registerCommand() {
-        registerCommands(loadClazz("fun.bm.command.executor"), Command.ExecutorE.class, (e, commandName) -> Chamomile.INSTANCE.getCommand(commandName).setExecutor(e));
-        registerCommands(loadClazz("fun.bm.command.completer"), Command.CompleterE.class, (c, commandName) -> Chamomile.INSTANCE.getCommand(commandName).setTabCompleter(c));
-    }
-
-    private static <T> void registerCommands(ArrayList<Object> commands, Class<T> clazz, java.util.function.BiConsumer<T, String> commandSetter) {
-        for (Object command : commands) {
-            T cmd = clazz.cast(command);
-            String commandName = null;
-            if (cmd instanceof Command.ExecutorE) {
-                commandName = ((Command.ExecutorE) cmd).getCommandName();
-            } else if (cmd instanceof Command.CompleterE) {
-                commandName = ((Command.CompleterE) cmd).getCommandName();
-            }
+    public static void registerCommands() {
+        for (Object command : loadClazz("fun.bm.command.main")) {
+            String commandName;
+            commandName = ((Command.GlobalE) command).getCommandName();
             if (commandName != null) {
-                commandSetter.accept(cmd, commandName);
+                if (command instanceof CommandExecutor) {
+                    MainEnv.INSTANCE.getCommand(commandName).setExecutor((CommandExecutor) command);
+                } else if (command instanceof TabCompleter) {
+                    MainEnv.INSTANCE.getCommand(commandName).setTabCompleter((TabCompleter) command);
+                }
             }
         }
     }

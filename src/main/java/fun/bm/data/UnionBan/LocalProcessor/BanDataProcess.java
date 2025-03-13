@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 
 import java.util.List;
 
-import static fun.bm.command.executor.vanilla.Ban.BanMessage;
+import static fun.bm.command.main.executor.vanilla.Ban.BanMessage;
 
 public class BanDataProcess {
     public static void LocalBanDataProcess() {

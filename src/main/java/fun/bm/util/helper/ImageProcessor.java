@@ -1,6 +1,5 @@
 package fun.bm.util.helper;
 
-import fun.bm.Chamomile;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.bukkit.Bukkit;
@@ -24,7 +23,7 @@ public class ImageProcessor {
             String imageurl = getImageUrl(message);
             value = processImageUrl(imageurl);
         } catch (Exception e) {
-            Chamomile.INSTANCE.getServer().broadcastMessage("一个错误发生于Chamomile内部，图片无法被展示，请前往控制台查看");
+            MainEnv.INSTANCE.getServer().broadcastMessage("一个错误发生于Chamomile内部，图片无法被展示，请前往控制台查看");
         }
         return value;
     }
@@ -36,7 +35,7 @@ public class ImageProcessor {
             Bukkit.getLogger().info("Processed image " + imageurl);
             return builder.build().contentToString();
         } catch (Exception e) {
-            Chamomile.INSTANCE.getServer().broadcastMessage("一个错误发生于Chamomile内部，图片无法被展示，请前往控制台查看");
+            MainEnv.INSTANCE.getServer().broadcastMessage("一个错误发生于Chamomile内部，图片无法被展示，请前往控制台查看");
         }
         return imageurl;
     }

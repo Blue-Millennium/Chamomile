@@ -11,23 +11,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class Command {
-    public static class CompleterE implements TabCompleter {
-        public String commandName;
-
+    public static class CompleterE extends GlobalE implements TabCompleter {
         public CompleterE(@Nullable String commandName) {
-            this.commandName = commandName;
-        }
-
-        @Nullable
-        public String getCommandName() {
-            return this.commandName;
-        }
-
-        public void setCommandName(String commandName) {
-            this.commandName = commandName;
-        }
-
-        public void setCommandName() {
+            super(commandName);
         }
 
         public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
@@ -41,20 +27,17 @@ public class Command {
         }
     }
 
-    public static class CompleterV extends CompleterE {
+    public static class CompleterV extends GlobalV implements TabCompleter {
         public CompleterV(@Nullable String commandName) {
             super(commandName);
-            this.commandName = commandName;
         }
 
-        public void setCommandName() {
-            if (!Config.VanillaCommandsRewritten) {
-                this.commandName = null;
-            }
+        public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+            return List.of();
         }
 
         public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-            if (Config.VanillaCommandsRewritten) {
+            if (vanilla) {
                 return CompleteMain(sender, command, label, args);
             } else {
                 return List.of();
@@ -62,23 +45,10 @@ public class Command {
         }
     }
 
-    public static class ExecutorE implements CommandExecutor {
-        String commandName;
+    public static class ExecutorE extends GlobalE implements CommandExecutor {
 
         public ExecutorE(@Nullable String commandName) {
-            this.commandName = commandName;
-        }
-
-        public void setCommandName() {
-        }
-
-        @Nullable
-        public String getCommandName() {
-            return this.commandName;
-        }
-
-        public void setCommandName(String commandName) {
-            this.commandName = commandName;
+            super(commandName);
         }
 
         public boolean executorMain(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
@@ -90,22 +60,17 @@ public class Command {
         }
     }
 
-    public static class ExecutorV extends ExecutorE {
-        public boolean vanilla = false;
-
+    public static class ExecutorV extends GlobalV implements CommandExecutor {
         public ExecutorV(@Nullable String commandName) {
             super(commandName);
-            this.commandName = commandName;
-        }
-
-        public void setCommandName() {
-            if (!Config.VanillaCommandsRewritten) {
-                this.vanilla = true;
-            }
         }
 
         public boolean vanillaCommand(CommandSender sender, String[] args) {
             return Bukkit.dispatchCommand(sender, "minecraft:" + commandName + " " + String.join(" ", args));
+        }
+
+        public boolean executorMain(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+            return true;
         }
 
         public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
@@ -113,6 +78,40 @@ public class Command {
                 return vanillaCommand(sender, args);
             } else {
                 return executorMain(sender, command, label, args);
+            }
+        }
+    }
+
+    public static class GlobalE {
+        public String commandName;
+
+        public GlobalE(@Nullable String commandName) {
+            this.commandName = commandName;
+        }
+
+        @Nullable
+        public String getCommandName() {
+            return commandName;
+        }
+
+        public void setCommandName(String commandName) {
+            this.commandName = commandName;
+        }
+
+        public void setCommandName() {
+        }
+    }
+
+    public static class GlobalV extends GlobalE {
+        public boolean vanilla = false;
+
+        public GlobalV(@Nullable String commandName) {
+            super(commandName);
+        }
+
+        public void setCommandName() {
+            if (!Config.VanillaCommandsRewritten) {
+                vanilla = true;
             }
         }
     }

@@ -8,8 +8,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ban.ProfileBanList;
 import org.bukkit.profile.PlayerProfile;
 
-import static fun.bm.Chamomile.LOGGER;
 import static fun.bm.data.UnionBan.OnlineProcessor.OnlinePush.reportRemoteBanList;
+import static fun.bm.util.helper.MainEnv.LOGGER;
 
 public class LocalBanListImport {
     public static void importBanList() {

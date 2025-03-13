@@ -1,9 +1,9 @@
 package fun.bm.module.impl;
 
-import fun.bm.Chamomile;
 import fun.bm.config.Config;
 import fun.bm.module.Module;
 import fun.bm.util.IpInfoUtil;
+import fun.bm.util.helper.MainEnv;
 import fun.bm.util.map.IpLocationMap;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
@@ -13,7 +13,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.bm.Chamomile.LOGGER;
+import static fun.bm.util.helper.MainEnv.LOGGER;
 
 public class Reporter extends Module {
     public static final List<Long> ReportGroups = new ArrayList<>();
@@ -67,7 +67,7 @@ public class Reporter extends Module {
         }
 
         for (long groupId : ReportGroups) {
-            Group reportGroup = Chamomile.BOT.getGroup(groupId);
+            Group reportGroup = MainEnv.BOT.getGroup(groupId);
             reportGroup.sendMessage(builder.build());
         }
     }

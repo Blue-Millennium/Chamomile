@@ -6,7 +6,7 @@ authors: [ SukaXD, Suisuroru ]
 
 commands:
   kill:
-    description: kill entities
+    description: Kill entities
     usage: /kill <entities>
   ban:
     description: Ban a player
@@ -27,11 +27,11 @@ commands:
     usage: /cmreload
     aliases: [ cmrl ]
   cmconfig:
-    description: config functions
+    description: Config functions
     usage: /cmconfig [reload|query|set] [args...]
     aliases: [ cmcfg ]
   cmdata:
-    description: data functions
+    description: Data functions
     usage: /cmdata [query] [args...]
     aliases: [ cmd ]
   query-report:
@@ -39,10 +39,10 @@ commands:
     usage: /query-report
     aliases: [ qr ]
   rcon:
-    description: rcon functions
+    description: Rcon functions
     usage: /rcon ip:port psd command
   bind:
-    description: link account and qq
+    description: Link account and qq
     usage: /bind name qq
   chamomile:
     description: Chamomile functions

@@ -1,6 +1,6 @@
 package fun.bm.module;
 
-import fun.bm.Chamomile;
+import fun.bm.util.helper.MainEnv;
 import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ public class ModuleManager {
     public ArrayList<Module> modules = new ArrayList<>();
 
     public void onEnable() {
-        modules.forEach(module -> Bukkit.getPluginManager().registerEvents(module, Chamomile.INSTANCE));
+        modules.forEach(module -> Bukkit.getPluginManager().registerEvents(module, MainEnv.INSTANCE));
         modules.forEach(Module::onEnable);
     }
 

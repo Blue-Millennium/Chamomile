@@ -13,7 +13,7 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.bm.Chamomile.LOGGER;
+import static fun.bm.util.helper.MainEnv.LOGGER;
 
 public class OnlineGet {
     public static ArrayList<UnionBanData> loadRemoteBanList() {

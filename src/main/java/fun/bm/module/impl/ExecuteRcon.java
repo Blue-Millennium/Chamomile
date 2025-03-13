@@ -1,10 +1,10 @@
 package fun.bm.module.impl;
 
-import fun.bm.Chamomile;
 import fun.bm.config.Config;
 import fun.bm.data.AuthData.DataGet;
 import fun.bm.data.PlayerData.PlayerData;
 import fun.bm.module.Module;
+import fun.bm.util.helper.MainEnv;
 import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.Message;
@@ -17,9 +17,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.bm.Chamomile.BASE_DIR;
-import static fun.bm.Chamomile.LOGGER;
 import static fun.bm.data.Report.ReportCharmProcess.reportCharmProcess;
+import static fun.bm.util.helper.MainEnv.LOGGER;
 import static fun.bm.util.helper.RconExecutor.executeRconCommand;
 
 /**
@@ -41,7 +40,7 @@ public class ExecuteRcon extends Module {
             if (enabledGroupStr == null || enabledGroupStr.isEmpty()) {
                 LOGGER.warning("[RCONCommandCheck] RCON commands will be disabled due to empty or null RCONEnabledGroups");
                 Config.RconEnabled = false;
-                Chamomile.INSTANCE.configManager.save();
+                MainEnv.configManager.save();
                 return;
             }
 
@@ -57,11 +56,11 @@ public class ExecuteRcon extends Module {
             if (RconGroups.isEmpty()) {
                 LOGGER.warning("[RCONCommandCheck] RCON commands will be disabled");
                 Config.RconEnabled = false;
-                Chamomile.INSTANCE.configManager.save();
+                MainEnv.configManager.save();
                 return;
             }
         }
-        Chamomile.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
+        MainEnv.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
             if (!Config.RconEnabled || !RconGroups.contains(event.getGroup().getId())) {
                 return;
             }
@@ -110,7 +109,7 @@ public class ExecuteRcon extends Module {
                 if (!result[1].isEmpty() && result[1].startsWith(PREFIX)) {
                     reportCharmProcess(result[1].substring(PREFIX.length()));
                     message.append(PREFIX)
-                            .append(event.getGroup().uploadImage(ExternalResource.create(new File(BASE_DIR, "CharmProcess\\latest.png"))));
+                            .append(event.getGroup().uploadImage(ExternalResource.create(new File(MainEnv.BASE_DIR, "CharmProcess\\latest.png"))));
                 } else {
                     message.append(result[1]);
                 }

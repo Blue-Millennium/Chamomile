@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import fun.bm.data.PlayerData.Data;
 import fun.bm.data.PlayerData.PlayerData;
+import fun.bm.util.helper.MainEnv;
 
 import java.io.File;
 import java.io.FileReader;
@@ -13,15 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static fun.bm.Chamomile.DATA_FILE;
-import static fun.bm.Chamomile.LOGGER;
+import static fun.bm.util.helper.MainEnv.LOGGER;
 
 public class DataGet {
     private final List<Data> dataList;
     private final Gson gson = new Gson();
 
     public DataGet() {
-        this.dataList = readDataFromFile(DATA_FILE);
+        this.dataList = readDataFromFile(MainEnv.DATA_FILE);
     }
 
     private List<Data> readDataFromFile(File file) {

@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static fun.bm.Chamomile.LOGGER;
+import static fun.bm.util.helper.MainEnv.LOGGER;
 
 public class IpInfoUtil {
     public static IpinfoMap getIpinfo(String ip) {
