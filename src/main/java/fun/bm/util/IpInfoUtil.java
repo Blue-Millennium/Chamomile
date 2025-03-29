@@ -16,7 +16,7 @@ import static fun.bm.util.helper.MainEnv.LOGGER;
 public class IpInfoUtil {
     public static IpinfoMap getIpinfo(String ip) {
         try {
-            URL url = new URL("https://rs.miku39.cloudns.be/https://ipinfo.io/widget/demo/" + ip);
+            URL url = new URL("https://ipinfo.io/widget/demo/" + ip);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 

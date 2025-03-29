@@ -5,6 +5,7 @@ import fun.bm.module.Module;
 import fun.bm.util.IpInfoUtil;
 import fun.bm.util.helper.MainEnv;
 import fun.bm.util.map.IpLocationMap;
+import fun.bm.util.map.IpinfoMap;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.bukkit.event.EventHandler;
@@ -63,7 +64,12 @@ public class Reporter extends Module {
         if (response != null) {
             builder.append(Config.ReportMessage.replace("%NAME%", event.getName()).replace("%IP%", ip).replace("%IPINFO%", response.nation + " " + response.subdivision_1_name + " " + response.subdivision_2_name + " " + response.isp).replace("%RESULT%", event.getLoginResult().toString()));
         } else {
-            builder.append(Config.ReportMessage.replace("%NAME%", event.getName()).replace("%IP%", ip).replace("%IPINFO%", "").replace("%RESULT%", event.getLoginResult().toString()));
+            IpinfoMap response2 = IpInfoUtil.getIpinfo(ip);
+            if (response2 != null) {
+                builder.append(Config.ReportMessage.replace("%NAME%", event.getName()).replace("%IP%", ip).replace("%IPINFO%", response2.data.country + " " + response2.data.city + " " + response2.data.region + " " + response2.data.asn).replace("%RESULT%", event.getLoginResult().toString()));
+            } else {
+                builder.append(Config.ReportMessage.replace("%NAME%", event.getName()).replace("%IP%", ip).replace("%IPINFO%", "").replace("%RESULT%", event.getLoginResult().toString()));
+            }
         }
 
         for (long groupId : ReportGroups) {
