@@ -1,10 +1,10 @@
 package fun.bm.command;
 
-import fun.bm.util.helper.MainEnv;
+import fun.bm.util.MainEnv;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabCompleter;
 
-import static fun.bm.util.helper.ClassesFinder.loadClazz;
+import static fun.bm.util.helper.ClassLoader.loadClazz;
 
 public class CommandManager {
     public static void registerCommands() {

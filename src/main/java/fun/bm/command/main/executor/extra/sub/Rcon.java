@@ -4,7 +4,7 @@ import fun.bm.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.bm.util.helper.RconExecutor.executeRconCommand;
+import static fun.bm.util.helper.RconHelper.executeRconCommand;
 
 public class Rcon extends Command.ExecutorE {
     public Rcon() {

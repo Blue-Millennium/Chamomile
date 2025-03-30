@@ -3,14 +3,14 @@ package fun.bm.data.PlayerData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import fun.bm.util.helper.MainEnv;
+import fun.bm.util.MainEnv;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static fun.bm.util.helper.MainEnv.LOGGER;
+import static fun.bm.util.MainEnv.LOGGER;
 
 /**
  * @author Liycxc

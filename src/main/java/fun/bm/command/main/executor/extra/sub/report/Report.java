@@ -5,7 +5,7 @@ import fun.bm.config.Config;
 import fun.bm.data.Report.ReportDataManager;
 import fun.bm.util.TimeUtil;
 import fun.bm.util.helper.EmailSender;
-import fun.bm.util.helper.MainEnv;
+import fun.bm.util.MainEnv;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.message.data.AtAll;
@@ -17,8 +17,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-import static fun.bm.module.impl.Reporter.ReportGroups;
-import static fun.bm.util.helper.MainEnv.LOGGER;
+import static fun.bm.module.impl.QQReporter.ReportGroups;
+import static fun.bm.util.MainEnv.LOGGER;
 
 public class Report extends Command.ExecutorE {
     public Report() {

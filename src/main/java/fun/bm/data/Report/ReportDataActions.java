@@ -1,6 +1,6 @@
 package fun.bm.data.Report;
 
-import fun.bm.util.helper.MainEnv;
+import fun.bm.util.MainEnv;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static fun.bm.util.helper.MainEnv.LOGGER;
+import static fun.bm.util.MainEnv.LOGGER;
 
 /**
  * @author Suisuroru

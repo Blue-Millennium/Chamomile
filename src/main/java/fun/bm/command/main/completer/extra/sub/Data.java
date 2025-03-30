@@ -1,7 +1,7 @@
 package fun.bm.command.main.completer.extra.sub;
 
 import fun.bm.command.Command;
-import fun.bm.util.helper.PlayerListGetter;
+import fun.bm.util.helper.CommandHelper;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,7 +32,7 @@ public class Data extends Command.CompleterE {
                                 break;
                             }
                             case "name": {
-                                completions.addAll(PlayerListGetter.GetOnlinePlayerList());
+                                completions.addAll(CommandHelper.GetOnlinePlayerList());
                                 break;
                             }
                             default: {
@@ -45,7 +45,7 @@ public class Data extends Command.CompleterE {
                 }
                 case "bind": {
                     if (args.length == 2) {
-                        completions.addAll(PlayerListGetter.GetOnlinePlayerList());
+                        completions.addAll(CommandHelper.GetOnlinePlayerList());
                     }
                 }
             }

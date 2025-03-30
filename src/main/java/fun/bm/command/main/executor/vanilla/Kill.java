@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.bm.util.helper.OperatorChecker.checkNotOperator;
+import static fun.bm.util.helper.CommandHelper.checkNotOperator;
 
 public class Kill extends Command.ExecutorV {
     public Kill() {

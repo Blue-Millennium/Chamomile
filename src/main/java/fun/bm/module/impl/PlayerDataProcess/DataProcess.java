@@ -1,19 +1,19 @@
-package fun.bm.module.impl;
+package fun.bm.module.impl.PlayerDataProcess;
 
 import fun.bm.config.Config;
 import fun.bm.data.PlayerData.Data;
 import fun.bm.data.PlayerData.OldName;
 import fun.bm.data.PlayerData.PlayerData;
 import fun.bm.module.Module;
-import fun.bm.util.helper.MainEnv;
+import fun.bm.util.MainEnv;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.bm.module.impl.QQCheck.NullCheck;
-import static fun.bm.util.helper.MainEnv.LOGGER;
+import static fun.bm.module.impl.PlayerDataProcess.QQCheck.NullCheck;
+import static fun.bm.util.MainEnv.LOGGER;
 
 public class DataProcess extends Module {
     public DataProcess() {

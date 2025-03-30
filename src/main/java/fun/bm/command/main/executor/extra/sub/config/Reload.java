@@ -6,8 +6,8 @@ import fun.bm.module.ModuleManager;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.bm.util.helper.MainEnv.LOGGER;
-import static fun.bm.util.helper.OperatorChecker.checkNotOperator;
+import static fun.bm.util.helper.CommandHelper.checkNotOperator;
+import static fun.bm.util.MainEnv.LOGGER;
 
 /**
  * @author Suisuroru

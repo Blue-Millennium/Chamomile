@@ -10,7 +10,7 @@ import java.net.http.HttpResponse;
 import java.util.Arrays;
 import java.util.List;
 
-import static fun.bm.util.helper.MainEnv.LOGGER;
+import static fun.bm.util.MainEnv.LOGGER;
 
 /**
  * @author Suisuroru

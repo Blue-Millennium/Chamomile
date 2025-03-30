@@ -1,4 +1,4 @@
-package fun.bm.module.impl;
+package fun.bm.module.impl.PlayerDataProcess;
 
 import fun.bm.config.Config;
 import fun.bm.data.AuthData.DataGet;
@@ -6,7 +6,7 @@ import fun.bm.data.PlayerData.Data;
 import fun.bm.data.PlayerData.PlayerData;
 import fun.bm.module.Module;
 import fun.bm.util.TimeUtil;
-import fun.bm.util.helper.MainEnv;
+import fun.bm.util.MainEnv;
 import net.mamoe.mirai.event.events.FriendMessageEvent;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.event.events.MessageEvent;
@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import static fun.bm.module.impl.DataProcess.BaseDataProcess;
-import static fun.bm.util.helper.MainEnv.LOGGER;
+import static fun.bm.module.impl.PlayerDataProcess.DataProcess.BaseDataProcess;
+import static fun.bm.util.MainEnv.LOGGER;
 
 public class QQCheck extends Module {
     private static final HashMap<PlayerData, Integer> playerCodeMap = new HashMap<>();

@@ -6,8 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.data.AuthData.DataProcess.ProcessFinalData;
-import static fun.bm.util.helper.MainEnv.LOGGER;
-import static fun.bm.util.helper.OperatorChecker.checkNotOperator;
+import static fun.bm.util.helper.CommandHelper.checkNotOperator;
+import static fun.bm.util.MainEnv.LOGGER;
 
 public class DataQueryByName extends Command.ExecutorE {
     public DataQueryByName() {

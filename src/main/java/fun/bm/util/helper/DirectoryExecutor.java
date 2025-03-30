@@ -1,5 +1,7 @@
 package fun.bm.util.helper;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -10,16 +12,18 @@ public class DirectoryExecutor {
         Path sourcePath = sourceDir.toPath();
         Path destPath = destDir.toPath();
 
-        Files.walkFileTree(sourcePath, new SimpleFileVisitor<Path>() {
+        Files.walkFileTree(sourcePath, new SimpleFileVisitor<>() {
+            @NotNull
             @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+            public FileVisitResult preVisitDirectory(Path dir, @NotNull BasicFileAttributes attrs) throws IOException {
                 Path targetDir = destPath.resolve(sourcePath.relativize(dir));
                 Files.createDirectories(targetDir);
                 return FileVisitResult.CONTINUE;
             }
 
+            @NotNull
             @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+            public FileVisitResult visitFile(Path file, @NotNull BasicFileAttributes attrs) throws IOException {
                 Files.copy(file, destPath.resolve(sourcePath.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
                 return FileVisitResult.CONTINUE;
             }

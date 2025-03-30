@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import static fun.bm.util.helper.MainEnv.LOGGER;
+import static fun.bm.util.MainEnv.LOGGER;
 
-public class ClassesFinder {
+public class ClassLoader {
 
     public static List<Class<?>> getClassesInPackage(String packageName) {
         List<Class<?>> classes = new ArrayList<>();
-        ClassLoader classLoader = ClassesFinder.class.getClassLoader();
+        java.lang.ClassLoader classLoader = ClassLoader.class.getClassLoader();
         URL jarUrl = classLoader.getResource(packageName.replace('.', '/'));
         if (jarUrl == null) {
             throw new IllegalArgumentException("Package not found: " + packageName);

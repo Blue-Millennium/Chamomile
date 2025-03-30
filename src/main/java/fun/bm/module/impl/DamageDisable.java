@@ -1,10 +1,13 @@
 package fun.bm.module.impl;
 
+import fun.bm.config.Config;
 import fun.bm.module.Module;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
+
+import static fun.bm.util.MainEnv.LOGGER;
 
 public class DamageDisable extends Module {
 
@@ -18,6 +21,12 @@ public class DamageDisable extends Module {
             if (player.getGameMode().equals(org.bukkit.GameMode.CREATIVE) || player.getGameMode().equals(GameMode.SPECTATOR)) {
                 event.setCancelled(true);
             }
+        }
+    }
+
+    public void setModuleName() {
+        if (!Config.DamageDisabled) {
+            this.moduleName = null;
         }
     }
 }

@@ -3,7 +3,7 @@ package fun.bm.command.main.executor.vanilla;
 import fun.bm.command.Command;
 import fun.bm.config.Config;
 import fun.bm.util.helper.EmailSender;
-import fun.bm.util.helper.MainEnv;
+import fun.bm.util.MainEnv;
 import net.mamoe.mirai.contact.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -13,9 +13,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 
 import static fun.bm.data.UnionBan.LocalProcessor.ReportedDataProcess.reportBanData;
-import static fun.bm.module.impl.Reporter.ReportGroups;
+import static fun.bm.module.impl.QQReporter.ReportGroups;
 import static fun.bm.module.impl.SyncChat.SyncGroups;
-import static fun.bm.util.helper.MainEnv.LOGGER;
+import static fun.bm.util.MainEnv.LOGGER;
 
 /**
  * @author Suisuroru

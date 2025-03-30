@@ -11,7 +11,7 @@ import java.io.IOException;
  * Date: 2024/9/28 15:24
  * function: Executes a command through the RCON protocol and returns the console feedback
  */
-public class RconExecutor {
+public class RconHelper {
 
     private static final int MAX_RETRIES = 3; // 最大重试次数
 

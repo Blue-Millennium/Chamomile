@@ -8,8 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 
 import static fun.bm.data.AuthData.DataProcess.ProcessFinalData;
-import static fun.bm.util.helper.MainEnv.LOGGER;
-import static fun.bm.util.helper.OperatorChecker.checkNotOperator;
+import static fun.bm.util.helper.CommandHelper.checkNotOperator;
+import static fun.bm.util.MainEnv.LOGGER;
 
 public class DataQueryByUUID extends Command.ExecutorE {
 

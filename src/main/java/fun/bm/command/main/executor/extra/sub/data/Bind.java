@@ -2,12 +2,12 @@ package fun.bm.command.main.executor.extra.sub.data;
 
 import fun.bm.command.Command;
 import fun.bm.data.PlayerData.Data;
-import fun.bm.util.helper.MainEnv;
+import fun.bm.util.MainEnv;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.bm.util.helper.MainEnv.LOGGER;
-import static fun.bm.util.helper.OperatorChecker.checkNotOperator;
+import static fun.bm.util.helper.CommandHelper.checkNotOperator;
+import static fun.bm.util.MainEnv.LOGGER;
 
 public class Bind extends Command.ExecutorE {
     public Bind() {

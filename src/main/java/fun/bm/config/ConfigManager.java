@@ -1,6 +1,6 @@
 package fun.bm.config;
 
-import fun.bm.util.helper.MainEnv;
+import fun.bm.util.MainEnv;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.FileReader;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import static fun.bm.util.helper.MainEnv.LOGGER;
+import static fun.bm.util.MainEnv.LOGGER;
 
 /**
  * @author Suisuroru

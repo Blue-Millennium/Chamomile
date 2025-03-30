@@ -1,6 +1,6 @@
 package fun.bm.data.Report;
 
-import fun.bm.util.helper.MainEnv;
+import fun.bm.util.MainEnv;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static fun.bm.util.helper.MainEnv.LOGGER;
+import static fun.bm.util.MainEnv.LOGGER;
 
 /**
  * @author Suisuroru

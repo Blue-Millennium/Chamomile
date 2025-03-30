@@ -1,5 +1,6 @@
 package fun.bm.util.helper;
 
+import fun.bm.util.MainEnv;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.bukkit.Bukkit;

@@ -5,6 +5,7 @@ import fun.bm.config.Config;
 import fun.bm.config.ConfigManager;
 import fun.bm.data.PlayerData.DataManager;
 import fun.bm.module.ModuleManager;
+import fun.bm.util.MainEnv;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.utils.LoggerAdapters;
 import top.mrxiaom.overflow.BotBuilder;
@@ -13,7 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import static fun.bm.util.helper.MainEnv.LOGGER;
+import static fun.bm.util.MainEnv.LOGGER;
 
 public class MainThreadHelper {
     public static void Boot_QQBot() {

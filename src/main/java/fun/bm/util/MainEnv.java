@@ -1,4 +1,4 @@
-package fun.bm.util.helper;
+package fun.bm.util;
 
 import fun.bm.Chamomile;
 import fun.bm.config.ConfigManager;

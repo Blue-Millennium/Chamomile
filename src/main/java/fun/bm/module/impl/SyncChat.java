@@ -4,7 +4,8 @@ import fun.bm.config.Config;
 import fun.bm.data.AuthData.DataGet;
 import fun.bm.data.PlayerData.PlayerData;
 import fun.bm.module.Module;
-import fun.bm.util.helper.MainEnv;
+import fun.bm.module.impl.PlayerDataProcess.QQCheck;
+import fun.bm.util.MainEnv;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.*;
@@ -17,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static fun.bm.util.helper.ImageProcessor.sendImageUrl;
-import static fun.bm.util.helper.MainEnv.LOGGER;
-import static fun.bm.util.helper.RconExecutor.executeRconCommand;
+import static fun.bm.util.MainEnv.LOGGER;
+import static fun.bm.util.helper.RconHelper.executeRconCommand;
 
 public class SyncChat extends Module {
     public static final List<Long> SyncGroups = new ArrayList<>();

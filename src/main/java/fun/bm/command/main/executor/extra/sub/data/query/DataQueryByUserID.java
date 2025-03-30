@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.command.main.executor.extra.sub.data.query.DataQueryByQQ.LongProcess;
 import static fun.bm.data.AuthData.DataProcess.ProcessFinalData;
-import static fun.bm.util.helper.OperatorChecker.checkNotOperator;
+import static fun.bm.util.helper.CommandHelper.checkNotOperator;
 
 public class DataQueryByUserID extends Command.ExecutorE {
     public DataQueryByUserID() {
