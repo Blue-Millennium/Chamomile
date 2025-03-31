@@ -37,6 +37,7 @@ public class MainThreadHelper {
     }
 
     public static void SetupBaseEnv(Chamomile plugin) {
+        initOldDirectory();
         if (MainEnv.INSTANCE == null) {
             MainEnv.INSTANCE = plugin;
             MainEnv.LOGGER = MainEnv.INSTANCE.getLogger();

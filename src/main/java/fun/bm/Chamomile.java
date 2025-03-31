@@ -7,8 +7,6 @@ import fun.bm.util.helper.MainThreadHelper;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import static fun.bm.util.helper.MainThreadHelper.initOldDirectory;
-
 /**
  * @author Liycxc
  * Date: 2024/7/16 下午8:38
@@ -16,7 +14,6 @@ import static fun.bm.util.helper.MainThreadHelper.initOldDirectory;
 public class Chamomile extends JavaPlugin implements Listener {
     @Override
     public void onLoad() {
-        initOldDirectory();
         MainThreadHelper.SetupBaseEnv(this);
     }
 
