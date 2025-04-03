@@ -21,15 +21,13 @@ public class ReportDelete extends Command.ExecutorE {
         }
         if (!args[1].matches("\\d+")) {
             sender.sendMessage("请输入时间戳");
-            return true;
         } else {
             if (ReportDataManager.deleteData(args[1])) {
                 sender.sendMessage("尝试删除成功");
-                return true;
             } else {
                 sender.sendMessage("删除失败");
-                return true;
             }
         }
+        return true;
     }
 }
