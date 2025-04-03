@@ -1,8 +1,8 @@
 package fun.bm;
 
 import fun.bm.command.CommandManager;
-import fun.bm.util.helper.EmailSender;
 import fun.bm.util.MainEnv;
+import fun.bm.util.helper.EmailSender;
 import fun.bm.util.helper.MainThreadHelper;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;

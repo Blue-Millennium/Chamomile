@@ -7,8 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-import static fun.bm.util.MainEnv.LOGGER;
-
 public class DamageDisable extends Module {
 
     public DamageDisable() {

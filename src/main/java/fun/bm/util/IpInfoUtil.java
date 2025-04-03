@@ -1,36 +1,40 @@
 package fun.bm.util;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 import fun.bm.util.map.IpLocationMap;
 import fun.bm.util.map.IpinfoMap;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 import static fun.bm.util.MainEnv.LOGGER;
 
 public class IpInfoUtil {
     public static IpinfoMap getIpinfo(String ip) {
         try {
-            URL url = new URL("https://ipinfo.io/widget/demo/" + ip);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
+            // 创建 HttpClient 实例
+            HttpClient httpClient = HttpClient.newHttpClient();
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-            StringBuilder response = new StringBuilder();
+            // 创建 HttpRequest
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://ipinfo.io/widget/demo/" + ip))
+                    .header("Content-Type", "application/json; utf-8")
+                    .header("Accept", "application/json")
+                    .build();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+            // 发送请求并获取响应
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            // 检查响应状态码
+            int responseCode = response.statusCode();
+            if (responseCode != 200) {
+                LOGGER.info("Unexpected response code: " + responseCode);
+                LOGGER.info("Response body: " + response.body());
+                return null;
+            } else {
+                return new Gson().fromJson(response.body(), IpinfoMap.class);
             }
-
-            in.close();
-
-            return new Gson().fromJson(response.toString(), IpinfoMap.class);
         } catch (Exception e) {
             LOGGER.warning("Error getting IP info: " + e.getMessage());
             return null;
@@ -39,25 +43,30 @@ public class IpInfoUtil {
 
     public static IpLocationMap getIpinfoCN(String ip) {
         try {
-            URL url = new URL("https://webapi-pc.meitu.com/common/ip_location?ip=" + ip);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.connect();
+            // 创建 HttpClient 实例
+            HttpClient httpClient = HttpClient.newHttpClient();
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-            StringBuilder response = new StringBuilder();
+            // 创建 HttpRequest
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://webapi-pc.meitu.com/common/ip_location?ip=" + ip))
+                    .header("Content-Type", "application/json; utf-8")
+                    .header("Accept", "application/json")
+                    .build();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+            // 发送请求并获取响应
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            // 检查响应状态码
+            int responseCode = response.statusCode();
+            if (responseCode != 200) {
+                LOGGER.info("Unexpected response code: " + responseCode);
+                LOGGER.info("Response body: " + response.body());
+                return null;
+            } else {
+                return new Gson().fromJson(response.body(), IpLocationMap.class);
             }
-
-            in.close();
-
-            return new Gson().fromJson(JsonParser.parseString(response.toString()).getAsJsonObject().get("data").getAsJsonObject().get(ip), IpLocationMap.class);
-        } catch (IOException e) {
-            LOGGER.warning("Error getting IP CN info: " + e.getMessage());
+        } catch (Exception e) {
+            LOGGER.warning("Error getting IP info: " + e.getMessage());
+            return null;
         }
-        return null;
     }
 }

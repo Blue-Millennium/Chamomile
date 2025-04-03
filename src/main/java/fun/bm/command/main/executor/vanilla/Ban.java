@@ -2,8 +2,8 @@ package fun.bm.command.main.executor.vanilla;
 
 import fun.bm.command.Command;
 import fun.bm.config.Config;
-import fun.bm.util.helper.EmailSender;
 import fun.bm.util.MainEnv;
+import fun.bm.util.helper.EmailSender;
 import net.mamoe.mirai.contact.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;

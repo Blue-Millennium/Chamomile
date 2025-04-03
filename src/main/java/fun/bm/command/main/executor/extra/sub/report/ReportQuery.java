@@ -7,8 +7,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static fun.bm.util.helper.CommandHelper.checkNotOperator;
 import static fun.bm.util.MainEnv.LOGGER;
+import static fun.bm.util.helper.CommandHelper.checkNotOperator;
 
 /**
  * @author Suisuroru
