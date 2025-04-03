@@ -48,7 +48,7 @@ public class ReportDataActions {
         saveToCsv(existingData);
     }
 
-    private static void saveToCsv(List<List<String>> data) {
+    static void saveToCsv(List<List<String>> data) {
         try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(MainEnv.REPORT_DATA_FILE), Charset.forName("GBK")))) {
             for (List<String> row : data) {
                 bw.write(String.join(",", row));

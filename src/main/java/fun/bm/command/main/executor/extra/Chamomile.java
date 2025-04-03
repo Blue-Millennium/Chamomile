@@ -3,6 +3,7 @@ package fun.bm.command.main.executor.extra;
 import fun.bm.command.Command;
 import fun.bm.command.main.executor.extra.sub.*;
 import fun.bm.command.main.executor.extra.sub.report.Report;
+import fun.bm.command.main.executor.extra.sub.report.ReportDelete;
 import fun.bm.command.main.executor.extra.sub.report.ReportQuery;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -17,8 +18,9 @@ import java.util.Arrays;
 public class Chamomile extends Command.ExecutorE {
 
     Report report = new Report();
-    Config config = new Config();
     ReportQuery query = new ReportQuery();
+    ReportDelete del = new ReportDelete();
+    Config config = new Config();
     Help help = new Help();
     Data data = new Data();
     Kill kill = new Kill();
@@ -46,12 +48,16 @@ public class Chamomile extends Command.ExecutorE {
                     report.onCommand(sender, command, label, subArgs);
                     break;
                 }
-                case "config": {
-                    config.onCommand(sender, command, label, subArgs);
-                    break;
-                }
                 case "query-report": {
                     query.onCommand(sender, command, label, subArgs);
+                    break;
+                }
+                case "del-report": {
+                    del.onCommand(sender, command, label, subArgs);
+                    break;
+                }
+                case "config": {
+                    config.onCommand(sender, command, label, subArgs);
                     break;
                 }
                 case "data": {
@@ -67,7 +73,7 @@ public class Chamomile extends Command.ExecutorE {
                     break;
                 }
                 default: {
-                    sender.sendMessage("Unknown command. Usage: /chamomile [report|reload|config|data|query-report] [args...]");
+                    sender.sendMessage("Unknown command. Usage: /chamomile [report|reload|config|data|kill|query-report|del-report] [args...]");
                     break;
                 }
             }
