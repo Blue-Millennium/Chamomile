@@ -26,17 +26,6 @@ public class EmailSender {
         return url;
     }
 
-    public static void TurnPlugin(String title) {
-        try {
-            String subject = "服务器" + title + "通知";
-            String content = Config.ServerName + "服务器正在" + title;
-            EmailSender emailSender = new EmailSender();
-            emailSender.formatAndSendWebhook(subject, content, Config.WebHookEmail);
-        } catch (Exception e) {
-            LOGGER.warning(e.getMessage());
-        }
-    } // Use CheckPlugin instead.
-
     public static void CheckPlugin(String title) {
         try {
             String subject = "服务器" + title + "通知";
@@ -127,9 +116,9 @@ public class EmailSender {
     static class Data_Full {
         String content;
         String subject;
-        List email;
+        List<String> email;
 
-        public Data_Full(String content, String subject, List email) {
+        public Data_Full(String content, String subject, List<String> email) {
             this.content = content;
             this.subject = subject;
             this.email = email;

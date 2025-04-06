@@ -8,8 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Field;
 
 import static fun.bm.config.ConfigManager.getConfigFieldNames;
-import static fun.bm.util.helper.CommandHelper.checkNotOperator;
 import static fun.bm.util.MainEnv.LOGGER;
+import static fun.bm.util.helper.CommandHelper.checkNotOperator;
 
 /**
  * @author Suisuroru

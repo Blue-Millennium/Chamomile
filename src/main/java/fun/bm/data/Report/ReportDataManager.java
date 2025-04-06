@@ -8,12 +8,30 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static fun.bm.util.MainEnv.LOGGER;
+
 /**
  * @author Suisuroru
  * Date: 2024/9/29 16:02
  * function: Manage report data
  */
 public class ReportDataManager {
+
+    public static boolean deleteData(String timestamp) {
+        List<List<String>> reportData = ReportDataActions.ReadReportFile();
+        try {
+            for (List<String> row : reportData) {
+                if (row.get(0).equals(timestamp)) {
+                    reportData.remove(row);
+                    return true;
+                }
+            }
+            ReportDataActions.saveToCsv(reportData);
+        } catch (Exception e) {
+            LOGGER.warning("Failed to delete data from CSV file: " + e.getMessage());
+        }
+        return false;
+    }
 
     /**
      * 接收列表并将数据追加到CSV文件中。

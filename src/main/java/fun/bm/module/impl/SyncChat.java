@@ -17,8 +17,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.bm.util.helper.ImageProcessor.sendImageUrl;
 import static fun.bm.util.MainEnv.LOGGER;
+import static fun.bm.util.helper.ImageProcessor.sendImageUrl;
 import static fun.bm.util.helper.RconHelper.executeRconCommand;
 
 public class SyncChat extends Module {

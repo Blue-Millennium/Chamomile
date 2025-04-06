@@ -6,8 +6,8 @@ import fun.bm.util.MainEnv;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.bm.util.helper.CommandHelper.checkNotOperator;
 import static fun.bm.util.MainEnv.LOGGER;
+import static fun.bm.util.helper.CommandHelper.checkNotOperator;
 
 public class Bind extends Command.ExecutorE {
     public Bind() {

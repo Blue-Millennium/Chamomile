@@ -7,8 +7,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static fun.bm.util.helper.CommandHelper.checkNotOperator;
 import static fun.bm.util.MainEnv.LOGGER;
+import static fun.bm.util.helper.CommandHelper.checkNotOperator;
 
 /**
  * @author Suisuroru
@@ -41,9 +41,7 @@ public class ReportQuery extends Command.ExecutorE {
 
     public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         // 检查发送者是否具有OP权限
-        if (checkNotOperator(sender)) {
-        } else {
-
+        if (!checkNotOperator(sender)) {
             try {
                 String QueryData = query();
                 sender.sendMessage(QueryData);

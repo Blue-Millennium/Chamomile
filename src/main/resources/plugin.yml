@@ -38,6 +38,10 @@ commands:
     description: Query reports
     usage: /query-report
     aliases: [ qr ]
+  del-report:
+    description: Delete reports
+    usage: /del-report <timestamp>
+    aliases: [ qr ]
   rcon:
     description: Rcon functions
     usage: /rcon ip:port psd command
