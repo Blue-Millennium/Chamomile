@@ -16,10 +16,14 @@ public class ReportDelete extends Command.ExecutorE {
             return true;
         }
         if (args.length == 0) {
+            ReportQuery rq = new ReportQuery();
+            rq.executorMain(sender, command, label, args);
             sender.sendMessage("请输入时间戳");
             return true;
         }
         if (!args[1].matches("\\d+")) {
+            ReportQuery rq = new ReportQuery();
+            rq.executorMain(sender, command, label, args);
             sender.sendMessage("请输入时间戳");
         } else {
             if (ReportDataManager.deleteData(args[1])) {
