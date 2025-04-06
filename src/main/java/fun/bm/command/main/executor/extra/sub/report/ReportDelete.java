@@ -8,7 +8,7 @@ import static fun.bm.util.helper.CommandHelper.checkNotOperator;
 
 public class ReportDelete extends Command.ExecutorE {
     public ReportDelete() {
-        super(null);
+        super("del-report");
     }
 
     public boolean executorMain(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
