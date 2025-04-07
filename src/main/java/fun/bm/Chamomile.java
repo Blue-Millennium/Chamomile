@@ -4,14 +4,13 @@ import fun.bm.command.CommandManager;
 import fun.bm.util.MainEnv;
 import fun.bm.util.helper.EmailSender;
 import fun.bm.util.helper.MainThreadHelper;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * @author Liycxc
  * Date: 2024/7/16 下午8:38
  */
-public class Chamomile extends JavaPlugin implements Listener {
+public class Chamomile extends JavaPlugin {
     @Override
     public void onLoad() {
         MainThreadHelper.SetupBaseEnv(this);
