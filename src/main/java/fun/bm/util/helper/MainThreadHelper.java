@@ -17,6 +17,8 @@ import java.util.List;
 import static fun.bm.util.MainEnv.LOGGER;
 
 public class MainThreadHelper {
+    static List<String> oldDir = List.of("BasePlugin", "plugins/BasePlugin");
+
     public static void Boot_QQBot() {
         LoggerAdapters.useLog4j2(); // 使用 Log4j2 作为日志记录器
         if (MainEnv.BOT != null) {
@@ -91,8 +93,9 @@ public class MainThreadHelper {
 
     public static void initOldDirectory() {
         List<File> dir = new java.util.ArrayList<>(List.of());
-        dir.add(new File("BasePlugin"));
-        dir.add(new File("plugins/BasePlugin"));
+        for (String s : oldDir) {
+            dir.add(new File(s));
+        }
         MainEnv.OLD_BASE_DIR = dir;
     }
 }
