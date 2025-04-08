@@ -114,3 +114,23 @@ jobs:
           generateReleaseNotes: true
           artifacts: ${{ env.FINAL_JAR_NAME }}.jar
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete Release with recent tag
+        if: env.SKIP_BUILD == 'false'
+        run: |
+          GITHUB_REPOSITORY="${{ github.repository }}"
+          OWNER=$(echo $GITHUB_REPOSITORY | cut -d'/' -f1)
+          REPO=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
+
+          # 删除预发布版本
+          LATEST_RELEASE_WITH_TAG=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/$OWNER/$REPO/releases/tags/{{ env.VERSION }})
+          if [ ! -z "$LATEST_RELEASE_WITH_TAG" ]; then
+            RELEASE_ID=$(echo $LATEST_RELEASE_WITH_TAG | jq -r '.id')
+            curl -X DELETE -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/$OWNER/$REPO/releases/$RELEASE_ID
+            echo "Deleted the release with tag '{{ env.VERSION }}'"
+          fi
+
+          # 删除标签
+          TAG_DELETE_URL="https://api.github.com/repos/$OWNER/$REPO/git/refs/tags/{{ env.VERSION }}"
+          curl -X DELETE -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" $TAG_DELETE_URL
+          echo "Deleted the tag '{{ env.VERSION }}'"
