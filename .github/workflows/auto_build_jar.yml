@@ -55,27 +55,27 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update version in plugin.yml
-        if: env.SKIP_BUILD == 'false'
+        if: env.SKIP_BUILD == 'false' || env.CITEST == 'true'
         run: |
           sed -i "s/\(version: \).*/\1'${{ env.VERSION }}'/" src/main/resources/plugin.yml
 
       - name: Set up Zulu 17
-        if: env.SKIP_BUILD == 'false'
+        if: env.SKIP_BUILD == 'false' || env.CITEST == 'true'
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'zulu'
 
       - name: Make gradlew executable
-        if: env.SKIP_BUILD == 'false'
+        if: env.SKIP_BUILD == 'false' || env.CITEST == 'true'
         run: chmod +x ./gradlew
 
       - name: Build with Gradle
-        if: env.SKIP_BUILD == 'false'
+        if: env.SKIP_BUILD == 'false' || env.CITEST == 'true'
         run: ./gradlew shadowJar
 
       - name: Rename JAR file
-        if: env.SKIP_BUILD == 'false'
+        if: env.SKIP_BUILD == 'false' || env.CITEST == 'true'
         id: rename_file
         run: |
           TARGET_JAR="Chamomile-${{ env.VERSION }}"
@@ -84,14 +84,14 @@ jobs:
           mv "${SOURCE_JAR}" "${TARGET_JAR}.jar"
 
       - name: Upload Artifact
-        if: env.SKIP_BUILD == 'false'
+        if: env.SKIP_BUILD == 'false' || env.CITEST == 'true'
         uses: "actions/upload-artifact@v4"
         with:
           name: ${{ env.FINAL_JAR_NAME }}
           path: ${{ env.FINAL_JAR_NAME }}.jar
 
       - name: Create Pre-Release and Upload JAR file
-        if: env.SKIP_RELEASE == 'false' && env.SKIP_BUILD == 'false'
+        if: (env.SKIP_RELEASE == 'false' && env.SKIP_BUILD == 'false') || env.CITEST == 'true'
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ env.VERSION }}
@@ -116,7 +116,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Delete Release with recent tag
-        if: env.SKIP_BUILD == 'false'
+        if: env.SKIP_BUILD == 'false' || env.CITEST == 'true'
         run: |
           # 延迟5分钟后删除测试版本
           sleep 300
