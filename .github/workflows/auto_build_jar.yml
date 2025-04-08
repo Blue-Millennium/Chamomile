@@ -120,7 +120,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Delete Release with recent tag
-        if: env.SKIP_BUILD == 'false' || env.CITEST == 'true'
+        if: env.CITEST == 'true'
         run: |
           # 延迟5分钟后删除测试版本
           sleep 300
