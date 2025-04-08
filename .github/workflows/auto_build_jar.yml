@@ -48,6 +48,7 @@ jobs:
           fi
           if [[ "$BRANCH_NAME" == citest* ]]; then
             echo "CITEST=true" >> $GITHUB_ENV
+            echo "EXTRA=请注意：此版本将在发布5分钟后删除" >> $GITHUB_ENV
           else
             echo "CITEST=false" >> $GITHUB_ENV
           fi
@@ -99,6 +100,8 @@ jobs:
           body: |
             此预发布版本由Github Action自动构建。
             请注意，此版本为测试版，并不代表最终版本。
+            ${{ env.EXTRA }}
+            
             ### 最后一次提交信息
             #### 提交SHA:
             > ${{ github.sha }}
