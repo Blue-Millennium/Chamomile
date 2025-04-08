@@ -32,7 +32,7 @@ jobs:
         id: check_tag
         run: |
           git fetch --tags
-          if [[ $(git tag -l "${{ env.VERSION_CHECK }}") != "" ]]; then
+          if [ -n "$(git tag -l "${{ env.VERSION_CHECK }}")" ]; then
             echo "Tag exists"
             echo "SKIP_BUILD=true" >> $GITHUB_ENV
           else
