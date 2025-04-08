@@ -28,7 +28,7 @@ jobs:
           echo "VERSION=${ORIGINAL_VERSION}-${{ env.DATE }}-${{ env.SHA }}" >> $GITHUB_ENV
           echo "VERSION_CHECK=${ORIGINAL_VERSION}-*-${{ env.SHA }}" >> $GITHUB_ENV
 
-      - name: Check if tag exists
+      - name: Check tags, commit messages and branches
         id: check_tag
         run: |
           git fetch --tags
@@ -38,24 +38,22 @@ jobs:
           else
             echo "Tag does not exist"
             echo "SKIP_BUILD=false" >> $GITHUB_ENV
+                    COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+          if [[ "$COMMIT_MESSAGE" == "[skip]"* || ("$BRANCH_NAME" != "master" && "$COMMIT_MESSAGE" != "[ci]"*) ]]; then
+            echo "SKIP_RELEASE=true" >> $GITHUB_ENV
+          else
+            echo "SKIP_RELEASE=false" >> $GITHUB_ENV
+          if [[ $BRANCH_NAME" == "citest*" ]]; then
+            echo "CITEST=true" >> $GITHUB_ENV
+          else
+            echo "CITEST=false" >> $GITHUB_ENV"
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Check commit message and branch
-        id: check_skip_and_branch
-        if: env.SKIP_BUILD == 'false'
-        run: |
-          COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-          if [[ "$BRANCH_NAME" == "citest" || "$COMMIT_MESSAGE" == "[skip]"* || ("$BRANCH_NAME" != "master" && "$COMMIT_MESSAGE" != "[ci]"*) ]]; then
-            echo "SKIP_RELEASE=true" >> $GITHUB_ENV
-          else
-            echo "SKIP_RELEASE=false" >> $GITHUB_ENV
-          fi
-
       - name: Update version in plugin.yml
-        if: env.SKIP_BUILD == 'false'
+        if: env.SKIP_BUILD == 'false' 
         run: |
           sed -i "s/\(version: \).*/\1'${{ env.VERSION }}'/" src/main/resources/plugin.yml
 
