@@ -26,12 +26,13 @@ jobs:
           ORIGINAL_VERSION=$(grep "version:" src/main/resources/plugin.yml | cut -d ' ' -f2 | sed 's/[^0-9.]//g')
           echo "Setting VERSION to ${ORIGINAL_VERSION}-${{ env.DATE }}-${{ env.SHA }}"
           echo "VERSION=${ORIGINAL_VERSION}-${{ env.DATE }}-${{ env.SHA }}" >> $GITHUB_ENV
+          echo "VERSION_CHECK=${ORIGINAL_VERSION}-*-${{ env.SHA }}" >> $GITHUB_ENV
 
       - name: Check if tag exists
         id: check_tag
         run: |
           git fetch --tags
-          if git show-ref --tags --quiet refs/tags/${{ env.VERSION }}; then
+          if git show-ref --tags --quiet refs/tags/${{ env.VERSION_CHECK }}; then
             echo "Tag exists"
             echo "SKIP_BUILD=true" >> $GITHUB_ENV
           else
