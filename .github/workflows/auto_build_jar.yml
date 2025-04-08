@@ -49,6 +49,7 @@ jobs:
           if [[ "$BRANCH_NAME" == citest* ]]; then
             echo "CITEST=true" >> $GITHUB_ENV
             echo "EXTRA=请注意：此版本将在发布5分钟后删除" >> $GITHUB_ENV
+            echo "VERSION=CI-TEST-${{ env.VERSION }}" >> $GITHUB_ENV
           else
             echo "CITEST=false" >> $GITHUB_ENV
           fi
