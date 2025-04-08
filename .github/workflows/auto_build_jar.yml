@@ -32,6 +32,8 @@ jobs:
         id: check_all
         run: |
           git fetch --tags
+          COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
           if [ -n "$(git tag -l "${{ env.VERSION_CHECK }}")" ]; then
             echo "Tag exists"
             echo "SKIP_BUILD=true" >> $GITHUB_ENV
@@ -39,8 +41,6 @@ jobs:
             echo "Tag does not exist"
             echo "SKIP_BUILD=false" >> $GITHUB_ENV
           fi
-          COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
           if [[ "$COMMIT_MESSAGE" == "[skip]"* || ("$BRANCH_NAME" != "master" && "$COMMIT_MESSAGE" != "[ci]"*) ]]; then
             echo "SKIP_RELEASE=true" >> $GITHUB_ENV
           else
@@ -87,7 +87,7 @@ jobs:
 
       - name: Upload Artifact
         if: env.SKIP_BUILD == 'false' || env.CITEST == 'true'
-        uses: "actions/upload-artifact@v4"
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.FINAL_JAR_NAME }}
           path: ${{ env.FINAL_JAR_NAME }}.jar
