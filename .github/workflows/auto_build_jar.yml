@@ -88,7 +88,7 @@ jobs:
           path: ${{ env.FINAL_JAR_NAME }}.jar
 
       - name: Create Pre-Release and Upload JAR file
-        if: env.SKIP_RELEASE == 'false' && env.SKIP_BUILD == 'false'
+        if: env.SKIP_BUILD == 'false'
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ env.VERSION }}
@@ -115,7 +115,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Delete Release with recent tag
-        if: env.SKIP_RELEASE == 'false'
+        if: env.SKIP_BUILD == 'false' && env.SKIP_RELEASE != 'false'
         run: |
           # 延迟5分钟后删除测试版本
           sleep 300
