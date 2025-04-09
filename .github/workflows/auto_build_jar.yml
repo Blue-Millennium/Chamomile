@@ -43,10 +43,10 @@ jobs:
           fi
           if [[ "$COMMIT_MESSAGE" == "[skip]"* || ("$BRANCH_NAME" != "master" && "$COMMIT_MESSAGE" != "[ci]"*) ]]; then
             echo "SKIP_RELEASE=true" >> $GITHUB_ENV
-          else
-            echo "SKIP_RELEASE=false" >> $GITHUB_ENV
             echo "EXTRA=请注意：此版本将在发布5分钟后删除" >> $GITHUB_ENV
             echo "VERSION=TEST-$RANDOM-${{ env.VERSION }}" >> $GITHUB_ENV
+          else
+            echo "SKIP_RELEASE=false" >> $GITHUB_ENV
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
