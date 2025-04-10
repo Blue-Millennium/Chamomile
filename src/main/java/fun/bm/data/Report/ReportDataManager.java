@@ -20,17 +20,13 @@ public class ReportDataManager {
     public static boolean deleteData(String timestamp) {
         List<List<String>> reportData = ReportDataActions.ReadReportFile();
         try {
-            for (List<String> row : reportData) {
-                if (row.get(0).equals(timestamp)) {
-                    reportData.remove(row);
-                    return true;
-                }
-            }
+            reportData.removeIf(row -> row.get(0).equals(timestamp));
             ReportDataActions.saveToCsv(reportData);
+            return true;
         } catch (Exception e) {
             LOGGER.warning("Failed to delete data from CSV file: " + e.getMessage());
+            return false;
         }
-        return false;
     }
 
     /**
