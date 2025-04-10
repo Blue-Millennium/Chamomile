@@ -29,7 +29,8 @@ public class ReportDataActions {
                     LOGGER.warning("Failed to create data file");
                 } else {
                     List<String> defaultRows = new ArrayList<>();
-                    defaultRows.add("时间戳");
+                    defaultRows.add("Unix时间戳");
+                    defaultRows.add("举报时间");
                     defaultRows.add("举报人");
                     defaultRows.add("被举报人");
                     defaultRows.add("举报理由");

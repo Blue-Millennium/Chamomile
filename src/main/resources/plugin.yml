@@ -41,7 +41,7 @@ commands:
   del-report:
     description: Delete reports
     usage: /del-report <timestamp>
-    aliases: [ qr ]
+    aliases: [ dr ]
   rcon:
     description: Rcon functions
     usage: /rcon ip:port psd command

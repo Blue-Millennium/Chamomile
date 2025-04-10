@@ -3,12 +3,12 @@ package fun.bm.data.Report;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import static fun.bm.data.AuthData.DataProcess.transferTime;
 import static fun.bm.util.MainEnv.LOGGER;
+import static fun.bm.util.TimeUtil.getUnixTime;
 
 /**
  * @author Suisuroru
@@ -20,17 +20,13 @@ public class ReportDataManager {
     public static boolean deleteData(String timestamp) {
         List<List<String>> reportData = ReportDataActions.ReadReportFile();
         try {
-            for (List<String> row : reportData) {
-                if (row.get(0).equals(timestamp)) {
-                    reportData.remove(row);
-                    return true;
-                }
-            }
+            reportData.removeIf(row -> row.get(0).equals(timestamp));
             ReportDataActions.saveToCsv(reportData);
+            return true;
         } catch (Exception e) {
             LOGGER.warning("Failed to delete data from CSV file: " + e.getMessage());
+            return false;
         }
-        return false;
     }
 
     /**
@@ -45,10 +41,9 @@ public class ReportDataManager {
     public void ProcessData(@NotNull CommandSender sender, @NotNull String[] args) {
         List<String> ProcessData = new ArrayList<>();
 
-        // 获取当前时间戳并转换为字符串
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String timestamp = sdf.format(new Date());
-        ProcessData.add(timestamp);
+        long time = getUnixTime();
+        ProcessData.add(String.valueOf(time));
+        ProcessData.add(transferTime(time));
 
         // 将 CommandSender 转换为游戏内的名字
         if (sender instanceof org.bukkit.entity.Player player) {

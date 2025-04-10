@@ -34,6 +34,7 @@ public class Chamomile extends Command.CompleterE {
             completions.add("config");
             completions.add("data");
             completions.add("query-report");
+            completions.add("del-report");
             completions.add("kill");
             completions.add("rcon");
         } else if (args.length >= 2) {
