@@ -44,6 +44,7 @@ public class Report extends Command.ExecutorE {
                     // Data Save
                     ReportDataManager manager = new ReportDataManager();
                     manager.ProcessData(sender, args);
+                    sender.sendMessage("§a举报已被记录，正在等待上报");
                     // Message Send
                     MessageChainBuilder builder = new MessageChainBuilder();
                     String number = String.valueOf(System.currentTimeMillis());
@@ -63,6 +64,7 @@ public class Report extends Command.ExecutorE {
                         String subject = "玩家举报-" + number;
                         EmailSender emailSender = new EmailSender();
                         emailSender.formatAndSendWebhook(subject, content, Config.WebHookEmail);
+                        sender.sendMessage("§a举报已被上报至指定邮箱");
                     } catch (Exception e) {
                         sender.sendMessage("§c邮件发送失败");
                         LOGGER.warning(e.getMessage());
