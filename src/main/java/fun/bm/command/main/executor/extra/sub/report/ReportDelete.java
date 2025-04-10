@@ -21,7 +21,7 @@ public class ReportDelete extends Command.ExecutorE {
             sender.sendMessage("请输入时间戳");
             return true;
         }
-        if (!args[1].matches("\\d+")) {
+        if (!args[0].matches("\\d+")) {
             ReportQuery rq = new ReportQuery();
             rq.executorMain(sender, command, label, args);
             sender.sendMessage("请输入时间戳");
