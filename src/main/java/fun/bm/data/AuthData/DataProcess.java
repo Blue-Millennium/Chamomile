@@ -140,7 +140,7 @@ public class DataProcess {
         return true;
     }
 
-    private static String transferTime(long timestamp) {
+    public static String transferTime(long timestamp) {
         try {
             Date date = new Date(timestamp);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
