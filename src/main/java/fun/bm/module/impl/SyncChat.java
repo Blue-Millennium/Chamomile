@@ -106,7 +106,7 @@ public class SyncChat extends Module {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (Config.SyncChatEnabled & !Config.SyncChatEnabledQ2SOnly & !Config.BotModeOfficial) {
+        if (needSync()) {
             for (Long groupId : SyncGroups) {
                 Group syncGroup = MainEnv.BOT.getGroup(groupId);
                 syncGroup.sendMessage(Config.JoinServerMessage.replace("%NAME%", event.getPlayer().getName()));
@@ -116,7 +116,7 @@ public class SyncChat extends Module {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        if (Config.SyncChatEnabled & !Config.SyncChatEnabledQ2SOnly & !Config.BotModeOfficial) {
+        if (needSync()) {
             for (Long groupId : SyncGroups) {
                 Group syncGroup = MainEnv.BOT.getGroup(groupId);
                 syncGroup.sendMessage(Config.LeaveServerMessage.replace("%NAME%", event.getPlayer().getName()));
@@ -126,12 +126,16 @@ public class SyncChat extends Module {
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
-        if (Config.SyncChatEnabled & !Config.SyncChatEnabledQ2SOnly & !Config.BotModeOfficial) {
+        if (needSync()) {
             for (Long groupId : SyncGroups) {
                 Group syncGroup = MainEnv.BOT.getGroup(groupId);
                 syncGroup.sendMessage(Config.SayServerMessage.replace("%NAME%", event.getPlayer().getName()).replace("%MESSAGE%", event.getMessage()));
             }
         }
+    }
+
+    private boolean needSync() {
+        return Config.SyncChatEnabled & !Config.SyncChatEnabledQ2SOnly & !Config.BotModeOfficial;
     }
 
     public void setModuleName() {
