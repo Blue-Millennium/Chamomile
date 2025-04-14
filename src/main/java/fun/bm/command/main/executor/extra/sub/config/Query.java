@@ -2,12 +2,12 @@ package fun.bm.command.main.executor.extra.sub.config;
 
 import fun.bm.command.Command;
 import fun.bm.config.Config;
+import fun.bm.util.MainEnv;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 
-import static fun.bm.config.ConfigManager.getConfigFieldNames;
 import static fun.bm.util.MainEnv.LOGGER;
 import static fun.bm.util.helper.CommandHelper.checkNotOperator;
 
@@ -33,11 +33,11 @@ public class Query extends Command.ExecutorE {
             } else if (command.getName().equals("chamomile")) {
                 sender.sendMessage("§c/chamomile config query [查询配置]");
             }
-            String allConfigNames = String.join("|", getConfigFieldNames());
+            String allConfigNames = String.join("|", MainEnv.configManager.getConfigFieldNames());
             sender.sendMessage("§a所有配置项名称: " + allConfigNames);
         } else {
             String configName = args[0];
-            if (!getConfigFieldNames().contains(configName)) {
+            if (!MainEnv.configManager.getConfigFieldNames().contains(configName)) {
                 sender.sendMessage("§c配置项 " + configName + " 不存在，请检查拼写");
                 return true;
             }

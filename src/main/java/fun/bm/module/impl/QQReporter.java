@@ -30,24 +30,22 @@ public class QQReporter extends Module {
 
     @Override
     public void onEnable() {
-        if (!Config.QQRobotEnabled) {
-            try {
-                String[] groupIds = Config.ReportGroup.split(";");
-                for (String groupId : groupIds) {
-                    try {
-                        ReportGroups.add(Long.parseLong(groupId.trim()));
-                        break;
-                    } catch (NumberFormatException e) {
-                        LOGGER.warning("[Reporter] Invalid group ID: " + groupId);
-                    }
+        try {
+            String[] groupIds = Config.ReportGroup.split(";");
+            for (String groupId : groupIds) {
+                try {
+                    ReportGroups.add(Long.parseLong(groupId.trim()));
+                    break;
+                } catch (NumberFormatException e) {
+                    LOGGER.warning("[Reporter] Invalid group ID: " + groupId);
                 }
-            } catch (Exception e) {
-                LOGGER.warning("Failed to get report group");
             }
+        } catch (Exception e) {
+            LOGGER.warning("Failed to get report group");
+        }
 
-            if (ReportGroups.isEmpty()) {
-                LOGGER.warning("Failed to get report group");
-            }
+        if (ReportGroups.isEmpty()) {
+            LOGGER.warning("Failed to get report group");
         }
     }
 

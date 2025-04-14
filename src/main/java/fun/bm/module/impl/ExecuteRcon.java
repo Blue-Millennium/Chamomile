@@ -41,6 +41,7 @@ public class ExecuteRcon extends Module {
                 LOGGER.warning("[RCONCommandCheck] RCON commands will be disabled due to empty or null RCONEnabledGroups");
                 Config.RconEnabled = false;
                 MainEnv.configManager.save();
+                MainEnv.moduleManager.setupModules(false);
                 return;
             }
 
@@ -57,11 +58,12 @@ public class ExecuteRcon extends Module {
                 LOGGER.warning("[RCONCommandCheck] RCON commands will be disabled");
                 Config.RconEnabled = false;
                 MainEnv.configManager.save();
+                MainEnv.moduleManager.setupModules(false);
                 return;
             }
         }
         MainEnv.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
-            if (!Config.RconEnabled || !RconGroups.contains(event.getGroup().getId())) {
+            if (!RconGroups.contains(event.getGroup().getId())) {
                 return;
             }
 
@@ -127,7 +129,7 @@ public class ExecuteRcon extends Module {
     }
 
     public void setModuleName() {
-        if (!Config.QQRobotEnabled) {
+        if (!Config.QQRobotEnabled || !Config.RconEnabled) {
             this.moduleName = null;
         }
     }
