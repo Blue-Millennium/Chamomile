@@ -1,6 +1,7 @@
 package fun.bm.util.helper;
 
 import fun.bm.Chamomile;
+import fun.bm.command.CommandManager;
 import fun.bm.config.Config;
 import fun.bm.config.ConfigManager;
 import fun.bm.data.PlayerData.DataManager;
@@ -29,8 +30,7 @@ public class MainThreadHelper {
             MainEnv.eventChannel = GlobalEventChannel.INSTANCE;
             if (MainEnv.BOT == null) {
                 Config.QQRobotEnabled = false;
-                ConfigManager manager = new ConfigManager();
-                manager.save();
+                MainEnv.configManager.save();
                 LOGGER.warning("Failed to get bot instance");
             }
         } else {
@@ -47,6 +47,7 @@ public class MainThreadHelper {
         MainEnv.configManager = new ConfigManager();
         MainEnv.dataManager = new DataManager();
         MainEnv.moduleManager = new ModuleManager();
+        MainEnv.commandManager = new CommandManager();
         SetupDirectories();
         MainEnv.dataManager.load();
         MainEnv.configManager.load();

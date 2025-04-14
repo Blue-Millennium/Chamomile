@@ -1,8 +1,7 @@
 package fun.bm.command.main.executor.extra.sub.config;
 
 import fun.bm.command.Command;
-import fun.bm.config.ConfigManager;
-import fun.bm.module.ModuleManager;
+import fun.bm.util.MainEnv;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,11 +26,9 @@ public class Reload extends Command.ExecutorE {
         }
 
         try {
-            ConfigManager manager = new ConfigManager();
             // 调用 load 方法加载配置
-            manager.load();
-            ModuleManager mgr = new ModuleManager();
-            mgr.setupModules(false);
+            MainEnv.configManager.load();
+            MainEnv.moduleManager.setupModules(false);
             sender.sendMessage("重新加载配置文件成功！");
         } catch (Exception e) {
             sender.sendMessage("重新加载配置文件失败！");

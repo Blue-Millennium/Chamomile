@@ -1,6 +1,5 @@
 package fun.bm;
 
-import fun.bm.command.CommandManager;
 import fun.bm.util.MainEnv;
 import fun.bm.util.helper.EmailSender;
 import fun.bm.util.helper.MainThreadHelper;
@@ -20,7 +19,7 @@ public class Chamomile extends JavaPlugin {
     public void onEnable() {
         // 启动逻辑 - Start
         MainThreadHelper.Boot_QQBot();
-        CommandManager.registerCommands();
+        MainEnv.commandManager.registerCommands();
         MainEnv.moduleManager.onEnable();
         // 启动逻辑 - End
         EmailSender.CheckPlugin("启动");

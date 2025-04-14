@@ -2,13 +2,12 @@ package fun.bm.command.main.completer.extra.sub;
 
 
 import fun.bm.command.Command;
+import fun.bm.util.MainEnv;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static fun.bm.config.ConfigManager.getConfigFieldNames;
 
 /**
  * @author Suisuroru
@@ -28,7 +27,7 @@ public class Config extends Command.CompleterE {
             completions.add("set");
         } else if (args.length == 2) {
             if (args[0].equals("query") || args[0].equals("set")) {
-                completions.addAll(getConfigFieldNames());
+                completions.addAll(MainEnv.configManager.getConfigFieldNames());
             }
         }
         return completions;

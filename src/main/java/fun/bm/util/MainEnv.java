@@ -1,6 +1,7 @@
 package fun.bm.util;
 
 import fun.bm.Chamomile;
+import fun.bm.command.CommandManager;
 import fun.bm.config.ConfigManager;
 import fun.bm.data.PlayerData.DataManager;
 import fun.bm.module.ModuleManager;
@@ -25,4 +26,5 @@ public class MainEnv {
     public static DataManager dataManager;
     public static ConfigManager configManager;
     public static ModuleManager moduleManager;
+    public static CommandManager commandManager;
 }
