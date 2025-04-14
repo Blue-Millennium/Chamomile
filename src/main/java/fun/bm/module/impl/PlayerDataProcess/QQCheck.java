@@ -36,43 +36,41 @@ public class QQCheck extends Module {
     }
 
     public static void GroupCheck(GroupMessageEvent event, MessageChainBuilder builder) {
-        if (Config.QQCheckEnabled) {
-            if (builder.build().contentToString().replace(" ", "").replace(Config.QQCheckStartWord, "").equals("test")) {
-                MessageChainBuilder checkMessage;
-                checkMessage = new MessageChainBuilder()
-                        .append("Your account was linked!").append("\n")
-                        .append("Player Name: ").append("test").append("\n")
-                        .append("Linked UserID: ").append("ed0da36d-5cd6-4eb1-8fdb-33823927d2fc").append("\n")
-                        .append("Linked Time: ").append(TimeUtil.getNowTime());
-                event.getGroup().sendMessage(checkMessage.build());
+        if (builder.build().contentToString().replace(" ", "").replace(Config.QQCheckStartWord, "").equals("test")) {
+            MessageChainBuilder checkMessage;
+            checkMessage = new MessageChainBuilder()
+                    .append("Your account was linked!").append("\n")
+                    .append("Player Name: ").append("test").append("\n")
+                    .append("Linked UserID: ").append("ed0da36d-5cd6-4eb1-8fdb-33823927d2fc").append("\n")
+                    .append("Linked Time: ").append(TimeUtil.getNowTime());
+            event.getGroup().sendMessage(checkMessage.build());
+        }
+        boolean check_tag = false;
+        DataGet dp = new DataGet();
+        List<PlayerData> pdl = dp.getPlayerDataByUserID(event.getSender().getId());
+        List<MessageChainBuilder> builderList = new java.util.ArrayList<>(List.of());
+        for (PlayerData pd : pdl) {
+            if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(pd.playerUuid))) {
+                check_tag = true;
+                builderList.add(BuildMessage(event, pd.playerName));
             }
-            boolean check_tag = false;
-            DataGet dp = new DataGet();
-            List<PlayerData> pdl = dp.getPlayerDataByUserID(event.getSender().getId());
-            List<MessageChainBuilder> builderList = new java.util.ArrayList<>(List.of());
-            for (PlayerData pd : pdl) {
-                if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(pd.playerUuid))) {
-                    check_tag = true;
-                    builderList.add(BuildMessage(event, pd.playerName));
-                }
-            }
-            if (check_tag) {
-                MessageChainBuilder finalBuilder = new MessageChainBuilder();
-                for (MessageChainBuilder txt : builderList) {
-                    finalBuilder.add("-----------------\n");
-                    finalBuilder.add(txt.build());
-                }
+        }
+        if (check_tag) {
+            MessageChainBuilder finalBuilder = new MessageChainBuilder();
+            for (MessageChainBuilder txt : builderList) {
                 finalBuilder.add("-----------------\n");
-                event.getGroup().sendMessage(finalBuilder.build());
-            } else {
-                int code;
-                try {
-                    code = Integer.parseInt(builder.build().contentToString().replace(" ", "").replace(Config.QQCheckStartWord, ""));
-                } catch (Exception exception) {
-                    return;
-                }
-                event.getGroup().sendMessage(DataCheck(event, code));
+                finalBuilder.add(txt.build());
             }
+            finalBuilder.add("-----------------\n");
+            event.getGroup().sendMessage(finalBuilder.build());
+        } else {
+            int code;
+            try {
+                code = Integer.parseInt(builder.build().contentToString().replace(" ", "").replace(Config.QQCheckStartWord, ""));
+            } catch (Exception exception) {
+                return;
+            }
+            event.getGroup().sendMessage(DataCheck(event, code));
         }
     }
 
@@ -132,15 +130,13 @@ public class QQCheck extends Module {
         MainEnv.eventChannel.subscribeAlways(FriendMessageEvent.class, event -> {
             String message = event.getMessage().contentToString();
 
-            if (Config.QQCheckEnabled) {
-                int code;
-                try {
-                    code = Integer.parseInt(message);
-                } catch (Exception exception) {
-                    return;
-                }
-                event.getSender().sendMessage(DataCheck(event, code));
+            int code;
+            try {
+                code = Integer.parseInt(message);
+            } catch (Exception exception) {
+                return;
             }
+            event.getSender().sendMessage(DataCheck(event, code));
         });
     }
 
@@ -150,47 +146,45 @@ public class QQCheck extends Module {
             return;
         }
 
-        if (Config.QQCheckEnabled) {
-            Data data = MainEnv.dataManager.getPlayerData(event.getUniqueId());
-            data = NullCheck(data);
-            // 首次登录
-            if (data.qqNumber == 0 || data.userid == 0) {
-                int code;
+        Data data = MainEnv.dataManager.getPlayerData(event.getUniqueId());
+        data = NullCheck(data);
+        // 首次登录
+        if (data.qqNumber == 0 || data.userid == 0) {
+            int code;
 
-                // 生成不重复的验证码
-                do {
-                    for (Map.Entry<PlayerData, Integer> entry : playerCodeMap.entrySet()) {
-                        if (entry.getKey().playerUuid.equals(event.getUniqueId())) {
-                            playerCodeMap.remove(entry.getKey());
-                        }
+            // 生成不重复的验证码
+            do {
+                for (Map.Entry<PlayerData, Integer> entry : playerCodeMap.entrySet()) {
+                    if (entry.getKey().playerUuid.equals(event.getUniqueId())) {
+                        playerCodeMap.remove(entry.getKey());
                     }
-                    code = Math.abs(new Random().nextInt(100000));
-                } while (playerCodeMap.containsValue(code));
-
-                // 加入等待列表
-                PlayerData playerData = new PlayerData();
-                playerData.playerName = event.getName();
-                playerData.playerUuid = event.getUniqueId();
-                playerCodeMap.put(playerData, code);
-
-                if (Config.EnforceCheckEnabled) {
-                    // 拒绝加入服务器
-                    event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.DisTitle.replace("%CODE%", String.valueOf(code)));
-                } else {
-                    LOGGER.info(Config.DisTitle.replace("%CODE%", String.valueOf(code)));
                 }
-                return;
+                code = Math.abs(new Random().nextInt(100000));
+            } while (playerCodeMap.containsValue(code));
+
+            // 加入等待列表
+            PlayerData playerData = new PlayerData();
+            playerData.playerName = event.getName();
+            playerData.playerUuid = event.getUniqueId();
+            playerCodeMap.put(playerData, code);
+
+            if (Config.EnforceCheckEnabled) {
+                // 拒绝加入服务器
+                event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.DisTitle.replace("%CODE%", String.valueOf(code)));
             } else {
-                if (Config.BotModeOfficial) {
-                    data.useridChecked = true;
-                } else {
-                    data.qqChecked = true;
-                }
+                LOGGER.info(Config.DisTitle.replace("%CODE%", String.valueOf(code)));
             }
-
-            // 设置首次登陆数据
-            BaseDataProcess(event, data);
+            return;
+        } else {
+            if (Config.BotModeOfficial) {
+                data.useridChecked = true;
+            } else {
+                data.qqChecked = true;
+            }
         }
+
+        // 设置首次登陆数据
+        BaseDataProcess(event, data);
     }
 
     @EventHandler
@@ -212,7 +206,7 @@ public class QQCheck extends Module {
     }
 
     public void setModuleName() {
-        if (!Config.QQRobotEnabled) {
+        if (!Config.QQRobotEnabled || !Config.QQCheckEnabled) {
             this.moduleName = null;
         }
     }
