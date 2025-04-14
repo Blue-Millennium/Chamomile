@@ -15,27 +15,30 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import static fun.bm.util.MainEnv.LOGGER;
+import static fun.bm.util.helper.EncryptHelper.encrypt;
 
 public class OnlinePush {
     public static Boolean reportRemoteBanList(UnionBanData data) {
         // 创建 JSON 数据
         ObjectMapper objectMapper = new ObjectMapper();
-        ObjectNode dataNode = objectMapper.createObjectNode();
-        dataNode.put("secret", Config.UnionBanReportKey);
-        ObjectNode banDataNode = dataNode.putObject("data");
+        ObjectNode banDataNode = objectMapper.createObjectNode();
         banDataNode.put("playerUuid", String.valueOf(data.playerUuid));
         banDataNode.put("reason", data.reason);
         banDataNode.put("time", data.time);
         banDataNode.put("sourceServer", data.sourceServer);
-        String json = null;
-
+        String base64EncodedJson = null;
+        String json_fin = null;
         try {
-            json = objectMapper.writeValueAsString(dataNode);
+            String json = objectMapper.writeValueAsString(banDataNode);
+            base64EncodedJson = encrypt(json, Config.UnionBanReportKey);
+            ObjectNode dataNode_new = objectMapper.createObjectNode();
+            dataNode_new.put("data", base64EncodedJson);
+            json_fin = objectMapper.writeValueAsString(dataNode_new);
         } catch (JsonProcessingException e) {
             LOGGER.warning("Failed to convert UnionBan data to JSON: " + e.getMessage());
         }
 
-        if (json == null) {
+        if (base64EncodedJson == null) {
             return false;
         }
 
@@ -50,7 +53,7 @@ public class OnlinePush {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(reportUrl))
                     .header("Content-Type", "application/json; utf-8")
-                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .POST(HttpRequest.BodyPublishers.ofString(json_fin))
                     .build();
 
             // 发送请求并获取响应
