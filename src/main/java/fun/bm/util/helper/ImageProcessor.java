@@ -3,7 +3,6 @@ package fun.bm.util.helper;
 import fun.bm.util.MainEnv;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
-import org.bukkit.Bukkit;
 
 /**
  * @author Suisuroru
@@ -14,7 +13,6 @@ public class ImageProcessor {
 
     public static String getImageUrl(Image message) {
         String imageurl = Image.queryUrl(message);
-        Bukkit.getLogger().info("Image url: " + imageurl);
         return imageurl;
     }
 
@@ -33,7 +31,6 @@ public class ImageProcessor {
         try {
             MessageChainBuilder builder = new MessageChainBuilder();
             builder.append("[[CICode,url=").append(imageurl).append("]]");
-            Bukkit.getLogger().info("Processed image " + imageurl);
             return builder.build().contentToString();
         } catch (Exception e) {
             MainEnv.INSTANCE.getServer().broadcastMessage("一个错误发生于Chamomile内部，图片无法被展示，请前往控制台查看");

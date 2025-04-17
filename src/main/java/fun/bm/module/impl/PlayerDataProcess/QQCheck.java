@@ -61,10 +61,10 @@ public class QQCheck extends Module {
         if (check_tag) {
             MessageChainBuilder finalBuilder = new MessageChainBuilder();
             for (MessageChainBuilder txt : builderList) {
-                finalBuilder.add("-----------------\n");
+                finalBuilder.add("\n-----------------\n");
                 finalBuilder.add(txt.build());
             }
-            finalBuilder.add("-----------------\n");
+            finalBuilder.add("\n-----------------\n");
             event.getGroup().sendMessage(finalBuilder.build());
         } else {
             int code;
@@ -130,7 +130,8 @@ public class QQCheck extends Module {
 
     @Override
     public void onEnable() {
-        if (!Config.BotModeOfficial) MainEnv.eventChannel.subscribeAlways(NewFriendRequestEvent.class, NewFriendRequestEvent::accept);
+        if (!Config.BotModeOfficial)
+            MainEnv.eventChannel.subscribeAlways(NewFriendRequestEvent.class, NewFriendRequestEvent::accept);
 
         MainEnv.eventChannel.subscribeAlways(FriendMessageEvent.class, event -> {
             String message = event.getMessage().contentToString();
