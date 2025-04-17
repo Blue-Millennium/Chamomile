@@ -36,37 +36,57 @@ public class DataGet {
     }
 
     public List<PlayerData> getPlayerDataByUserID(long userID) {
-        return dataList.stream()
-                .filter(record -> record.userid == userID)
-                .map(record -> record.playerData)
-                .toList();
+        try {
+            return dataList.stream()
+                    .filter(record -> record.userid == userID)
+                    .map(record -> record.playerData)
+                    .toList();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public List<Data> getPlayersByUserID(long userID) {
-        return dataList.stream()
-                .filter(record -> record.userid == userID)
-                .toList();
+        try {
+            return dataList.stream()
+                    .filter(record -> record.userid == userID)
+                    .toList();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public List<Data> getPlayersByQQ(long qqNumber) {
-        return dataList.stream()
-                .filter(record -> record.qqNumber == qqNumber)
-                .toList();
+        try {
+            return dataList.stream()
+                    .filter(record -> record.qqNumber == qqNumber)
+                    .toList();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public List<Data> getPlayersByName(String playerName) {
-        return dataList.stream()
-                .filter(record -> record.playerData.playerName.equals(playerName))
-                .toList();
+        try {
+            return dataList.stream()
+                    .filter(record -> record.playerData.playerName.equals(playerName))
+                    .toList();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public List<Data> getPlayersByUUID(UUID playerUuid) {
-        return dataList.stream()
-                .filter(record -> {
-                    UUID recordUuid = record.playerData.playerUuid;
-                    return recordUuid.equals(playerUuid);
-                })
-                .toList();
+        try {
+            return dataList.stream()
+                    .filter(record -> {
+                        UUID recordUuid = record.playerData.playerUuid;
+                        return recordUuid.equals(playerUuid);
+                    })
+                    .toList();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public String getPlayersByUserIDAsJson(long userID) {
