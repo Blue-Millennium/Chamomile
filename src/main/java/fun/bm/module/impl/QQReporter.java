@@ -77,7 +77,7 @@ public class QQReporter extends Module {
     }
 
     public void setModuleName() {
-        if (!Config.QQRobotEnabled) {
+        if (!Config.QQRobotEnabled || Config.BotModeOfficial) {
             this.moduleName = null;
         }
     }

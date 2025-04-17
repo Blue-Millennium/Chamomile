@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static fun.bm.util.MainEnv.LOGGER;
+import static fun.bm.util.helper.ImageProcessor.processImageUrl;
 import static fun.bm.util.helper.ImageProcessor.sendImageUrl;
 import static fun.bm.util.helper.RconHelper.executeRconCommand;
 
@@ -66,12 +67,11 @@ public class SyncChat extends Module {
 
             if (!builder.isEmpty()) {
                 if (Config.BotModeOfficial & builder.build().contentToString().replace(" ", "").startsWith(Config.SyncChatStartWord)) {
-//                    String avatar = "头像为" + processImageUrl(event.getSender().getAvatarUrl()) + "的QQ用户";
-                    String avatar = "QQ用户";
+                    String avatar = "QQ用户" + processImageUrl(event.getSender().getAvatarUrl());
                     String id = GetID(event);
                     String message = Config.SayQQMessage.replace("%NAME%", avatar + id + "发送了以下消息").replace("%MESSAGE%", builder.build().contentToString().replace(Config.SyncChatStartWord, ""));
                     sendMessage(message);
-                    event.getGroup().sendMessage("已成功发送消息至服务器，以下为发送至服务器的原始数据：\n" + message);
+                    event.getGroup().sendMessage("已成功发送消息至服务器，以下为发送至服务器的原始数据：\n" + message.replaceAll("\\[\\[CICode,url=[^\\]]*\\]\\]", "[图片]"));
                 } else if (!Config.BotModeOfficial) {
                     sendMessage(Config.SayQQMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()));
                 }
@@ -90,7 +90,7 @@ public class SyncChat extends Module {
     public String GetID(GroupMessageEvent event) {
         DataGet dp = new DataGet();
         List<PlayerData> pd = dp.getPlayerDataByUserID(event.getSender().getId());
-        if (pd.isEmpty()) {
+        if (pd == null) {
             return "(Userid: " + event.getSender().getId() + ")";
         } else {
             StringBuilder sb = new StringBuilder();
@@ -99,6 +99,7 @@ public class SyncChat extends Module {
                 sb.append(p.playerName).append("/");
             }
             sb.delete(sb.length() - 1, sb.length());
+            sb.append(", Userid: " + event.getSender().getId());
             sb.append(")");
             return sb.toString();
         }

@@ -44,24 +44,27 @@ public class QQCheck extends Module {
                     .append("Linked UserID: ").append("ed0da36d-5cd6-4eb1-8fdb-33823927d2fc").append("\n")
                     .append("Linked Time: ").append(TimeUtil.getNowTime());
             event.getGroup().sendMessage(checkMessage.build());
+            return;
         }
         boolean check_tag = false;
         DataGet dp = new DataGet();
         List<PlayerData> pdl = dp.getPlayerDataByUserID(event.getSender().getId());
         List<MessageChainBuilder> builderList = new java.util.ArrayList<>(List.of());
-        for (PlayerData pd : pdl) {
-            if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(pd.playerUuid))) {
-                check_tag = true;
-                builderList.add(BuildMessage(event, pd.playerName));
+        if (pdl != null) {
+            for (PlayerData pd : pdl) {
+                if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(pd.playerUuid))) {
+                    check_tag = true;
+                    builderList.add(BuildMessage(event, pd.playerName));
+                }
             }
         }
         if (check_tag) {
             MessageChainBuilder finalBuilder = new MessageChainBuilder();
             for (MessageChainBuilder txt : builderList) {
-                finalBuilder.add("-----------------\n");
+                finalBuilder.add("\n-----------------\n");
                 finalBuilder.add(txt.build());
             }
-            finalBuilder.add("-----------------\n");
+            finalBuilder.add("\n-----------------\n");
             event.getGroup().sendMessage(finalBuilder.build());
         } else {
             int code;
@@ -84,9 +87,11 @@ public class QQCheck extends Module {
                 Data data = new Data();
                 data.playerData = entry.getKey();
                 if (Config.BotModeOfficial) {
+                    data.useridChecked = true;
                     data.userid = event.getSender().getId();
                     data.useridLinkedTime = System.currentTimeMillis();
                 } else {
+                    data.qqChecked = true;
                     data.qqNumber = event.getSender().getId();
                     data.linkedTime = System.currentTimeMillis();
                 }
@@ -125,7 +130,8 @@ public class QQCheck extends Module {
 
     @Override
     public void onEnable() {
-        MainEnv.eventChannel.subscribeAlways(NewFriendRequestEvent.class, NewFriendRequestEvent::accept);
+        if (!Config.BotModeOfficial)
+            MainEnv.eventChannel.subscribeAlways(NewFriendRequestEvent.class, NewFriendRequestEvent::accept);
 
         MainEnv.eventChannel.subscribeAlways(FriendMessageEvent.class, event -> {
             String message = event.getMessage().contentToString();
@@ -149,7 +155,7 @@ public class QQCheck extends Module {
         Data data = MainEnv.dataManager.getPlayerData(event.getUniqueId());
         data = NullCheck(data);
         // 首次登录
-        if (data.qqNumber == 0 || data.userid == 0) {
+        if (data.qqNumber == 0 && data.userid == 0) {
             int code;
 
             // 生成不重复的验证码
@@ -173,6 +179,7 @@ public class QQCheck extends Module {
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.DisTitle.replace("%CODE%", String.valueOf(code)));
             } else {
                 LOGGER.info(Config.DisTitle.replace("%CODE%", String.valueOf(code)));
+                BaseDataProcess(event, data);
             }
             return;
         } else {
@@ -189,19 +196,21 @@ public class QQCheck extends Module {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        try {
-            Player player = event.getPlayer();
-            int code = -1;
-            for (Map.Entry<PlayerData, Integer> entry : playerCodeMap.entrySet()) {
-                if (entry.getKey().playerUuid.equals(player.getUniqueId())) {
-                    code = entry.getValue();
+        if (!Config.EnforceCheckEnabled) {
+            try {
+                Player player = event.getPlayer();
+                int code = -1;
+                for (Map.Entry<PlayerData, Integer> entry : playerCodeMap.entrySet()) {
+                    if (entry.getKey().playerUuid.equals(player.getUniqueId())) {
+                        code = entry.getValue();
+                    }
                 }
+                if (code != -1) {
+                    player.sendMessage(Config.DisTitle.replace("%CODE%", String.valueOf(code)));
+                }
+            } catch (Exception e) {
+                LOGGER.warning(e.getMessage());
             }
-            if (code != -1) {
-                player.sendMessage(Config.DisTitle.replace("%CODE%", String.valueOf(code)));
-            }
-        } catch (Exception e) {
-            LOGGER.warning(e.getMessage());
         }
     }
 
