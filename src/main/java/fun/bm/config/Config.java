@@ -22,7 +22,7 @@ public class Config {
     public static String BotWsToken = "114514";
     public static String BotWsUrl = "ws://0.0.0.0:3001";
     public static String DisTitle = "[QQLogin] 请完成登录验证, 验证码: %CODE%";
-    public static String ExecuteCommandPrefix = "*#";
+    public static String ExecuteCommandPrefix = "/Rcon ";
     public static String JoinServerMessage = "%NAME% joined the server";
     public static String LeaveServerMessage = "%NAME% left the server";
     public static String QQCheckStartWord = "Check";

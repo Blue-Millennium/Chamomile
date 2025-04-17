@@ -63,7 +63,7 @@ public class ExecuteRcon extends Module {
             }
         }
         MainEnv.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
-            if (!RconGroups.contains(event.getGroup().getId())) {
+            if (!Config.BotModeOfficial && !RconGroups.contains(event.getGroup().getId())) {
                 return;
             }
 
@@ -71,8 +71,7 @@ public class ExecuteRcon extends Module {
             String content = message.contentToString();
 
             if (content.startsWith(Config.ExecuteCommandPrefix)) {
-                int prefixLength = Config.ExecuteCommandPrefix.length();
-                String command = content.substring(prefixLength);
+                String command = content.substring(Config.ExecuteCommandPrefix.length());
                 boolean isOperator = false;
                 if (!Config.BotModeOfficial) {
                     isOperator = event.getSender().getPermission().equals(MemberPermission.ADMINISTRATOR)
