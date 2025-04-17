@@ -50,10 +50,12 @@ public class QQCheck extends Module {
         DataGet dp = new DataGet();
         List<PlayerData> pdl = dp.getPlayerDataByUserID(event.getSender().getId());
         List<MessageChainBuilder> builderList = new java.util.ArrayList<>(List.of());
-        for (PlayerData pd : pdl) {
-            if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(pd.playerUuid))) {
-                check_tag = true;
-                builderList.add(BuildMessage(event, pd.playerName));
+        if (pdl != null) {
+            for (PlayerData pd : pdl) {
+                if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(pd.playerUuid))) {
+                    check_tag = true;
+                    builderList.add(BuildMessage(event, pd.playerName));
+                }
             }
         }
         if (check_tag) {
@@ -176,6 +178,7 @@ public class QQCheck extends Module {
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.DisTitle.replace("%CODE%", String.valueOf(code)));
             } else {
                 LOGGER.info(Config.DisTitle.replace("%CODE%", String.valueOf(code)));
+                BaseDataProcess(event, data);
             }
             return;
         } else {
