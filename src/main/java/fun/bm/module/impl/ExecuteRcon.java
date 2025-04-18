@@ -17,6 +17,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static fun.bm.command.main.executor.extra.sub.report.ReportQuery.message_head;
 import static fun.bm.data.Report.ReportCharmProcess.reportCharmProcess;
 import static fun.bm.util.MainEnv.LOGGER;
 import static fun.bm.util.helper.RconHelper.executeRconCommand;
@@ -106,10 +107,9 @@ public class ExecuteRcon extends Module {
                 MessageChainBuilder message = new MessageChainBuilder();
                 message.append(new PlainText(Config.ServerName + "Console command result: \n"))
                         .append(result[0]);
-                String PREFIX = "[Chamomile Report]\n已查询到以下数据，下面的数据将按照以下顺序排列\n";
-                if (!result[1].isEmpty() && result[1].startsWith(PREFIX)) {
-                    reportCharmProcess(result[1].substring(PREFIX.length()));
-                    message.append(PREFIX)
+                if (!result[1].isEmpty() && result[1].startsWith(message_head)) {
+                    reportCharmProcess(result[1].substring(message_head.length()));
+                    message.append(message_head)
                             .append(event.getGroup().uploadImage(ExternalResource.create(new File(MainEnv.BASE_DIR, "CharmProcess\\latest.png"))));
                 } else {
                     message.append(result[1]);
