@@ -44,8 +44,7 @@ public class ReportQuery extends Command.ExecutorE {
         // 检查发送者是否具有OP权限
         if (!checkNotOperator(sender)) {
             try {
-                String QueryData = query();
-                sender.sendMessage(QueryData);
+                sender.sendMessage(query());
             } catch (Exception e) {
                 sender.sendMessage("查询数据失败！");
                 LOGGER.warning(e.getMessage());
