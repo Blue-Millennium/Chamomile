@@ -35,10 +35,6 @@ public class Data extends Command.CompleterE {
                                 completions.addAll(CommandHelper.GetOnlinePlayerList());
                                 break;
                             }
-                            default: {
-                                sender.sendMessage("Unknown command. Usage: /Chamomile data query [qq|name|uuid] [args...]");
-                                break;
-                            }
                         }
                     }
                     break;
