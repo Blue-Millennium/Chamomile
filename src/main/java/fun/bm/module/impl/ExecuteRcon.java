@@ -11,6 +11,7 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 import net.mamoe.mirai.message.data.PlainText;
 import net.mamoe.mirai.utils.ExternalResource;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -74,17 +75,29 @@ public class ExecuteRcon extends Module {
                 String command = content.replace(Config.ExecuteCommandPrefix, "");
                 while (command.startsWith(" ")) command = command.substring(1);
                 boolean isOperator = false;
+                boolean isAuthenticated = false;
                 if (!Config.BotModeOfficial) {
                     isOperator = event.getSender().getPermission().equals(MemberPermission.ADMINISTRATOR)
                             || event.getSender().getPermission().equals(MemberPermission.OWNER);
                 } else {
                     for (Data data : MainEnv.dataManager.DATA_LIST) {
-                        if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(data.playerData.playerUuid))
-                                && data.useridLinkedGroup == event.getGroup().getId()) {
-                            isOperator = true;
-                            break;
+                        if (data.useridLinkedGroup == event.getGroup().getId()
+                                && data.userid == event.getSender().getId()) {
+                            isAuthenticated = true;
+                            for (OfflinePlayer player : Bukkit.getServer().getOperators()) {
+                                if (player.getUniqueId().equals(data.playerData.playerUuid)) {
+                                    isOperator = true;
+                                    break;
+                                }
+                            }
                         }
                     }
+                }
+                if (!isAuthenticated) {
+                    event.getGroup().sendMessage(new MessageChainBuilder()
+                            .append(new PlainText("您还未绑定账户。"))
+                            .build());
+                    return;
                 }
                 if (Config.RconEnforceOperator) {
                     if (!isOperator) {
