@@ -71,8 +71,9 @@ public class ExecuteRcon extends Module {
             Message message = event.getMessage();
             String content = message.contentToString();
 
-            if (content.startsWith(Config.ExecuteCommandPrefix)) {
-                String command = content.substring(Config.ExecuteCommandPrefix.length());
+            if (content.replace(" ", "").startsWith(Config.ExecuteCommandPrefix.replace(" ", ""))) {
+                String command = content.replace(Config.ExecuteCommandPrefix, "");
+                while (command.startsWith(" ")) command = command.substring(1);
                 boolean isOperator = false;
                 if (!Config.BotModeOfficial) {
                     isOperator = event.getSender().getPermission().equals(MemberPermission.ADMINISTRATOR)

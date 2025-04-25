@@ -66,7 +66,8 @@ public class SyncChat extends Module {
             }
 
             if (!builder.isEmpty()) {
-                if (Config.BotModeOfficial & builder.build().contentToString().replace(" ", "").startsWith(Config.SyncChatStartWord)) {
+                if (Config.BotModeOfficial & builder.build().contentToString().replace(" ", "").startsWith(Config.SyncChatStartWord.replace(" ", ""))) {
+                    while (builder.build().contentToString().startsWith(" ")) builder.remove(0);
                     String avatar = "QQ用户" + processImageUrl(event.getSender().getAvatarUrl());
                     String id = GetID(event);
                     String message = Config.SayQQMessage.replace("%NAME%", avatar + id + "发送了以下消息").replace("%MESSAGE%", builder.build().contentToString().replace(Config.SyncChatStartWord, ""));
