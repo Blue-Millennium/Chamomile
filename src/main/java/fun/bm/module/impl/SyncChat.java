@@ -91,7 +91,7 @@ public class SyncChat extends Module {
     public String GetID(GroupMessageEvent event) {
         DataGet dp = new DataGet();
         List<PlayerData> pd = dp.getPlayerDataByUserID(event.getSender().getId());
-        if (pd == null) {
+        if (pd.isEmpty()) {
             return "(Userid: " + event.getSender().getId() + ")";
         } else {
             StringBuilder sb = new StringBuilder();
