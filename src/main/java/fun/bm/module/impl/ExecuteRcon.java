@@ -11,6 +11,7 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 import net.mamoe.mirai.message.data.PlainText;
 import net.mamoe.mirai.utils.ExternalResource;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -81,10 +82,14 @@ public class ExecuteRcon extends Module {
                 } else {
                     for (Data data : MainEnv.dataManager.DATA_LIST) {
                         if (data.useridLinkedGroup == event.getGroup().getId()
-                                && data.userid == event.getSender().getId()) isAuthenticated = true;
-                        if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(data.playerData.playerUuid))) {
-                            isOperator = true;
-                            break;
+                                && data.userid == event.getSender().getId()) {
+                            isAuthenticated = true;
+                            for (OfflinePlayer player : Bukkit.getServer().getOperators()) {
+                                if (player.getUniqueId().equals(data.playerData.playerUuid)) {
+                                    isOperator = true;
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
@@ -92,7 +97,9 @@ public class ExecuteRcon extends Module {
                     event.getGroup().sendMessage(new MessageChainBuilder()
                             .append(new PlainText("您还未绑定账户。"))
                             .build());
-                } else if (Config.RconEnforceOperator) {
+                    return;
+                }
+                if (Config.RconEnforceOperator) {
                     if (!isOperator) {
                         event.getGroup().sendMessage(new MessageChainBuilder()
                                 .append(new PlainText("您没有权限执行此操作。"))
