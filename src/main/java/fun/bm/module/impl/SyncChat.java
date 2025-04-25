@@ -1,7 +1,7 @@
 package fun.bm.module.impl;
 
 import fun.bm.config.Config;
-import fun.bm.data.AuthData.DataGet;
+import fun.bm.data.PlayerData.Data;
 import fun.bm.data.PlayerData.PlayerData;
 import fun.bm.module.Module;
 import fun.bm.module.impl.PlayerDataProcess.QQCheck;
@@ -89,8 +89,12 @@ public class SyncChat extends Module {
     }
 
     public String GetID(GroupMessageEvent event) {
-        DataGet dp = new DataGet();
-        List<PlayerData> pd = dp.getPlayerDataByUserID(event.getSender().getId());
+        List<PlayerData> pd = new ArrayList<>();
+        for (Data data : MainEnv.dataManager.DATA_LIST) {
+            if (data.userid == event.getSender().getId()
+                    && data.useridLinkedGroup == event.getGroup().getId())
+                pd.add(data.playerData);
+        }
         if (pd.isEmpty()) {
             return "(Userid: " + event.getSender().getId() + ")";
         } else {

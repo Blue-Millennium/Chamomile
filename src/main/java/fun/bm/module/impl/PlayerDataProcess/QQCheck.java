@@ -1,7 +1,6 @@
 package fun.bm.module.impl.PlayerDataProcess;
 
 import fun.bm.config.Config;
-import fun.bm.data.AuthData.DataGet;
 import fun.bm.data.PlayerData.Data;
 import fun.bm.data.PlayerData.PlayerData;
 import fun.bm.module.Module;
@@ -59,15 +58,12 @@ public class QQCheck extends Module {
         } catch (Exception ignored) {
         }
         boolean check_tag = false;
-        DataGet dp = new DataGet();
-        List<PlayerData> pdl = dp.getPlayerDataByUserID(event.getSender().getId());
         List<MessageChainBuilder> builderList = new java.util.ArrayList<>(List.of());
-        if (pdl != null) {
-            for (PlayerData pd : pdl) {
-                if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(pd.playerUuid))) {
-                    check_tag = true;
-                    builderList.add(BuildMessage(event, pd.playerName));
-                }
+        for (Data data : MainEnv.dataManager.DATA_LIST) {
+            if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(data.playerData.playerUuid))
+                    && data.useridLinkedGroup == event.getGroup().getId()) {
+                check_tag = true;
+                builderList.add(BuildMessage(event, data.playerData.playerName));
             }
         }
         if (check_tag) {

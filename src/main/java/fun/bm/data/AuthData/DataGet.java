@@ -3,7 +3,6 @@ package fun.bm.data.AuthData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import fun.bm.data.PlayerData.Data;
-import fun.bm.data.PlayerData.PlayerData;
 import fun.bm.util.MainEnv;
 
 import java.io.File;
@@ -32,17 +31,6 @@ public class DataGet {
         } catch (IOException e) {
             LOGGER.warning(e.getMessage());
             return new ArrayList<>();
-        }
-    }
-
-    public List<PlayerData> getPlayerDataByUserID(long userID) {
-        try {
-            return dataList.stream()
-                    .filter(record -> record.userid == userID)
-                    .map(record -> record.playerData)
-                    .toList();
-        } catch (Exception e) {
-            return null;
         }
     }
 
