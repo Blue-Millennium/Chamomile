@@ -74,19 +74,25 @@ public class ExecuteRcon extends Module {
                 String command = content.replace(Config.ExecuteCommandPrefix, "");
                 while (command.startsWith(" ")) command = command.substring(1);
                 boolean isOperator = false;
+                boolean isAuthenticated = false;
                 if (!Config.BotModeOfficial) {
                     isOperator = event.getSender().getPermission().equals(MemberPermission.ADMINISTRATOR)
                             || event.getSender().getPermission().equals(MemberPermission.OWNER);
                 } else {
                     for (Data data : MainEnv.dataManager.DATA_LIST) {
-                        if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(data.playerData.playerUuid))
-                                && data.useridLinkedGroup == event.getGroup().getId()) {
+                        if (data.useridLinkedGroup == event.getGroup().getId()
+                                && data.userid == event.getSender().getId()) isAuthenticated = true;
+                        if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(data.playerData.playerUuid))) {
                             isOperator = true;
                             break;
                         }
                     }
                 }
-                if (Config.RconEnforceOperator) {
+                if (!isAuthenticated) {
+                    event.getGroup().sendMessage(new MessageChainBuilder()
+                            .append(new PlainText("您还未绑定账户。"))
+                            .build());
+                } else if (Config.RconEnforceOperator) {
                     if (!isOperator) {
                         event.getGroup().sendMessage(new MessageChainBuilder()
                                 .append(new PlainText("您没有权限执行此操作。"))
