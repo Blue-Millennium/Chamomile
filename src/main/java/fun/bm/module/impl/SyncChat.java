@@ -76,7 +76,7 @@ public class SyncChat extends Module {
                 } else if (!Config.BotModeOfficial) {
                     sendMessage(Config.SayQQMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()));
                 }
-                if (builder.build().contentToString().replace(" ", "").startsWith(Config.QQCheckStartWord)) {
+                if (builder.build().contentToString().replace(" ", "").startsWith(Config.QQCheckStartWord.replace(" ", ""))) {
                     QQCheck.GroupCheck(event, builder);
                 }
             }
