@@ -36,7 +36,7 @@ public class QQCheck extends Module {
     }
 
     public static void GroupCheck(GroupMessageEvent event, MessageChainBuilder builder) {
-        if (builder.build().contentToString().replace(" ", "").replace(Config.QQCheckStartWord, "").equals("test")) {
+        if (builder.build().contentToString().replace(" ", "").replace(Config.QQCheckStartWord.replace(" ", ""), "").equals("test")) {
             MessageChainBuilder checkMessage;
             checkMessage = new MessageChainBuilder()
                     .append("Your account was linked!").append("\n")
@@ -155,7 +155,7 @@ public class QQCheck extends Module {
         Data data = MainEnv.dataManager.getPlayerData(event.getUniqueId());
         data = NullCheck(data);
         // 首次登录
-        if (data.qqNumber == 0 && data.userid == 0) {
+        if (data.qqNumber == 0 || data.userid == 0) {
             int code;
 
             // 生成不重复的验证码
@@ -174,10 +174,10 @@ public class QQCheck extends Module {
             playerData.playerUuid = event.getUniqueId();
             playerCodeMap.put(playerData, code);
 
-            if (Config.EnforceCheckEnabled) {
+            if (Config.EnforceCheckEnabled && data.qqNumber == 0 && data.userid == 0) {
                 // 拒绝加入服务器
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.DisTitle.replace("%CODE%", String.valueOf(code)));
-            } else {
+            } else if ((Config.BotModeOfficial && data.userid ==0) || (!Config.BotModeOfficial && data.qqNumber == 0))  {
                 LOGGER.info(Config.DisTitle.replace("%CODE%", String.valueOf(code)));
                 BaseDataProcess(event, data);
             }
