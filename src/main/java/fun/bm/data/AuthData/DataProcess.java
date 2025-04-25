@@ -56,18 +56,19 @@ public class DataProcess {
     }
 
     private static void appendAPPIDData(StringBuilder result, Data data) {
+        boolean flag = false;
         if (data.useridChecked == null) {
             appendIfNotNull(result, "UserID绑定标志: ", "未知");
+            flag = true;
+        } else {
+            appendIfNotNull(result, "UserID绑定标志: ", transferBoolean(data.useridChecked));
+            if (data.useridChecked) flag = true;
+        }
+        if (flag) {
             appendIfNotNull(result, "UserID识别码: ", data.useridChecked);
             appendIfNotNull(result, "UserID绑定的群聊: ", data.useridLinkedGroup);
             appendIfNotNull(result, "UserID绑定时间: ", transferTime(data.useridLinkedTime));
             appendIfNotNull(result, "UserID绑定时间(原始): ", data.useridLinkedTime);
-        } else {
-            appendIfNotNull(result, "UserID绑定标志: ", transferBoolean(data.useridChecked));
-            if (data.useridChecked) {
-                appendIfNotNull(result, "UserID绑定时间: ", transferTime(data.linkedTime));
-                appendIfNotNull(result, "UserID绑定时间(原始): ", data.linkedTime);
-            }
         }
     }
 
