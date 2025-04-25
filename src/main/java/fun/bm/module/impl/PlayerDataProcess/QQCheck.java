@@ -36,16 +36,24 @@ public class QQCheck extends Module {
     }
 
     public static void GroupCheck(GroupMessageEvent event, MessageChainBuilder builder) {
-        if (builder.build().contentToString().replace(" ", "").replace(Config.QQCheckStartWord.replace(" ", ""), "").equals("test")) {
+        String num = builder.build().contentToString().replace(" ", "").replace(Config.QQCheckStartWord.replace(" ", ""), "");
+        int code;
+        if (num.equals("test")) {
             MessageChainBuilder checkMessage;
             checkMessage = new MessageChainBuilder()
+                    .append("\n-----------------\n")
                     .append("Your account was linked!").append("\n")
                     .append("Player Name: ").append("test").append("\n")
                     .append("Linked UserID: ").append("ed0da36d-5cd6-4eb1-8fdb-33823927d2fc").append("\n")
-                    .append("Linked Time: ").append(TimeUtil.getNowTime());
+                    .append("Linked Time: ").append(TimeUtil.getNowTime())
+                    .append("\n-----------------\n");
             event.getGroup().sendMessage(checkMessage.build());
             return;
         }
+        try {
+            code = Integer.parseInt(num);
+            event.getGroup().sendMessage(DataCheck(event, code));
+        } catch (Exception ignored) {}
         boolean check_tag = false;
         DataGet dp = new DataGet();
         List<PlayerData> pdl = dp.getPlayerDataByUserID(event.getSender().getId());
@@ -66,14 +74,6 @@ public class QQCheck extends Module {
             }
             finalBuilder.add("\n-----------------\n");
             event.getGroup().sendMessage(finalBuilder.build());
-        } else {
-            int code;
-            try {
-                code = Integer.parseInt(builder.build().contentToString().replace(" ", "").replace(Config.QQCheckStartWord, ""));
-            } catch (Exception exception) {
-                return;
-            }
-            event.getGroup().sendMessage(DataCheck(event, code));
         }
     }
 
