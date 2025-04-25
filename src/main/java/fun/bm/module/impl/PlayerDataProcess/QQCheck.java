@@ -107,9 +107,13 @@ public class QQCheck extends Module {
                     data.qqNumber = event.getSender().getId();
                     data.linkedTime = System.currentTimeMillis();
                 }
-                if (!flag) data.playerData = entry.getKey();
-                MainEnv.dataManager.DATA_LIST.add(data);
-                MainEnv.dataManager.save();
+                if (flag) {
+                    MainEnv.dataManager.setPlayerData(data.playerData.playerUuid, data);
+                } else {
+                    data.playerData = entry.getKey();
+                    MainEnv.dataManager.DATA_LIST.add(data);
+                    MainEnv.dataManager.save();
+                }
 
                 // 构建确认消息
                 checkMessage = BuildMessage(event, data.playerData.playerName);
