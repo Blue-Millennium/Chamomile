@@ -56,10 +56,6 @@ public class Chamomile extends Command.CompleterE {
                     completions = kill.onTabComplete(sender, command, label, subArgs);
                     break;
                 }
-                default: {
-                    sender.sendMessage("Unknown command. Usage: /chamomile config [reload|query|set] [args...]");
-                    break;
-                }
             }
         }
         return completions;

@@ -16,6 +16,7 @@ import static fun.bm.util.helper.CommandHelper.checkNotOperator;
  * function: Query report data
  */
 public class ReportQuery extends Command.ExecutorE {
+    public static String message_head = "[Chamomile Report]\n已查询到以下数据，下面的数据将按照以下顺序排列\n";
 
     public ReportQuery() {
         super("query-report");
@@ -24,7 +25,7 @@ public class ReportQuery extends Command.ExecutorE {
     public static String query() {
         List<List<String>> data = ReportDataActions.ReadReportFile();
         StringBuilder sb = new StringBuilder();
-        sb.append("[Chamomile Report]\n已查询到以下数据，下面的数据将按照以下顺序排列\n");
+        sb.append(message_head);
 
         int index = 0;
         for (List<String> row : data) {
@@ -43,8 +44,7 @@ public class ReportQuery extends Command.ExecutorE {
         // 检查发送者是否具有OP权限
         if (!checkNotOperator(sender)) {
             try {
-                String QueryData = query();
-                sender.sendMessage(QueryData);
+                sender.sendMessage(query());
             } catch (Exception e) {
                 sender.sendMessage("查询数据失败！");
                 LOGGER.warning(e.getMessage());
