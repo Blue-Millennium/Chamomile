@@ -1,7 +1,6 @@
 package fun.bm.module.impl.PlayerDataProcess;
 
 import fun.bm.config.Config;
-import fun.bm.data.AuthData.DataGet;
 import fun.bm.data.PlayerData.Data;
 import fun.bm.data.PlayerData.PlayerData;
 import fun.bm.module.Module;
@@ -59,15 +58,12 @@ public class QQCheck extends Module {
         } catch (Exception ignored) {
         }
         boolean check_tag = false;
-        DataGet dp = new DataGet();
-        List<PlayerData> pdl = dp.getPlayerDataByUserID(event.getSender().getId());
         List<MessageChainBuilder> builderList = new java.util.ArrayList<>(List.of());
-        if (pdl != null) {
-            for (PlayerData pd : pdl) {
-                if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(pd.playerUuid))) {
-                    check_tag = true;
-                    builderList.add(BuildMessage(event, pd.playerName));
-                }
+        for (Data data : MainEnv.dataManager.DATA_LIST) {
+            if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(data.playerData.playerUuid))
+                    && data.useridLinkedGroup == event.getGroup().getId()) {
+                check_tag = true;
+                builderList.add(BuildMessage(event, data.playerData.playerName));
             }
         }
         if (check_tag) {
@@ -100,6 +96,8 @@ public class QQCheck extends Module {
                 }
                 if (Config.BotModeOfficial) {
                     data.useridChecked = true;
+                    if (event instanceof GroupMessageEvent)
+                        data.useridLinkedGroup = ((GroupMessageEvent) event).getGroup().getId();
                     data.userid = event.getSender().getId();
                     data.useridLinkedTime = System.currentTimeMillis();
                 } else {
@@ -174,7 +172,7 @@ public class QQCheck extends Module {
         Data data = MainEnv.dataManager.getPlayerData(event.getUniqueId());
         data = NullCheck(data);
         // 首次登录
-        if (data.qqNumber == 0 || data.userid == 0) {
+        if (data.qqNumber == 0 || data.userid == 0 || data.useridLinkedGroup == 0) {
             int code;
 
             // 生成不重复的验证码
@@ -196,7 +194,8 @@ public class QQCheck extends Module {
             if (Config.EnforceCheckEnabled && data.qqNumber == 0 && data.userid == 0) {
                 // 拒绝加入服务器
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.DisTitle.replace("%CODE%", String.valueOf(code)));
-            } else if ((Config.BotModeOfficial && data.userid == 0) || (!Config.BotModeOfficial && data.qqNumber == 0)) {
+            } else if ((Config.BotModeOfficial && (data.userid == 0 || data.useridLinkedGroup == 0))
+                    || (!Config.BotModeOfficial && data.qqNumber == 0)) {
                 LOGGER.info(Config.DisTitle.replace("%CODE%", String.valueOf(code)));
                 BaseDataProcess(event, data);
             }

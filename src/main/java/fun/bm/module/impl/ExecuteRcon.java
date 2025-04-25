@@ -1,8 +1,7 @@
 package fun.bm.module.impl;
 
 import fun.bm.config.Config;
-import fun.bm.data.AuthData.DataGet;
-import fun.bm.data.PlayerData.PlayerData;
+import fun.bm.data.PlayerData.Data;
 import fun.bm.module.Module;
 import fun.bm.util.MainEnv;
 import net.mamoe.mirai.contact.MemberPermission;
@@ -79,10 +78,9 @@ public class ExecuteRcon extends Module {
                     isOperator = event.getSender().getPermission().equals(MemberPermission.ADMINISTRATOR)
                             || event.getSender().getPermission().equals(MemberPermission.OWNER);
                 } else {
-                    DataGet dp = new DataGet();
-                    List<PlayerData> PlayerDataList = dp.getPlayerDataByUserID(event.getSender().getId());
-                    for (PlayerData pd : PlayerDataList) {
-                        if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(pd.playerUuid))) {
+                    for (Data data : MainEnv.dataManager.DATA_LIST) {
+                        if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(data.playerData.playerUuid))
+                                && data.useridLinkedGroup == event.getGroup().getId()) {
                             isOperator = true;
                             break;
                         }

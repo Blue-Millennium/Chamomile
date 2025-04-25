@@ -13,6 +13,7 @@ public class Data {
     public long qqNumber;
     public long linkedTime;
     public long userid;
+    public long useridLinkedGroup;
     public long useridLinkedTime;
     public String firstJoinIp = null;
     public String lastJoinIp = null;
