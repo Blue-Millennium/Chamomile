@@ -52,8 +52,12 @@ public class QQCheck extends Module {
         }
         try {
             code = Integer.parseInt(num);
-            event.getGroup().sendMessage(DataCheck(event, code));
-        } catch (Exception ignored) {}
+            if (code != 0) {
+                event.getGroup().sendMessage(DataCheck(event, code));
+                return;
+            }
+        } catch (Exception ignored) {
+        }
         boolean check_tag = false;
         DataGet dp = new DataGet();
         List<PlayerData> pdl = dp.getPlayerDataByUserID(event.getSender().getId());
@@ -84,8 +88,16 @@ public class QQCheck extends Module {
                 playerCodeMap.remove(entry.getKey());
 
                 // 保存数据
-                Data data = new Data();
-                data.playerData = entry.getKey();
+                Data data;
+                boolean flag = false;
+                data = new Data();
+                for (Data data1 : MainEnv.dataManager.DATA_LIST) {
+                    if (data1.playerData.playerUuid.equals(entry.getKey().playerUuid)) {
+                        data = data1;
+                        flag = true;
+                        break;
+                    }
+                }
                 if (Config.BotModeOfficial) {
                     data.useridChecked = true;
                     data.userid = event.getSender().getId();
@@ -95,11 +107,12 @@ public class QQCheck extends Module {
                     data.qqNumber = event.getSender().getId();
                     data.linkedTime = System.currentTimeMillis();
                 }
+                if (!flag) data.playerData = entry.getKey();
                 MainEnv.dataManager.DATA_LIST.add(data);
                 MainEnv.dataManager.save();
 
                 // 构建确认消息
-                checkMessage = BuildMessage(event, entry.getKey().playerName);
+                checkMessage = BuildMessage(event, data.playerData.playerName);
             }
         }
         return checkMessage.build();
@@ -109,6 +122,7 @@ public class QQCheck extends Module {
     private static MessageChainBuilder BuildMessage(MessageEvent event, String playerName) {
         MessageChainBuilder checkMessage;
         checkMessage = new MessageChainBuilder()
+                .append("\n-----------------\n")
                 .append("Your account was linked!").append("\n")
                 .append("Player Name: ").append(playerName).append("\n");
         if (Config.BotModeOfficial) {
@@ -118,6 +132,7 @@ public class QQCheck extends Module {
             checkMessage.append("Linked QQ: ").append(String.valueOf(event.getSender().getId())).append("\n")
                     .append("Linked Time: ").append(TimeUtil.getNowTime());
         }
+        checkMessage.append("\n-----------------\n");
         return checkMessage;
     }
 
@@ -177,7 +192,7 @@ public class QQCheck extends Module {
             if (Config.EnforceCheckEnabled && data.qqNumber == 0 && data.userid == 0) {
                 // 拒绝加入服务器
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.DisTitle.replace("%CODE%", String.valueOf(code)));
-            } else if ((Config.BotModeOfficial && data.userid ==0) || (!Config.BotModeOfficial && data.qqNumber == 0))  {
+            } else if ((Config.BotModeOfficial && data.userid == 0) || (!Config.BotModeOfficial && data.qqNumber == 0)) {
                 LOGGER.info(Config.DisTitle.replace("%CODE%", String.valueOf(code)));
                 BaseDataProcess(event, data);
             }
