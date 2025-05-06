@@ -227,6 +227,8 @@ public class QQCheck extends Module {
                 if (code != -1 && ((Config.BotModeOfficial && (data.userid == 0 || data.useridLinkedGroup == 0))
                         || (!Config.BotModeOfficial && data.qqNumber == 0))) {
                     player.sendMessage(Config.DisTitle.replace("%CODE%", String.valueOf(code)));
+                } else {
+                    player.sendMessage(Config.ConnTitle);
                 }
             } catch (Exception e) {
                 LOGGER.warning(e.getMessage());

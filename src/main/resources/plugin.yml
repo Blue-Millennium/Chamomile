@@ -48,6 +48,9 @@ commands:
   bind:
     description: Link account and qq
     usage: /bind name qq
+  check:
+    description: add or delete check data
+    usage: /check [del|verify] [args...]
   chamomile:
     description: Chamomile functions
     usage: /chamomile [help|data|report|reload|query-report] [args...]
