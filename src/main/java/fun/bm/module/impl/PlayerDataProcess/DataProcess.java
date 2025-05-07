@@ -2,8 +2,8 @@ package fun.bm.module.impl.PlayerDataProcess;
 
 import fun.bm.config.Config;
 import fun.bm.data.PlayerData.Data;
-import fun.bm.data.PlayerData.OldName;
-import fun.bm.data.PlayerData.PlayerData;
+import fun.bm.data.PlayerData.subData.OldName;
+import fun.bm.data.PlayerData.subData.PlayerData;
 import fun.bm.module.Module;
 import fun.bm.util.MainEnv;
 import org.bukkit.event.EventHandler;

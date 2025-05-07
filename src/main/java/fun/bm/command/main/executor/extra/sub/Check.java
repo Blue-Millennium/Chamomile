@@ -20,11 +20,11 @@ public class Check extends Command.ExecutorE {
         if (args.length == 0) {
             if (command.getName().equals("check")) {
                 sender.sendMessage("§c删除已经绑定的数据: /check del");
-                sender.sendMessage("§c再次绑定数据的数据: /check verify");
+                sender.sendMessage("§c再次绑定数据: /check verify");
             } else {
                 sender.sendMessage("在下方的指令中，您可以使用cm来代替输入chamomile");
                 sender.sendMessage("§c删除已经绑定的数据: /chamomile check del");
-                sender.sendMessage("§c再次绑定数据的数据: /chamomile check verify");
+                sender.sendMessage("§c再次绑定数据: /chamomile check verify");
             }
         } else {
             String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
