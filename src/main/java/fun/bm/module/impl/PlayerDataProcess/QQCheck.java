@@ -193,21 +193,13 @@ public class QQCheck extends Module {
         data = NullCheck(data);
         // 首次登录
         int code = generateCode(data);
-        if (data.qqNumber == 0 || data.userid == 0 || data.useridLinkedGroup == 0) {
-            if (Config.EnforceCheckEnabled && data.qqNumber == 0 && (data.userid == 0 || data.useridLinkedGroup == 0)) {
-                // 拒绝加入服务器
-                event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.DisTitle.replace("%CODE%", String.valueOf(code)));
-            } else if ((Config.BotModeOfficial && (data.userid == 0 || data.useridLinkedGroup == 0))
-                    || (!Config.BotModeOfficial && data.qqNumber == 0)) {
-                BaseDataProcess(event, data);
-            }
-            return;
-        } else {
-            if (Config.BotModeOfficial) {
-                data.useridChecked = true;
-            } else {
-                data.qqChecked = true;
-            }
+        if (Config.EnforceCheckEnabled && data.qqNumber == 0 && (data.userid == 0 || data.useridLinkedGroup == 0)) {
+            // 拒绝加入服务器
+            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.DisTitle.replace("%CODE%", String.valueOf(code)));
+        } else if (Config.BotModeOfficial && data.qqNumber != 0) {
+            data.useridChecked = true;
+        } else if (!Config.BotModeOfficial && data.userid != 0 && data.useridLinkedGroup != 0) {
+            data.qqChecked = true;
         }
 
         // 设置首次登陆数据
