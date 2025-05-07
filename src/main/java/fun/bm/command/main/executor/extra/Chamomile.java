@@ -25,7 +25,6 @@ public class Chamomile extends Command.ExecutorE {
     Data data = new Data();
     Check check = new Check();
     Kill kill = new Kill();
-    Rcon rcon = new Rcon();
 
     public Chamomile() {
         super("chamomile");
@@ -64,10 +63,6 @@ public class Chamomile extends Command.ExecutorE {
                 }
                 case "kill": {
                     kill.onCommand(sender, command, label, subArgs);
-                    break;
-                }
-                case "rcon": {
-                    rcon.onCommand(sender, command, label, subArgs);
                     break;
                 }
                 case "check": {

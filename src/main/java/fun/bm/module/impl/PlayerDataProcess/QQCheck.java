@@ -19,7 +19,10 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import static fun.bm.module.impl.PlayerDataProcess.DataProcess.BaseDataProcess;
 import static fun.bm.util.MainEnv.LOGGER;
@@ -141,6 +144,27 @@ public class QQCheck extends Module {
         return data;
     }
 
+    public static int generateCode(Data data) {
+        int code;
+
+        // 生成不重复的验证码
+        do {
+            for (Map.Entry<PlayerData, Integer> entry : playerCodeMap.entrySet()) {
+                if (entry.getKey().playerUuid.equals(data.playerData.playerUuid)) {
+                    playerCodeMap.remove(entry.getKey());
+                }
+            }
+            code = Math.abs(new Random().nextInt(100000));
+        } while (playerCodeMap.containsValue(code));
+
+        // 加入等待列表
+        PlayerData playerData = new PlayerData();
+        playerData.playerName = data.playerData.playerName;
+        playerData.playerUuid = data.playerData.playerUuid;
+        playerCodeMap.put(playerData, code);
+        return code;
+    }
+
     @Override
     public void onEnable() {
         if (!Config.BotModeOfficial)
@@ -188,27 +212,6 @@ public class QQCheck extends Module {
 
         // 设置首次登陆数据
         BaseDataProcess(event, data);
-    }
-
-    public static int generateCode(Data data) {
-        int code;
-
-        // 生成不重复的验证码
-        do {
-            for (Map.Entry<PlayerData, Integer> entry : playerCodeMap.entrySet()) {
-                if (entry.getKey().playerUuid.equals(data.playerData.playerUuid)) {
-                    playerCodeMap.remove(entry.getKey());
-                }
-            }
-            code = Math.abs(new Random().nextInt(100000));
-        } while (playerCodeMap.containsValue(code));
-
-        // 加入等待列表
-        PlayerData playerData = new PlayerData();
-        playerData.playerName = data.playerData.playerName;
-        playerData.playerUuid = data.playerData.playerUuid;
-        playerCodeMap.put(playerData, code);
-        return code;
     }
 
     @EventHandler

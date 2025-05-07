@@ -42,9 +42,6 @@ commands:
     description: Delete reports
     usage: /del-report <timestamp>
     aliases: [ dr ]
-  rcon:
-    description: Rcon functions
-    usage: /rcon ip:port psd command
   bind:
     description: Link account and qq
     usage: /bind name qq
