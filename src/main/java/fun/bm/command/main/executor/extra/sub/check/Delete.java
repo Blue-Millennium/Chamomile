@@ -4,14 +4,12 @@ import fun.bm.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
-public class Delete extends Command.CompleterE {
+public class Delete extends Command.ExecutorE {
     public Delete() {
         super(null);
     }
 
-    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-        return List.of();
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+        return true;
     }
 }

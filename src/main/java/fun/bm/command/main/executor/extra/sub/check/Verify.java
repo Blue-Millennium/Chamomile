@@ -4,14 +4,12 @@ import fun.bm.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
-public class Verify extends Command.CompleterE {
+public class Verify extends Command.ExecutorE {
     public Verify() {
         super(null);
     }
 
-    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-        return List.of();
+    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+        return true;
     }
 }
