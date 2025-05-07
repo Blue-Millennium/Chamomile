@@ -3,7 +3,7 @@ package fun.bm.util;
 import fun.bm.Chamomile;
 import fun.bm.command.CommandManager;
 import fun.bm.config.ConfigManager;
-import fun.bm.data.PlayerData.DataManager;
+import fun.bm.data.LoginData.DataManager;
 import fun.bm.module.ModuleManager;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.event.GlobalEventChannel;

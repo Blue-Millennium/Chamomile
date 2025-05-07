@@ -1,13 +1,13 @@
 package fun.bm.command.main.executor.extra.sub.data.query;
 
 import fun.bm.command.Command;
-import fun.bm.data.AuthData.DataGet;
+import fun.bm.data.DataProcessor.Data.DataGet;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-import static fun.bm.data.AuthData.DataProcess.ProcessFinalData;
+import static fun.bm.data.DataProcessor.Data.DataStringBuilder.buildDataString;
 import static fun.bm.util.MainEnv.LOGGER;
 import static fun.bm.util.helper.CommandHelper.checkNotOperator;
 
@@ -37,7 +37,7 @@ public class DataQueryByUUID extends Command.ExecutorE {
             return true;
         }
         String playerJson = dataGet.getPlayersByUUIDAsJson(Uuid);
-        return ProcessFinalData(sender, playerJson);
+        return buildDataString(sender, playerJson);
     }
 
     private String insertHyphens(String uuid) {

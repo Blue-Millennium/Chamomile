@@ -13,19 +13,15 @@ public class ReportDelete extends Command.ExecutorE {
 
     public boolean executorMain(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
         if (!checkNotOperator(sender)) {
-            if (args.length == 0) {
+            if (args.length == 0 || !args[0].matches("\\d+")) {
                 ReportQuery rq = new ReportQuery();
                 rq.executorMain(sender, command, label, args);
-                sender.sendMessage("请输入时间戳");
-            } else if (!args[0].matches("\\d+")) {
-                ReportQuery rq = new ReportQuery();
-                rq.executorMain(sender, command, label, args);
-                sender.sendMessage("请输入时间戳");
+                sender.sendMessage("§4请输入时间戳");
             } else {
                 if (ReportDataManager.deleteData(args[0])) {
-                    sender.sendMessage("尝试删除成功");
+                    sender.sendMessage("§c尝试删除成功");
                 } else {
-                    sender.sendMessage("删除失败");
+                    sender.sendMessage("§4删除失败");
                 }
             }
         }

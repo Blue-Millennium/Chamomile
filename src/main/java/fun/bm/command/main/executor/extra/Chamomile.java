@@ -23,8 +23,8 @@ public class Chamomile extends Command.ExecutorE {
     Config config = new Config();
     Help help = new Help();
     Data data = new Data();
+    Check check = new Check();
     Kill kill = new Kill();
-    Rcon rcon = new Rcon();
 
     public Chamomile() {
         super("chamomile");
@@ -32,11 +32,8 @@ public class Chamomile extends Command.ExecutorE {
 
     public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
-            if (command.getName().equals("cm")) {
-                sender.sendMessage("§c使用/cm help来获取帮助");
-            } else if (command.getName().equals("Chamomile")) {
-                sender.sendMessage("§c使用/chamomile help来获取帮助");
-            }
+            sender.sendMessage("在下方的指令中，您可以使用cm来代替输入chamomile");
+            sender.sendMessage("§c使用/chamomile help来获取帮助");
         } else {
             String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
             switch (args[0].toLowerCase()) {
@@ -68,12 +65,12 @@ public class Chamomile extends Command.ExecutorE {
                     kill.onCommand(sender, command, label, subArgs);
                     break;
                 }
-                case "rcon": {
-                    rcon.onCommand(sender, command, label, subArgs);
+                case "check": {
+                    check.onCommand(sender, command, label, subArgs);
                     break;
                 }
                 default: {
-                    sender.sendMessage("Unknown command. Usage: /chamomile [report|reload|config|data|kill|query-report|del-report] [args...]");
+                    sender.sendMessage("Unknown command. Usage: /chamomile [report|reload|config|data|check|kill|query-report|del-report] [args...]");
                     break;
                 }
             }

@@ -98,7 +98,7 @@ public class Command {
             this.commandName = commandName;
         }
 
-        public void setCommandName() {
+        public void setupCommand() {
         }
     }
 
@@ -109,7 +109,7 @@ public class Command {
             super(commandName);
         }
 
-        public void setCommandName() {
+        public void setupCommand() {
             if (!Config.VanillaCommandsRewritten) {
                 vanilla = true;
             }

@@ -78,7 +78,7 @@ public class Ban extends Command.ExecutorV {
 
             if (result) {
                 // 额外操作---to UnionBan
-                TransferToUnionBan(targetPlayer, sender, reason);
+                transferToUnionBan(targetPlayer, sender, reason);
             }
 
             return result;
@@ -87,7 +87,7 @@ public class Ban extends Command.ExecutorV {
         }
     }
 
-    private void TransferToUnionBan(Player targetPlayer, CommandSender sender, String reason) {
+    private void transferToUnionBan(Player targetPlayer, CommandSender sender, String reason) {
         String message = "玩家 " + targetPlayer.getName() + " 已被 " + sender.getName() + " 以[ " + reason + " ]的理由封禁";
         BanMessage("Local", message);
         if (!Config.UnionBanCheckOnly) {

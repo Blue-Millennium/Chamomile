@@ -1,8 +1,8 @@
 package fun.bm.module.impl;
 
 import fun.bm.config.Config;
-import fun.bm.data.PlayerData.Data;
-import fun.bm.data.PlayerData.PlayerData;
+import fun.bm.data.LoginData.Data;
+import fun.bm.data.LoginData.PlayerData.PlayerData;
 import fun.bm.module.Module;
 import fun.bm.module.impl.PlayerDataProcess.QQCheck;
 import fun.bm.util.MainEnv;

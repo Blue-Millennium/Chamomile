@@ -43,7 +43,6 @@ public class Data extends Command.ExecutorE {
                     break;
                 }
             }
-
         }
         return true;
     }

@@ -42,13 +42,13 @@ commands:
     description: Delete reports
     usage: /del-report <timestamp>
     aliases: [ dr ]
-  rcon:
-    description: Rcon functions
-    usage: /rcon ip:port psd command
   bind:
     description: Link account and qq
     usage: /bind name qq
+  check:
+    description: add or delete check data
+    usage: /check [del|verify] [args...]
   chamomile:
     description: Chamomile functions
-    usage: /chamomile [help|data|report|reload|query-report] [args...]
+    usage: /chamomile [help|report|reload|config|data|check|kill|query-report|del-report] [args...]
     aliases: [ cm ]

@@ -21,6 +21,7 @@ public class Config {
     public static int RconPort = 25575;
     public static String BotWsToken = "114514";
     public static String BotWsUrl = "ws://0.0.0.0:3001";
+    public static String ConnTitle = "[QQLogin] 您已经绑定了一个账户，如果需要删除或添加绑定，请使用/check [del|verify] [args...]";
     public static String DisTitle = "[QQLogin] 请完成登录验证, 验证码: %CODE%";
     public static String ExecuteCommandPrefix = "/Rcon ";
     public static String JoinServerMessage = "%NAME% joined the server";

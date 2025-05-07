@@ -1,10 +1,7 @@
 package fun.bm.command.main.completer.extra;
 
 import fun.bm.command.Command;
-import fun.bm.command.main.completer.extra.sub.Config;
-import fun.bm.command.main.completer.extra.sub.Data;
-import fun.bm.command.main.completer.extra.sub.Kill;
-import fun.bm.command.main.completer.extra.sub.Report;
+import fun.bm.command.main.completer.extra.sub.*;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,15 +15,17 @@ import java.util.List;
  * function: Provides tab completion for the Chamomile command
  */
 public class Chamomile extends Command.CompleterE {
+    Config config = new Config();
+    Report report = new Report();
+    Data data = new Data();
+    Kill kill = new Kill();
+    Check check = new Check();
+
     public Chamomile() {
         super("chamomile");
     }
 
     public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-        Config config = new Config();
-        Report report = new Report();
-        Data data = new Data();
-        Kill kill = new Kill();
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             completions.add("help");
@@ -36,7 +35,6 @@ public class Chamomile extends Command.CompleterE {
             completions.add("query-report");
             completions.add("del-report");
             completions.add("kill");
-            completions.add("rcon");
         } else if (args.length >= 2) {
             String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
             switch (args[0].toLowerCase()) {
@@ -50,6 +48,10 @@ public class Chamomile extends Command.CompleterE {
                 }
                 case "data": {
                     completions = data.onTabComplete(sender, command, label, subArgs);
+                    break;
+                }
+                case "check": {
+                    completions = check.onTabComplete(sender, command, label, subArgs);
                     break;
                 }
                 case "kill": {
