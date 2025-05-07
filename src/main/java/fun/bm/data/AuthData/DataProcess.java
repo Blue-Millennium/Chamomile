@@ -3,7 +3,10 @@ package fun.bm.data.AuthData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import fun.bm.data.PlayerData.Data;
+import fun.bm.data.PlayerData.subData.LinkData;
 import fun.bm.data.PlayerData.subData.OldName;
+import fun.bm.data.PlayerData.subData.QQLinkData;
+import fun.bm.data.PlayerData.subData.UseridLinkData;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,8 +29,7 @@ public class DataProcess {
         appendIfNotNull(result, "首次加入时间(原始): ", data.firstJoin);
         appendIfNotNull(result, "最后加入时间: ", transferTime(data.lastJoin));
         appendIfNotNull(result, "最后加入时间(原始): ", data.lastJoin);
-        appendQQData(result, data);
-        appendAPPIDData(result, data);
+        appendLinkData(result, data);
         appendIfNotNull(result, "首次加入IP: ", data.firstJoinIp);
         appendIfNotNull(result, "最后加入IP: ", data.lastJoinIp);
 
@@ -40,36 +42,47 @@ public class DataProcess {
         }
     }
 
-    private static void appendQQData(StringBuilder result, Data data) {
-        if (data.qqChecked == null) {
-            appendIfNotNull(result, "QQ绑定标志: ", "未知");
-            appendIfNotNull(result, "QQ号码: ", data.qqNumber);
-            appendIfNotNull(result, "QQ绑定时间: ", transferTime(data.linkedTime));
-            appendIfNotNull(result, "QQ绑定时间(原始): ", data.linkedTime);
-        } else {
-            appendIfNotNull(result, "QQ绑定标志: ", transferBoolean(data.qqChecked));
-            if (data.qqChecked) {
-                appendIfNotNull(result, "QQ绑定时间: ", transferTime(data.linkedTime));
-                appendIfNotNull(result, "QQ绑定时间(原始): ", data.linkedTime);
+    private static void appendIfNotNull(StringBuilder result, Object value) {
+        if (value != null) {
+            result.append(value).append("\n");
+        }
+    }
+
+    private static void appendLinkData(StringBuilder result, Data data) {
+        appendIfNotNull(result, "QQ绑定标志: ", transferBoolean(data.qqChecked));
+        appendIfNotNull(result, "UserID绑定标志: ", transferBoolean(data.useridChecked));
+        if (data.linkData != null) {
+            appendIfNotNull(result, "§a-------------------");
+            if (data.linkData.size() > 1) {
+                appendIfNotNull(result, "§a查询到多个绑定数据，共 " + data.linkData.size() + " 个");
+                appendIfNotNull(result, "§a-------------------");
+            }
+            for (LinkData linkData : data.linkData) {
+                try {
+                    if (linkData instanceof QQLinkData) {
+                        appendQQData(result, (QQLinkData) linkData);
+                    } else if (linkData instanceof UseridLinkData) {
+                        appendUseridData(result, (UseridLinkData) linkData);
+                    }
+                    appendIfNotNull(result, "§a-------------------");
+                } catch (Exception e) {
+                    LOGGER.warning(e.getMessage());
+                }
             }
         }
     }
 
-    private static void appendAPPIDData(StringBuilder result, Data data) {
-        boolean flag = false;
-        if (data.useridChecked == null) {
-            appendIfNotNull(result, "UserID绑定标志: ", "未知");
-            flag = true;
-        } else {
-            appendIfNotNull(result, "UserID绑定标志: ", transferBoolean(data.useridChecked));
-            if (data.useridChecked) flag = true;
-        }
-        if (flag) {
-            appendIfNotNull(result, "UserID识别码: ", data.userid);
-            appendIfNotNull(result, "UserID绑定的群聊: ", data.useridLinkedGroup);
-            appendIfNotNull(result, "UserID绑定时间: ", transferTime(data.useridLinkedTime));
-            appendIfNotNull(result, "UserID绑定时间(原始): ", data.useridLinkedTime);
-        }
+    private static void appendQQData(StringBuilder result, QQLinkData data) {
+        appendIfNotNull(result, "QQ号码: ", data.qqNumber);
+        appendIfNotNull(result, "QQ绑定时间: ", transferTime(data.linkedTime));
+        appendIfNotNull(result, "QQ绑定时间(原始): ", data.linkedTime);
+    }
+
+    private static void appendUseridData(StringBuilder result, UseridLinkData data) {
+        appendIfNotNull(result, "UserID识别码: ", data.userid);
+        appendIfNotNull(result, "UserID绑定的群聊: ", data.useridLinkedGroup);
+        appendIfNotNull(result, "UserID绑定时间: ", transferTime(data.linkedTime));
+        appendIfNotNull(result, "UserID绑定时间(原始): ", data.linkedTime);
     }
 
     private static void appendPlayerData(StringBuilder result, Data data) {
@@ -88,7 +101,7 @@ public class DataProcess {
 
     private static void appendOldNameData(StringBuilder result, List<OldName> oldNamesList) {
         if (!oldNamesList.isEmpty()) {
-            appendIfNotNull(result, "旧的玩家名称: ", "存在，共 " + oldNamesList.size() + " 个");
+            appendIfNotNull(result, "旧的玩家名称: 存在，共 " + oldNamesList.size() + " 个");
             int i = 1;
             for (OldName oldName : oldNamesList) {
                 appendIfNotNull(result, "玩家名称 " + i + " : ", oldName.oldName);
@@ -102,6 +115,9 @@ public class DataProcess {
 
     private static String transferBoolean(Boolean value) {
         try {
+            if (value == null) {
+                return "未知";
+            }
             if (value) {
                 return "是";
             } else {
@@ -121,19 +137,19 @@ public class DataProcess {
             List<Object> playerList = gson.fromJson(playerJson, listType);
             StringBuilder result = new StringBuilder();
             result.append("\n");
-            appendIfNotNull(result, "§a", "-------------------");
+            appendIfNotNull(result, "§a-------------------");
             if (playerList.size() > 1) {
-                appendIfNotNull(result, "§a", "查询到多个玩家数据，共 " + playerList.size() + " 个");
-                appendIfNotNull(result, "§a", "-------------------");
+                appendIfNotNull(result, "§a查询到多个玩家数据，共 " + playerList.size() + " 个");
+                appendIfNotNull(result, "§a-------------------");
             }
             int Count = 1;
             for (Object player : playerList) {
                 if (playerList.size() > 1) {
-                    appendIfNotNull(result, "§a", "第 " + Count++ + " 个玩家数据");
+                    appendIfNotNull(result, "§a第 " + Count++ + " 个玩家数据");
                 }
                 String processedData = DataProcess.processData(gson.toJson(player));
                 appendIfNotNull(result, "§a", processedData);
-                appendIfNotNull(result, "§a", "-------------------");
+                appendIfNotNull(result, "§a-------------------");
             }
             sender.sendMessage(result.toString());
         } else {
