@@ -19,10 +19,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import static fun.bm.module.impl.PlayerDataProcess.DataProcess.BaseDataProcess;
 import static fun.bm.util.MainEnv.LOGGER;
@@ -84,9 +81,8 @@ public class QQCheck extends Module {
                 playerCodeMap.remove(entry.getKey());
 
                 // 保存数据
-                Data data;
                 boolean flag = false;
-                data = new Data();
+                Data data = new Data();
                 for (Data data1 : MainEnv.dataManager.DATA_LIST) {
                     if (data1.playerData.playerUuid.equals(entry.getKey().playerUuid)) {
                         data = data1;
@@ -172,31 +168,13 @@ public class QQCheck extends Module {
         Data data = MainEnv.dataManager.getPlayerData(event.getUniqueId());
         data = NullCheck(data);
         // 首次登录
+        int code = generateCode(data);
         if (data.qqNumber == 0 || data.userid == 0 || data.useridLinkedGroup == 0) {
-            int code;
-
-            // 生成不重复的验证码
-            do {
-                for (Map.Entry<PlayerData, Integer> entry : playerCodeMap.entrySet()) {
-                    if (entry.getKey().playerUuid.equals(event.getUniqueId())) {
-                        playerCodeMap.remove(entry.getKey());
-                    }
-                }
-                code = Math.abs(new Random().nextInt(100000));
-            } while (playerCodeMap.containsValue(code));
-
-            // 加入等待列表
-            PlayerData playerData = new PlayerData();
-            playerData.playerName = event.getName();
-            playerData.playerUuid = event.getUniqueId();
-            playerCodeMap.put(playerData, code);
-
-            if (Config.EnforceCheckEnabled && data.qqNumber == 0 && data.userid == 0) {
+            if (Config.EnforceCheckEnabled && data.qqNumber == 0 && (data.userid == 0 || data.useridLinkedGroup == 0)) {
                 // 拒绝加入服务器
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.DisTitle.replace("%CODE%", String.valueOf(code)));
             } else if ((Config.BotModeOfficial && (data.userid == 0 || data.useridLinkedGroup == 0))
                     || (!Config.BotModeOfficial && data.qqNumber == 0)) {
-                LOGGER.info(Config.DisTitle.replace("%CODE%", String.valueOf(code)));
                 BaseDataProcess(event, data);
             }
             return;
@@ -210,6 +188,27 @@ public class QQCheck extends Module {
 
         // 设置首次登陆数据
         BaseDataProcess(event, data);
+    }
+
+    public static int generateCode(Data data) {
+        int code;
+
+        // 生成不重复的验证码
+        do {
+            for (Map.Entry<PlayerData, Integer> entry : playerCodeMap.entrySet()) {
+                if (entry.getKey().playerUuid.equals(data.playerData.playerUuid)) {
+                    playerCodeMap.remove(entry.getKey());
+                }
+            }
+            code = Math.abs(new Random().nextInt(100000));
+        } while (playerCodeMap.containsValue(code));
+
+        // 加入等待列表
+        PlayerData playerData = new PlayerData();
+        playerData.playerName = data.playerData.playerName;
+        playerData.playerUuid = data.playerData.playerUuid;
+        playerCodeMap.put(playerData, code);
+        return code;
     }
 
     @EventHandler
