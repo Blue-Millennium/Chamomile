@@ -25,7 +25,7 @@ public class Ban extends Command.CompleterV {
         return playerNames;
     }
 
-    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String alias, String[] args) {
+    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String alias, @NotNull String[] args) {
         if (args.length == 1) {
             // 第一个参数：玩家名称
             return getOnlinePlayerNames(sender, args[0]);
