@@ -1,8 +1,8 @@
 package fun.bm.module.impl.PlayerDataProcess;
 
 import fun.bm.config.Config;
-import fun.bm.data.PlayerData.Data;
-import fun.bm.data.PlayerData.subData.PlayerData;
+import fun.bm.data.LoginData.Data;
+import fun.bm.data.LoginData.PlayerData.PlayerData;
 import fun.bm.module.Module;
 import fun.bm.util.MainEnv;
 import fun.bm.util.TimeUtil;

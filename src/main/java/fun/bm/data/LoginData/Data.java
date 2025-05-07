@@ -1,7 +1,7 @@
-package fun.bm.data.PlayerData;
+package fun.bm.data.LoginData;
 
-import fun.bm.data.PlayerData.subData.LinkData;
-import fun.bm.data.PlayerData.subData.PlayerData;
+import fun.bm.data.LoginData.LinkData.LinkData;
+import fun.bm.data.LoginData.PlayerData.PlayerData;
 
 import java.util.List;
 

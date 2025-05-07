@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.bm.data.AuthData.DataProcess.transferTime;
+import static fun.bm.data.DataProcessor.Data.DataStringBuilder.transferTime;
 import static fun.bm.util.MainEnv.LOGGER;
 import static fun.bm.util.TimeUtil.getUnixTime;
 

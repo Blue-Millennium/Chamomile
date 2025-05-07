@@ -1,12 +1,12 @@
-package fun.bm.data.AuthData;
+package fun.bm.data.DataProcessor.Data;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import fun.bm.data.PlayerData.Data;
-import fun.bm.data.PlayerData.subData.LinkData;
-import fun.bm.data.PlayerData.subData.OldName;
-import fun.bm.data.PlayerData.subData.QQLinkData;
-import fun.bm.data.PlayerData.subData.UseridLinkData;
+import fun.bm.data.LoginData.Data;
+import fun.bm.data.LoginData.LinkData.LinkData;
+import fun.bm.data.LoginData.LinkData.QQLinkData;
+import fun.bm.data.LoginData.LinkData.UseridLinkData;
+import fun.bm.data.LoginData.PlayerData.OldName;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,9 +18,9 @@ import java.util.TimeZone;
 
 import static fun.bm.util.MainEnv.LOGGER;
 
-public class DataProcess {
+public class DataStringBuilder {
 
-    public static String processData(String jsonData) {
+    public static String buildPlayerDataString(String jsonData) {
         Gson gson = new Gson();
         Data data = gson.fromJson(jsonData, Data.class);
         StringBuilder result = new StringBuilder();
@@ -36,13 +36,13 @@ public class DataProcess {
         return result.toString();
     }
 
-    private static void appendIfNotNull(StringBuilder result, String label, Object value) {
+    public static void appendIfNotNull(StringBuilder result, String label, Object value) {
         if (value != null) {
             result.append(label).append(value).append("\n");
         }
     }
 
-    private static void appendIfNotNull(StringBuilder result, Object value) {
+    public static void appendIfNotNull(StringBuilder result, Object value) {
         if (value != null) {
             result.append(value).append("\n");
         }
@@ -57,12 +57,14 @@ public class DataProcess {
                 appendIfNotNull(result, "§a查询到多个绑定数据，共 " + data.linkData.size() + " 个");
                 appendIfNotNull(result, "§a-------------------");
             }
+            int i = 1;
             for (LinkData linkData : data.linkData) {
+                appendIfNotNull(result, "§a查询到第 " + i++ + " 个绑定数据");
                 try {
-                    if (linkData instanceof QQLinkData) {
-                        appendQQData(result, (QQLinkData) linkData);
-                    } else if (linkData instanceof UseridLinkData) {
-                        appendUseridData(result, (UseridLinkData) linkData);
+                    if (linkData instanceof QQLinkData qqlinkData) {
+                        appendQQData(result, qqlinkData);
+                    } else if (linkData instanceof UseridLinkData useridLinkData) {
+                        appendUseridData(result, useridLinkData);
                     }
                     appendIfNotNull(result, "§a-------------------");
                 } catch (Exception e) {
@@ -75,14 +77,14 @@ public class DataProcess {
     private static void appendQQData(StringBuilder result, QQLinkData data) {
         appendIfNotNull(result, "QQ号码: ", data.qqNumber);
         appendIfNotNull(result, "QQ绑定时间: ", transferTime(data.linkedTime));
-        appendIfNotNull(result, "QQ绑定时间(原始): ", data.linkedTime);
+        appendIfNotNull(result, "QQ绑定时间戳: ", data.linkedTime);
     }
 
     private static void appendUseridData(StringBuilder result, UseridLinkData data) {
         appendIfNotNull(result, "UserID识别码: ", data.userid);
         appendIfNotNull(result, "UserID绑定的群聊: ", data.useridLinkedGroup);
         appendIfNotNull(result, "UserID绑定时间: ", transferTime(data.linkedTime));
-        appendIfNotNull(result, "UserID绑定时间(原始): ", data.linkedTime);
+        appendIfNotNull(result, "UserID绑定时间戳: ", data.linkedTime);
     }
 
     private static void appendPlayerData(StringBuilder result, Data data) {
@@ -113,7 +115,7 @@ public class DataProcess {
         }
     }
 
-    private static String transferBoolean(Boolean value) {
+    public static String transferBoolean(Boolean value) {
         try {
             if (value == null) {
                 return "未知";
@@ -129,7 +131,7 @@ public class DataProcess {
         }
     }
 
-    public static boolean ProcessFinalData(@NotNull CommandSender sender, String playerJson) {
+    public static boolean buildDataString(@NotNull CommandSender sender, String playerJson) {
         if (!playerJson.isEmpty() && !playerJson.equals("[]")) {
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Object>>() {
@@ -147,7 +149,7 @@ public class DataProcess {
                 if (playerList.size() > 1) {
                     appendIfNotNull(result, "§a第 " + Count++ + " 个玩家数据");
                 }
-                String processedData = DataProcess.processData(gson.toJson(player));
+                String processedData = DataStringBuilder.buildPlayerDataString(gson.toJson(player));
                 appendIfNotNull(result, "§a", processedData);
                 appendIfNotNull(result, "§a-------------------");
             }

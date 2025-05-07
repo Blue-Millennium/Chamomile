@@ -50,5 +50,5 @@ commands:
     usage: /check [del|verify] [args...]
   chamomile:
     description: Chamomile functions
-    usage: /chamomile [report|reload|config|data|check|kill|query-report|del-report] [args...]
+    usage: /chamomile [help|report|reload|config|data|check|kill|query-report|del-report] [args...]
     aliases: [ cm ]

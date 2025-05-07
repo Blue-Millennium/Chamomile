@@ -1,12 +1,12 @@
 package fun.bm.command.main.executor.extra.sub.data.query;
 
 import fun.bm.command.Command;
-import fun.bm.data.AuthData.DataGet;
+import fun.bm.data.DataProcessor.Data.DataGet;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.command.main.executor.extra.sub.data.query.DataQueryByQQ.LongProcess;
-import static fun.bm.data.AuthData.DataProcess.ProcessFinalData;
+import static fun.bm.data.DataProcessor.Data.DataStringBuilder.buildDataString;
 import static fun.bm.util.helper.CommandHelper.checkNotOperator;
 
 public class DataQueryByUserID extends Command.ExecutorE {
@@ -24,6 +24,6 @@ public class DataQueryByUserID extends Command.ExecutorE {
             return true;
         }
         String playerJson = dataGet.getPlayersByUserIDAsJson(UserID);
-        return ProcessFinalData(sender, playerJson);
+        return buildDataString(sender, playerJson);
     }
 }

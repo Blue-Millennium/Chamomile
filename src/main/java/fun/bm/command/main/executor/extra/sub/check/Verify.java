@@ -2,7 +2,7 @@ package fun.bm.command.main.executor.extra.sub.check;
 
 import fun.bm.command.Command;
 import fun.bm.config.Config;
-import fun.bm.data.PlayerData.Data;
+import fun.bm.data.LoginData.Data;
 import fun.bm.util.MainEnv;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;

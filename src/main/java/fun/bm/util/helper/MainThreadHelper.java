@@ -4,7 +4,7 @@ import fun.bm.Chamomile;
 import fun.bm.command.CommandManager;
 import fun.bm.config.Config;
 import fun.bm.config.ConfigManager;
-import fun.bm.data.PlayerData.DataManager;
+import fun.bm.data.LoginData.DataManager;
 import fun.bm.module.ModuleManager;
 import fun.bm.util.MainEnv;
 import net.mamoe.mirai.event.GlobalEventChannel;
