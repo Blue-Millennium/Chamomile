@@ -22,6 +22,7 @@ public class OnlinePush {
         // 创建 JSON 数据
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode banDataNode = objectMapper.createObjectNode();
+        banDataNode.put("playerName", String.valueOf(data.playerName));
         banDataNode.put("playerUuid", String.valueOf(data.playerUuid));
         banDataNode.put("reason", data.reason);
         banDataNode.put("time", data.time);

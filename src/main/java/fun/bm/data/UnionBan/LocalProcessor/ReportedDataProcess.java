@@ -21,6 +21,6 @@ public class ReportedDataProcess {
         data.localTag = true;
         UnionBanDataGet dg = new UnionBanDataGet();
         dg.setPlayerData(uuid, data);
-        mergeAndReportData();
+        mergeAndReportData(true);
     }
 }

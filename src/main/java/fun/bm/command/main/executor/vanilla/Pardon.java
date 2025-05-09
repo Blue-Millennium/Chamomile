@@ -2,10 +2,11 @@ package fun.bm.command.main.executor.vanilla;
 
 import fun.bm.command.Command;
 import fun.bm.config.Config;
+import fun.bm.data.UnionBan.UnionBanData;
+import fun.bm.module.impl.UnionBan;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.command.main.executor.vanilla.Ban.BanMessage;
@@ -59,9 +60,11 @@ public class Pardon extends Command.ExecutorV {
         String message = "玩家 " + playerName + " 已被 " + sender.getName() + "解除封禁";
         BanMessage("Local", message);
         if (!Config.UnionBanCheckOnly) {
-            Player targetPlayer = Bukkit.getPlayer(playerName);
-            if (targetPlayer != null) {
-                reportBanData(targetPlayer.getName(), targetPlayer.getUniqueId(), System.currentTimeMillis(), "Pardon", Config.ServerName);
+            for (UnionBanData data : UnionBan.dataList) {
+                if (data.playerName.equals(playerName) || data.playerUuid.toString().equals(playerName)) {
+                    reportBanData(data.playerName, data.playerUuid, System.currentTimeMillis(), "Pardon", Config.ServerName);
+                    return;
+                }
             }
         }
     }

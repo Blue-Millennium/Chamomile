@@ -7,10 +7,13 @@ import net.mamoe.mirai.contact.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.profile.PlayerProfile;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 import static fun.bm.data.UnionBan.LocalProcessor.ReportedDataProcess.reportBanData;
 import static fun.bm.module.impl.QQReporter.ReportGroups;
@@ -63,11 +66,25 @@ public class Ban extends Command.ExecutorV {
 
             String playerName = args[0];
             String reason = args.length > 1 ? String.join(" ", Arrays.copyOfRange(args, 1, args.length)) : "No reason provided";
-            Player targetPlayer = Bukkit.getPlayer(playerName);
-
-            if (targetPlayer == null) {
-                sender.sendMessage("未找到玩家: " + playerName);
-                return true;
+            Player tp;
+            try {
+                UUID uuid = UUID.fromString(playerName);
+                tp = Bukkit.getPlayer(uuid);
+            } catch (Throwable ignored) {
+                tp = Bukkit.getPlayer(playerName);
+            }
+            PlayerProfile targetPlayer = null;
+            if (tp != null) {
+                targetPlayer = tp.getPlayerProfile();
+            } else {
+                try {
+                    targetPlayer = Arrays.stream(Bukkit.getOfflinePlayers()).filter(record -> Objects.equals(record.getName(), playerName)).toList().get(0).getPlayerProfile();
+                } catch (Throwable ignored) {
+                }
+                if (targetPlayer == null) {
+                    sender.sendMessage("未找到玩家: " + playerName);
+                    return true;
+                } else targetPlayer.update();
             }
 
             // 调用原版的 ban 命令
@@ -84,7 +101,7 @@ public class Ban extends Command.ExecutorV {
         }
     }
 
-    private void transferToUnionBan(Player targetPlayer, CommandSender sender, String reason) {
+    private void transferToUnionBan(PlayerProfile targetPlayer, CommandSender sender, String reason) {
         String message = "玩家 " + targetPlayer.getName() + " 已被 " + sender.getName() + " 以[ " + reason + " ]的理由封禁";
         BanMessage("Local", message);
         if (!Config.UnionBanCheckOnly) {

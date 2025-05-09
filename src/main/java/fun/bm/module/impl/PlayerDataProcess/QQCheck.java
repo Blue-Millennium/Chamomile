@@ -141,6 +141,9 @@ public class QQCheck extends Module {
         if (data == null) {
             data = new Data();
         }
+        if (data.playerData == null) {
+            data.playerData = new PlayerData();
+        }
         return data;
     }
 
@@ -158,9 +161,7 @@ public class QQCheck extends Module {
         } while (playerCodeMap.containsValue(code));
 
         // 加入等待列表
-        PlayerData playerData = new PlayerData();
-        playerData.playerName = data.playerData.playerName;
-        playerData.playerUuid = data.playerData.playerUuid;
+        PlayerData playerData = data.playerData;
         playerCodeMap.put(playerData, code);
         return code;
     }
@@ -191,6 +192,8 @@ public class QQCheck extends Module {
 
         Data data = MainEnv.dataManager.getPlayerData(event.getUniqueId());
         data = NullCheck(data);
+        data.playerData.playerUuid = event.getUniqueId();
+        data.playerData.playerName = event.getName();
         // 首次登录
         int code = generateCode(data);
         if (Config.EnforceCheckEnabled && data.qqNumber == 0 && (data.userid == 0 || data.useridLinkedGroup == 0)) {

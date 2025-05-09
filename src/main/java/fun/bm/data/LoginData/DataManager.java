@@ -75,7 +75,8 @@ public class DataManager {
     }
 
     public void setPlayerData(UUID uuid, Data data) {
-        DATA_LIST.remove(getPlayerData(uuid));
+        Data data_old = getPlayerData(uuid);
+        if (data_old != null) DATA_LIST.remove(data_old);
         DATA_LIST.add(data);
         save();
     }

@@ -37,11 +37,7 @@ public class Command {
         }
 
         public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-            if (vanilla) {
-                return CompleteMain(sender, command, label, args);
-            } else {
-                return List.of();
-            }
+            return CompleteMain(sender, command, label, args);
         }
     }
 

@@ -8,6 +8,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ban.ProfileBanList;
 import org.bukkit.profile.PlayerProfile;
 
+import java.util.Date;
+
 import static fun.bm.data.UnionBan.OnlineProcessor.OnlinePush.reportRemoteBanList;
 import static fun.bm.util.MainEnv.LOGGER;
 
@@ -22,7 +24,8 @@ public class LocalBanListImport {
                     data = new UnionBanData();
                     data.playerName = banEntry.getBanTarget().getName();
                     data.playerUuid = banEntry.getBanTarget().getUniqueId();
-                    data.time = banEntry.getExpiration().getTime();
+                    Date expiration = banEntry.getExpiration();
+                    data.time = expiration != null ? expiration.getTime() : System.currentTimeMillis();
                     data.reason = banEntry.getReason();
                     data.sourceServer = Config.ServerName;
                     data.localTag = true;
