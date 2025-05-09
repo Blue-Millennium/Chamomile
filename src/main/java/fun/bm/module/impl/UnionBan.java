@@ -17,6 +17,7 @@ import static fun.bm.data.UnionBan.LocalProcessor.OnlineDataMerge.mergeAndReport
 
 public class UnionBan extends Module {
     public static List<UnionBanData> dataList;
+    boolean flag_continue = true;
 
     public UnionBan() {
         super("UnionBan");
@@ -24,6 +25,8 @@ public class UnionBan extends Module {
 
     @Override
     public void onLoad() {
+        if (Config.UnionBanMergePeriod > 0)
+            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, this::scheduleTask, Config.UnionBanMergePeriod * 20L);
         onReload();
     }
 
@@ -34,9 +37,13 @@ public class UnionBan extends Module {
         mergeAndReportData(true);
     }
 
+    public void onDisable() {
+        flag_continue = false;
+    }
+
     @EventHandler
     public void PlayerJoinProcess(PlayerJoinEvent event) {
-        Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, () -> mergeAndReportData(true), 20L);
+        Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, () -> mergeAndReportData(true), Config.UnionBanMergePeriod * 20L);
     }
 
     @EventHandler
@@ -48,5 +55,11 @@ public class UnionBan extends Module {
         if (!Config.UnionBanEnabled) {
             this.moduleName = null;
         }
+    }
+
+    public void scheduleTask() {
+        mergeAndReportData(true);
+        if (flag_continue)
+            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, this::scheduleTask, 1200L);
     }
 }
