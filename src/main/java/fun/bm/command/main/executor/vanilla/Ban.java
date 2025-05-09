@@ -3,7 +3,6 @@ package fun.bm.command.main.executor.vanilla;
 import fun.bm.command.Command;
 import fun.bm.config.Config;
 import fun.bm.util.MainEnv;
-import fun.bm.util.helper.EmailSender;
 import net.mamoe.mirai.contact.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -11,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static fun.bm.data.UnionBan.LocalProcessor.ReportedDataProcess.reportBanData;
 import static fun.bm.module.impl.QQReporter.ReportGroups;
@@ -31,21 +31,18 @@ public class Ban extends Command.ExecutorV {
     public static void BanMessage(String origin, String message) {
         Bukkit.broadcastMessage(origin + " Ban : " + message);
         if (Config.QQRobotEnabled & !Config.BotModeOfficial) {
-            try {
-                for (long groupId : ReportGroups) {
+            List<Long> Groups = ReportGroups;
+            Groups.addAll(SyncGroups);
+            for (long groupId : Groups) {
+                try {
                     Group reportGroup = MainEnv.BOT.getGroup(groupId);
                     reportGroup.sendMessage(message);
+                } catch (Exception e) {
+                    LOGGER.info("Error when report message to QQ group - " + groupId);
                 }
-                for (long groupId : SyncGroups) {
-                    Group reportGroup = MainEnv.BOT.getGroup(groupId);
-                    reportGroup.sendMessage(message);
-                }
-            } catch (Exception e) {
-                LOGGER.info("Error when report message to QQ group");
             }
             try {
-                EmailSender webhook = new EmailSender();
-                webhook.formatAndSendWebhook(origin + " Ban : " + message, message, Config.WebHookEmail);
+                MainEnv.emailSender.formatAndSendWebhook(origin + " Ban : " + message, message, Config.WebHookEmail);
             } catch (Exception e) {
                 LOGGER.info("Error when report message to Email");
             }

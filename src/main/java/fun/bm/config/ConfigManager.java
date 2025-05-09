@@ -20,7 +20,7 @@ import static fun.bm.util.MainEnv.LOGGER;
  */
 public class ConfigManager {
 
-    public static List<String> getConfigFieldNames() {
+    public List<String> getConfigFieldNames() {
         Field[] fields = Config.class.getDeclaredFields();
         List<String> fieldNames = new ArrayList<>();
         for (Field field : fields) {
@@ -29,9 +29,9 @@ public class ConfigManager {
         return fieldNames;
     }
 
-    private static @NotNull Properties getDefaultProperties() {
+    private @NotNull Properties getDefaultProperties() {
         Properties properties = new Properties();
-        List<String> fieldNames = getConfigFieldNames();
+        List<String> fieldNames = MainEnv.configManager.getConfigFieldNames();
 
         for (String fieldName : fieldNames) {
             try {
@@ -46,7 +46,7 @@ public class ConfigManager {
         return properties;
     }
 
-    private static @NotNull Properties getProperties() {
+    private @NotNull Properties getProperties() {
         Properties properties = new Properties();
         List<String> fieldNames = getConfigFieldNames();
         for (String fieldName : fieldNames) {
@@ -81,7 +81,7 @@ public class ConfigManager {
                         value = defaultProperties.getProperty(fieldName);
                         label = true;
                     }
-                    Object parsedValue = parseValue(field.getType(), value);
+                    Object parsedValue = convertToFieldType(field.getType(), value);
                     field.set(null, convertToFieldType(field.getType(), parsedValue));
                 } catch (NoSuchFieldException | IllegalAccessException e) {
                     LOGGER.warning("Failed to set config value for " + fieldName + ": " + e.getMessage());
@@ -113,19 +113,12 @@ public class ConfigManager {
         try {
             Field field = Config.class.getDeclaredField(fieldName);
             field.setAccessible(true);
-            Object parsedValue = parseValue(field.getType(), value);
+            Object parsedValue = convertToFieldType(field.getType(), value);
             field.set(null, parsedValue);
             save();
         } catch (Exception e) {
             LOGGER.warning("Failed to parse config value for " + fieldName + ": " + e.getMessage());
         }
-    }
-
-    private Object parseValue(Class<?> type, String value) {
-        if (type == Boolean.class) return Boolean.parseBoolean(value);
-        else if (type == Integer.class) return Integer.parseInt(value);
-        else if (type == Long.class) return Long.parseLong(value);
-        else return value;
     }
 
     public void save() {

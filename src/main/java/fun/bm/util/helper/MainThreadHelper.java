@@ -1,11 +1,7 @@
 package fun.bm.util.helper;
 
 import fun.bm.Chamomile;
-import fun.bm.command.CommandManager;
 import fun.bm.config.Config;
-import fun.bm.config.ConfigManager;
-import fun.bm.data.LoginData.DataManager;
-import fun.bm.module.ModuleManager;
 import fun.bm.util.MainEnv;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.utils.LoggerAdapters;
@@ -44,10 +40,6 @@ public class MainThreadHelper {
             MainEnv.INSTANCE = plugin;
             MainEnv.LOGGER = MainEnv.INSTANCE.getLogger();
         }
-        MainEnv.configManager = new ConfigManager();
-        MainEnv.dataManager = new DataManager();
-        MainEnv.moduleManager = new ModuleManager();
-        MainEnv.commandManager = new CommandManager();
         SetupDirectories();
         MainEnv.dataManager.load();
         MainEnv.configManager.load();

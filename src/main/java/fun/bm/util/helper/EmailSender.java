@@ -19,19 +19,18 @@ import static fun.bm.util.MainEnv.LOGGER;
  */
 public class EmailSender {
 
-    public static String ensureValidUrl(String url) {
+    public String ensureValidUrl(String url) {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "http://" + url;
         }
         return url;
     }
 
-    public static void CheckPlugin(String title) {
+    public void CheckPlugin(String title) {
         try {
             String subject = "服务器" + title + "通知";
             String content = Config.ServerName + "服务器已" + title + "完成";
-            EmailSender emailSender = new EmailSender();
-            emailSender.formatAndSendWebhook(subject, content, Config.WebHookEmail);
+            formatAndSendWebhook(subject, content, Config.WebHookEmail);
         } catch (Exception e) {
             LOGGER.warning(e.getMessage());
         }
@@ -100,6 +99,7 @@ public class EmailSender {
      * @param originEmail 发送邮件的邮箱地址
      */
     public void formatAndSendWebhook(String subject, String content, String originEmail) {
+        if (!Config.EnableEmailNotice) return;
         List<String> emailList = Arrays.asList(originEmail.split(";"));
         Data_Full data = new Data_Full("来自" + Config.ServerName + "的信息：\n" + content, subject, emailList);
         if (!sendWebhookData(data)) {

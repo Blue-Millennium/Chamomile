@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import fun.bm.config.Config;
 import fun.bm.data.UnionBan.LocalProcessor.UnionBanDataGet;
 import fun.bm.data.UnionBan.UnionBanData;
-import fun.bm.util.helper.EmailSender;
+import fun.bm.util.MainEnv;
 
 import java.io.IOException;
 import java.net.URI;
@@ -18,7 +18,7 @@ import static fun.bm.util.MainEnv.LOGGER;
 import static fun.bm.util.helper.EncryptHelper.encrypt;
 
 public class OnlinePush {
-    public static Boolean reportRemoteBanList(UnionBanData data) {
+    public static boolean reportRemoteBanList(UnionBanData data) {
         // 创建 JSON 数据
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode banDataNode = objectMapper.createObjectNode();
@@ -43,7 +43,7 @@ public class OnlinePush {
         }
 
         // 确保 URL 格式正确
-        String reportUrl = EmailSender.ensureValidUrl(Config.UnionBanReportUrl);
+        String reportUrl = MainEnv.emailSender.ensureValidUrl(Config.UnionBanReportUrl);
 
         try {
             // 创建 HttpClient 实例

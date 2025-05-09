@@ -5,7 +5,6 @@ import fun.bm.config.Config;
 import fun.bm.data.Report.ReportDataManager;
 import fun.bm.util.MainEnv;
 import fun.bm.util.TimeUtil;
-import fun.bm.util.helper.EmailSender;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.message.data.AtAll;
@@ -28,12 +27,10 @@ public class Report extends Command.ExecutorE {
     public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
             if (args.length == 0) {
-                if (command.getName().equals("report")) {
-                    sender.sendMessage("§c/report <玩家名> <原因>");
-                } else if (command.getName().equals("chamomile")) {
-                    sender.sendMessage("§c/chamomile report <玩家名> <原因>");
-                } else if (command.getName().equals("cm")) {
-                    sender.sendMessage("§c/cm report <玩家名> <原因>");
+                switch (command.getName()) {
+                    case "report" -> sender.sendMessage("§c/report <玩家名> <原因>");
+                    case "chamomile" -> sender.sendMessage("§c/chamomile report <玩家名> <原因>");
+                    case "cm" -> sender.sendMessage("§c/cm report <玩家名> <原因>");
                 }
             } else {
                 if (Bukkit.getServer().getPlayer(args[0]) == null) {
@@ -62,8 +59,7 @@ public class Report extends Command.ExecutorE {
                     String content = builder.build().contentToString();
                     try {
                         String subject = "玩家举报-" + number;
-                        EmailSender emailSender = new EmailSender();
-                        emailSender.formatAndSendWebhook(subject, content, Config.WebHookEmail);
+                        MainEnv.emailSender.formatAndSendWebhook(subject, content, Config.WebHookEmail);
                         sender.sendMessage("§a举报已被上报至指定邮箱");
                     } catch (Exception e) {
                         sender.sendMessage("§c邮件发送失败");

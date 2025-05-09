@@ -9,7 +9,7 @@ import static fun.bm.data.UnionBan.LocalProcessor.OnlineDataMerge.mergeAndReport
 
 
 public class ReportedDataProcess {
-    public static void reportBanData(String name, UUID uuid, Long time, String reason, String sourceServer) {
+    public static void reportBanData(String name, UUID uuid, long time, String reason, String sourceServer) {
         Bukkit.broadcastMessage("正在尝试与UnionBan服务器合并封禁数据");
         UnionBanData data = new UnionBanData();
         data.playerName = name;

@@ -8,6 +8,7 @@ package fun.bm.config;
 public class Config {
     public static boolean BotModeOfficial = true;
     public static boolean DamageDisabled = true;
+    public static boolean EnableEmailNotice = true;
     public static boolean EnforceCheckEnabled = false;
     public static boolean QQCheckEnabled = true;
     public static boolean QQRobotEnabled = true;

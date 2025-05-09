@@ -50,7 +50,7 @@ public class SyncChat extends Module {
         }
 
         MainEnv.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
-            for (Long groupId : SyncGroups) {
+            for (long groupId : SyncGroups) {
                 Group syncGroup = MainEnv.BOT.getGroup(groupId);
                 if (!Config.BotModeOfficial & (!Config.SyncChatEnabled || event.getGroup() != syncGroup)) {
                     return;
@@ -113,7 +113,7 @@ public class SyncChat extends Module {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (needSync()) {
-            for (Long groupId : SyncGroups) {
+            for (long groupId : SyncGroups) {
                 Group syncGroup = MainEnv.BOT.getGroup(groupId);
                 syncGroup.sendMessage(Config.JoinServerMessage.replace("%NAME%", event.getPlayer().getName()));
             }
@@ -123,7 +123,7 @@ public class SyncChat extends Module {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         if (needSync()) {
-            for (Long groupId : SyncGroups) {
+            for (long groupId : SyncGroups) {
                 Group syncGroup = MainEnv.BOT.getGroup(groupId);
                 syncGroup.sendMessage(Config.LeaveServerMessage.replace("%NAME%", event.getPlayer().getName()));
             }
@@ -133,7 +133,7 @@ public class SyncChat extends Module {
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         if (needSync()) {
-            for (Long groupId : SyncGroups) {
+            for (long groupId : SyncGroups) {
                 Group syncGroup = MainEnv.BOT.getGroup(groupId);
                 syncGroup.sendMessage(Config.SayServerMessage.replace("%NAME%", event.getPlayer().getName()).replace("%MESSAGE%", event.getMessage()));
             }
