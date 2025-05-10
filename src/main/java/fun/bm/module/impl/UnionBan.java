@@ -1,8 +1,8 @@
 package fun.bm.module.impl;
 
 import fun.bm.config.Config;
-import fun.bm.data.UnionBan.LocalProcessor.UnionBanDataGet;
-import fun.bm.data.UnionBan.UnionBanData;
+import fun.bm.data.DataManager.UnionBan.Local.UnionBanDataGet;
+import fun.bm.data.DataManager.UnionBan.UnionBanData;
 import fun.bm.module.Module;
 import fun.bm.util.MainEnv;
 import org.bukkit.Bukkit;
@@ -12,10 +12,11 @@ import org.bukkit.event.player.PlayerLoginEvent;
 
 import java.util.List;
 
-import static fun.bm.data.UnionBan.LocalProcessor.LocalBanListImport.importBanList;
-import static fun.bm.data.UnionBan.LocalProcessor.OnlineDataMerge.mergeAndReportData;
+import static fun.bm.data.DataManager.UnionBan.Local.LocalBanListImport.importBanList;
+import static fun.bm.data.DataManager.UnionBan.Local.OnlineDataMerge.mergeAndReportData;
 
 public class UnionBan extends Module {
+    public static UnionBanDataGet unionBanDataGet = new UnionBanDataGet();
     public static List<UnionBanData> dataList;
     boolean flag_continue = true;
 
@@ -25,16 +26,18 @@ public class UnionBan extends Module {
 
     @Override
     public void onLoad() {
-        if (Config.UnionBanMergePeriod > 0)
-            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, this::scheduleTask, Config.UnionBanMergePeriod * 20L);
         onReload();
     }
 
     public void onReload() {
-        UnionBanDataGet dg = new UnionBanDataGet();
-        dg.load();
+        unionBanDataGet.load();
         importBanList();
         mergeAndReportData(true);
+    }
+
+    public void onEnable() {
+        if (Config.UnionBanMergePeriod > 0)
+            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, this::scheduleTask, Config.UnionBanMergePeriod * 20L);
     }
 
     public void onDisable() {

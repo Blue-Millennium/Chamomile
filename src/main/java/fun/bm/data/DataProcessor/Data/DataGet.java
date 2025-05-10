@@ -2,7 +2,7 @@ package fun.bm.data.DataProcessor.Data;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import fun.bm.data.LoginData.Data;
+import fun.bm.data.DataManager.LoginData.Data;
 import fun.bm.util.MainEnv;
 
 import java.io.File;

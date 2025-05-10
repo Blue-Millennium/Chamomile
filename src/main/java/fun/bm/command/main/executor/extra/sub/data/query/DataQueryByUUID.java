@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import static fun.bm.data.DataProcessor.Data.DataStringBuilder.buildDataString;
 import static fun.bm.util.MainEnv.LOGGER;
-import static fun.bm.util.helper.CommandHelper.checkNotOperator;
+import static fun.bm.util.helper.CommandHelper.operatorCheck;
 
 public class DataQueryByUUID extends Command.ExecutorE {
 
@@ -18,7 +18,7 @@ public class DataQueryByUUID extends Command.ExecutorE {
     }
 
     public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-        if (checkNotOperator(sender)) {
+        if (operatorCheck(sender)) {
             return true;
         }
         DataGet dataGet = new DataGet();

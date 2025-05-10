@@ -2,7 +2,7 @@ package fun.bm.command.main.executor.extra.sub.report;
 
 import fun.bm.command.Command;
 import fun.bm.config.Config;
-import fun.bm.data.Report.ReportDataManager;
+import fun.bm.data.DataManager.Report.ReportDataManager;
 import fun.bm.util.MainEnv;
 import fun.bm.util.TimeUtil;
 import net.mamoe.mirai.contact.Group;
@@ -20,6 +20,8 @@ import static fun.bm.module.impl.QQReporter.ReportGroups;
 import static fun.bm.util.MainEnv.LOGGER;
 
 public class Report extends Command.ExecutorE {
+    public static ReportDataManager reportDataManager = new ReportDataManager();
+
     public Report() {
         super("report");
     }
@@ -39,8 +41,7 @@ public class Report extends Command.ExecutorE {
                     sender.sendMessage("§c你不能对自己使用");
                 } else {
                     // Data Save
-                    ReportDataManager manager = new ReportDataManager();
-                    manager.ProcessData(sender, args);
+                    reportDataManager.ProcessData(sender, args);
                     sender.sendMessage("§a举报已被记录，正在等待上报");
                     // Message Send
                     MessageChainBuilder builder = new MessageChainBuilder();

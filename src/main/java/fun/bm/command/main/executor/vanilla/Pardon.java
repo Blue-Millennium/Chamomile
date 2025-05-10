@@ -2,7 +2,7 @@ package fun.bm.command.main.executor.vanilla;
 
 import fun.bm.command.Command;
 import fun.bm.config.Config;
-import fun.bm.data.UnionBan.UnionBanData;
+import fun.bm.data.DataManager.UnionBan.UnionBanData;
 import fun.bm.module.impl.UnionBan;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.command.main.executor.vanilla.Ban.BanMessage;
-import static fun.bm.data.UnionBan.LocalProcessor.ReportedDataProcess.reportBanData;
+import static fun.bm.data.DataManager.UnionBan.Local.OnlineDataMerge.reportBanData;
 
 /**
  * @author Suisuroru
@@ -43,7 +43,7 @@ public class Pardon extends Command.ExecutorV {
             }
 
             // 调用原版的 pardon 命令
-            boolean result = vanillaCommand(sender, args);
+            boolean result = vanillaExecutor(sender, args);
 
             if (result) {
                 // 额外操作---to UnionBan
@@ -52,7 +52,7 @@ public class Pardon extends Command.ExecutorV {
 
             return result;
         } else {
-            return vanillaCommand(sender, args);
+            return vanillaExecutor(sender, args);
         }
     }
 

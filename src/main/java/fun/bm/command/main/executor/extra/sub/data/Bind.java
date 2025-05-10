@@ -1,13 +1,13 @@
 package fun.bm.command.main.executor.extra.sub.data;
 
 import fun.bm.command.Command;
-import fun.bm.data.LoginData.Data;
+import fun.bm.data.DataManager.LoginData.Data;
 import fun.bm.util.MainEnv;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.util.MainEnv.LOGGER;
-import static fun.bm.util.helper.CommandHelper.checkNotOperator;
+import static fun.bm.util.helper.CommandHelper.operatorCheck;
 
 public class Bind extends Command.ExecutorE {
     public Bind() {
@@ -15,7 +15,7 @@ public class Bind extends Command.ExecutorE {
     }
 
     public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-        if (checkNotOperator(sender)) {
+        if (operatorCheck(sender)) {
             return true;
         }
         Data data = MainEnv.dataManager.getPlayerDataByName(args[0]);

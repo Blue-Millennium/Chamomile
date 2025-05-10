@@ -1,4 +1,4 @@
-package fun.bm.data.LoginData.PlayerData;
+package fun.bm.data.DataManager.LoginData.PlayerData;
 
 public class OldName {
     public String oldName;

@@ -26,7 +26,7 @@ public class EmailSender {
         return url;
     }
 
-    public void CheckPlugin(String title) {
+    public void checkPlugin(String title) {
         try {
             String subject = "服务器" + title + "通知";
             String content = Config.ServerName + "服务器已" + title + "完成";

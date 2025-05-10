@@ -16,10 +16,10 @@ public class Command {
             super(commandName);
         }
 
-        public abstract List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args);
+        public abstract List<String> completerMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args);
 
         public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-            return CompleteMain(sender, command, label, args);
+            return completerMain(sender, command, label, args);
         }
     }
 
@@ -28,10 +28,10 @@ public class Command {
             super(commandName);
         }
 
-        public abstract List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args);
+        public abstract List<String> completerMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args);
 
         public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-            return CompleteMain(sender, command, label, args);
+            return completerMain(sender, command, label, args);
         }
     }
 
@@ -53,7 +53,7 @@ public class Command {
             super(commandName);
         }
 
-        public boolean vanillaCommand(CommandSender sender, String[] args) {
+        public boolean vanillaExecutor(CommandSender sender, String[] args) {
             return Bukkit.dispatchCommand(sender, "minecraft:" + commandName + " " + String.join(" ", args));
         }
 
@@ -61,7 +61,7 @@ public class Command {
 
         public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
             if (vanilla) {
-                return vanillaCommand(sender, args);
+                return vanillaExecutor(sender, args);
             } else {
                 return executorMain(sender, command, label, args);
             }

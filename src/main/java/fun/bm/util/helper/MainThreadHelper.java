@@ -16,7 +16,7 @@ import static fun.bm.util.MainEnv.LOGGER;
 public class MainThreadHelper {
     static List<String> oldDir = List.of("BasePlugin", "plugins/BasePlugin");
 
-    public static void Boot_QQBot() {
+    public static void bootQQBot() {
         LoggerAdapters.useLog4j2(); // 使用 Log4j2 作为日志记录器
         if (MainEnv.BOT != null) {
             MainEnv.BOT.close();
@@ -34,19 +34,19 @@ public class MainThreadHelper {
         }
     }
 
-    public static void SetupBaseEnv(Chamomile plugin) {
+    public static void setupBaseEnv(Chamomile plugin) {
         initOldDirectory();
         if (MainEnv.INSTANCE == null) {
             MainEnv.INSTANCE = plugin;
             MainEnv.LOGGER = MainEnv.INSTANCE.getLogger();
         }
-        SetupDirectories();
+        setupDirectories();
         MainEnv.dataManager.load();
         MainEnv.configManager.load();
         MainEnv.moduleManager.setupModules(true);
     }
 
-    private static void SetupDirectories() {
+    private static void setupDirectories() {
         if (!MainEnv.BASE_DIR.exists()) {
             for (File file : MainEnv.OLD_BASE_DIR) {
                 if (file.exists()) {

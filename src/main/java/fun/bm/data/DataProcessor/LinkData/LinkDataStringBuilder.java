@@ -1,9 +1,9 @@
 package fun.bm.data.DataProcessor.LinkData;
 
-import fun.bm.data.LoginData.Data;
-import fun.bm.data.LoginData.LinkData.LinkData;
-import fun.bm.data.LoginData.LinkData.QQLinkData;
-import fun.bm.data.LoginData.LinkData.UseridLinkData;
+import fun.bm.data.DataManager.LoginData.Data;
+import fun.bm.data.DataManager.LoginData.LinkData.LinkData;
+import fun.bm.data.DataManager.LoginData.LinkData.QQLinkData;
+import fun.bm.data.DataManager.LoginData.LinkData.UseridLinkData;
 import fun.bm.util.MainEnv;
 
 import java.util.List;

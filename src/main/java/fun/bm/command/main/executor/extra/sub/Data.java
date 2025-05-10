@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-import static fun.bm.util.helper.CommandHelper.checkNotOperator;
+import static fun.bm.util.helper.CommandHelper.operatorCheck;
 
 public class Data extends Command.ExecutorE {
     Query query = new Query();
@@ -25,7 +25,7 @@ public class Data extends Command.ExecutorE {
                 sender.sendMessage("§e查询绑定数据:使用/chamomile data query <依据>");
                 sender.sendMessage("§e绑定数据:使用/chamomile data bind <游戏ID> <QQ号>");
             } else {
-                checkNotOperator(sender);
+                operatorCheck(sender);
             }
         } else {
             String[] subArgs = Arrays.copyOfRange(args, 1, args.length);

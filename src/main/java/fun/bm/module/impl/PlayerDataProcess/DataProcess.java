@@ -1,18 +1,17 @@
 package fun.bm.module.impl.PlayerDataProcess;
 
 import fun.bm.config.Config;
-import fun.bm.data.LoginData.Data;
-import fun.bm.data.LoginData.PlayerData.OldName;
-import fun.bm.data.LoginData.PlayerData.PlayerData;
+import fun.bm.data.DataManager.LoginData.Data;
+import fun.bm.data.DataManager.LoginData.PlayerData.OldName;
+import fun.bm.data.DataManager.LoginData.PlayerData.PlayerData;
 import fun.bm.module.Module;
 import fun.bm.util.MainEnv;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static fun.bm.module.impl.PlayerDataProcess.QQCheck.NullCheck;
+import static fun.bm.module.impl.PlayerDataProcess.QQCheck.nullCheck;
 import static fun.bm.util.MainEnv.LOGGER;
 
 public class DataProcess extends Module {
@@ -20,8 +19,8 @@ public class DataProcess extends Module {
         super("DataProcess");
     }
 
-    public static void BaseDataProcess(AsyncPlayerPreLoginEvent event, Data data) {
-        data = NullCheck(data);
+    public static void baseDataProcess(AsyncPlayerPreLoginEvent event, Data data) {
+        data = nullCheck(data);
         if (data.playerData == null) {
             PlayerData playerData = new PlayerData();
             playerData.playerName = event.getName();
@@ -33,11 +32,7 @@ public class DataProcess extends Module {
                 oldName.oldName = data.playerData.playerName;
                 oldName.updateTime = System.currentTimeMillis();
                 List<OldName> oldNames;
-                try {
-                    oldNames = data.playerData.oldNames == null ? new ArrayList<>() : data.playerData.oldNames;
-                } catch (NullPointerException e) {
-                    oldNames = new ArrayList<>();
-                }
+                oldNames = data.playerData.oldNames;
                 oldNames.add(oldName);
                 data.playerData.oldNames = oldNames;
                 data.playerData.playerName = event.getName();
@@ -64,7 +59,7 @@ public class DataProcess extends Module {
             return;
         }
         Data data = MainEnv.dataManager.getPlayerData(event.getUniqueId());
-        BaseDataProcess(event, data);
+        baseDataProcess(event, data);
     }
 
     public void setModuleName() {

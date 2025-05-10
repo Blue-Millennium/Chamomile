@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static fun.bm.data.UnionBan.LocalProcessor.ReportedDataProcess.reportBanData;
+import static fun.bm.data.DataManager.UnionBan.Local.OnlineDataMerge.reportBanData;
 import static fun.bm.module.impl.QQReporter.ReportGroups;
 import static fun.bm.module.impl.SyncChat.SyncGroups;
 import static fun.bm.util.MainEnv.LOGGER;
@@ -90,7 +90,7 @@ public class Ban extends Command.ExecutorV {
             }
 
             // 调用原版的 ban 命令
-            boolean result = vanillaCommand(sender, args);
+            boolean result = vanillaExecutor(sender, args);
 
             if (result) {
                 // 额外操作---to UnionBan
@@ -99,7 +99,7 @@ public class Ban extends Command.ExecutorV {
 
             return result;
         } else {
-            return vanillaCommand(sender, args);
+            return vanillaExecutor(sender, args);
         }
     }
 

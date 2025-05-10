@@ -3,7 +3,7 @@ package fun.bm.util;
 import fun.bm.Chamomile;
 import fun.bm.command.CommandManager;
 import fun.bm.config.ConfigManager;
-import fun.bm.data.LoginData.DataManager;
+import fun.bm.data.DataManager.LoginData.DataManager;
 import fun.bm.module.ModuleManager;
 import fun.bm.util.helper.EmailSender;
 import net.mamoe.mirai.Bot;
@@ -25,7 +25,6 @@ public class MainEnv {
     public final static CommandManager commandManager = new CommandManager();
     public final static EmailSender emailSender = new EmailSender();
     public static Logger LOGGER;
-    ;
     public static Chamomile INSTANCE;
     public static Bot BOT;
     public static List<File> OLD_BASE_DIR;

@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.bm.util.helper.CommandHelper.checkNotOperator;
+import static fun.bm.util.helper.CommandHelper.operatorCheck;
 
 public class Kill extends Command.ExecutorE {
     public Kill() {
@@ -14,7 +14,7 @@ public class Kill extends Command.ExecutorE {
     }
 
     public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-        if (checkNotOperator(sender)) {
+        if (operatorCheck(sender)) {
             return true;
         }
         if (args.length == 0) {

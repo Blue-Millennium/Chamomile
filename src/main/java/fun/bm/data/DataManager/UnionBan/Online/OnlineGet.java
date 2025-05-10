@@ -1,8 +1,8 @@
-package fun.bm.data.UnionBan.OnlineProcessor;
+package fun.bm.data.DataManager.UnionBan.Online;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fun.bm.config.Config;
-import fun.bm.data.UnionBan.UnionBanData;
+import fun.bm.data.DataManager.UnionBan.UnionBanData;
 import fun.bm.util.MainEnv;
 
 import java.io.IOException;

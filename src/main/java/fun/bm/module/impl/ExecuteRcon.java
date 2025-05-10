@@ -1,7 +1,7 @@
 package fun.bm.module.impl;
 
 import fun.bm.config.Config;
-import fun.bm.data.LoginData.Data;
+import fun.bm.data.DataManager.LoginData.Data;
 import fun.bm.module.Module;
 import fun.bm.util.MainEnv;
 import net.mamoe.mirai.contact.MemberPermission;
@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static fun.bm.command.main.executor.extra.sub.report.ReportQuery.message_head;
-import static fun.bm.data.Report.ReportCharmProcess.reportCharmProcess;
 import static fun.bm.util.MainEnv.LOGGER;
+import static fun.bm.util.helper.ImageProcessor.reportCharmProcess;
 import static fun.bm.util.helper.RconHelper.executeRconCommand;
 
 /**

@@ -13,11 +13,11 @@ public class Kill extends Command.CompleterE {
         super(null);
     }
 
-    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public List<String> completerMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             // 返回所有在线玩家的名字
-            completions.addAll(CommandHelper.GetOnlinePlayerList());
+            completions.addAll(CommandHelper.getOnlinePlayerList());
         }
         return completions;
     }

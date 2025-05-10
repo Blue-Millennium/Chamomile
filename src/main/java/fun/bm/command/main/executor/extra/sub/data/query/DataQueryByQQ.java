@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.data.DataProcessor.Data.DataStringBuilder.buildDataString;
 import static fun.bm.util.MainEnv.LOGGER;
-import static fun.bm.util.helper.CommandHelper.checkNotOperator;
+import static fun.bm.util.helper.CommandHelper.operatorCheck;
 
 public class DataQueryByQQ extends Command.ExecutorE {
 
@@ -15,7 +15,7 @@ public class DataQueryByQQ extends Command.ExecutorE {
         super(null);
     }
 
-    public static long LongProcess(CommandSender sender, String[] args) {
+    public static long longProcess(CommandSender sender, String[] args) {
         long long_num;
         try {
             long_num = Long.parseLong(args[0]);
@@ -30,11 +30,11 @@ public class DataQueryByQQ extends Command.ExecutorE {
     }
 
     public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-        if (checkNotOperator(sender)) {
+        if (operatorCheck(sender)) {
             return true;
         }
         DataGet dataGet = new DataGet();
-        long QQNum = LongProcess(sender, args);
+        long QQNum = longProcess(sender, args);
         if (QQNum == 0) {
             return true;
         }

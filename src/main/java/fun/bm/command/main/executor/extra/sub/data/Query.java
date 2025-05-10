@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-import static fun.bm.util.helper.CommandHelper.checkNotOperator;
+import static fun.bm.util.helper.CommandHelper.operatorCheck;
 
 public class Query extends Command.ExecutorE {
     DataQueryByQQ qq = new DataQueryByQQ();
@@ -30,7 +30,7 @@ public class Query extends Command.ExecutorE {
                 sender.sendMessage("§e根据Userid查询数据:使用/chamomile data query userid <userid>");
                 sender.sendMessage("§e根据玩家名字查询数据:使用/chamomile data query name <玩家名字>");
                 sender.sendMessage("§e根据UUID查询数据:使用/chamomile data query uuid <玩家UUID>");
-            } else if (checkNotOperator(sender)) {
+            } else if (operatorCheck(sender)) {
                 return true;
             }
         }

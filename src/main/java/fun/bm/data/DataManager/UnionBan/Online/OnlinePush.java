@@ -1,11 +1,11 @@
-package fun.bm.data.UnionBan.OnlineProcessor;
+package fun.bm.data.DataManager.UnionBan.Online;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fun.bm.config.Config;
-import fun.bm.data.UnionBan.LocalProcessor.UnionBanDataGet;
-import fun.bm.data.UnionBan.UnionBanData;
+import fun.bm.data.DataManager.UnionBan.UnionBanData;
+import fun.bm.module.impl.UnionBan;
 import fun.bm.util.MainEnv;
 
 import java.io.IOException;
@@ -64,8 +64,7 @@ public class OnlinePush {
             if (response.statusCode() == 200) {
                 LOGGER.info("封禁数据上报成功");
                 data.reportTag = true;
-                UnionBanDataGet dp = new UnionBanDataGet();
-                dp.setPlayerData(data.playerUuid, data);
+                UnionBan.unionBanDataGet.setPlayerData(data.playerUuid, data);
                 return true;
             } else {
                 LOGGER.info("封禁数据上报失败，状态码: " + response.statusCode());

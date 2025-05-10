@@ -1,7 +1,7 @@
 package fun.bm.command.main.executor.extra.sub.check;
 
 import fun.bm.command.Command;
-import fun.bm.data.LoginData.Data;
+import fun.bm.data.DataManager.LoginData.Data;
 import fun.bm.util.MainEnv;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +13,7 @@ public class Delete extends Command.ExecutorE {
         super(null);
     }
 
-    public static boolean LinkDataProcess(String name, String timestamp) {
+    public static boolean linkDataProcess(String name, String timestamp) {
         Data data = MainEnv.dataManager.getPlayerDataByName(name);
         if (data == null || data.linkData == null) {
             return false;
@@ -28,7 +28,7 @@ public class Delete extends Command.ExecutorE {
             buildLinkDataString(sender.getName());
             sender.sendMessage("§4请输入时间戳");
         } else {
-            if (LinkDataProcess(sender.getName(), args[0])) {
+            if (linkDataProcess(sender.getName(), args[0])) {
                 sender.sendMessage("§c尝试删除成功");
             } else {
                 sender.sendMessage("§4删除失败");

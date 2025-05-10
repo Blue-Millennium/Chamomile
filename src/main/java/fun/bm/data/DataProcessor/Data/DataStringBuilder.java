@@ -2,11 +2,11 @@ package fun.bm.data.DataProcessor.Data;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import fun.bm.data.LoginData.Data;
-import fun.bm.data.LoginData.LinkData.LinkData;
-import fun.bm.data.LoginData.LinkData.QQLinkData;
-import fun.bm.data.LoginData.LinkData.UseridLinkData;
-import fun.bm.data.LoginData.PlayerData.OldName;
+import fun.bm.data.DataManager.LoginData.Data;
+import fun.bm.data.DataManager.LoginData.LinkData.LinkData;
+import fun.bm.data.DataManager.LoginData.LinkData.QQLinkData;
+import fun.bm.data.DataManager.LoginData.LinkData.UseridLinkData;
+import fun.bm.data.DataManager.LoginData.PlayerData.OldName;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
