@@ -36,12 +36,14 @@ public class Ban extends Command.ExecutorV {
         if (Config.QQRobotEnabled & !Config.BotModeOfficial) {
             List<Long> Groups = ReportGroups;
             Groups.addAll(SyncGroups);
-            for (long groupId : Groups) {
-                try {
-                    Group reportGroup = MainEnv.BOT.getGroup(groupId);
-                    reportGroup.sendMessage(message);
-                } catch (Exception e) {
-                    LOGGER.info("Error when report message to QQ group - " + groupId);
+            if (!Groups.isEmpty()) {
+                for (long groupId : Groups) {
+                    try {
+                        Group reportGroup = MainEnv.BOT.getGroup(groupId);
+                        reportGroup.sendMessage(message);
+                    } catch (Exception e) {
+                        LOGGER.info("Error when report message to QQ group - " + groupId);
+                    }
                 }
             }
             try {

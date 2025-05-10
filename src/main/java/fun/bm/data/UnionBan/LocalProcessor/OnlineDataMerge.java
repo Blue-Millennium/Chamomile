@@ -17,25 +17,25 @@ public class OnlineDataMerge {
     public static void mergeAndReportData(boolean flag) {
         UnionBanDataGet dgl = new UnionBanDataGet();
         List<UnionBanData> remote = loadRemoteBanList();
-        List<String> namelist1 = new ArrayList<>(List.of());
-        List<String> namelist2 = new ArrayList<>(List.of());
+        List<String[]> locallist = new ArrayList<>(List.of());
+        List<String[]> reportlist = new ArrayList<>(List.of());
         for (UnionBanData banData : remote) {
             banData.reportTag = true;
             UnionBanData data = dgl.getUnionBanData(banData.playerUuid);
             if (data == null) {
                 if (flag || banData.reason.equals("Pardon")) {
                     dgl.setPlayerData(banData.playerUuid, banData);
-                    namelist1.add(banData.playerName);
+                    locallist.add(new String[]{banData.playerName, banData.reason});
                 }
             } else {
                 if (data.time < banData.time) {
                     if (flag || banData.reason.equals("Pardon")) {
                         dgl.setPlayerData(banData.playerUuid, banData);
-                        namelist1.add(banData.playerName);
+                        locallist.add(new String[]{banData.playerName, banData.reason});
                     }
                 } else if (data.time > banData.time) {
                     if (flag && reportRemoteBanList(data)) {
-                        namelist2.add(data.playerName);
+                        reportlist.add(new String[]{data.playerName, data.reason});
                     }
                 }
             }
@@ -52,14 +52,10 @@ public class OnlineDataMerge {
                             break;
                         }
                     }
-                    if (found && banData.time > time) {
-                        banData.reportTag = true;
-                        reportRemoteBanList(banData);
-                    } else if (!found) {
+                    if (!found || banData.time > time) {
                         if (reportRemoteBanList(banData)) {
-                            namelist2.add(banData.playerName);
+                            reportlist.add(new String[]{banData.playerName, banData.reason});
                             banData.reportTag = true;
-                            reportRemoteBanList(banData);
                         }
                     }
                 } catch (Exception e) {
@@ -67,20 +63,26 @@ public class OnlineDataMerge {
                 }
             }
         }
-        if (!namelist1.isEmpty()) {
-            StringBuilder msg = new StringBuilder();
-            for (String name : namelist1) {
-                msg.append(name).append(" ");
+        LocalBanDataProcess();
+        String[] localmsg = new String[]{"Local", "的封禁数据已被同步至本地服务器", "的解除封禁数据已被同步至本地服务器"};
+        String[] unionmsg = new String[]{"Union", "的封禁数据已被上报至UnionBan服务器", "的解除封禁数据已被上报至UnionBan服务器"};
+        MessageSender(locallist, localmsg);
+        MessageSender(reportlist, unionmsg);
+    }
+
+    public static void MessageSender(List<String[]> namelist, String[] rec) {
+        if (!namelist.isEmpty()) {
+            StringBuilder msg1 = new StringBuilder();
+            StringBuilder msg2 = new StringBuilder();
+            for (String[] name : namelist) {
+                if (name[1].equals("Pardon")) {
+                    msg2.append(name[0]).append(" ");
+                } else {
+                    msg1.append(name[0]).append(" ");
+                }
             }
-            LocalBanDataProcess();
-            BanMessage("Local", msg + "的封禁数据已被同步至本地服务器");
-        }
-        if (!namelist2.isEmpty()) {
-            StringBuilder msg = new StringBuilder();
-            for (String name : namelist2) {
-                msg.append(name).append(" ");
-            }
-            BanMessage("Union", msg + "的封禁数据已被上报至UnionBan服务器");
+            BanMessage(rec[0], msg1.append(rec[1]).toString());
+            BanMessage(rec[0], msg2.append(rec[2]).toString());
         }
     }
 }
