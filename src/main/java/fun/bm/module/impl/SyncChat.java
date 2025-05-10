@@ -1,8 +1,8 @@
 package fun.bm.module.impl;
 
 import fun.bm.config.Config;
-import fun.bm.data.LoginData.Data;
-import fun.bm.data.LoginData.PlayerData.PlayerData;
+import fun.bm.data.DataManager.LoginData.Data;
+import fun.bm.data.DataManager.LoginData.PlayerData.PlayerData;
 import fun.bm.module.Module;
 import fun.bm.module.impl.PlayerDataProcess.QQCheck;
 import fun.bm.util.MainEnv;
@@ -50,7 +50,7 @@ public class SyncChat extends Module {
         }
 
         MainEnv.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
-            for (Long groupId : SyncGroups) {
+            for (long groupId : SyncGroups) {
                 Group syncGroup = MainEnv.BOT.getGroup(groupId);
                 if (!Config.BotModeOfficial & (!Config.SyncChatEnabled || event.getGroup() != syncGroup)) {
                     return;
@@ -69,7 +69,7 @@ public class SyncChat extends Module {
                 if (Config.BotModeOfficial & builder.build().contentToString().replace(" ", "").startsWith(Config.SyncChatStartWord.replace(" ", ""))) {
                     while (builder.build().contentToString().startsWith(" ")) builder.remove(0);
                     String avatar = "QQ用户" + processImageUrl(event.getSender().getAvatarUrl());
-                    String id = GetID(event);
+                    String id = getID(event);
                     String message = Config.SayQQMessage.replace("%NAME%", avatar + id + "发送了以下消息").replace("%MESSAGE%", builder.build().contentToString().replace(Config.SyncChatStartWord, ""));
                     sendMessage(message);
                     event.getGroup().sendMessage("已成功发送消息至服务器，以下为发送至服务器的原始数据：\n" + message.replaceAll("\\[\\[CICode,url=[^\\]]*\\]\\]", "[图片]"));
@@ -77,7 +77,7 @@ public class SyncChat extends Module {
                     sendMessage(Config.SayQQMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()));
                 }
                 if (builder.build().contentToString().replace(" ", "").startsWith(Config.QQCheckStartWord.replace(" ", ""))) {
-                    QQCheck.GroupCheck(event, builder);
+                    QQCheck.groupCheck(event, builder);
                 }
             }
         });
@@ -88,7 +88,7 @@ public class SyncChat extends Module {
         executeRconCommand(Config.RconIP, Config.RconPort, Config.RconPassword, command);
     }
 
-    public String GetID(GroupMessageEvent event) {
+    public String getID(GroupMessageEvent event) {
         List<PlayerData> pd = new ArrayList<>();
         for (Data data : MainEnv.dataManager.DATA_LIST) {
             if (data.userid == event.getSender().getId()
@@ -113,7 +113,7 @@ public class SyncChat extends Module {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (needSync()) {
-            for (Long groupId : SyncGroups) {
+            for (long groupId : SyncGroups) {
                 Group syncGroup = MainEnv.BOT.getGroup(groupId);
                 syncGroup.sendMessage(Config.JoinServerMessage.replace("%NAME%", event.getPlayer().getName()));
             }
@@ -123,7 +123,7 @@ public class SyncChat extends Module {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         if (needSync()) {
-            for (Long groupId : SyncGroups) {
+            for (long groupId : SyncGroups) {
                 Group syncGroup = MainEnv.BOT.getGroup(groupId);
                 syncGroup.sendMessage(Config.LeaveServerMessage.replace("%NAME%", event.getPlayer().getName()));
             }
@@ -133,7 +133,7 @@ public class SyncChat extends Module {
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         if (needSync()) {
-            for (Long groupId : SyncGroups) {
+            for (long groupId : SyncGroups) {
                 Group syncGroup = MainEnv.BOT.getGroup(groupId);
                 syncGroup.sendMessage(Config.SayServerMessage.replace("%NAME%", event.getPlayer().getName()).replace("%MESSAGE%", event.getMessage()));
             }

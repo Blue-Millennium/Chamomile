@@ -14,8 +14,7 @@ public class DirectoryExecutor {
 
         Files.walkFileTree(sourcePath, new SimpleFileVisitor<>() {
             @NotNull
-            @Override
-            public FileVisitResult preVisitDirectory(Path dir, @NotNull BasicFileAttributes attrs) throws IOException {
+            public FileVisitResult preVisitDirectory(@NotNull Path dir, @NotNull BasicFileAttributes attrs) throws IOException {
                 Path targetDir = destPath.resolve(sourcePath.relativize(dir));
                 Files.createDirectories(targetDir);
                 return FileVisitResult.CONTINUE;
@@ -23,7 +22,7 @@ public class DirectoryExecutor {
 
             @NotNull
             @Override
-            public FileVisitResult visitFile(Path file, @NotNull BasicFileAttributes attrs) throws IOException {
+            public FileVisitResult visitFile(@NotNull Path file, @NotNull BasicFileAttributes attrs) throws IOException {
                 Files.copy(file, destPath.resolve(sourcePath.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
                 return FileVisitResult.CONTINUE;
             }

@@ -1,4 +1,4 @@
-package fun.bm.data.LoginData.PlayerData;
+package fun.bm.data.DataManager.LoginData.PlayerData;
 
 import java.util.List;
 import java.util.UUID;

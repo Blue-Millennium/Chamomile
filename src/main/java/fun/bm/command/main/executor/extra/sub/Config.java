@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-import static fun.bm.util.helper.CommandHelper.checkNotOperator;
+import static fun.bm.util.helper.CommandHelper.operatorCheck;
 
 /**
  * @author Suisuroru
@@ -37,7 +37,7 @@ public class Config extends Command.ExecutorE {
                     sender.sendMessage("§4查询配置项:/chamomile config query <配置项>");
                     sender.sendMessage("§4修改配置项:/chamomile config set <配置项> <修改值>");
                 } else {
-                    checkNotOperator(sender);
+                    operatorCheck(sender);
                 }
             } else {
                 sender.sendMessage("检查到执行者为控制台，已使用前缀区分玩家指令及管理员指令");

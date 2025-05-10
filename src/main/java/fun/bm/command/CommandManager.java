@@ -11,6 +11,7 @@ public class CommandManager {
         for (Object command : loadClazz("fun.bm.command.main")) {
             try {
                 String commandName;
+                ((Command.GlobalE) command).setupCommand();
                 commandName = ((Command.GlobalE) command).getCommandName();
                 if (commandName != null) {
                     if (command instanceof CommandExecutor) {

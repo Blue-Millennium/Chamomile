@@ -1,6 +1,8 @@
-package fun.bm.data.Report;
+package fun.bm.data.DataManager.Report;
 
 import fun.bm.util.MainEnv;
+import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -8,21 +10,65 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static fun.bm.data.DataProcessor.Data.DataStringBuilder.transferTime;
 import static fun.bm.util.MainEnv.LOGGER;
+import static fun.bm.util.TimeUtil.getUnixTime;
 
 /**
  * @author Suisuroru
- * Date: 2024/9/29 14:30
- * function: Read data of report
+ * Date: 2024/9/29 16:02
+ * function: Manage report data
  */
-public class ReportDataActions {
-    public static List<List<String>> ReadReportFile() {
-        ReportDataActions reader = new ReportDataActions();
-        EnsureFileExist();
-        return reader.readCsvToList();
+public class ReportDataManager {
+    public boolean deleteData(String timestamp) {
+        List<List<String>> reportData = ReadReportFile();
+        try {
+            reportData.removeIf(row -> row.get(0).equals(timestamp));
+            saveToCsv(reportData);
+            return true;
+        } catch (Exception e) {
+            LOGGER.warning("Failed to delete data from CSV file: " + e.getMessage());
+            return false;
+        }
     }
 
-    private static void EnsureFileExist() {
+    /**
+     * 接收列表并将数据追加到CSV文件中。
+     *
+     * @param data 新的数据行
+     */
+    public void appendDataToCsv(List<String> data) {
+        writeNewData(data);
+    }
+
+    public void ProcessData(@NotNull CommandSender sender, @NotNull String[] args) {
+        List<String> ProcessData = new ArrayList<>();
+
+        long time = getUnixTime();
+        ProcessData.add(String.valueOf(time));
+        ProcessData.add(transferTime(time));
+        ProcessData.add(sender.getName());
+
+        // 提取被举报人的名字和举报原因
+        if (args.length > 0) {
+            String reportedPlayerName = args[0];
+            StringBuilder reason = new StringBuilder();
+            for (int i = 1; i < args.length; i++) {
+                reason.append(args[i]).append(" ");
+            }
+            ProcessData.add(reportedPlayerName);
+            ProcessData.add(reason.toString().trim());
+        }
+
+        appendDataToCsv(ProcessData);
+    }
+
+    public List<List<String>> ReadReportFile() {
+        EnsureFileExist();
+        return readCsvToList();
+    }
+
+    private void EnsureFileExist() {
         if (!MainEnv.REPORT_DATA_FILE.exists()) {
             try {
                 if (!MainEnv.REPORT_DATA_FILE.createNewFile()) {
@@ -42,14 +88,13 @@ public class ReportDataActions {
         }
     }
 
-    public static void writeNewData(List<String> newData) {
-        ReportDataActions reader = new ReportDataActions();
-        List<List<String>> existingData = reader.readCsvToList();
+    public void writeNewData(List<String> newData) {
+        List<List<String>> existingData = readCsvToList();
         existingData.add(newData);
         saveToCsv(existingData);
     }
 
-    static void saveToCsv(List<List<String>> data) {
+    private void saveToCsv(List<List<String>> data) {
         try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(MainEnv.REPORT_DATA_FILE), Charset.forName("GBK")))) {
             for (List<String> row : data) {
                 bw.write(String.join(",", row));
@@ -60,7 +105,7 @@ public class ReportDataActions {
         }
     }
 
-    List<List<String>> readCsvToList() {
+    private List<List<String>> readCsvToList() {
         List<List<String>> allRows = new ArrayList<>();
         EnsureFileExist();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(MainEnv.REPORT_DATA_FILE), Charset.forName("GBK")))) {

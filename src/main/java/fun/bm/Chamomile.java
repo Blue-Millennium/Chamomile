@@ -1,7 +1,6 @@
 package fun.bm;
 
 import fun.bm.util.MainEnv;
-import fun.bm.util.helper.EmailSender;
 import fun.bm.util.helper.MainThreadHelper;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -12,17 +11,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Chamomile extends JavaPlugin {
     @Override
     public void onLoad() {
-        MainThreadHelper.SetupBaseEnv(this);
+        MainThreadHelper.setupBaseEnv(this);
     }
 
     @Override
     public void onEnable() {
         // 启动逻辑 - Start
-        MainThreadHelper.Boot_QQBot();
+        MainThreadHelper.bootQQBot();
         MainEnv.commandManager.registerCommands();
         MainEnv.moduleManager.onEnable();
         // 启动逻辑 - End
-        EmailSender.CheckPlugin("启动");
+        MainEnv.emailSender.checkPlugin("启动");
     }
 
     @Override
@@ -30,6 +29,6 @@ public class Chamomile extends JavaPlugin {
         // 关闭逻辑 - Start
         MainEnv.moduleManager.onDisable();
         // 关闭逻辑 - End
-        EmailSender.CheckPlugin("关闭");
+        MainEnv.emailSender.checkPlugin("关闭");
     }
 }

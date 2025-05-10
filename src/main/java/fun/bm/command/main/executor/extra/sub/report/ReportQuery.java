@@ -1,14 +1,13 @@
 package fun.bm.command.main.executor.extra.sub.report;
 
 import fun.bm.command.Command;
-import fun.bm.data.Report.ReportDataActions;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 import static fun.bm.util.MainEnv.LOGGER;
-import static fun.bm.util.helper.CommandHelper.checkNotOperator;
+import static fun.bm.util.helper.CommandHelper.operatorCheck;
 
 /**
  * @author Suisuroru
@@ -23,7 +22,7 @@ public class ReportQuery extends Command.ExecutorE {
     }
 
     public static String query() {
-        List<List<String>> data = ReportDataActions.ReadReportFile();
+        List<List<String>> data = Report.reportDataManager.ReadReportFile();
         StringBuilder sb = new StringBuilder();
         sb.append(message_head);
 
@@ -42,7 +41,7 @@ public class ReportQuery extends Command.ExecutorE {
 
     public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         // 检查发送者是否具有OP权限
-        if (!checkNotOperator(sender)) {
+        if (!operatorCheck(sender)) {
             try {
                 sender.sendMessage(query());
             } catch (Exception e) {

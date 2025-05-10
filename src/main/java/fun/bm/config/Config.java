@@ -8,6 +8,7 @@ package fun.bm.config;
 public class Config {
     public static boolean BotModeOfficial = true;
     public static boolean DamageDisabled = true;
+    public static boolean EnableEmailNotice = true;
     public static boolean EnforceCheckEnabled = false;
     public static boolean QQCheckEnabled = true;
     public static boolean QQRobotEnabled = true;
@@ -19,6 +20,7 @@ public class Config {
     public static boolean UnionBanEnabled = false;
     public static boolean VanillaCommandsRewritten = true;
     public static int RconPort = 25575;
+    public static int UnionBanMergePeriod = 1200;
     public static String BotWsToken = "114514";
     public static String BotWsUrl = "ws://0.0.0.0:3001";
     public static String ConnTitle = "[QQLogin] 您已经绑定了一个账户，如果需要删除或添加绑定，请使用/check [del|verify] [args...]";

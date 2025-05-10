@@ -1,4 +1,4 @@
-package fun.bm.data.UnionBan;
+package fun.bm.data.DataManager.UnionBan;
 
 import java.util.UUID;
 
@@ -8,6 +8,6 @@ public class UnionBanData {
     public long time;
     public String reason;
     public String sourceServer;
-    public Boolean reportTag = false;
-    public Boolean localTag = false;
+    public boolean reportTag = false;
+    public boolean localTag = false;
 }

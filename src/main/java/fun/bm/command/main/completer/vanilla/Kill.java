@@ -14,7 +14,7 @@ public class Kill extends Command.CompleterV {
         super("kill");
     }
 
-    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String alias, @NotNull String[] args) {
+    public List<String> completerMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {

@@ -13,7 +13,7 @@ public class Data extends Command.CompleterE {
         super("cmdata");
     }
 
-    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public List<String> completerMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             completions.add("query");
@@ -32,7 +32,7 @@ public class Data extends Command.CompleterE {
                                 break;
                             }
                             case "name": {
-                                completions.addAll(CommandHelper.GetOnlinePlayerList());
+                                completions.addAll(CommandHelper.getOnlinePlayerList());
                                 break;
                             }
                         }
@@ -41,7 +41,7 @@ public class Data extends Command.CompleterE {
                 }
                 case "bind": {
                     if (args.length == 2) {
-                        completions.addAll(CommandHelper.GetOnlinePlayerList());
+                        completions.addAll(CommandHelper.getOnlinePlayerList());
                     }
                 }
             }

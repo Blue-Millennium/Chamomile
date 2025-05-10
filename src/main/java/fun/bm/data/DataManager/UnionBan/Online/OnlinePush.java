@@ -1,12 +1,12 @@
-package fun.bm.data.UnionBan.OnlineProcessor;
+package fun.bm.data.DataManager.UnionBan.Online;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fun.bm.config.Config;
-import fun.bm.data.UnionBan.LocalProcessor.UnionBanDataGet;
-import fun.bm.data.UnionBan.UnionBanData;
-import fun.bm.util.helper.EmailSender;
+import fun.bm.data.DataManager.UnionBan.UnionBanData;
+import fun.bm.module.impl.UnionBan;
+import fun.bm.util.MainEnv;
 
 import java.io.IOException;
 import java.net.URI;
@@ -18,10 +18,11 @@ import static fun.bm.util.MainEnv.LOGGER;
 import static fun.bm.util.helper.EncryptHelper.encrypt;
 
 public class OnlinePush {
-    public static Boolean reportRemoteBanList(UnionBanData data) {
+    public static boolean reportRemoteBanList(UnionBanData data) {
         // 创建 JSON 数据
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode banDataNode = objectMapper.createObjectNode();
+        banDataNode.put("playerName", String.valueOf(data.playerName));
         banDataNode.put("playerUuid", String.valueOf(data.playerUuid));
         banDataNode.put("reason", data.reason);
         banDataNode.put("time", data.time);
@@ -43,7 +44,7 @@ public class OnlinePush {
         }
 
         // 确保 URL 格式正确
-        String reportUrl = EmailSender.ensureValidUrl(Config.UnionBanReportUrl);
+        String reportUrl = MainEnv.emailSender.ensureValidUrl(Config.UnionBanReportUrl);
 
         try {
             // 创建 HttpClient 实例
@@ -63,8 +64,7 @@ public class OnlinePush {
             if (response.statusCode() == 200) {
                 LOGGER.info("封禁数据上报成功");
                 data.reportTag = true;
-                UnionBanDataGet dp = new UnionBanDataGet();
-                dp.setPlayerData(data.playerUuid, data);
+                UnionBan.unionBanDataGet.setPlayerData(data.playerUuid, data);
                 return true;
             } else {
                 LOGGER.info("封禁数据上报失败，状态码: " + response.statusCode());

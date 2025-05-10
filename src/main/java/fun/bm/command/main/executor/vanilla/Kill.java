@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.bm.util.helper.CommandHelper.checkNotOperator;
+import static fun.bm.util.helper.CommandHelper.operatorCheck;
 
 public class Kill extends Command.ExecutorV {
     public Kill() {
@@ -13,11 +13,11 @@ public class Kill extends Command.ExecutorV {
     }
 
     public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-        if (checkNotOperator(sender)) {
+        if (operatorCheck(sender)) {
             return true;
         }
         if (args.length == 0) {
-            return vanillaCommand(sender, args);
+            return vanillaExecutor(sender, args);
         }
         if (args[0].startsWith("@e")) {
             if (args[0].equals("@e")) {
@@ -41,7 +41,7 @@ public class Kill extends Command.ExecutorV {
                 return Bukkit.dispatchCommand(sender, "minecraft:kill @e[type=item]");
             }
             default -> {
-                return vanillaCommand(sender, args);
+                return vanillaExecutor(sender, args);
             }
         }
     }

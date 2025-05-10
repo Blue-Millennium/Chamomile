@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.data.DataProcessor.Data.DataStringBuilder.buildDataString;
 import static fun.bm.util.MainEnv.LOGGER;
-import static fun.bm.util.helper.CommandHelper.checkNotOperator;
+import static fun.bm.util.helper.CommandHelper.operatorCheck;
 
 public class DataQueryByName extends Command.ExecutorE {
     public DataQueryByName() {
@@ -15,7 +15,7 @@ public class DataQueryByName extends Command.ExecutorE {
     }
 
     public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-        if (checkNotOperator(sender)) {
+        if (operatorCheck(sender)) {
             return true;
         }
         DataGet dataGet = new DataGet();

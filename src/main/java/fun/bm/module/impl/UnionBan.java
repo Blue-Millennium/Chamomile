@@ -1,15 +1,24 @@
 package fun.bm.module.impl;
 
 import fun.bm.config.Config;
-import fun.bm.data.UnionBan.LocalProcessor.UnionBanDataGet;
+import fun.bm.data.DataManager.UnionBan.Local.UnionBanDataGet;
+import fun.bm.data.DataManager.UnionBan.UnionBanData;
 import fun.bm.module.Module;
+import fun.bm.util.MainEnv;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 
-import static fun.bm.data.UnionBan.LocalProcessor.LocalBanListImport.importBanList;
-import static fun.bm.data.UnionBan.LocalProcessor.OnlineDataMerge.mergeAndReportData;
+import java.util.List;
+
+import static fun.bm.data.DataManager.UnionBan.Local.LocalBanListImport.importBanList;
+import static fun.bm.data.DataManager.UnionBan.Local.OnlineDataMerge.mergeAndReportData;
 
 public class UnionBan extends Module {
+    public static UnionBanDataGet unionBanDataGet = new UnionBanDataGet();
+    public static List<UnionBanData> dataList;
+    boolean flag_continue = true;
 
     public UnionBan() {
         super("UnionBan");
@@ -17,20 +26,43 @@ public class UnionBan extends Module {
 
     @Override
     public void onLoad() {
-        UnionBanDataGet dg = new UnionBanDataGet();
-        dg.load();
+        onReload();
+    }
+
+    public void onReload() {
+        unionBanDataGet.load();
         importBanList();
-        mergeAndReportData();
+        mergeAndReportData(true);
+    }
+
+    public void onEnable() {
+        if (Config.UnionBanMergePeriod > 0)
+            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, this::scheduleTask, Config.UnionBanMergePeriod * 20L);
+    }
+
+    public void onDisable() {
+        flag_continue = false;
     }
 
     @EventHandler
     public void PlayerJoinProcess(PlayerJoinEvent event) {
-        mergeAndReportData();
+        Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, () -> mergeAndReportData(true), Config.UnionBanMergePeriod * 20L);
+    }
+
+    @EventHandler
+    public void preLoginProcess(PlayerLoginEvent event) {
+        mergeAndReportData(false);
     }
 
     public void setModuleName() {
         if (!Config.UnionBanEnabled) {
             this.moduleName = null;
         }
+    }
+
+    public void scheduleTask() {
+        mergeAndReportData(true);
+        if (flag_continue)
+            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, this::scheduleTask, 1200L);
     }
 }

@@ -1,8 +1,8 @@
 package fun.bm.module.impl.PlayerDataProcess;
 
 import fun.bm.config.Config;
-import fun.bm.data.LoginData.Data;
-import fun.bm.data.LoginData.PlayerData.PlayerData;
+import fun.bm.data.DataManager.LoginData.Data;
+import fun.bm.data.DataManager.LoginData.PlayerData.PlayerData;
 import fun.bm.module.Module;
 import fun.bm.util.MainEnv;
 import fun.bm.util.TimeUtil;
@@ -19,12 +19,9 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
-import static fun.bm.module.impl.PlayerDataProcess.DataProcess.BaseDataProcess;
+import static fun.bm.module.impl.PlayerDataProcess.DataProcess.baseDataProcess;
 import static fun.bm.util.MainEnv.LOGGER;
 
 public class QQCheck extends Module {
@@ -34,7 +31,7 @@ public class QQCheck extends Module {
         super("QQCheck");
     }
 
-    public static void GroupCheck(GroupMessageEvent event, MessageChainBuilder builder) {
+    public static void groupCheck(GroupMessageEvent event, MessageChainBuilder builder) {
         String num = builder.build().contentToString().replace(" ", "").replace(Config.QQCheckStartWord.replace(" ", ""), "");
         int code;
         if (num.equals("test")) {
@@ -52,7 +49,7 @@ public class QQCheck extends Module {
         try {
             code = Integer.parseInt(num);
             if (code != 0) {
-                event.getGroup().sendMessage(DataCheck(event, code));
+                event.getGroup().sendMessage(dataCheck(event, code));
                 return;
             }
         } catch (Exception ignored) {
@@ -63,7 +60,7 @@ public class QQCheck extends Module {
             if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(data.playerData.playerUuid))
                     && data.useridLinkedGroup == event.getGroup().getId()) {
                 check_tag = true;
-                builderList.add(BuildMessage(event, data.playerData.playerName));
+                builderList.add(buildMessage(event, data.playerData.playerName));
             }
         }
         if (check_tag) {
@@ -77,7 +74,7 @@ public class QQCheck extends Module {
         }
     }
 
-    private static MessageChain DataCheck(MessageEvent event, int code) {
+    private static MessageChain dataCheck(MessageEvent event, int code) {
         MessageChainBuilder checkMessage = null;
         for (Map.Entry<PlayerData, Integer> entry : playerCodeMap.entrySet()) {
             if (entry.getValue().equals(code)) {
@@ -113,14 +110,14 @@ public class QQCheck extends Module {
                 }
 
                 // 构建确认消息
-                checkMessage = BuildMessage(event, data.playerData.playerName);
+                checkMessage = buildMessage(event, data.playerData.playerName);
             }
         }
         return checkMessage.build();
     }
 
     @NotNull
-    private static MessageChainBuilder BuildMessage(MessageEvent event, String playerName) {
+    private static MessageChainBuilder buildMessage(MessageEvent event, String playerName) {
         MessageChainBuilder checkMessage;
         checkMessage = new MessageChainBuilder()
                 .append("\n-----------------\n")
@@ -137,9 +134,15 @@ public class QQCheck extends Module {
         return checkMessage;
     }
 
-    public static Data NullCheck(Data data) {
+    public static Data nullCheck(Data data) {
         if (data == null) {
             data = new Data();
+        }
+        if (data.playerData == null) {
+            data.playerData = new PlayerData();
+        }
+        if (data.playerData.oldNames == null) {
+            data.playerData.oldNames = new ArrayList<>();
         }
         return data;
     }
@@ -158,9 +161,7 @@ public class QQCheck extends Module {
         } while (playerCodeMap.containsValue(code));
 
         // 加入等待列表
-        PlayerData playerData = new PlayerData();
-        playerData.playerName = data.playerData.playerName;
-        playerData.playerUuid = data.playerData.playerUuid;
+        PlayerData playerData = data.playerData;
         playerCodeMap.put(playerData, code);
         return code;
     }
@@ -179,7 +180,7 @@ public class QQCheck extends Module {
             } catch (Exception exception) {
                 return;
             }
-            event.getSender().sendMessage(DataCheck(event, code));
+            event.getSender().sendMessage(dataCheck(event, code));
         });
     }
 
@@ -190,7 +191,9 @@ public class QQCheck extends Module {
         }
 
         Data data = MainEnv.dataManager.getPlayerData(event.getUniqueId());
-        data = NullCheck(data);
+        data = nullCheck(data);
+        data.playerData.playerUuid = event.getUniqueId();
+        data.playerData.playerName = event.getName();
         // 首次登录
         int code = generateCode(data);
         if (Config.EnforceCheckEnabled && data.qqNumber == 0 && (data.userid == 0 || data.useridLinkedGroup == 0)) {
@@ -203,7 +206,7 @@ public class QQCheck extends Module {
         }
 
         // 设置首次登陆数据
-        BaseDataProcess(event, data);
+        baseDataProcess(event, data);
     }
 
     @EventHandler

@@ -1,11 +1,7 @@
 package fun.bm.util.helper;
 
 import fun.bm.Chamomile;
-import fun.bm.command.CommandManager;
 import fun.bm.config.Config;
-import fun.bm.config.ConfigManager;
-import fun.bm.data.LoginData.DataManager;
-import fun.bm.module.ModuleManager;
 import fun.bm.util.MainEnv;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.utils.LoggerAdapters;
@@ -20,7 +16,7 @@ import static fun.bm.util.MainEnv.LOGGER;
 public class MainThreadHelper {
     static List<String> oldDir = List.of("BasePlugin", "plugins/BasePlugin");
 
-    public static void Boot_QQBot() {
+    public static void bootQQBot() {
         LoggerAdapters.useLog4j2(); // 使用 Log4j2 作为日志记录器
         if (MainEnv.BOT != null) {
             MainEnv.BOT.close();
@@ -38,23 +34,19 @@ public class MainThreadHelper {
         }
     }
 
-    public static void SetupBaseEnv(Chamomile plugin) {
+    public static void setupBaseEnv(Chamomile plugin) {
         initOldDirectory();
         if (MainEnv.INSTANCE == null) {
             MainEnv.INSTANCE = plugin;
             MainEnv.LOGGER = MainEnv.INSTANCE.getLogger();
         }
-        MainEnv.configManager = new ConfigManager();
-        MainEnv.dataManager = new DataManager();
-        MainEnv.moduleManager = new ModuleManager();
-        MainEnv.commandManager = new CommandManager();
-        SetupDirectories();
+        setupDirectories();
         MainEnv.dataManager.load();
         MainEnv.configManager.load();
         MainEnv.moduleManager.setupModules(true);
     }
 
-    private static void SetupDirectories() {
+    private static void setupDirectories() {
         if (!MainEnv.BASE_DIR.exists()) {
             for (File file : MainEnv.OLD_BASE_DIR) {
                 if (file.exists()) {

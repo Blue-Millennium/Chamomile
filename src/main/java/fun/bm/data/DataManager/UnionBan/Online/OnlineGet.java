@@ -1,9 +1,9 @@
-package fun.bm.data.UnionBan.OnlineProcessor;
+package fun.bm.data.DataManager.UnionBan.Online;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fun.bm.config.Config;
-import fun.bm.data.UnionBan.UnionBanData;
-import fun.bm.util.helper.EmailSender;
+import fun.bm.data.DataManager.UnionBan.UnionBanData;
+import fun.bm.util.MainEnv;
 
 import java.io.IOException;
 import java.net.URI;
@@ -19,7 +19,7 @@ public class OnlineGet {
     public static ArrayList<UnionBanData> loadRemoteBanList() {
         ArrayList<UnionBanData> banList = new ArrayList<>();
         // 确保 URL 格式正确
-        String checkUrl = EmailSender.ensureValidUrl(Config.UnionBanCheckUrl);
+        String checkUrl = MainEnv.emailSender.ensureValidUrl(Config.UnionBanCheckUrl);
 
         try {
             // 创建 HttpClient 实例

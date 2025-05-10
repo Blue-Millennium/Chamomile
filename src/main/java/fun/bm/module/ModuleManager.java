@@ -28,7 +28,9 @@ public class ModuleManager {
         return null;
     }
 
-    public void setupModules(Boolean setup) {
+    public void setupModules(boolean setup) {
+        if (!setup)
+            modules.forEach(Module::onDisable);
         modules.clear();
         for (Object clazz : loadClazz("fun.bm.module.impl")) {
             Module module = (Module) clazz;

@@ -14,10 +14,10 @@ public class Bind extends Command.CompleterE {
         super("bind");
     }
 
-    public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public List<String> completerMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
-            completions.addAll(CommandHelper.GetOnlinePlayerList());
+            completions.addAll(CommandHelper.getOnlinePlayerList());
         }
         return completions;
     }

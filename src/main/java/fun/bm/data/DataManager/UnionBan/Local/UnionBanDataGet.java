@@ -1,21 +1,20 @@
-package fun.bm.data.UnionBan.LocalProcessor;
+package fun.bm.data.DataManager.UnionBan.Local;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import fun.bm.data.UnionBan.UnionBanData;
+import fun.bm.data.DataManager.UnionBan.UnionBanData;
 import fun.bm.util.MainEnv;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
+import static fun.bm.module.impl.UnionBan.dataList;
 import static fun.bm.util.MainEnv.LOGGER;
 
 public class UnionBanDataGet {
-    private List<UnionBanData> dataList;
 
     public void load() {
         try (JsonReader jsonReader = new JsonReader(new FileReader(MainEnv.UNION_BAN_DATA_FILE))) {
@@ -56,12 +55,9 @@ public class UnionBanDataGet {
     }
 
     public void setPlayerData(UUID uuid, UnionBanData data) {
-        dataList.remove(getUnionBanData(uuid));
+        UnionBanData data_old = getUnionBanData(uuid);
+        if (data_old != null) dataList.remove(getUnionBanData(uuid));
         dataList.add(data);
         save();
-    }
-
-    public List<UnionBanData> returnAllData() {
-        return dataList;
     }
 }

@@ -3,16 +3,19 @@ package fun.bm.command.main.executor.vanilla;
 import fun.bm.command.Command;
 import fun.bm.config.Config;
 import fun.bm.util.MainEnv;
-import fun.bm.util.helper.EmailSender;
 import net.mamoe.mirai.contact.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.profile.PlayerProfile;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
-import static fun.bm.data.UnionBan.LocalProcessor.ReportedDataProcess.reportBanData;
+import static fun.bm.data.DataManager.UnionBan.Local.OnlineDataMerge.reportBanData;
 import static fun.bm.module.impl.QQReporter.ReportGroups;
 import static fun.bm.module.impl.SyncChat.SyncGroups;
 import static fun.bm.util.MainEnv.LOGGER;
@@ -31,21 +34,20 @@ public class Ban extends Command.ExecutorV {
     public static void BanMessage(String origin, String message) {
         Bukkit.broadcastMessage(origin + " Ban : " + message);
         if (Config.QQRobotEnabled & !Config.BotModeOfficial) {
-            try {
-                for (long groupId : ReportGroups) {
-                    Group reportGroup = MainEnv.BOT.getGroup(groupId);
-                    reportGroup.sendMessage(message);
+            List<Long> Groups = ReportGroups;
+            Groups.addAll(SyncGroups);
+            if (!Groups.isEmpty()) {
+                for (long groupId : Groups) {
+                    try {
+                        Group reportGroup = MainEnv.BOT.getGroup(groupId);
+                        reportGroup.sendMessage(message);
+                    } catch (Exception e) {
+                        LOGGER.info("Error when report message to QQ group - " + groupId);
+                    }
                 }
-                for (long groupId : SyncGroups) {
-                    Group reportGroup = MainEnv.BOT.getGroup(groupId);
-                    reportGroup.sendMessage(message);
-                }
-            } catch (Exception e) {
-                LOGGER.info("Error when report message to QQ group");
             }
             try {
-                EmailSender webhook = new EmailSender();
-                webhook.formatAndSendWebhook(origin + " Ban : " + message, message, Config.WebHookEmail);
+                MainEnv.emailSender.formatAndSendWebhook(origin + " Ban : " + message, message, Config.WebHookEmail);
             } catch (Exception e) {
                 LOGGER.info("Error when report message to Email");
             }
@@ -66,15 +68,29 @@ public class Ban extends Command.ExecutorV {
 
             String playerName = args[0];
             String reason = args.length > 1 ? String.join(" ", Arrays.copyOfRange(args, 1, args.length)) : "No reason provided";
-            Player targetPlayer = Bukkit.getPlayer(playerName);
-
-            if (targetPlayer == null) {
-                sender.sendMessage("未找到玩家: " + playerName);
-                return true;
+            Player tp;
+            try {
+                UUID uuid = UUID.fromString(playerName);
+                tp = Bukkit.getPlayer(uuid);
+            } catch (Throwable ignored) {
+                tp = Bukkit.getPlayer(playerName);
+            }
+            PlayerProfile targetPlayer = null;
+            if (tp != null) {
+                targetPlayer = tp.getPlayerProfile();
+            } else {
+                try {
+                    targetPlayer = Arrays.stream(Bukkit.getOfflinePlayers()).filter(record -> Objects.equals(record.getName(), playerName)).toList().get(0).getPlayerProfile();
+                } catch (Throwable ignored) {
+                }
+                if (targetPlayer == null) {
+                    sender.sendMessage("未找到玩家: " + playerName);
+                    return true;
+                } else targetPlayer.update();
             }
 
             // 调用原版的 ban 命令
-            boolean result = vanillaCommand(sender, args);
+            boolean result = vanillaExecutor(sender, args);
 
             if (result) {
                 // 额外操作---to UnionBan
@@ -83,11 +99,11 @@ public class Ban extends Command.ExecutorV {
 
             return result;
         } else {
-            return vanillaCommand(sender, args);
+            return vanillaExecutor(sender, args);
         }
     }
 
-    private void transferToUnionBan(Player targetPlayer, CommandSender sender, String reason) {
+    private void transferToUnionBan(PlayerProfile targetPlayer, CommandSender sender, String reason) {
         String message = "玩家 " + targetPlayer.getName() + " 已被 " + sender.getName() + " 以[ " + reason + " ]的理由封禁";
         BanMessage("Local", message);
         if (!Config.UnionBanCheckOnly) {
