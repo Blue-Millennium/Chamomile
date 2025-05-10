@@ -11,52 +11,44 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class Command {
-    public static class CompleterE extends GlobalE implements TabCompleter {
+    public abstract static class CompleterE extends GlobalE implements TabCompleter {
         public CompleterE(@Nullable String commandName) {
             super(commandName);
         }
 
-        public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-            return List.of();
-        }
+        public abstract List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args);
 
-        @Nullable
-        @Override
         public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
             return CompleteMain(sender, command, label, args);
         }
     }
 
-    public static class CompleterV extends GlobalV implements TabCompleter {
+    public abstract static class CompleterV extends GlobalV implements TabCompleter {
         public CompleterV(@Nullable String commandName) {
             super(commandName);
         }
 
-        public List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-            return List.of();
-        }
+        public abstract List<String> CompleteMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args);
 
         public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
             return CompleteMain(sender, command, label, args);
         }
     }
 
-    public static class ExecutorE extends GlobalE implements CommandExecutor {
+    public abstract static class ExecutorE extends GlobalE implements CommandExecutor {
 
         public ExecutorE(@Nullable String commandName) {
             super(commandName);
         }
 
-        public boolean executorMain(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-            return true;
-        }
+        public abstract boolean executorMain(CommandSender sender, org.bukkit.command.Command command, String label, String[] args);
 
         public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
             return executorMain(sender, command, label, args);
         }
     }
 
-    public static class ExecutorV extends GlobalV implements CommandExecutor {
+    public abstract static class ExecutorV extends GlobalV implements CommandExecutor {
         public ExecutorV(@Nullable String commandName) {
             super(commandName);
         }
@@ -65,9 +57,7 @@ public class Command {
             return Bukkit.dispatchCommand(sender, "minecraft:" + commandName + " " + String.join(" ", args));
         }
 
-        public boolean executorMain(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-            return true;
-        }
+        public abstract boolean executorMain(CommandSender sender, org.bukkit.command.Command command, String label, String[] args);
 
         public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
             if (vanilla) {
