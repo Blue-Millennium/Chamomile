@@ -47,16 +47,19 @@ public class ClassLoader {
         return classes;
     }
 
-    public static ArrayList<Object> loadClazz(String dir) {
-        ArrayList<Object> list = new ArrayList<>();
-        List<Class<?>> classes = getClassesInPackage(dir);
-        for (Class<?> clazz : classes) {
+    public static <T> List<T> loadClasses(String dir, Class<T> clazz) {
+        List<Class<?>> list = getClassesInPackage(dir);
+        List<T> finalList = new ArrayList<>();
+        for (Class<?> clazz1 : list) {
             try {
-                list.add(clazz.getDeclaredConstructor().newInstance());
+                if (clazz.isAssignableFrom(clazz1)) {
+                    T instance = clazz.cast(clazz1.getDeclaredConstructor().newInstance());
+                    finalList.add(instance);
+                }
             } catch (Exception e) {
-                LOGGER.warning("Failed to loadClass: " + clazz.getName());
+                LOGGER.warning("Failed to transfer class: " + clazz1.getName());
             }
         }
-        return list;
+        return finalList;
     }
 }

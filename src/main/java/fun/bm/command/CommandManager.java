@@ -1,18 +1,16 @@
 package fun.bm.command;
 
 import fun.bm.util.MainEnv;
+import fun.bm.util.helper.ClassLoader;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabCompleter;
 
-import static fun.bm.util.helper.ClassLoader.loadClazz;
-
 public class CommandManager {
     public void registerCommands() {
-        for (Object command : loadClazz("fun.bm.command.main")) {
+        for (Command.GlobalE command : ClassLoader.loadClasses("fun.bm.command.main", Command.GlobalE.class)) {
             try {
-                String commandName;
-                ((Command.GlobalE) command).setupCommand();
-                commandName = ((Command.GlobalE) command).getCommandName();
+                command.setupCommand();
+                String commandName = command.getCommandName();
                 if (commandName != null) {
                     if (command instanceof CommandExecutor) {
                         MainEnv.INSTANCE.getCommand(commandName).setExecutor((CommandExecutor) command);

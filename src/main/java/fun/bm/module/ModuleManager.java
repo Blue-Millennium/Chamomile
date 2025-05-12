@@ -1,11 +1,10 @@
 package fun.bm.module;
 
 import fun.bm.util.MainEnv;
+import fun.bm.util.helper.ClassLoader;
 import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
-
-import static fun.bm.util.helper.ClassLoader.loadClazz;
 
 public class ModuleManager {
     public ArrayList<Module> modules = new ArrayList<>();
@@ -31,8 +30,7 @@ public class ModuleManager {
     public void setupModules(boolean setup) {
         if (!setup) onDisable();
         modules.clear();
-        for (Object clazz : loadClazz("fun.bm.module.impl")) {
-            Module module = (Module) clazz;
+        for (Module module : ClassLoader.loadClasses("fun.bm.module.impl", Module.class)) {
             module.setModuleName();
             if (module.getModuleName() != null) {
                 modules.add(module);
