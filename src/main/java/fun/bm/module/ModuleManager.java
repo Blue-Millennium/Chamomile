@@ -29,20 +29,20 @@ public class ModuleManager {
     }
 
     public void setupModules(boolean setup) {
-        if (!setup)
-            modules.forEach(Module::onDisable);
+        if (!setup) onDisable();
         modules.clear();
         for (Object clazz : loadClazz("fun.bm.module.impl")) {
             Module module = (Module) clazz;
             module.setModuleName();
             if (module.getModuleName() != null) {
                 modules.add(module);
-                if (setup) {
-                    module.onLoad();
-                } else {
-                    module.onReload();
-                }
             }
+        }
+        if (setup) {
+            modules.forEach(Module::onLoad);
+        } else {
+            modules.forEach(Module::onReload);
+            onEnable();
         }
     }
 }

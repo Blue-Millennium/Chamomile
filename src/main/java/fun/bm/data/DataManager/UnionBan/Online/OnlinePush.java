@@ -37,6 +37,7 @@ public class OnlinePush {
             json_fin = objectMapper.writeValueAsString(dataNode_new);
         } catch (JsonProcessingException e) {
             LOGGER.warning("Failed to convert UnionBan data to JSON: " + e.getMessage());
+            return false;
         }
 
         if (base64EncodedJson == null) {

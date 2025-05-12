@@ -19,6 +19,7 @@ public class Config {
     public static boolean UnionBanCheckOnly = false;
     public static boolean UnionBanEnabled = false;
     public static boolean VanillaCommandsRewritten = true;
+    public static int BOTLoginCheckPeriod = 1200;
     public static int RconPort = 25575;
     public static int UnionBanMergePeriod = 1200;
     public static String BotWsToken = "114514";

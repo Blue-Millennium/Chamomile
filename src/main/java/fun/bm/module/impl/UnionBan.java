@@ -26,10 +26,6 @@ public class UnionBan extends Module {
 
     @Override
     public void onLoad() {
-        onReload();
-    }
-
-    public void onReload() {
         unionBanDataGet.load();
         importBanList();
         mergeAndReportData(true);
@@ -37,6 +33,12 @@ public class UnionBan extends Module {
 
     public void onEnable() {
         if (Config.UnionBanMergePeriod > 0)
+            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, this::scheduleTask, Config.UnionBanMergePeriod * 20L);
+    }
+
+    public void scheduleTask() {
+        mergeAndReportData(true);
+        if (flag_continue)
             Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, this::scheduleTask, Config.UnionBanMergePeriod * 20L);
     }
 
@@ -58,11 +60,5 @@ public class UnionBan extends Module {
         if (!Config.UnionBanEnabled) {
             this.moduleName = null;
         }
-    }
-
-    public void scheduleTask() {
-        mergeAndReportData(true);
-        if (flag_continue)
-            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, this::scheduleTask, 1200L);
     }
 }
