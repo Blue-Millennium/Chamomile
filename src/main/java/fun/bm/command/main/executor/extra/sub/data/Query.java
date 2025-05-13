@@ -5,6 +5,7 @@ import fun.bm.command.main.executor.extra.sub.data.query.DataQueryByName;
 import fun.bm.command.main.executor.extra.sub.data.query.DataQueryByQQ;
 import fun.bm.command.main.executor.extra.sub.data.query.DataQueryByUUID;
 import fun.bm.command.main.executor.extra.sub.data.query.DataQueryByUserID;
+import fun.bm.data.DataProcessor.Data.DataGet;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import static fun.bm.util.helper.CommandHelper.operatorCheck;
 
 public class Query extends Command.ExecutorE {
+    public static DataGet dataGet = new DataGet();
     DataQueryByQQ qq = new DataQueryByQQ();
     DataQueryByName name = new DataQueryByName();
     DataQueryByUUID uuid = new DataQueryByUUID();
