@@ -17,10 +17,9 @@ import static fun.bm.util.MainEnv.LOGGER;
 public class OnlineDataMerge {
     public static void mergeAndReportData(boolean flag) {
         List<UnionBanData> remote = loadRemoteBanList();
-        List<String[]> locallist = new ArrayList<>(List.of());
-        List<String[]> reportlist = new ArrayList<>(List.of());
+        List<String[]> locallist = new ArrayList<>();
+        List<String[]> reportlist = new ArrayList<>();
         for (UnionBanData banData : remote) {
-            banData.reportTag = true;
             UnionBanData data = UnionBan.unionBanDataGet.getUnionBanData(banData.playerUuid);
             if (data == null) {
                 if (flag || banData.reason.equals("Pardon")) {
@@ -28,35 +27,31 @@ public class OnlineDataMerge {
                     locallist.add(new String[]{banData.playerName, banData.reason});
                 }
             } else {
-                if (data.time < banData.time) {
-                    if (flag || banData.reason.equals("Pardon")) {
-                        UnionBan.unionBanDataGet.setPlayerData(banData.playerUuid, banData);
-                        locallist.add(new String[]{banData.playerName, banData.reason});
-                    }
-                } else if (data.time > banData.time) {
-                    if (flag && reportRemoteBanList(data)) {
-                        reportlist.add(new String[]{data.playerName, data.reason});
-                    }
+                if (data.time < banData.time && (flag || banData.reason.equals("Pardon"))) {
+                    UnionBan.unionBanDataGet.setPlayerData(banData.playerUuid, banData);
+                    locallist.add(new String[]{banData.playerName, banData.reason});
+                } else if (data.time > banData.time && flag && reportRemoteBanList(data)) {
+                    reportlist.add(new String[]{data.playerName, data.reason});
+                    banData.reportTag = true;
+                    UnionBan.unionBanDataGet.setPlayerData(data.playerUuid, data);
                 }
             }
         }
         if (flag) {
+            remote = loadRemoteBanList();
             for (UnionBanData banData : UnionBan.dataList) {
                 try {
                     boolean found = false;
-                    long time = 0;
                     for (UnionBanData data : remote) {
                         if (data.playerUuid.equals(banData.playerUuid)) {
                             found = true;
-                            time = data.time;
                             break;
                         }
                     }
-                    if (!found || banData.time > time) {
-                        if (reportRemoteBanList(banData)) {
-                            reportlist.add(new String[]{banData.playerName, banData.reason});
-                            banData.reportTag = true;
-                        }
+                    if (!found && reportRemoteBanList(banData)) {
+                        reportlist.add(new String[]{banData.playerName, banData.reason});
+                        banData.reportTag = true;
+                        UnionBan.unionBanDataGet.setPlayerData(banData.playerUuid, banData);
                     }
                 } catch (Exception e) {
                     LOGGER.warning(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
@@ -81,9 +76,13 @@ public class OnlineDataMerge {
                     msg1.append(name[0]).append(" ");
                 }
             }
-            BanMessage(rec[0], msg1.append(rec[1]).toString());
-            BanMessage(rec[0], msg2.append(rec[2]).toString());
+            reportBanMessage(msg1, rec[0], rec[1]);
+            reportBanMessage(msg2, rec[0], rec[2]);
         }
+    }
+
+    public static void reportBanMessage(StringBuilder msg, String rec1, String rec2) {
+        if (!msg.isEmpty()) BanMessage(rec1, msg.append(rec2).toString());
     }
 
     public static void localBanDataProcess() {
@@ -107,7 +106,7 @@ public class OnlineDataMerge {
     }
 
     public static void reportBanData(String name, UUID uuid, long time, String reason, String sourceServer) {
-        Bukkit.broadcastMessage("正在尝试与UnionBan服务器合并封禁数据");
+        Bukkit.broadcastMessage("正在尝试与UnionBan服务器合并封禁与解封数据");
         UnionBanData data = new UnionBanData();
         data.playerName = name;
         data.playerUuid = uuid;

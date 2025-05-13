@@ -63,12 +63,12 @@ public class OnlinePush {
 
             // 处理响应
             if (response.statusCode() == 200) {
-                LOGGER.info("封禁数据上报成功");
+                LOGGER.info("封禁或解封数据上报成功");
                 data.reportTag = true;
                 UnionBan.unionBanDataGet.setPlayerData(data.playerUuid, data);
                 return true;
             } else {
-                LOGGER.info("封禁数据上报失败，状态码: " + response.statusCode());
+                LOGGER.info("封禁或解封数据上报失败，状态码: " + response.statusCode());
                 LOGGER.info("回传信息: " + response);
             }
 

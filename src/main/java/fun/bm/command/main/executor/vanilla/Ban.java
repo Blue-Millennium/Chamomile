@@ -5,9 +5,8 @@ import fun.bm.config.Config;
 import fun.bm.util.MainEnv;
 import net.mamoe.mirai.contact.Group;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.profile.PlayerProfile;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -68,25 +67,27 @@ public class Ban extends Command.ExecutorV {
 
             String playerName = args[0];
             String reason = args.length > 1 ? String.join(" ", Arrays.copyOfRange(args, 1, args.length)) : "No reason provided";
-            Player tp;
+            OfflinePlayer tp;
             try {
                 UUID uuid = UUID.fromString(playerName);
                 tp = Bukkit.getPlayer(uuid);
             } catch (Throwable ignored) {
                 tp = Bukkit.getPlayer(playerName);
             }
-            PlayerProfile targetPlayer = null;
-            if (tp != null) {
-                targetPlayer = tp.getPlayerProfile();
-            } else {
+            if (tp == null) {
                 try {
-                    targetPlayer = Arrays.stream(Bukkit.getOfflinePlayers()).filter(record -> Objects.equals(record.getName(), playerName)).toList().get(0).getPlayerProfile();
-                } catch (Throwable ignored) {
-                }
-                if (targetPlayer == null) {
-                    sender.sendMessage("未找到玩家: " + playerName);
-                    return true;
-                } else targetPlayer.update();
+                    for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
+                        if (Objects.equals(player.getName(), playerName)) {
+                            tp = player;
+                            break;
+                        }
+                    }
+                } catch (Throwable ignored) {}
+            }
+
+            if (tp == null) {
+                sender.sendMessage("未找到玩家: " + playerName);
+                return true;
             }
 
             // 调用原版的 ban 命令
@@ -94,7 +95,7 @@ public class Ban extends Command.ExecutorV {
 
             if (result) {
                 // 额外操作---to UnionBan
-                transferToUnionBan(targetPlayer, sender, reason);
+                transferToUnionBan(tp, sender, reason);
             }
 
             return result;
@@ -103,7 +104,7 @@ public class Ban extends Command.ExecutorV {
         }
     }
 
-    private void transferToUnionBan(PlayerProfile targetPlayer, CommandSender sender, String reason) {
+    private void transferToUnionBan(OfflinePlayer targetPlayer, CommandSender sender, String reason) {
         String message = "玩家 " + targetPlayer.getName() + " 已被 " + sender.getName() + " 以[ " + reason + " ]的理由封禁";
         BanMessage("Local", message);
         if (!Config.UnionBanCheckOnly) {
