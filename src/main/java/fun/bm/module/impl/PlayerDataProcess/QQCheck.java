@@ -2,6 +2,9 @@ package fun.bm.module.impl.PlayerDataProcess;
 
 import fun.bm.config.Config;
 import fun.bm.data.DataManager.LoginData.Data;
+import fun.bm.data.DataManager.LoginData.LinkData.LinkData;
+import fun.bm.data.DataManager.LoginData.LinkData.QQLinkData;
+import fun.bm.data.DataManager.LoginData.LinkData.UseridLinkData;
 import fun.bm.data.DataManager.LoginData.PlayerData.PlayerData;
 import fun.bm.module.Module;
 import fun.bm.util.MainEnv;
@@ -12,7 +15,6 @@ import net.mamoe.mirai.event.events.MessageEvent;
 import net.mamoe.mirai.event.events.NewFriendRequestEvent;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
@@ -21,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+import static fun.bm.command.main.executor.extra.sub.data.Query.dataGet;
 import static fun.bm.module.impl.PlayerDataProcess.DataProcess.baseDataProcess;
 import static fun.bm.util.MainEnv.LOGGER;
 
@@ -54,16 +57,21 @@ public class QQCheck extends Module {
             }
         } catch (Exception ignored) {
         }
-        boolean check_tag = false;
-        List<MessageChainBuilder> builderList = new java.util.ArrayList<>(List.of());
-        for (Data data : MainEnv.dataManager.DATA_LIST) {
-            if (Bukkit.getServer().getOperators().contains(Bukkit.getPlayer(data.playerData.playerUuid))
-                    && data.useridLinkedGroup == event.getGroup().getId()) {
-                check_tag = true;
-                builderList.add(buildMessage(event, data.playerData.playerName));
+        List<MessageChainBuilder> builderList = new java.util.ArrayList<>();
+        List<Data> dataList = Config.BotModeOfficial ? dataGet.getPlayersByQQ(event.getGroup().getId()) : dataGet.getPlayersByUserID(event.getGroup().getId());
+        if (!dataList.isEmpty()) {
+            for (Data data : dataList) {
+                if (!data.linkData.isEmpty()
+                        && data.linkData.stream()
+                        .anyMatch(linkData ->
+                                (!Config.BotModeOfficial && linkData instanceof QQLinkData
+                                        && ((QQLinkData) linkData).qqNumber == event.getGroup().getId())
+                                        || (Config.BotModeOfficial && linkData instanceof UseridLinkData
+                                        && ((UseridLinkData) linkData).userid == event.getSender().getId())))
+                    builderList.add(buildMessage(event, data.playerData.playerName));
             }
         }
-        if (check_tag) {
+        if (!builderList.isEmpty()) {
             MessageChainBuilder finalBuilder = new MessageChainBuilder();
             for (MessageChainBuilder txt : builderList) {
                 finalBuilder.add("\n-----------------\n");
@@ -105,7 +113,7 @@ public class QQCheck extends Module {
                     MainEnv.dataManager.setPlayerData(data.playerData.playerUuid, data);
                 } else {
                     data.playerData = entry.getKey();
-                    MainEnv.dataManager.DATA_LIST.add(data);
+                    MainEnv.dataManager.setPlayerDataByName(data.playerData.playerName, data);
                     MainEnv.dataManager.save();
                 }
 
@@ -196,13 +204,15 @@ public class QQCheck extends Module {
         data.playerData.playerName = event.getName();
         // 首次登录
         int code = generateCode(data);
-        if (Config.EnforceCheckEnabled && data.qqNumber == 0 && (data.userid == 0 || data.useridLinkedGroup == 0)) {
+        if (Config.EnforceCheckEnabled && data.linkData.isEmpty()) {
             // 拒绝加入服务器
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.DisTitle.replace("%CODE%", String.valueOf(code)));
-        } else if (Config.BotModeOfficial && data.qqNumber != 0) {
-            data.useridChecked = true;
-        } else if (!Config.BotModeOfficial && data.userid != 0 && data.useridLinkedGroup != 0) {
-            data.qqChecked = true;
+        } else {
+            for (LinkData linkData : data.linkData) {
+                if (data.qqChecked && data.useridChecked) break;
+                if (linkData instanceof QQLinkData) data.qqChecked = true;
+                if (linkData instanceof UseridLinkData) data.useridChecked = true;
+            }
         }
 
         // 设置首次登陆数据
@@ -221,8 +231,7 @@ public class QQCheck extends Module {
                     }
                 }
                 Data data = MainEnv.dataManager.getPlayerData(event.getPlayer().getUniqueId());
-                if (code != -1 && ((Config.BotModeOfficial && (data.userid == 0 || data.useridLinkedGroup == 0))
-                        || (!Config.BotModeOfficial && data.qqNumber == 0))) {
+                if (code != -1 && data.linkData.isEmpty()) {
                     player.sendMessage(Config.DisTitle.replace("%CODE%", String.valueOf(code)));
                 } else {
                     player.sendMessage(Config.ConnTitle);

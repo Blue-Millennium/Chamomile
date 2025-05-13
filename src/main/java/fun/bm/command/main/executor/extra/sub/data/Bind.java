@@ -27,6 +27,7 @@ public class Bind extends Command.ExecutorE {
             data.linkedTime = System.currentTimeMillis();
             data.qqChecked = true;
             MainEnv.dataManager.setPlayerDataByName(args[0], data);
+            MainEnv.dataManager.save();
             sender.sendMessage("§e已将游戏名为" + args[0] + "的玩家绑定QQ为" + args[1]);
         }
         return true;

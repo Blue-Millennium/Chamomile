@@ -17,6 +17,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static fun.bm.command.main.executor.extra.sub.data.Query.dataGet;
 import static fun.bm.command.main.executor.extra.sub.report.ReportQuery.message_head;
 import static fun.bm.util.MainEnv.LOGGER;
 import static fun.bm.util.helper.ImageProcessor.reportCharmProcess;
@@ -80,9 +81,9 @@ public class ExecuteRcon extends Module {
                     isOperator = event.getSender().getPermission().equals(MemberPermission.ADMINISTRATOR)
                             || event.getSender().getPermission().equals(MemberPermission.OWNER);
                 } else {
-                    for (Data data : MainEnv.dataManager.DATA_LIST) {
-                        if (data.useridLinkedGroup == event.getGroup().getId()
-                                && data.userid == event.getSender().getId()) {
+                    List<Data> dataList = dataGet.getPlayersByUserID(event.getGroup().getId());
+                    if (!dataList.isEmpty()) {
+                        for (Data data : dataList) {
                             isAuthenticated = true;
                             for (OfflinePlayer player : Bukkit.getServer().getOperators()) {
                                 if (player.getUniqueId().equals(data.playerData.playerUuid)) {

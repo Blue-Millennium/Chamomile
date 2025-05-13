@@ -82,7 +82,8 @@ public class Ban extends Command.ExecutorV {
                             break;
                         }
                     }
-                } catch (Throwable ignored) {}
+                } catch (Throwable ignored) {
+                }
             }
 
             if (tp == null) {

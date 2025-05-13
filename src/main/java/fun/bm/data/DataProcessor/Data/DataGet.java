@@ -3,9 +3,10 @@ package fun.bm.data.DataProcessor.Data;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import fun.bm.data.DataManager.LoginData.Data;
+import fun.bm.data.DataManager.LoginData.LinkData.QQLinkData;
+import fun.bm.data.DataManager.LoginData.LinkData.UseridLinkData;
 import fun.bm.util.MainEnv;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -20,11 +21,11 @@ public class DataGet {
     private final Gson gson = new Gson();
 
     public DataGet() {
-        this.dataList = readDataFromFile(MainEnv.DATA_FILE);
+        this.dataList = readDataFromFile();
     }
 
-    private List<Data> readDataFromFile(File file) {
-        try (FileReader reader = new FileReader(file)) {
+    private List<Data> readDataFromFile() {
+        try (FileReader reader = new FileReader(MainEnv.DATA_FILE)) {
             Type listType = new TypeToken<List<Data>>() {
             }.getType();
             return gson.fromJson(reader, listType);
@@ -37,7 +38,8 @@ public class DataGet {
     public List<Data> getPlayersByUserID(long userID) {
         try {
             return dataList.stream()
-                    .filter(record -> record.userid == userID)
+                    .filter(record -> record.linkData.stream()
+                            .anyMatch(linkData -> linkData instanceof UseridLinkData && ((UseridLinkData) linkData).userid == userID))
                     .toList();
         } catch (Exception e) {
             return null;
@@ -47,7 +49,8 @@ public class DataGet {
     public List<Data> getPlayersByQQ(long qqNumber) {
         try {
             return dataList.stream()
-                    .filter(record -> record.qqNumber == qqNumber)
+                    .filter(record -> record.linkData.stream()
+                            .anyMatch(linkData -> linkData instanceof QQLinkData && ((QQLinkData) linkData).qqNumber == qqNumber))
                     .toList();
         } catch (Exception e) {
             return null;

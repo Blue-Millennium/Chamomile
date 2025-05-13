@@ -2,7 +2,7 @@ package fun.bm.module.impl;
 
 import fun.bm.config.Config;
 import fun.bm.data.DataManager.LoginData.Data;
-import fun.bm.data.DataManager.LoginData.PlayerData.PlayerData;
+import fun.bm.data.DataManager.LoginData.LinkData.UseridLinkData;
 import fun.bm.module.Module;
 import fun.bm.module.impl.PlayerDataProcess.QQCheck;
 import fun.bm.util.MainEnv;
@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import static fun.bm.command.main.executor.extra.sub.data.Query.dataGet;
 import static fun.bm.util.MainEnv.LOGGER;
 import static fun.bm.util.helper.ImageProcessor.processImageUrl;
 import static fun.bm.util.helper.ImageProcessor.sendImageUrl;
@@ -89,23 +90,27 @@ public class SyncChat extends Module {
     }
 
     public String getID(GroupMessageEvent event) {
-        List<PlayerData> pd = new ArrayList<>();
-        for (Data data : MainEnv.dataManager.DATA_LIST) {
-            if (data.userid == event.getSender().getId()
-                    && data.useridLinkedGroup == event.getGroup().getId())
-                pd.add(data.playerData);
+        List<String> pd = new ArrayList<>();
+        List<Data> dataList = dataGet.getPlayersByUserID(event.getGroup().getId());
+        if (!dataList.isEmpty()) {
+            for (Data data : dataList) {
+                if (!data.linkData.isEmpty()
+                        && data.linkData.stream()
+                        .anyMatch(linkData -> (Config.BotModeOfficial && linkData instanceof UseridLinkData
+                                && ((UseridLinkData) linkData).userid == event.getSender().getId())))
+                    pd.add(data.playerData.playerName);
+            }
         }
         if (pd.isEmpty()) {
             return "(Userid: " + event.getSender().getId() + ")";
         } else {
             StringBuilder sb = new StringBuilder();
             sb.append("(游戏内ID: ");
-            for (PlayerData p : pd) {
-                sb.append(p.playerName).append("/");
+            for (String p : pd) {
+                sb.append(p).append("/");
             }
             sb.delete(sb.length() - 1, sb.length());
-            sb.append(", Userid: " + event.getSender().getId());
-            sb.append(")");
+            sb.append(", Userid: ").append(event.getSender().getId()).append(")");
             return sb.toString();
         }
     }

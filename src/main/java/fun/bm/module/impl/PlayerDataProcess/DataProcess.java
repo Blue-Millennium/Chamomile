@@ -2,6 +2,9 @@ package fun.bm.module.impl.PlayerDataProcess;
 
 import fun.bm.config.Config;
 import fun.bm.data.DataManager.LoginData.Data;
+import fun.bm.data.DataManager.LoginData.LinkData.LinkData;
+import fun.bm.data.DataManager.LoginData.LinkData.QQLinkData;
+import fun.bm.data.DataManager.LoginData.LinkData.UseridLinkData;
 import fun.bm.data.DataManager.LoginData.PlayerData.OldName;
 import fun.bm.data.DataManager.LoginData.PlayerData.PlayerData;
 import fun.bm.module.Module;
@@ -38,15 +41,19 @@ public class DataProcess extends Module {
                 data.playerData.playerName = event.getName();
             }
         }
-        data.qqChecked = data.qqNumber > 0;
+        if (!data.linkData.isEmpty()) {
+            for (LinkData linkData : data.linkData) {
+                if (data.qqChecked && data.useridChecked) break;
+                if (linkData instanceof QQLinkData) data.qqChecked = true;
+                if (linkData instanceof UseridLinkData) data.useridChecked = true;
+            }
+        }
         if (data.firstJoin < 0) {
             data.firstJoin = System.currentTimeMillis();
         }
         if (data.firstJoinIp == null) {
             data.firstJoinIp = event.getAddress().getHostAddress();
         }
-        data.qqChecked = data.qqNumber > 0;
-        data.useridChecked = data.userid > 0;
         data.lastJoin = System.currentTimeMillis();
         data.lastJoinIp = event.getAddress().getHostAddress();
 

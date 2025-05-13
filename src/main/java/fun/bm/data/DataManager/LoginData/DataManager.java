@@ -82,7 +82,8 @@ public class DataManager {
     }
 
     public void setPlayerDataByName(String name, Data data) {
-        DATA_LIST.remove(getPlayerDataByName(name));
+        Data data_old = getPlayerDataByName(name);
+        if (data_old != null) DATA_LIST.remove(getPlayerDataByName(name));
         DATA_LIST.add(data);
         save();
     }

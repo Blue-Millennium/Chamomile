@@ -22,7 +22,7 @@ public class Data {
     public long userid;
     public long useridLinkedGroup;
     public long useridLinkedTime;
-    //  move up - end
+    // move up - end
     public String firstJoinIp = null;
     public String lastJoinIp = null;
 }
