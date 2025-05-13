@@ -10,8 +10,8 @@ import static fun.bm.util.MainEnv.LOGGER;
 public class QQBotKeeper extends Module {
     boolean flag_continue = true;
 
-    public QQBotKeeper(String moduleName) {
-        super("botKeeper");
+    public QQBotKeeper() {
+        super("BotKeeper");
     }
 
     public void onEnable() {
