@@ -1,9 +1,9 @@
-package fun.bm.data.DataManager.UnionBan.Local;
+package fun.bm.data.manager.unionban.local;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import fun.bm.data.DataManager.UnionBan.UnionBanData;
+import fun.bm.data.manager.unionban.UnionBanData;
 import fun.bm.util.MainEnv;
 
 import java.io.FileReader;

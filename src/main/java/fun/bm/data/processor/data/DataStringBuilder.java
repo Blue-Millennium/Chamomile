@@ -1,12 +1,12 @@
-package fun.bm.data.DataProcessor.Data;
+package fun.bm.data.processor.data;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import fun.bm.data.DataManager.LoginData.Data;
-import fun.bm.data.DataManager.LoginData.LinkData.LinkData;
-import fun.bm.data.DataManager.LoginData.LinkData.QQLinkData;
-import fun.bm.data.DataManager.LoginData.LinkData.UseridLinkData;
-import fun.bm.data.DataManager.LoginData.PlayerData.OldName;
+import fun.bm.data.manager.data.Data;
+import fun.bm.data.manager.data.link.LinkData;
+import fun.bm.data.manager.data.link.QQLinkData;
+import fun.bm.data.manager.data.link.UseridLinkData;
+import fun.bm.data.manager.data.player.OldName;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 

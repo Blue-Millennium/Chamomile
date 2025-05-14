@@ -1,15 +1,15 @@
-package fun.bm.data.DataProcessor.LinkData;
+package fun.bm.data.processor.data.link;
 
-import fun.bm.data.DataManager.LoginData.Data;
-import fun.bm.data.DataManager.LoginData.LinkData.LinkData;
-import fun.bm.data.DataManager.LoginData.LinkData.QQLinkData;
-import fun.bm.data.DataManager.LoginData.LinkData.UseridLinkData;
+import fun.bm.data.manager.data.Data;
+import fun.bm.data.manager.data.link.LinkData;
+import fun.bm.data.manager.data.link.QQLinkData;
+import fun.bm.data.manager.data.link.UseridLinkData;
 import fun.bm.util.MainEnv;
 
 import java.util.List;
 
-import static fun.bm.data.DataProcessor.Data.DataStringBuilder.appendIfNotNull;
-import static fun.bm.data.DataProcessor.Data.DataStringBuilder.transferTime;
+import static fun.bm.data.processor.data.DataStringBuilder.appendIfNotNull;
+import static fun.bm.data.processor.data.DataStringBuilder.transferTime;
 
 public class LinkDataStringBuilder {
     public static String buildLinkDataString(String name) {

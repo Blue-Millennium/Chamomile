@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-import static fun.bm.data.DataProcessor.Data.DataStringBuilder.buildDataString;
+import static fun.bm.data.processor.data.DataStringBuilder.buildDataString;
 import static fun.bm.util.MainEnv.LOGGER;
 import static fun.bm.util.helper.CommandHelper.operatorCheck;
 

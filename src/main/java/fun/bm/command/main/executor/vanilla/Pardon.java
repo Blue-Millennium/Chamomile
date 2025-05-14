@@ -2,7 +2,7 @@ package fun.bm.command.main.executor.vanilla;
 
 import fun.bm.command.Command;
 import fun.bm.config.Config;
-import fun.bm.data.DataManager.UnionBan.UnionBanData;
+import fun.bm.data.manager.unionban.UnionBanData;
 import fun.bm.module.impl.UnionBan;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.command.main.executor.vanilla.Ban.BanMessage;
-import static fun.bm.data.DataManager.UnionBan.Local.OnlineDataMerge.reportBanData;
+import static fun.bm.data.manager.unionban.local.OnlineDataMerge.reportBanData;
 
 /**
  * @author Suisuroru

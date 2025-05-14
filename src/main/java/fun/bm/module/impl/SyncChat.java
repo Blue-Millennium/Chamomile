@@ -1,10 +1,10 @@
 package fun.bm.module.impl;
 
 import fun.bm.config.Config;
-import fun.bm.data.DataManager.LoginData.Data;
-import fun.bm.data.DataManager.LoginData.LinkData.UseridLinkData;
+import fun.bm.data.manager.data.Data;
+import fun.bm.data.manager.data.link.UseridLinkData;
 import fun.bm.module.Module;
-import fun.bm.module.impl.PlayerDataProcess.QQCheck;
+import fun.bm.module.impl.data.QQCheck;
 import fun.bm.util.MainEnv;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.event.events.GroupMessageEvent;

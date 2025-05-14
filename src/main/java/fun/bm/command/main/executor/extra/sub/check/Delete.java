@@ -1,12 +1,12 @@
 package fun.bm.command.main.executor.extra.sub.check;
 
 import fun.bm.command.Command;
-import fun.bm.data.DataManager.LoginData.Data;
+import fun.bm.data.manager.data.Data;
 import fun.bm.util.MainEnv;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.bm.data.DataProcessor.LinkData.LinkDataStringBuilder.buildLinkDataString;
+import static fun.bm.data.processor.data.link.LinkDataStringBuilder.buildLinkDataString;
 
 public class Delete extends Command.ExecutorE {
     public Delete() {

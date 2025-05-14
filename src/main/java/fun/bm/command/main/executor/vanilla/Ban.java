@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static fun.bm.data.DataManager.UnionBan.Local.OnlineDataMerge.reportBanData;
+import static fun.bm.data.manager.unionban.local.OnlineDataMerge.reportBanData;
 import static fun.bm.module.impl.QQReporter.ReportGroups;
 import static fun.bm.module.impl.SyncChat.SyncGroups;
 import static fun.bm.util.MainEnv.LOGGER;

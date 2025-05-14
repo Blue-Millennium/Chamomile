@@ -2,13 +2,13 @@ package fun.bm.command.main.executor.extra.sub.check;
 
 import fun.bm.command.Command;
 import fun.bm.config.Config;
-import fun.bm.data.DataManager.LoginData.Data;
+import fun.bm.data.manager.data.Data;
 import fun.bm.util.MainEnv;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.bm.module.impl.PlayerDataProcess.QQCheck.generateCode;
-import static fun.bm.module.impl.PlayerDataProcess.QQCheck.nullCheck;
+import static fun.bm.module.impl.data.QQCheck.generateCode;
+import static fun.bm.module.impl.data.QQCheck.nullCheck;
 
 public class Verify extends Command.ExecutorE {
     public Verify() {

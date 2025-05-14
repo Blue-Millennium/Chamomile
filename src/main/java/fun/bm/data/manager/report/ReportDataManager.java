@@ -1,4 +1,4 @@
-package fun.bm.data.DataManager.Report;
+package fun.bm.data.manager.report;
 
 import fun.bm.util.MainEnv;
 import org.bukkit.command.CommandSender;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static fun.bm.data.DataProcessor.Data.DataStringBuilder.transferTime;
+import static fun.bm.data.processor.data.DataStringBuilder.transferTime;
 import static fun.bm.util.MainEnv.LOGGER;
 import static fun.bm.util.TimeUtil.getUnixTime;
 

@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.command.main.executor.extra.sub.data.query.DataQueryByQQ.longProcess;
-import static fun.bm.data.DataProcessor.Data.DataStringBuilder.buildDataString;
+import static fun.bm.data.processor.data.DataStringBuilder.buildDataString;
 import static fun.bm.util.helper.CommandHelper.operatorCheck;
 
 public class DataQueryByUserID extends Command.ExecutorE {

@@ -1,4 +1,4 @@
-package fun.bm.data.DataManager.UnionBan;
+package fun.bm.data.manager.unionban;
 
 import java.util.UUID;
 

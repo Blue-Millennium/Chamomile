@@ -5,7 +5,7 @@ import fun.bm.command.main.executor.extra.sub.data.Query;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.bm.data.DataProcessor.Data.DataStringBuilder.buildDataString;
+import static fun.bm.data.processor.data.DataStringBuilder.buildDataString;
 import static fun.bm.util.MainEnv.LOGGER;
 import static fun.bm.util.helper.CommandHelper.operatorCheck;
 

@@ -1,7 +1,7 @@
-package fun.bm.data.DataManager.LoginData;
+package fun.bm.data.manager.data;
 
-import fun.bm.data.DataManager.LoginData.LinkData.LinkData;
-import fun.bm.data.DataManager.LoginData.PlayerData.PlayerData;
+import fun.bm.data.manager.data.link.LinkData;
+import fun.bm.data.manager.data.player.PlayerData;
 
 import java.util.List;
 

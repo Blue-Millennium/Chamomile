@@ -5,7 +5,7 @@ import fun.bm.command.main.executor.extra.sub.data.query.DataQueryByName;
 import fun.bm.command.main.executor.extra.sub.data.query.DataQueryByQQ;
 import fun.bm.command.main.executor.extra.sub.data.query.DataQueryByUUID;
 import fun.bm.command.main.executor.extra.sub.data.query.DataQueryByUserID;
-import fun.bm.data.DataProcessor.Data.DataGet;
+import fun.bm.data.processor.data.DataGet;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,8 +1,8 @@
 package fun.bm.module.impl;
 
 import fun.bm.config.Config;
-import fun.bm.data.DataManager.UnionBan.Local.UnionBanDataGet;
-import fun.bm.data.DataManager.UnionBan.UnionBanData;
+import fun.bm.data.manager.unionban.UnionBanData;
+import fun.bm.data.manager.unionban.local.UnionBanDataGet;
 import fun.bm.module.Module;
 import fun.bm.util.MainEnv;
 import org.bukkit.Bukkit;
@@ -12,8 +12,8 @@ import org.bukkit.event.player.PlayerLoginEvent;
 
 import java.util.List;
 
-import static fun.bm.data.DataManager.UnionBan.Local.LocalBanListImport.importBanList;
-import static fun.bm.data.DataManager.UnionBan.Local.OnlineDataMerge.mergeAndReportData;
+import static fun.bm.data.manager.unionban.local.LocalBanListImport.importBanList;
+import static fun.bm.data.manager.unionban.local.OnlineDataMerge.mergeAndReportData;
 
 public class UnionBan extends Module {
     public static UnionBanDataGet unionBanDataGet = new UnionBanDataGet();

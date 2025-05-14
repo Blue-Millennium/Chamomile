@@ -1,11 +1,11 @@
-package fun.bm.data.DataManager.LoginData;
+package fun.bm.data.manager.data;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import fun.bm.data.DataManager.LoginData.LinkData.LinkData;
-import fun.bm.data.DataManager.LoginData.LinkData.QQLinkData;
-import fun.bm.data.DataManager.LoginData.LinkData.UseridLinkData;
+import fun.bm.data.manager.data.link.LinkData;
+import fun.bm.data.manager.data.link.QQLinkData;
+import fun.bm.data.manager.data.link.UseridLinkData;
 import fun.bm.util.MainEnv;
 
 import java.io.FileReader;

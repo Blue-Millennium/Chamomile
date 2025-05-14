@@ -1,6 +1,6 @@
-package fun.bm.data.DataManager.UnionBan.Local;
+package fun.bm.data.manager.unionban.local;
 
-import fun.bm.data.DataManager.UnionBan.UnionBanData;
+import fun.bm.data.manager.unionban.UnionBanData;
 import fun.bm.module.impl.UnionBan;
 import org.bukkit.Bukkit;
 
@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.UUID;
 
 import static fun.bm.command.main.executor.vanilla.Ban.BanMessage;
-import static fun.bm.data.DataManager.UnionBan.Online.OnlineGet.loadRemoteBanList;
-import static fun.bm.data.DataManager.UnionBan.Online.OnlinePush.reportRemoteBanList;
+import static fun.bm.data.manager.unionban.online.OnlineGet.loadRemoteBanList;
+import static fun.bm.data.manager.unionban.online.OnlinePush.reportRemoteBanList;
 import static fun.bm.util.MainEnv.LOGGER;
 
 public class OnlineDataMerge {

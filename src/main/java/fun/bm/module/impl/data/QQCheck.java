@@ -1,11 +1,11 @@
-package fun.bm.module.impl.PlayerDataProcess;
+package fun.bm.module.impl.data;
 
 import fun.bm.config.Config;
-import fun.bm.data.DataManager.LoginData.Data;
-import fun.bm.data.DataManager.LoginData.LinkData.LinkData;
-import fun.bm.data.DataManager.LoginData.LinkData.QQLinkData;
-import fun.bm.data.DataManager.LoginData.LinkData.UseridLinkData;
-import fun.bm.data.DataManager.LoginData.PlayerData.PlayerData;
+import fun.bm.data.manager.data.Data;
+import fun.bm.data.manager.data.link.LinkData;
+import fun.bm.data.manager.data.link.QQLinkData;
+import fun.bm.data.manager.data.link.UseridLinkData;
+import fun.bm.data.manager.data.player.PlayerData;
 import fun.bm.module.Module;
 import fun.bm.util.MainEnv;
 import fun.bm.util.TimeUtil;
@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 import static fun.bm.command.main.executor.extra.sub.data.Query.dataGet;
-import static fun.bm.module.impl.PlayerDataProcess.DataProcess.baseDataProcess;
+import static fun.bm.module.impl.data.DataProcess.baseDataProcess;
 import static fun.bm.util.MainEnv.LOGGER;
 
 public class QQCheck extends Module {
