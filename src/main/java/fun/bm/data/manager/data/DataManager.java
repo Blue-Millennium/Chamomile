@@ -99,9 +99,9 @@ public class DataManager {
                     linkData.linkedTime = data.linkedTime;
                     data.qqNumber = 0;
                     data.linkedTime = 0;
+                    data.qqChecked = true;
                     linkDataList.add(linkData);
                     data.linkData = linkDataList;
-                    setPlayerData(data.playerData.playerUuid, data);
                 } catch (Exception e) {
                     LOGGER.warning(e.getMessage());
                 }
@@ -122,14 +122,28 @@ public class DataManager {
                         data.userid = 0;
                         data.useridLinkedGroup = 0;
                         data.useridLinkedTime = 0;
+                        data.useridChecked = true;
                         linkDataList.add(linkData);
                         data.linkData = linkDataList;
-                        setPlayerData(data.playerData.playerUuid, data);
                     } catch (Exception e) {
                         LOGGER.warning(e.getMessage());
                     }
                 }
             }
+
+            // Check link data
+            if (data.linkData != null && !data.linkData.isEmpty()) {
+                for (LinkData linkData : data.linkData) {
+                    try {
+                        if (data.qqChecked && data.useridChecked) break;
+                        if (linkData instanceof QQLinkData) data.qqChecked = true;
+                        if (linkData instanceof UseridLinkData) data.useridChecked = true;
+                    } catch (Exception e) {
+                        LOGGER.warning(e.getMessage());
+                    }
+                }
+            }
+            setPlayerData(data.playerData.playerUuid, data);
         }
     }
 }

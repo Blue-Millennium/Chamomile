@@ -12,8 +12,8 @@ import java.util.List;
 public class Data {
     public PlayerData playerData;
     public List<LinkData> linkData;
-    public Boolean qqChecked = null;
-    public Boolean useridChecked = null;
+    public Boolean qqChecked = false;
+    public Boolean useridChecked = false;
     public long firstJoin = -1;
     public long lastJoin = -1;
     // move up - start

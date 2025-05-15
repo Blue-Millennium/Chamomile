@@ -29,7 +29,7 @@ public class Config {
     public static String ExecuteCommandPrefix = "/Rcon ";
     public static String JoinServerMessage = "%NAME% joined the server";
     public static String LeaveServerMessage = "%NAME% left the server";
-    public static String QQCheckStartWord = "Check";
+    public static String QQCheckStartWord = "/Check";
     public static String RconEnabledGroups = "123456;234567";
     public static String RconIP = "0.0.0.0";
     public static String RconPassword = "password";
@@ -39,7 +39,7 @@ public class Config {
     public static String SayServerMessage = "%NAME%: %MESSAGE%";
     public static String ServerName = "ServerName";
     public static String SyncChatGroup = "123456;234567";
-    public static String SyncChatStartWord = "Send";
+    public static String SyncChatStartWord = "/Send";
     public static String UnionBanCheckUrl = "https://example.com";
     public static String UnionBanReportKey = "your_report_key";
     public static String UnionBanReportUrl = "https://example.com";

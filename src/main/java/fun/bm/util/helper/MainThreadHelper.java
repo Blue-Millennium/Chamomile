@@ -85,7 +85,7 @@ public class MainThreadHelper {
     }
 
     public static void initOldDirectory() {
-        List<File> dir = new java.util.ArrayList<>(List.of());
+        List<File> dir = new java.util.ArrayList<>();
         for (String s : oldDir) {
             dir.add(new File(s));
         }
