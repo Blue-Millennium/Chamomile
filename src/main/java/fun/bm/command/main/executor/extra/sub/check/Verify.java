@@ -8,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.module.impl.data.QQCheck.generateCode;
-import static fun.bm.module.impl.data.QQCheck.nullCheck;
 
 public class Verify extends Command.ExecutorE {
     public Verify() {
@@ -17,7 +16,7 @@ public class Verify extends Command.ExecutorE {
 
     public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         Data data = MainEnv.dataManager.getPlayerDataByName(sender.getName());
-        data = nullCheck(data);
+        data = MainEnv.dataManager.nullCheck(data);
         int code = generateCode(data);
         sender.sendMessage(Config.DisTitle.replace("%CODE%", String.valueOf(code)));
         return true;

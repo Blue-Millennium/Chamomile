@@ -23,19 +23,22 @@ public class QQReporter extends Module {
         super("Reporter");
     }
 
-    @Override
+
     public void onLoad() {
         super.onLoad();
     }
 
-    @Override
+
     public void onEnable() {
         try {
             String[] groupIds = Config.ReportGroup.split(";");
             for (String groupId : groupIds) {
                 try {
-                    ReportGroups.add(Long.parseLong(groupId.trim()));
-                    break;
+                    String id = groupId.trim();
+                    if (id.isEmpty()) {
+                        continue;
+                    }
+                    ReportGroups.add(Long.parseLong(id));
                 } catch (NumberFormatException e) {
                     LOGGER.warning("[Reporter] Invalid group ID: " + groupId);
                 }

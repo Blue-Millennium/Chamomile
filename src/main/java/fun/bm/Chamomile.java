@@ -9,12 +9,12 @@ import org.bukkit.plugin.java.JavaPlugin;
  * Date: 2024/7/16 下午8:38
  */
 public class Chamomile extends JavaPlugin {
-    @Override
+
     public void onLoad() {
         MainThreadHelper.setupBaseEnv(this);
     }
 
-    @Override
+
     public void onEnable() {
         // 启动逻辑 - Start
         MainThreadHelper.bootQQBot();
@@ -24,7 +24,7 @@ public class Chamomile extends JavaPlugin {
         MainEnv.emailSender.checkPlugin("启动");
     }
 
-    @Override
+
     public void onDisable() {
         // 关闭逻辑 - Start
         MainEnv.moduleManager.onDisable();

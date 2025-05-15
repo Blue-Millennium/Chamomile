@@ -12,9 +12,9 @@ import fun.bm.util.MainEnv;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static fun.bm.module.impl.data.QQCheck.nullCheck;
 import static fun.bm.util.MainEnv.LOGGER;
 
 public class DataProcess extends Module {
@@ -23,7 +23,7 @@ public class DataProcess extends Module {
     }
 
     public static void baseDataProcess(AsyncPlayerPreLoginEvent event, Data data) {
-        data = nullCheck(data);
+        data = MainEnv.dataManager.nullCheck(data);
         if (data.playerData == null) {
             PlayerData playerData = new PlayerData();
             playerData.playerName = event.getName();
@@ -31,11 +31,9 @@ public class DataProcess extends Module {
             data.playerData = playerData;
         } else {
             if (!data.playerData.playerName.equals(event.getName())) {
-                OldName oldName = new OldName();
-                oldName.oldName = data.playerData.playerName;
-                oldName.updateTime = System.currentTimeMillis();
+                OldName oldName = new OldName(data.playerData.playerName, System.currentTimeMillis());
                 List<OldName> oldNames;
-                oldNames = data.playerData.oldNames;
+                oldNames = data.playerData.oldNames == null ? new ArrayList<>() : data.playerData.oldNames;
                 oldNames.add(oldName);
                 data.playerData.oldNames = oldNames;
                 data.playerData.playerName = event.getName();

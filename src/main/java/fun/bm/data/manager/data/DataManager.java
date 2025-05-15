@@ -6,6 +6,7 @@ import com.google.gson.stream.JsonReader;
 import fun.bm.data.manager.data.link.LinkData;
 import fun.bm.data.manager.data.link.QQLinkData;
 import fun.bm.data.manager.data.link.UseridLinkData;
+import fun.bm.data.manager.data.player.PlayerData;
 import fun.bm.util.MainEnv;
 
 import java.io.FileReader;
@@ -90,18 +91,22 @@ public class DataManager {
 
     public void refactorData() {
         for (Data data : DATA_LIST) {
+            nullCheck(data);
+
+            // Process Useless data
+            if (data.linkData != null && data.linkData.isEmpty()) data.linkData = null;
+            if (data.playerData.oldNames != null && data.playerData.oldNames.isEmpty()) data.playerData.oldNames = null;
+
+            // Init origin data
+            List<LinkData> linkDataList = data.linkData == null ? new ArrayList<>() : data.linkData;
+
             // Process unofficial data
             if (data.qqNumber != 0) {
                 try {
-                    List<LinkData> linkDataList = data.linkData == null ? new ArrayList<>() : data.linkData;
-                    QQLinkData linkData = new QQLinkData();
-                    linkData.qqNumber = data.qqNumber;
-                    linkData.linkedTime = data.linkedTime;
-                    data.qqNumber = 0;
-                    data.linkedTime = 0;
+                    QQLinkData linkData = new QQLinkData(data.qqNumber, data.linkedTime);
+                    data.qqNumber = data.linkedTime = 0;
                     data.qqChecked = true;
                     linkDataList.add(linkData);
-                    data.linkData = linkDataList;
                 } catch (Exception e) {
                     LOGGER.warning(e.getMessage());
                 }
@@ -114,17 +119,10 @@ public class DataManager {
                     data.useridLinkedTime = 0;
                 } else {
                     try {
-                        List<LinkData> linkDataList = data.linkData == null ? new ArrayList<>() : data.linkData;
-                        UseridLinkData linkData = new UseridLinkData();
-                        linkData.userid = data.userid;
-                        linkData.useridLinkedGroup = data.useridLinkedGroup;
-                        linkData.linkedTime = data.useridLinkedTime;
-                        data.userid = 0;
-                        data.useridLinkedGroup = 0;
-                        data.useridLinkedTime = 0;
+                        UseridLinkData linkData = new UseridLinkData(data.userid, data.useridLinkedGroup, data.useridLinkedTime);
+                        data.userid = data.useridLinkedGroup = data.useridLinkedTime = 0;
                         data.useridChecked = true;
                         linkDataList.add(linkData);
-                        data.linkData = linkDataList;
                     } catch (Exception e) {
                         LOGGER.warning(e.getMessage());
                     }
@@ -132,8 +130,9 @@ public class DataManager {
             }
 
             // Check link data
-            if (data.linkData != null && !data.linkData.isEmpty()) {
-                for (LinkData linkData : data.linkData) {
+            if (!linkDataList.isEmpty()) {
+                data.linkData = linkDataList;
+                for (LinkData linkData : linkDataList) {
                     try {
                         if (data.qqChecked && data.useridChecked) break;
                         if (linkData instanceof QQLinkData) data.qqChecked = true;
@@ -145,5 +144,15 @@ public class DataManager {
             }
             setPlayerData(data.playerData.playerUuid, data);
         }
+    }
+
+    public Data nullCheck(Data data) {
+        if (data == null) {
+            data = new Data();
+        }
+        if (data.playerData == null) {
+            data.playerData = new PlayerData();
+        }
+        return data;
     }
 }

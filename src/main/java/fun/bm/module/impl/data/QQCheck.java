@@ -21,7 +21,10 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import static fun.bm.command.main.executor.extra.sub.data.Query.dataGet;
 import static fun.bm.module.impl.data.DataProcess.baseDataProcess;
@@ -142,19 +145,6 @@ public class QQCheck extends Module {
         return checkMessage;
     }
 
-    public static Data nullCheck(Data data) {
-        if (data == null) {
-            data = new Data();
-        }
-        if (data.playerData == null) {
-            data.playerData = new PlayerData();
-        }
-        if (data.playerData.oldNames == null) {
-            data.playerData.oldNames = new ArrayList<>();
-        }
-        return data;
-    }
-
     public static int generateCode(Data data) {
         int code;
 
@@ -174,7 +164,7 @@ public class QQCheck extends Module {
         return code;
     }
 
-    @Override
+
     public void onEnable() {
         if (!Config.BotModeOfficial)
             MainEnv.eventChannel.subscribeAlways(NewFriendRequestEvent.class, NewFriendRequestEvent::accept);
@@ -199,7 +189,7 @@ public class QQCheck extends Module {
         }
 
         Data data = MainEnv.dataManager.getPlayerData(event.getUniqueId());
-        data = nullCheck(data);
+        data = MainEnv.dataManager.nullCheck(data);
         data.playerData.playerUuid = event.getUniqueId();
         data.playerData.playerName = event.getName();
         // 首次登录

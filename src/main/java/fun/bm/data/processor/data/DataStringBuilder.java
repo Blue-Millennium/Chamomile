@@ -91,10 +91,12 @@ public class DataStringBuilder {
         if (data.playerData != null) {
             appendIfNotNull(result, "玩家名称: ", data.playerData.playerName);
             appendIfNotNull(result, "玩家UUID: ", data.playerData.playerUuid);
-            try {
-                appendOldNameData(result, data.playerData.oldNames);
-            } catch (Exception e) {
-                LOGGER.warning("Error when transfer Old Name Data or Data not found.");
+            if (data.playerData.oldNames != null) {
+                try {
+                    appendOldNameData(result, data.playerData.oldNames);
+                } catch (Exception e) {
+                    LOGGER.warning("Error when transfer Old Name Data.");
+                }
             }
         } else {
             LOGGER.warning("Player data is Null.");

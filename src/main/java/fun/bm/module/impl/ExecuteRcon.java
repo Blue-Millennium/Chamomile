@@ -35,7 +35,7 @@ public class ExecuteRcon extends Module {
         super("RCONCommandCheck");
     }
 
-    @Override
+
     public void onEnable() {
         if (!Config.BotModeOfficial) {
             String enabledGroupStr = Config.RconEnabledGroups;

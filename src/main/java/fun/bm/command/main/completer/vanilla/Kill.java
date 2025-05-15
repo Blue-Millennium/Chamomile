@@ -1,13 +1,12 @@
 package fun.bm.command.main.completer.vanilla;
 
 import fun.bm.command.Command;
+import fun.bm.util.helper.CommandHelper;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static fun.bm.command.main.completer.vanilla.Ban.getOnlinePlayerNames;
 
 public class Kill extends Command.CompleterV {
     public Kill() {
@@ -18,7 +17,7 @@ public class Kill extends Command.CompleterV {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-            completions.addAll(getOnlinePlayerNames(sender, args[0]));
+            completions.addAll(CommandHelper.getOnlinePlayerList());
             completions.add("@e");
             completions.add("@a");
             completions.add("@p");

@@ -30,12 +30,16 @@ public class SyncChat extends Module {
         super("SyncChat");
     }
 
-    @Override
+
     public void onEnable() {
         String[] groupIds = Config.SyncChatGroup.split(";");
         for (String groupId : groupIds) {
             try {
-                SyncGroups.add(Long.parseLong(groupId.trim()));
+                String id = groupId.trim();
+                if (id.isEmpty()) {
+                    continue;
+                }
+                SyncGroups.add(Long.parseLong(id));
             } catch (NumberFormatException e) {
                 LOGGER.warning("[SyncChat] Invalid group ID: " + groupId);
             }

@@ -24,7 +24,7 @@ public class UnionBan extends Module {
         super("UnionBan");
     }
 
-    @Override
+
     public void onLoad() {
         unionBanDataGet.load();
         importBanList();
