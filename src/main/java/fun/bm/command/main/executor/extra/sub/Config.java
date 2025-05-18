@@ -18,7 +18,6 @@ import static fun.bm.util.helper.CommandHelper.operatorCheck;
  * function: Config settings
  */
 public class Config extends Command.ExecutorE {
-
     Reload reload = new Reload();
     Query query = new Query();
     Set set = new Set();

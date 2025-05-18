@@ -17,7 +17,6 @@ import static fun.bm.util.helper.CommandHelper.operatorCheck;
  * function: Query config
  */
 public class Query extends Command.ExecutorE {
-
     public Query() {
         super(null);
     }

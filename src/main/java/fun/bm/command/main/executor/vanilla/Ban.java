@@ -25,7 +25,6 @@ import static fun.bm.util.MainEnv.LOGGER;
  * function: Add some function to the vanilla ban command
  */
 public class Ban extends Command.ExecutorV {
-
     public Ban() {
         super("ban");
     }

@@ -44,7 +44,7 @@ commands:
     aliases: [ dr ]
   bind:
     description: Link account and qq
-    usage: /bind name qq
+    usage: /bind [qq name qq-number|userid name userid-number]
   check:
     description: Verify or delete check data
     usage: /check [del|verify] [args...]

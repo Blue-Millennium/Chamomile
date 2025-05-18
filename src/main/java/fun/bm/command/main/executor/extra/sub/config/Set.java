@@ -14,7 +14,6 @@ import static fun.bm.util.helper.CommandHelper.operatorCheck;
  * function: Set new config
  */
 public class Set extends Command.ExecutorE {
-
     public Set() {
         super(null);
     }

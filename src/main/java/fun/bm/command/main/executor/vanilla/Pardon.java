@@ -18,7 +18,6 @@ import static fun.bm.data.manager.unionban.local.OnlineDataMerge.reportBanData;
  * function: Add some function to the vanilla pardon command
  */
 public class Pardon extends Command.ExecutorV {
-
     public Pardon() {
         super("pardon");
     }

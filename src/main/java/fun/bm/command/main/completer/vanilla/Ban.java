@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ban extends Command.CompleterV {
-
     public Ban() {
         super("ban");
     }

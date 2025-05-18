@@ -30,7 +30,6 @@ public class SyncChat extends Module {
         super("SyncChat");
     }
 
-
     public void onEnable() {
         String[] groupIds = Config.SyncChatGroup.split(";");
         for (String groupId : groupIds) {

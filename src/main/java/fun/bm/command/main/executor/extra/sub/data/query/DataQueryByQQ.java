@@ -10,7 +10,6 @@ import static fun.bm.util.MainEnv.LOGGER;
 import static fun.bm.util.helper.CommandHelper.operatorCheck;
 
 public class DataQueryByQQ extends Command.ExecutorE {
-
     public DataQueryByQQ() {
         super(null);
     }

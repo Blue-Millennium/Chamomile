@@ -12,7 +12,6 @@ import static fun.bm.util.MainEnv.LOGGER;
 import static fun.bm.util.helper.CommandHelper.operatorCheck;
 
 public class DataQueryByUUID extends Command.ExecutorE {
-
     public DataQueryByUUID() {
         super(null);
     }

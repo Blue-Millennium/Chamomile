@@ -23,12 +23,6 @@ public class QQReporter extends Module {
         super("Reporter");
     }
 
-
-    public void onLoad() {
-        super.onLoad();
-    }
-
-
     public void onEnable() {
         try {
             String[] groupIds = Config.ReportGroup.split(";");

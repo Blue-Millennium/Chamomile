@@ -164,7 +164,6 @@ public class QQCheck extends Module {
         return code;
     }
 
-
     public void onEnable() {
         if (!Config.BotModeOfficial)
             MainEnv.eventChannel.subscribeAlways(NewFriendRequestEvent.class, NewFriendRequestEvent::accept);

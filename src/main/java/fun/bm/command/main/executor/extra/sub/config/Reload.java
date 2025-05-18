@@ -14,7 +14,6 @@ import static fun.bm.util.helper.CommandHelper.operatorCheck;
  * function: Reload config
  */
 public class Reload extends Command.ExecutorE {
-
     public Reload() {
         super("cmreload");
     }

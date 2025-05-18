@@ -8,7 +8,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 public class DamageDisable extends Module {
-
     public DamageDisable() {
         super("DamageDisable");
     }
