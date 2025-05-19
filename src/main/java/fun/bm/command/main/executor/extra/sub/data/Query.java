@@ -38,26 +38,11 @@ public class Query extends Command.ExecutorE {
         }
         String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
         switch (args[0].toLowerCase()) {
-            case "qq": {
-                qq.onCommand(sender, command, label, subArgs);
-                break;
-            }
-            case "name": {
-                name.onCommand(sender, command, label, subArgs);
-                break;
-            }
-            case "uuid": {
-                uuid.onCommand(sender, command, label, subArgs);
-                break;
-            }
-            case "userid": {
-                userid.onCommand(sender, command, label, subArgs);
-                break;
-            }
-            default: {
-                sender.sendMessage("Unknown command. Usage: /chamomile data query [qq|name|uuid] [args]");
-                break;
-            }
+            case "qq" -> qq.onCommand(sender, command, label, subArgs);
+            case "name" -> name.onCommand(sender, command, label, subArgs);
+            case "uuid" -> uuid.onCommand(sender, command, label, subArgs);
+            case "userid" -> userid.onCommand(sender, command, label, subArgs);
+            default -> sender.sendMessage("Unknown command. Usage: /chamomile data query [qq|name|uuid|userid] [args]");
         }
         return true;
     }

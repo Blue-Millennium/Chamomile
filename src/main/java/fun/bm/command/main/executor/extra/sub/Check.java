@@ -53,25 +53,15 @@ public class Check extends Command.ExecutorE {
         } else {
             String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
             switch (args[0].toLowerCase()) {
-                case "del": {
-                    delete.onCommand(sender, command, label, subArgs);
-                    break;
-                }
-                case "verify": {
-                    verify.onCommand(sender, command, label, subArgs);
-                    break;
-                }
-                case "bind": {
-                    bind.onCommand(sender, command, label, subArgs);
-                    break;
-                }
-                default: {
+                case "del" -> delete.onCommand(sender, command, label, subArgs);
+                case "verify" -> verify.onCommand(sender, command, label, subArgs);
+                case "bind" -> bind.onCommand(sender, command, label, subArgs);
+                default -> {
                     if (command.getName().equals("check")) {
                         sender.sendMessage("Unknown command. Usage: /check [del|verify] [args...]");
                     } else {
                         sender.sendMessage("Unknown command. Usage: /chamomile check [del|verify] [args...]");
                     }
-                    break;
                 }
             }
         }

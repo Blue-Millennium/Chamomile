@@ -22,18 +22,9 @@ public class Bind extends Command.ExecutorE {
         }
 
         switch (args[1].toLowerCase()) {
-            case "qq": {
-                bindQQ.onCommand(sender, command, label, args);
-                break;
-            }
-            case "userid": {
-                bindUserid.onCommand(sender, command, label, args);
-                break;
-            }
-            default: {
-                sender.sendMessage("Unknown command. Usage: /chamomile check bind [qq|userid] [args]");
-                break;
-            }
+            case "qq" -> bindQQ.onCommand(sender, command, label, args);
+            case "userid" -> bindUserid.onCommand(sender, command, label, args);
+            default -> sender.sendMessage("Unknown command. Usage: /chamomile check bind [qq|userid] [args]");
         }
         return true;
     }

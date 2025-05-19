@@ -49,22 +49,10 @@ public class Config extends Command.ExecutorE {
 
             String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
             switch (args[0].toLowerCase()) {
-                case "reload": {
-                    reload.onCommand(sender, command, label, subArgs);
-                    break;
-                }
-                case "query": {
-                    query.onCommand(sender, command, label, subArgs);
-                    break;
-                }
-                case "set": {
-                    set.onCommand(sender, command, label, subArgs);
-                    break;
-                }
-                default: {
-                    sender.sendMessage("Unknown command. Usage: /chamomile config [reload|query|set] [args...]");
-                    break;
-                }
+                case "reload" -> reload.onCommand(sender, command, label, subArgs);
+                case "query" -> query.onCommand(sender, command, label, subArgs);
+                case "set" -> set.onCommand(sender, command, label, subArgs);
+                default -> sender.sendMessage("Unknown command. Usage: /chamomile config [reload|query|set] [args...]");
             }
         }
         return true;

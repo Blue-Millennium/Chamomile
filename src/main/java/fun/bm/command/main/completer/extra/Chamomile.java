@@ -38,26 +38,11 @@ public class Chamomile extends Command.CompleterE {
         } else if (args.length >= 2) {
             String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
             switch (args[0].toLowerCase()) {
-                case "config": {
-                    completions = config.onTabComplete(sender, command, label, subArgs);
-                    break;
-                }
-                case "report": {
-                    completions = report.onTabComplete(sender, command, label, subArgs);
-                    break;
-                }
-                case "data": {
-                    completions = data.onTabComplete(sender, command, label, subArgs);
-                    break;
-                }
-                case "check": {
-                    completions = check.onTabComplete(sender, command, label, subArgs);
-                    break;
-                }
-                case "kill": {
-                    completions = kill.onTabComplete(sender, command, label, subArgs);
-                    break;
-                }
+                case "config" -> completions = config.onTabComplete(sender, command, label, subArgs);
+                case "report" -> completions = report.onTabComplete(sender, command, label, subArgs);
+                case "data" -> completions = data.onTabComplete(sender, command, label, subArgs);
+                case "check" -> completions = check.onTabComplete(sender, command, label, subArgs);
+                case "kill" -> completions = kill.onTabComplete(sender, command, label, subArgs);
             }
         }
         return completions;

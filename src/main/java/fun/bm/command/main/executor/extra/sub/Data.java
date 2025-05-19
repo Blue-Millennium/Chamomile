@@ -33,15 +33,10 @@ public class Data extends Command.ExecutorE {
             }
         } else {
             String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
-            switch (args[0].toLowerCase()) {
-                case "query": {
-                    query.onCommand(sender, command, label, subArgs);
-                    break;
-                }
-                default: {
-                    sender.sendMessage("Unknown command. Usage: /chamomile data query [args...]");
-                    break;
-                }
+            if (args[0].equalsIgnoreCase("query")) {
+                query.onCommand(sender, command, label, subArgs);
+            } else {
+                sender.sendMessage("Unknown command. Usage: /chamomile data query [args...]");
             }
         }
         return true;
