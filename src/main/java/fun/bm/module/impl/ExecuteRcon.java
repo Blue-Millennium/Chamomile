@@ -42,7 +42,7 @@ public class ExecuteRcon extends Module {
                 LOGGER.warning("[RCONCommandCheck] RCON commands will be disabled due to empty or null RCONEnabledGroups");
                 Config.RconEnabled = false;
                 MainEnv.configManager.save();
-                MainEnv.moduleManager.setupModules(false);
+                MainEnv.moduleManager.reload();
                 return;
             }
 
@@ -59,7 +59,7 @@ public class ExecuteRcon extends Module {
                 LOGGER.warning("[RCONCommandCheck] RCON commands will be disabled");
                 Config.RconEnabled = false;
                 MainEnv.configManager.save();
-                MainEnv.moduleManager.setupModules(false);
+                MainEnv.moduleManager.reload();
                 return;
             }
         }

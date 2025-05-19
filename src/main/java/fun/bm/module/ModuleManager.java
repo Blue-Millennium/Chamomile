@@ -18,6 +18,19 @@ public class ModuleManager {
         modules.forEach(Module::onDisable);
     }
 
+    public void load() {
+        setupModules();
+        modules.forEach(Module::onLoad);
+    }
+
+    public void reload() {
+        onDisable();
+        modules.clear();
+        setupModules();
+        modules.forEach(Module::onReload);
+        onEnable();
+    }
+
     public Module getModuleByName(String name) {
         for (Module module : modules) {
             if (module.moduleName.equals(name)) {
@@ -27,20 +40,12 @@ public class ModuleManager {
         return null;
     }
 
-    public void setupModules(boolean setup) {
-        if (!setup) onDisable();
-        modules.clear();
+    public void setupModules() {
         for (Module module : ClassLoader.loadClasses("fun.bm.module.impl", Module.class)) {
             module.setModuleName();
             if (module.getModuleName() != null) {
                 modules.add(module);
             }
-        }
-        if (setup) {
-            modules.forEach(Module::onLoad);
-        } else {
-            modules.forEach(Module::onReload);
-            onEnable();
         }
     }
 }

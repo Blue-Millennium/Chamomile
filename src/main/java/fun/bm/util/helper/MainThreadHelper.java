@@ -43,7 +43,7 @@ public class MainThreadHelper {
         setupDirectories();
         MainEnv.dataManager.load();
         MainEnv.configManager.load();
-        MainEnv.moduleManager.setupModules(true);
+        MainEnv.moduleManager.load();
     }
 
     private static void setupDirectories() {
