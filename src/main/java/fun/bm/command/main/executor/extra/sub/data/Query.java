@@ -25,16 +25,15 @@ public class Query extends Command.ExecutorE {
     }
 
     public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+        if (operatorCheck(sender)) {
+            return true;
+        }
         if (args.length == 0) {
-            if (sender.isOp()) {
-                sender.sendMessage("§e在下方的指令中，您可以使用cm来代替输入chamomile");
-                sender.sendMessage("§e根据QQ号查询数据:使用/chamomile data query qq <QQ号>");
-                sender.sendMessage("§e根据Userid查询数据:使用/chamomile data query userid <userid>");
-                sender.sendMessage("§e根据玩家名字查询数据:使用/chamomile data query name <玩家名字>");
-                sender.sendMessage("§e根据UUID查询数据:使用/chamomile data query uuid <玩家UUID>");
-            } else if (operatorCheck(sender)) {
-                return true;
-            }
+            sender.sendMessage("§e在下方的指令中，您可以使用cm来代替输入chamomile");
+            sender.sendMessage("§e根据QQ号查询数据:使用/chamomile data query qq <QQ号>");
+            sender.sendMessage("§e根据Userid查询数据:使用/chamomile data query userid <userid>");
+            sender.sendMessage("§e根据玩家名字查询数据:使用/chamomile data query name <玩家名字>");
+            sender.sendMessage("§e根据UUID查询数据:使用/chamomile data query uuid <玩家UUID>");
         }
         String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
         switch (args[0].toLowerCase()) {
