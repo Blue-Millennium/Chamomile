@@ -16,7 +16,8 @@ import java.util.logging.Logger;
 public class MainEnv {
     public final static File BASE_DIR = new File("plugins/Chamomile");
     public final static File DATA_FILE = new File(BASE_DIR, "data.json");
-    public final static File CONFIG_FILE = new File(BASE_DIR, "config.properties");
+    public final static File OLD_CONFIG_FILE = new File(BASE_DIR, "config.properties");
+    public final static File CONFIG_FILE = new File(BASE_DIR, "config.toml");
     public final static File REPORT_DATA_FILE = new File(BASE_DIR, "report.csv");
     public final static File UNION_BAN_DATA_FILE = new File(BASE_DIR, "unionbandata.json");
     public final static DataManager dataManager = new DataManager();

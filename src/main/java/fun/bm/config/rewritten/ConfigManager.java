@@ -1,4 +1,137 @@
 package fun.bm.config.rewritten;
 
+import com.electronwill.nightconfig.core.UnmodifiableConfig;
+import com.electronwill.nightconfig.core.file.CommentedFileConfig;
+import fun.bm.util.MainEnv;
+import fun.bm.util.helper.ClassLoader;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import static fun.bm.util.MainEnv.LOGGER;
+
 public class ConfigManager {
+    private static final Set<ConfigModule> ConfigModules = new HashSet<>();
+    private static CommentedFileConfig configFileInstance;
+
+    public static void load() {
+        try {
+            MainEnv.BASE_DIR.mkdir();
+            if (!MainEnv.CONFIG_FILE.exists()) {
+                MainEnv.CONFIG_FILE.createNewFile();
+            }
+        } catch (Exception e) {
+            LOGGER.warning("Failed to create config file");
+        }
+        configFileInstance = CommentedFileConfig.of(MainEnv.CONFIG_FILE);
+        configFileInstance.load();
+
+        loadConfigModule();
+    }
+
+    public static void reload() {
+        configFileInstance.clear();
+        load();
+    }
+
+    private static void loadConfigModule() {
+        ConfigModules.addAll(ClassLoader.loadClasses("fun/bm/config/modules", ConfigModule.class));
+
+        for (ConfigModule module : ConfigModules) {
+            Field[] fields = module.getClass().getDeclaredFields();
+
+            for (Field field : fields) {
+                int modifiers = field.getModifiers();
+                if (Modifier.isStatic(modifiers) && !Modifier.isFinal(modifiers)) {
+                    ConfigInfo configInfo = field.getAnnotation(ConfigInfo.class);
+
+                    if (configInfo == null) {
+                        continue;
+                    }
+
+                    final String fullConfigKeyName = module.name() + "." + configInfo.name();
+
+                    field.setAccessible(true);
+                    final Object currentValue;
+                    try {
+                        currentValue = field.get(null);
+                    } catch (IllegalAccessException e) {
+                        LOGGER.warning("Failed to get config value for " + field.getName() + ": " + e.getMessage());
+                        continue;
+                    }
+                    boolean removed = fullConfigKeyName.equals("removed_config.removed");
+
+                    if (!configFileInstance.contains(fullConfigKeyName) || removed) {
+                        for (MovedConfig movedConfig : field.getAnnotationsByType(MovedConfig.class)) {
+                            final String oldConfigKeyName = String.join(".", movedConfig.category()) + "." + movedConfig.name();
+                            Object oldValue = configFileInstance.get(oldConfigKeyName);
+                            if (oldValue != null) {
+                                boolean success = true;
+                                if (movedConfig.transform() && !removed) {
+                                    try {
+                                        for (Class<? extends DefaultTransformLogic> logic : movedConfig.transformLogic()) {
+                                            oldValue = logic.getDeclaredConstructor().newInstance().transform(oldValue);
+                                        }
+                                        configFileInstance.add(fullConfigKeyName, oldValue);
+                                    } catch (Exception e) {
+                                        success = false;
+                                        LOGGER.warning("Failed to transfer removed config " + movedConfig.name() + "!");
+                                    }
+                                }
+
+                                if (success) removeConfig(oldConfigKeyName, movedConfig.category());
+                                final String comments = configInfo.comment();
+
+                                if (!comments.isBlank()) configFileInstance.setComment(fullConfigKeyName, comments);
+
+                                if (!removed && configFileInstance.get(fullConfigKeyName) != null) break;
+                            }
+                        }
+                        if (configFileInstance.get(fullConfigKeyName) != null) continue;
+                        if (currentValue == null) {
+                            LOGGER.warning("Config " + module.name() + "tried to add an null default value!");
+                            continue;
+                        }
+
+                        final String comments = configInfo.comment();
+
+                        if (!comments.isBlank()) {
+                            configFileInstance.setComment(fullConfigKeyName, comments);
+                        }
+
+                        configFileInstance.add(fullConfigKeyName, currentValue);
+                        continue;
+                    }
+
+                    final Object actuallyValue = configFileInstance.get(fullConfigKeyName);
+                    try {
+                        field.set(null, actuallyValue);
+                    } catch (IllegalAccessException e) {
+                        LOGGER.warning("Failed to set config value for " + field.getName() + ": " + e.getMessage());
+                    }
+                }
+            }
+        }
+
+        configFileInstance.save();
+    }
+
+    private static void removeConfig(String name, String[] keys) {
+        configFileInstance.remove(name);
+        Object configAtPath = configFileInstance.get(String.join(".", keys));
+        if (configAtPath instanceof UnmodifiableConfig && ((UnmodifiableConfig) configAtPath).isEmpty()) {
+            removeConfig(keys);
+        }
+    }
+
+    private static void removeConfig(String[] keys) {
+        configFileInstance.remove(String.join(".", keys));
+        Object configAtPath = configFileInstance.get(String.join(".", Arrays.copyOfRange(keys, 1, keys.length)));
+        if (configAtPath instanceof UnmodifiableConfig && ((UnmodifiableConfig) configAtPath).isEmpty()) {
+            removeConfig(Arrays.copyOfRange(keys, 1, keys.length));
+        }
+    }
 }
