@@ -1,6 +1,6 @@
 package fun.bm.module.impl;
 
-import fun.bm.config.Config;
+import fun.bm.config.old.Config;
 import fun.bm.module.Module;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;

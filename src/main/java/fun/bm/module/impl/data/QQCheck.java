@@ -1,6 +1,6 @@
 package fun.bm.module.impl.data;
 
-import fun.bm.config.Config;
+import fun.bm.config.old.Config;
 import fun.bm.data.manager.data.Data;
 import fun.bm.data.manager.data.link.LinkData;
 import fun.bm.data.manager.data.link.QQLinkData;

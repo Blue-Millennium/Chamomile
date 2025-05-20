@@ -1,7 +1,7 @@
 package fun.bm.command.main.executor.extra.sub.report;
 
 import fun.bm.command.Command;
-import fun.bm.config.Config;
+import fun.bm.config.old.Config;
 import fun.bm.data.manager.report.ReportDataManager;
 import fun.bm.util.MainEnv;
 import fun.bm.util.TimeUtil;

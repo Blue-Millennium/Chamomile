@@ -1,7 +1,7 @@
 package fun.bm.command.main.executor.vanilla;
 
 import fun.bm.command.Command;
-import fun.bm.config.Config;
+import fun.bm.config.old.Config;
 import fun.bm.data.manager.unionban.UnionBanData;
 import fun.bm.module.impl.UnionBan;
 import org.bukkit.BanList;

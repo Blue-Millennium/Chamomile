@@ -1,7 +1,7 @@
 package fun.bm.util.helper;
 
 import fun.bm.Chamomile;
-import fun.bm.config.Config;
+import fun.bm.config.old.Config;
 import fun.bm.util.MainEnv;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.utils.LoggerAdapters;

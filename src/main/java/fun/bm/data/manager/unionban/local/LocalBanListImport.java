@@ -1,6 +1,6 @@
 package fun.bm.data.manager.unionban.local;
 
-import fun.bm.config.Config;
+import fun.bm.config.old.Config;
 import fun.bm.data.manager.unionban.UnionBanData;
 import fun.bm.module.impl.UnionBan;
 import org.bukkit.BanEntry;

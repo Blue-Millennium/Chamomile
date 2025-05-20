@@ -1,7 +1,7 @@
 package fun.bm.data.manager.unionban.online;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fun.bm.config.Config;
+import fun.bm.config.old.Config;
 import fun.bm.data.manager.unionban.UnionBanData;
 import fun.bm.util.MainEnv;
 

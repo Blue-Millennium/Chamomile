@@ -1,6 +1,6 @@
 package fun.bm.module.impl;
 
-import fun.bm.config.Config;
+import fun.bm.config.old.Config;
 import fun.bm.data.manager.data.Data;
 import fun.bm.data.manager.data.link.UseridLinkData;
 import fun.bm.module.Module;

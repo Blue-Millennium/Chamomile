@@ -46,9 +46,10 @@ public class ConfigManager {
             for (Field field : fields) {
                 int modifiers = field.getModifiers();
                 if (Modifier.isStatic(modifiers) && !Modifier.isFinal(modifiers)) {
+                    boolean skipLoad = field.getAnnotation(DoNotLoad.class) != null;
                     ConfigInfo configInfo = field.getAnnotation(ConfigInfo.class);
 
-                    if (configInfo == null) {
+                    if (skipLoad || configInfo == null) {
                         continue;
                     }
 
@@ -65,24 +66,24 @@ public class ConfigManager {
                     boolean removed = fullConfigKeyName.equals("removed_config.removed");
 
                     if (!configFileInstance.contains(fullConfigKeyName) || removed) {
-                        for (MovedConfig movedConfig : field.getAnnotationsByType(MovedConfig.class)) {
-                            final String oldConfigKeyName = String.join(".", movedConfig.category()) + "." + movedConfig.name();
+                        for (TransformedConfig transformedConfig : field.getAnnotationsByType(TransformedConfig.class)) {
+                            final String oldConfigKeyName = String.join(".", transformedConfig.category()) + "." + transformedConfig.name();
                             Object oldValue = configFileInstance.get(oldConfigKeyName);
                             if (oldValue != null) {
                                 boolean success = true;
-                                if (movedConfig.transform() && !removed) {
+                                if (transformedConfig.transform() && !removed) {
                                     try {
-                                        for (Class<? extends DefaultTransformLogic> logic : movedConfig.transformLogic()) {
+                                        for (Class<? extends DefaultTransformLogic> logic : transformedConfig.transformLogic()) {
                                             oldValue = logic.getDeclaredConstructor().newInstance().transform(oldValue);
                                         }
                                         configFileInstance.add(fullConfigKeyName, oldValue);
                                     } catch (Exception e) {
                                         success = false;
-                                        LOGGER.warning("Failed to transfer removed config " + movedConfig.name() + "!");
+                                        LOGGER.warning("Failed to transfer removed config " + transformedConfig.name() + "!");
                                     }
                                 }
 
-                                if (success) removeConfig(oldConfigKeyName, movedConfig.category());
+                                if (success) removeConfig(oldConfigKeyName, transformedConfig.category());
                                 final String comments = configInfo.comment();
 
                                 if (!comments.isBlank()) configFileInstance.setComment(fullConfigKeyName, comments);

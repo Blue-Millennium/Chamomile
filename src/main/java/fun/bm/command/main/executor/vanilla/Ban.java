@@ -1,7 +1,7 @@
 package fun.bm.command.main.executor.vanilla;
 
 import fun.bm.command.Command;
-import fun.bm.config.Config;
+import fun.bm.config.old.Config;
 import fun.bm.util.MainEnv;
 import net.mamoe.mirai.contact.Group;
 import org.bukkit.Bukkit;

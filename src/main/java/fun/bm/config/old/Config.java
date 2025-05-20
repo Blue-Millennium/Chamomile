@@ -1,4 +1,4 @@
-package fun.bm.config;
+package fun.bm.config.old;
 
 /**
  * @author Suisuroru

@@ -1,5 +1,6 @@
 package fun.bm.config;
 
+import fun.bm.config.old.Config;
 import fun.bm.util.MainEnv;
 import org.jetbrains.annotations.NotNull;
 

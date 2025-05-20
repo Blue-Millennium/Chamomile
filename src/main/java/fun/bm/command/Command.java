@@ -1,6 +1,6 @@
 package fun.bm.command;
 
-import fun.bm.config.Config;
+import fun.bm.config.old.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

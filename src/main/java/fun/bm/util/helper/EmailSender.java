@@ -1,7 +1,7 @@
 package fun.bm.util.helper;
 
 import com.google.gson.Gson;
-import fun.bm.config.Config;
+import fun.bm.config.old.Config;
 
 import java.net.URI;
 import java.net.http.HttpClient;

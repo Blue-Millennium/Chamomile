@@ -3,7 +3,7 @@ package fun.bm.data.manager.unionban.online;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import fun.bm.config.Config;
+import fun.bm.config.old.Config;
 import fun.bm.data.manager.unionban.UnionBanData;
 import fun.bm.module.impl.UnionBan;
 import fun.bm.util.MainEnv;

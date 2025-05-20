@@ -6,8 +6,6 @@ import org.jetbrains.annotations.NotNull;
 public interface ConfigModule {
     String name();
 
-    String comment();
-
     default <T> T get(String keyName, T defaultValue, @NotNull CommentedFileConfig config) {
         if (!config.contains(keyName)) {
             config.set(keyName, defaultValue);

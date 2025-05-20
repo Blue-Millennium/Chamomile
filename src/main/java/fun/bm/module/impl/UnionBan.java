@@ -1,6 +1,6 @@
 package fun.bm.module.impl;
 
-import fun.bm.config.Config;
+import fun.bm.config.old.Config;
 import fun.bm.data.manager.unionban.UnionBanData;
 import fun.bm.data.manager.unionban.local.UnionBanDataGet;
 import fun.bm.module.Module;
