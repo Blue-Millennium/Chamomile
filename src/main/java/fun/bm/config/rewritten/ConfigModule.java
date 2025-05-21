@@ -14,4 +14,8 @@ public interface ConfigModule {
 
         return config.get(keyName);
     }
+
+    default String[] category() {
+        return new String[]{};
+    }
 }

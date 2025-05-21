@@ -53,7 +53,7 @@ public class ConfigManager {
                         continue;
                     }
 
-                    final String fullConfigKeyName = module.name() + "." + configInfo.name();
+                    final String fullConfigKeyName = module.name() + "." + (module.category().length == 0 ? "" : String.join(".", module.category()) + ".") + configInfo.name();
 
                     field.setAccessible(true);
                     final Object currentValue;
@@ -134,5 +134,20 @@ public class ConfigManager {
         if (configAtPath instanceof UnmodifiableConfig && ((UnmodifiableConfig) configAtPath).isEmpty()) {
             removeConfig(Arrays.copyOfRange(keys, 1, keys.length));
         }
+    }
+
+    public static boolean setConfig(String[] keys, Object value) {
+        if (configFileInstance.contains(String.join(".", keys)) && configFileInstance.get(String.join(".", keys)) != null) {
+            configFileInstance.set(String.join(".", keys), value);
+            configFileInstance.save();
+            return true;
+        }
+        return false;
+    }
+
+    public static void resetConfig(String[] keys) {
+        configFileInstance.remove(String.join(".", keys));
+        configFileInstance.save();
+        reload();
     }
 }
