@@ -17,7 +17,7 @@ public class AuthConfig implements ConfigModule {
     @ConfigInfo(name = "disconnect-message", comment = "未验证登陆消息/强制验证时被踢出服务器消息")
     public static String disconnectMessage = "[QQLogin] 请完成登录验证, 验证码: %CODE%";
 
-    @ConfigInfo(name = "check-prefix", comment = "QQ验证前缀")
+    @ConfigInfo(name = "prefix", comment = "QQ验证前缀")
     public static String prefix = "/Check ";
 
     public String name() {

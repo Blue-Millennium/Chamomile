@@ -1,6 +1,5 @@
-package fun.bm.config;
+package fun.bm.config.old;
 
-import fun.bm.config.old.Config;
 import fun.bm.util.MainEnv;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import static fun.bm.config.TempConfigTransform.transformConfig;
 import static fun.bm.util.MainEnv.LOGGER;
 
 /**
@@ -88,6 +88,7 @@ public class ConfigManager {
                     LOGGER.warning("Failed to set config value for " + fieldName + ": " + e.getMessage());
                 }
             }
+            transformConfig();
             if (label) {
                 save();
             }

@@ -27,8 +27,8 @@ public class OnlinePush {
         banDataNode.put("reason", data.reason);
         banDataNode.put("time", data.time);
         banDataNode.put("sourceServer", data.sourceServer);
-        String base64EncodedJson = null;
-        String json_fin = null;
+        String base64EncodedJson;
+        String json_fin;
         try {
             String json = objectMapper.writeValueAsString(banDataNode);
             base64EncodedJson = encrypt(json, Config.UnionBanReportKey);

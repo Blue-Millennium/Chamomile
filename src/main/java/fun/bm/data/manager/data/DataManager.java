@@ -79,23 +79,17 @@ public class DataManager {
         Data data_old = getPlayerData(uuid);
         if (data_old != null) DATA_LIST.remove(data_old);
         DATA_LIST.add(data);
-        save();
     }
 
     public void setPlayerDataByName(String name, Data data) {
         Data data_old = getPlayerDataByName(name);
         if (data_old != null) DATA_LIST.remove(getPlayerDataByName(name));
         DATA_LIST.add(data);
-        save();
     }
 
     public void refactorData() {
         for (Data data : DATA_LIST) {
             nullCheck(data);
-
-            // Process Useless data
-            if (data.linkData != null && data.linkData.isEmpty()) data.linkData = null;
-            if (data.playerData.oldNames != null && data.playerData.oldNames.isEmpty()) data.playerData.oldNames = null;
 
             // Init origin data
             List<LinkData> linkDataList = data.linkData == null ? new ArrayList<>() : data.linkData;
@@ -150,8 +144,14 @@ public class DataManager {
         if (data == null) {
             data = new Data();
         }
+        if (data.linkData == null) {
+            data.linkData = new ArrayList<>();
+        }
         if (data.playerData == null) {
             data.playerData = new PlayerData();
+        }
+        if (data.playerData.oldNames == null) {
+            data.playerData.oldNames = new ArrayList<>();
         }
         return data;
     }

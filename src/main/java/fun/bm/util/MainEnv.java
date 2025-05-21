@@ -2,7 +2,7 @@ package fun.bm.util;
 
 import fun.bm.Chamomile;
 import fun.bm.command.CommandManager;
-import fun.bm.config.ConfigManager;
+import fun.bm.config.old.ConfigManager;
 import fun.bm.data.manager.data.DataManager;
 import fun.bm.module.ModuleManager;
 import fun.bm.util.helper.EmailSender;

@@ -136,13 +136,40 @@ public class ConfigManager {
         }
     }
 
-    public static boolean setConfig(String[] keys, Object value) {
-        if (configFileInstance.contains(String.join(".", keys)) && configFileInstance.get(String.join(".", keys)) != null) {
-            configFileInstance.set(String.join(".", keys), value);
-            configFileInstance.save();
+    public static boolean setConfigAndSave(String[] keys, Object value) {
+        if (setConfig(keys, value)) {
+            saveConfig();
             return true;
         }
         return false;
+    }
+
+    public static boolean setConfigAndSave(String keys, Object value) {
+        if (setConfig(keys, value)) {
+            saveConfig();
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean setConfig(String[] keys, Object value) {
+        if (configFileInstance.contains(String.join(".", keys)) && configFileInstance.get(String.join(".", keys)) != null) {
+            configFileInstance.set(String.join(".", keys), value);
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean setConfig(String keys, Object value) {
+        if (configFileInstance.contains(keys) && configFileInstance.get(keys) != null) {
+            configFileInstance.set(keys, value);
+            return true;
+        }
+        return false;
+    }
+
+    public static void saveConfig() {
+        configFileInstance.save();
     }
 
     public static void resetConfig(String[] keys) {
