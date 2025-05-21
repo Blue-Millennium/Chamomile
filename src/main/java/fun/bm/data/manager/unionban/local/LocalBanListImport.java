@@ -3,6 +3,7 @@ package fun.bm.data.manager.unionban.local;
 import fun.bm.config.old.Config;
 import fun.bm.data.manager.unionban.UnionBanData;
 import fun.bm.module.impl.UnionBan;
+import fun.bm.util.TimeUtil;
 import org.bukkit.BanEntry;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
@@ -25,7 +26,7 @@ public class LocalBanListImport {
                     data.playerName = banEntry.getBanTarget().getName();
                     data.playerUuid = banEntry.getBanTarget().getUniqueId();
                     Date expiration = banEntry.getExpiration();
-                    data.time = expiration != null ? expiration.getTime() : System.currentTimeMillis();
+                    data.time = expiration != null ? expiration.getTime() : TimeUtil.getUnixTimeMs();
                     data.reason = banEntry.getReason();
                     data.sourceServer = Config.ServerName;
                     data.localTag = true;

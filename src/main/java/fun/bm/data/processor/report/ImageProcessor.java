@@ -1,4 +1,4 @@
-package fun.bm.util.helper;
+package fun.bm.data.processor.report;
 
 import fun.bm.util.MainEnv;
 import net.mamoe.mirai.message.data.Image;

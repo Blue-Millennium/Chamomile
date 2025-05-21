@@ -9,6 +9,7 @@ import fun.bm.data.manager.data.player.OldName;
 import fun.bm.data.manager.data.player.PlayerData;
 import fun.bm.module.Module;
 import fun.bm.util.MainEnv;
+import fun.bm.util.TimeUtil;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
@@ -31,7 +32,7 @@ public class DataProcess extends Module {
             data.playerData = playerData;
         } else {
             if (!data.playerData.playerName.equals(event.getName())) {
-                OldName oldName = new OldName(data.playerData.playerName, System.currentTimeMillis());
+                OldName oldName = new OldName(data.playerData.playerName, TimeUtil.getUnixTimeMs());
                 List<OldName> oldNames;
                 oldNames = data.playerData.oldNames == null ? new ArrayList<>() : data.playerData.oldNames;
                 oldNames.add(oldName);
@@ -47,12 +48,12 @@ public class DataProcess extends Module {
             }
         }
         if (data.firstJoin < 0) {
-            data.firstJoin = System.currentTimeMillis();
+            data.firstJoin = TimeUtil.getUnixTimeMs();
         }
         if (data.firstJoinIp == null) {
             data.firstJoinIp = event.getAddress().getHostAddress();
         }
-        data.lastJoin = System.currentTimeMillis();
+        data.lastJoin = TimeUtil.getUnixTimeMs();
         data.lastJoinIp = event.getAddress().getHostAddress();
 
         MainEnv.dataManager.setPlayerData(event.getUniqueId(), data);

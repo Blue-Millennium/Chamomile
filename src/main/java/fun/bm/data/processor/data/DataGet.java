@@ -100,7 +100,7 @@ public class DataGet {
         return gson.toJson(players);
     }
 
-    public String transferListDataToJson(List<Data> data) {
+    public String transformListDataToJson(List<Data> data) {
         return gson.toJson(data);
     }
 }

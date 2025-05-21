@@ -51,9 +51,9 @@ public class MainThreadHelper {
             for (File file : MainEnv.OLD_BASE_DIR) {
                 if (file.exists()) {
                     try {
-                        DirectoryExecutor.copyDirectory(file, MainEnv.BASE_DIR);
+                        DirectoryAccessor.copyDirectory(file, MainEnv.BASE_DIR);
                         LOGGER.info("复制配置文件完成");
-                        DirectoryExecutor.deleteDirectory(file);
+                        DirectoryAccessor.deleteDirectory(file);
                         LOGGER.info("删除旧配置文件完成");
                     } catch (IOException e) {
                         LOGGER.warning("复制配置文件时出现异常: " + e.getMessage());

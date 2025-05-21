@@ -42,17 +42,7 @@ public class EmailSender {
      * @param data 包含邮件内容和主题的数据对象
      */
 
-    public boolean sendWebhookData(Data_Full data) {
-        // 处理 Data_Full 类型的数据
-        return processWebhookData(data);
-    }
-
-    public boolean sendWebhookData(Data_Sub data) {
-        // 处理 Data_Sub 类型的数据
-        return processWebhookData(data);
-    }
-
-    public boolean processWebhookData(Object data) {
+    private boolean processWebhookData(Data_Sub data) {
         try {
             // 确保 URL 格式正确
             String webhookUrl = ensureValidUrl(Config.WebhookUrl);
@@ -79,15 +69,15 @@ public class EmailSender {
             if (responseCode != 200) {
                 LOGGER.info("Unexpected response code: " + responseCode);
                 LOGGER.info("Response body: " + response.body());
-                return false;
+                return true;
             } else {
                 LOGGER.info("Webhook sent successfully.");
-                return true;
+                return false;
             }
         } catch (Exception e) {
             LOGGER.warning(e.getMessage());
             LOGGER.info("Error sending webhook: " + e.getMessage());
-            return false;
+            return true;
         }
     }
 
@@ -102,9 +92,9 @@ public class EmailSender {
         if (!Config.EnableEmailNotice) return;
         List<String> emailList = Arrays.asList(originEmail.split(";"));
         Data_Full data = new Data_Full("来自" + Config.ServerName + "的信息：\n" + content, subject, emailList);
-        if (!sendWebhookData(data)) {
+        if (processWebhookData(data)) {
             Data_Sub data_new = new Data_Sub("来自" + Config.ServerName + "的信息：\n" + content, subject);
-            if (!sendWebhookData(data_new)) {
+            if (processWebhookData(data_new)) {
                 LOGGER.warning("Failed to send webhook.");
             }
         }
@@ -113,19 +103,16 @@ public class EmailSender {
     /**
      * 报告数据类
      */
-    static class Data_Full {
-        String content;
-        String subject;
+    private static class Data_Full extends Data_Sub {
         List<String> email;
 
         public Data_Full(String content, String subject, List<String> email) {
-            this.content = content;
-            this.subject = subject;
+            super(content, subject);
             this.email = email;
         }
     }
 
-    static class Data_Sub {
+    private static class Data_Sub {
         String content;
         String subject;
 

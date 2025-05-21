@@ -45,7 +45,7 @@ public class Report extends Command.ExecutorE {
                     sender.sendMessage("§a举报已被记录，正在等待上报");
                     // Message Send
                     MessageChainBuilder builder = new MessageChainBuilder();
-                    String number = String.valueOf(System.currentTimeMillis());
+                    String number = String.valueOf(TimeUtil.getUnixTimeMs());
                     StringBuilder reasonBuilder = new StringBuilder();
                     for (int i = 1; i < args.length; i++) {
                         reasonBuilder.append(args[i]).append(" ");

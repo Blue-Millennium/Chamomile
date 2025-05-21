@@ -3,6 +3,7 @@ package fun.bm.command.main.executor.extra.sub.check.bind;
 import fun.bm.command.Command;
 import fun.bm.data.manager.data.Data;
 import fun.bm.util.MainEnv;
+import fun.bm.util.TimeUtil;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +21,7 @@ public class BindUserid extends Command.ExecutorE {
             return true;
         } else {
             data.userid = Long.parseLong(args[2]);
-            data.useridLinkedTime = System.currentTimeMillis();
+            data.useridLinkedTime = TimeUtil.getUnixTimeMs();
             data.useridLinkedGroup = Long.parseLong(args[3]);
             data.useridChecked = true;
             MainEnv.dataManager.setPlayerDataByName(args[0], data);

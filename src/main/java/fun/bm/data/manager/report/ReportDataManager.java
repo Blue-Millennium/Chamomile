@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static fun.bm.data.processor.data.DataStringBuilder.transferTime;
+import static fun.bm.data.processor.data.DataStringBuilder.transformTime;
 import static fun.bm.util.MainEnv.LOGGER;
-import static fun.bm.util.TimeUtil.getUnixTime;
+import static fun.bm.util.TimeUtil.getUnixTimeS;
 
 /**
  * @author Suisuroru
@@ -44,9 +44,9 @@ public class ReportDataManager {
     public void ProcessData(@NotNull CommandSender sender, @NotNull String[] args) {
         List<String> ProcessData = new ArrayList<>();
 
-        long time = getUnixTime();
+        long time = getUnixTimeS();
         ProcessData.add(String.valueOf(time));
-        ProcessData.add(transferTime(time));
+        ProcessData.add(transformTime(time));
         ProcessData.add(sender.getName());
 
         // 提取被举报人的名字和举报原因

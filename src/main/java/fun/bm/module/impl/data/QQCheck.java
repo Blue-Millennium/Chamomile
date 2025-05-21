@@ -106,11 +106,11 @@ public class QQCheck extends Module {
                     if (event instanceof GroupMessageEvent)
                         data.useridLinkedGroup = ((GroupMessageEvent) event).getGroup().getId();
                     data.userid = event.getSender().getId();
-                    data.useridLinkedTime = System.currentTimeMillis();
+                    data.useridLinkedTime = TimeUtil.getUnixTimeMs();
                 } else {
                     data.qqChecked = true;
                     data.qqNumber = event.getSender().getId();
-                    data.linkedTime = System.currentTimeMillis();
+                    data.linkedTime = TimeUtil.getUnixTimeMs();
                 }
                 if (flag) {
                     MainEnv.dataManager.setPlayerData(data.playerData.playerUuid, data);

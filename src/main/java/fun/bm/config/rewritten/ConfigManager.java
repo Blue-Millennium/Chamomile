@@ -79,7 +79,7 @@ public class ConfigManager {
                                         configFileInstance.add(fullConfigKeyName, oldValue);
                                     } catch (Exception e) {
                                         success = false;
-                                        LOGGER.warning("Failed to transfer removed config " + transformedConfig.name() + "!");
+                                        LOGGER.warning("Failed to transform removed config " + transformedConfig.name() + "!");
                                     }
                                 }
 

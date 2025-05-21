@@ -9,7 +9,7 @@ import fun.bm.util.MainEnv;
 import java.util.List;
 
 import static fun.bm.data.processor.data.DataStringBuilder.appendIfNotNull;
-import static fun.bm.data.processor.data.DataStringBuilder.transferTime;
+import static fun.bm.data.processor.data.DataStringBuilder.transformTime;
 
 public class LinkDataStringBuilder {
     public static String buildLinkDataString(String name) {
@@ -32,7 +32,7 @@ public class LinkDataStringBuilder {
                         appendIfNotNull(result, "UserID识别码: ", useridLinkData.userid);
                         appendIfNotNull(result, "UserID绑定的群聊: ", useridLinkData.useridLinkedGroup);
                     }
-                    appendIfNotNull(result, "绑定时间: ", transferTime(linkData.linkedTime));
+                    appendIfNotNull(result, "绑定时间: ", transformTime(linkData.linkedTime));
                     appendIfNotNull(result, "绑定时间戳: ", linkData.linkedTime);
                     appendIfNotNull(result, "§a-------------------");
                 }

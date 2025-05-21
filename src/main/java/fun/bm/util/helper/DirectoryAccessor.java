@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 
-public class DirectoryExecutor {
+public class DirectoryAccessor {
     public static void copyDirectory(File sourceDir, File destDir) throws IOException {
         Path sourcePath = sourceDir.toPath();
         Path destPath = destDir.toPath();

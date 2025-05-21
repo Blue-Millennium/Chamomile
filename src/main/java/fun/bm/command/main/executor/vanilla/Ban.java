@@ -3,6 +3,7 @@ package fun.bm.command.main.executor.vanilla;
 import fun.bm.command.Command;
 import fun.bm.config.old.Config;
 import fun.bm.util.MainEnv;
+import fun.bm.util.TimeUtil;
 import net.mamoe.mirai.contact.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -108,7 +109,7 @@ public class Ban extends Command.ExecutorV {
         String message = "玩家 " + targetPlayer.getName() + " 已被 " + sender.getName() + " 以[ " + reason + " ]的理由封禁";
         BanMessage("Local", message);
         if (!Config.UnionBanCheckOnly) {
-            reportBanData(targetPlayer.getName(), targetPlayer.getUniqueId(), System.currentTimeMillis(), reason, Config.ServerName);
+            reportBanData(targetPlayer.getName(), targetPlayer.getUniqueId(), TimeUtil.getUnixTimeMs(), reason, Config.ServerName);
         }
     }
 }

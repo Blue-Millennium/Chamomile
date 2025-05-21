@@ -19,8 +19,8 @@ import java.util.List;
 
 import static fun.bm.command.main.executor.extra.sub.data.Query.dataGet;
 import static fun.bm.command.main.executor.extra.sub.report.ReportQuery.message_head;
+import static fun.bm.data.processor.report.ImageProcessor.reportCharmProcess;
 import static fun.bm.util.MainEnv.LOGGER;
-import static fun.bm.util.helper.ImageProcessor.reportCharmProcess;
 import static fun.bm.util.helper.RconHelper.executeRconCommand;
 
 /**

@@ -5,7 +5,11 @@ public class TimeUtil {
         return new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date());
     }
 
-    public static long getUnixTime() {
+    public static long getUnixTimeS() {
         return System.currentTimeMillis() / 1000;
+    }
+
+    public static long getUnixTimeMs() {
+        return System.currentTimeMillis();
     }
 }

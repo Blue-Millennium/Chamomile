@@ -44,13 +44,13 @@ public class List extends Command.ExecutorE {
             }
             try {
                 if (start == -1) {
-                    buildDataString(sender, dataGet.transferListDataToJson(MainEnv.dataManager.DATA_LIST));
+                    buildDataString(sender, dataGet.transformListDataToJson(MainEnv.dataManager.DATA_LIST));
                 } else {
                     start--;
                     end--;
                     java.util.List<Data> data = new ArrayList<>();
                     for (int i = start; i <= end; i++) data.add(MainEnv.dataManager.DATA_LIST.get(i));
-                    buildDataString(sender, dataGet.transferListDataToJson(data));
+                    buildDataString(sender, dataGet.transformListDataToJson(data));
                 }
             } catch (Exception e) {
                 sender.sendMessage("§c出现内部错误");

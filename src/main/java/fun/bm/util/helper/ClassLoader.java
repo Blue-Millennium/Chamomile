@@ -57,7 +57,7 @@ public class ClassLoader {
                     finalList.add(instance);
                 }
             } catch (Exception e) {
-                LOGGER.warning("Failed to transfer class: " + clazz1.getName());
+                LOGGER.warning("Failed to transform class: " + clazz1.getName());
             }
         }
         return finalList;

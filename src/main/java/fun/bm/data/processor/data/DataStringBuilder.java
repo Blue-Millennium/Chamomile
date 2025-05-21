@@ -25,9 +25,9 @@ public class DataStringBuilder {
         Data data = gson.fromJson(jsonData, Data.class);
         StringBuilder result = new StringBuilder();
         appendPlayerData(result, data);
-        appendIfNotNull(result, "首次加入时间: ", transferTime(data.firstJoin));
+        appendIfNotNull(result, "首次加入时间: ", transformTime(data.firstJoin));
         appendIfNotNull(result, "首次加入时间(原始): ", data.firstJoin);
-        appendIfNotNull(result, "最后加入时间: ", transferTime(data.lastJoin));
+        appendIfNotNull(result, "最后加入时间: ", transformTime(data.lastJoin));
         appendIfNotNull(result, "最后加入时间(原始): ", data.lastJoin);
         appendLinkData(result, data);
         appendIfNotNull(result, "首次加入IP: ", data.firstJoinIp);
@@ -49,8 +49,8 @@ public class DataStringBuilder {
     }
 
     private static void appendLinkData(StringBuilder result, Data data) {
-        appendIfNotNull(result, "QQ绑定标志: ", transferBoolean(data.qqChecked));
-        appendIfNotNull(result, "UserID绑定标志: ", transferBoolean(data.useridChecked));
+        appendIfNotNull(result, "QQ绑定标志: ", transformBoolean(data.qqChecked));
+        appendIfNotNull(result, "UserID绑定标志: ", transformBoolean(data.useridChecked));
         if (data.linkData != null) {
             appendIfNotNull(result, "§a-------------------");
             if (data.linkData.size() > 1) {
@@ -76,14 +76,14 @@ public class DataStringBuilder {
 
     private static void appendQQData(StringBuilder result, QQLinkData data) {
         appendIfNotNull(result, "QQ号码: ", data.qqNumber);
-        appendIfNotNull(result, "QQ绑定时间: ", transferTime(data.linkedTime));
+        appendIfNotNull(result, "QQ绑定时间: ", transformTime(data.linkedTime));
         appendIfNotNull(result, "QQ绑定时间戳: ", data.linkedTime);
     }
 
     private static void appendUseridData(StringBuilder result, UseridLinkData data) {
         appendIfNotNull(result, "UserID识别码: ", data.userid);
         appendIfNotNull(result, "UserID绑定的群聊: ", data.useridLinkedGroup);
-        appendIfNotNull(result, "UserID绑定时间: ", transferTime(data.linkedTime));
+        appendIfNotNull(result, "UserID绑定时间: ", transformTime(data.linkedTime));
         appendIfNotNull(result, "UserID绑定时间戳: ", data.linkedTime);
     }
 
@@ -95,7 +95,7 @@ public class DataStringBuilder {
                 try {
                     appendOldNameData(result, data.playerData.oldNames);
                 } catch (Exception e) {
-                    LOGGER.warning("Error when transfer Old Name Data.");
+                    LOGGER.warning("Error when transform Old Name Data.");
                 }
             }
         } else {
@@ -109,7 +109,7 @@ public class DataStringBuilder {
             int i = 1;
             for (OldName oldName : oldNamesList) {
                 appendIfNotNull(result, "玩家名称 " + i + " : ", oldName.oldName);
-                appendIfNotNull(result, "玩家名称 " + i + " 服务器内被替换时间: ", transferTime(oldName.updateTime));
+                appendIfNotNull(result, "玩家名称 " + i + " 服务器内被替换时间: ", transformTime(oldName.updateTime));
                 appendIfNotNull(result, "玩家名称 " + i++ + " 服务器内被替换时间(原始): ", oldName.updateTime);
             }
         } else {
@@ -117,7 +117,7 @@ public class DataStringBuilder {
         }
     }
 
-    public static String transferBoolean(Boolean value) {
+    public static String transformBoolean(Boolean value) {
         try {
             if (value == null) {
                 return "未知";
@@ -128,7 +128,7 @@ public class DataStringBuilder {
                 return "否";
             }
         } catch (Exception e) {
-            LOGGER.warning("Error when transfer Boolean");
+            LOGGER.warning("Error when transform Boolean");
             return null;
         }
     }
@@ -162,15 +162,15 @@ public class DataStringBuilder {
         return true;
     }
 
-    public static String transferTime(long timestamp) {
+    public static String transformTime(long timestamp) {
         try {
             Date date = new Date(timestamp);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-            String transferredTime = sdf.format(date);
-            return transferredTime + "(GMT+8)";
+            String transformedTime = sdf.format(date);
+            return transformedTime + "(GMT+8)";
         } catch (Exception e) {
-            LOGGER.warning("Error when transfer time");
+            LOGGER.warning("Error when transform time");
             return null;
         }
     }
