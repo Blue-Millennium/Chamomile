@@ -1,11 +1,11 @@
 package fun.bm.config.modules.Bot;
 
-import fun.bm.config.rewritten.ConfigInfo;
-import fun.bm.config.rewritten.ConfigModule;
+import fun.bm.config.ConfigInfo;
+import fun.bm.config.ConfigModule;
 
 public class RconConfig implements ConfigModule {
 
-    @ConfigInfo(name = "enable", comment = "启用Rcon模块")
+    @ConfigInfo(name = "enabled", comment = "启用Rcon模块")
     public static boolean enabled = false;
 
     @ConfigInfo(name = "prefix", comment = "Rcon执行命令前缀")

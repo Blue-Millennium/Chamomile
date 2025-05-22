@@ -1,9 +1,9 @@
 package fun.bm.config.modules;
 
-import fun.bm.config.rewritten.ConfigInfo;
-import fun.bm.config.rewritten.ConfigModule;
-import fun.bm.config.rewritten.DoNotLoad;
-import fun.bm.config.rewritten.TransformedConfig;
+import fun.bm.config.ConfigInfo;
+import fun.bm.config.ConfigModule;
+import fun.bm.config.DoNotLoad;
+import fun.bm.config.TransformedConfig;
 
 public class RemovedConfig implements ConfigModule {
     @TransformedConfig(name = "example", category = {"removed", "example"}, transform = false)

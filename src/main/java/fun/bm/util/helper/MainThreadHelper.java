@@ -1,7 +1,7 @@
 package fun.bm.util.helper;
 
 import fun.bm.Chamomile;
-import fun.bm.config.old.Config;
+import fun.bm.config.modules.Bot.CoreConfig;
 import fun.bm.util.MainEnv;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.utils.LoggerAdapters;
@@ -21,12 +21,11 @@ public class MainThreadHelper {
         if (MainEnv.BOT != null) {
             MainEnv.BOT.close();
         }
-        if (Config.QQRobotEnabled) {
-            MainEnv.BOT = BotBuilder.positive(Config.BotWsUrl).token(Config.BotWsToken).connect(); // 连接 LLOneBot
+        if (CoreConfig.enabled) {
+            MainEnv.BOT = BotBuilder.positive(CoreConfig.wsUrl).token(CoreConfig.wsToken).connect(); // 连接 LLOneBot
             MainEnv.eventChannel = GlobalEventChannel.INSTANCE;
             if (MainEnv.BOT == null) {
-                Config.QQRobotEnabled = false;
-                MainEnv.configManager.save();
+                MainEnv.configManager.setConfigAndSave("bot.core.enabled", false);
                 LOGGER.warning("Failed to get bot instance");
             }
         } else {

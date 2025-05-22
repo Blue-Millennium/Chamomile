@@ -1,7 +1,8 @@
 package fun.bm.util.helper;
 
 import com.google.gson.Gson;
-import fun.bm.config.old.Config;
+import fun.bm.config.modules.ServerConfig;
+import fun.bm.config.modules.WebhookConfig;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -29,8 +30,8 @@ public class EmailSender {
     public void checkPlugin(String title) {
         try {
             String subject = "服务器" + title + "通知";
-            String content = Config.ServerName + "服务器已" + title + "完成";
-            formatAndSendWebhook(subject, content, Config.WebHookEmail);
+            String content = ServerConfig.serverName + "服务器已" + title + "完成";
+            formatAndSendWebhook(subject, content, WebhookConfig.webHookEmails);
         } catch (Exception e) {
             LOGGER.warning(e.getMessage());
         }
@@ -45,7 +46,7 @@ public class EmailSender {
     private boolean processWebhookData(Data_Sub data) {
         try {
             // 确保 URL 格式正确
-            String webhookUrl = ensureValidUrl(Config.WebhookUrl);
+            String webhookUrl = ensureValidUrl(WebhookConfig.webhookUrl);
 
             // 创建 HttpClient 实例
             HttpClient httpClient = HttpClient.newHttpClient();
@@ -89,11 +90,11 @@ public class EmailSender {
      * @param originEmail 发送邮件的邮箱地址
      */
     public void formatAndSendWebhook(String subject, String content, String originEmail) {
-        if (!Config.EnableEmailNotice) return;
+        if (!WebhookConfig.enabled) return;
         List<String> emailList = Arrays.asList(originEmail.split(";"));
-        Data_Full data = new Data_Full("来自" + Config.ServerName + "的信息：\n" + content, subject, emailList);
+        Data_Full data = new Data_Full("来自" + ServerConfig.serverName + "的信息：\n" + content, subject, emailList);
         if (processWebhookData(data)) {
-            Data_Sub data_new = new Data_Sub("来自" + Config.ServerName + "的信息：\n" + content, subject);
+            Data_Sub data_new = new Data_Sub("来自" + ServerConfig.serverName + "的信息：\n" + content, subject);
             if (processWebhookData(data_new)) {
                 LOGGER.warning("Failed to send webhook.");
             }

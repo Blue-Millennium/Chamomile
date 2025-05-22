@@ -1,4 +1,4 @@
-package fun.bm.config.rewritten;
+package fun.bm.config;
 
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
@@ -13,28 +13,29 @@ import java.util.*;
 import static fun.bm.util.MainEnv.LOGGER;
 
 public class ConfigManager {
-    private static final Set<ConfigModule> ConfigModules = new HashSet<>();
-    private static CommentedFileConfig configFileInstance;
+    private static Set<ConfigModule> ConfigModules = new HashSet<>();
+    private static CommentedFileConfig commentedFileConfig;
 
-    public static void load() {
+    public void load() {
         try {
             MainEnv.BASE_DIR.mkdir();
             if (!MainEnv.CONFIG_FILE.exists()) MainEnv.CONFIG_FILE.createNewFile();
         } catch (Exception e) {
             LOGGER.warning("Failed to create config file");
         }
-        configFileInstance = CommentedFileConfig.of(MainEnv.CONFIG_FILE);
-        configFileInstance.load();
+        commentedFileConfig = CommentedFileConfig.of(MainEnv.CONFIG_FILE);
+        commentedFileConfig.load();
 
         loadConfigModule();
     }
 
-    public static void reload() {
-        configFileInstance.clear();
+    public void reload() {
+        commentedFileConfig.clear();
+        ConfigModules.clear();
         load();
     }
 
-    private static void loadConfigModule() {
+    private void loadConfigModule() {
         ConfigModules.addAll(ClassLoader.loadClasses("fun/bm/config/modules", ConfigModule.class));
 
         for (ConfigModule module : ConfigModules) {
@@ -62,10 +63,10 @@ public class ConfigManager {
                     }
                     boolean removed = fullConfigKeyName.equals("removed_config.removed");
 
-                    if (!configFileInstance.contains(fullConfigKeyName) || removed) {
+                    if (!commentedFileConfig.contains(fullConfigKeyName) || removed) {
                         for (TransformedConfig transformedConfig : field.getAnnotationsByType(TransformedConfig.class)) {
                             final String oldConfigKeyName = String.join(".", transformedConfig.category()) + "." + transformedConfig.name();
-                            Object oldValue = configFileInstance.get(oldConfigKeyName);
+                            Object oldValue = commentedFileConfig.get(oldConfigKeyName);
                             if (oldValue != null) {
                                 boolean success = true;
                                 if (transformedConfig.transform() && !removed) {
@@ -73,7 +74,7 @@ public class ConfigManager {
                                         for (Class<? extends DefaultTransformLogic> logic : transformedConfig.transformLogic()) {
                                             oldValue = logic.getDeclaredConstructor().newInstance().transform(oldValue);
                                         }
-                                        configFileInstance.add(fullConfigKeyName, oldValue);
+                                        commentedFileConfig.add(fullConfigKeyName, oldValue);
                                     } catch (Exception e) {
                                         success = false;
                                         LOGGER.warning("Failed to transform removed config " + transformedConfig.name() + "!");
@@ -83,12 +84,12 @@ public class ConfigManager {
                                 if (success) removeConfig(oldConfigKeyName, transformedConfig.category());
                                 final String comments = configInfo.comment();
 
-                                if (!comments.isBlank()) configFileInstance.setComment(fullConfigKeyName, comments);
+                                if (!comments.isBlank()) commentedFileConfig.setComment(fullConfigKeyName, comments);
 
-                                if (!removed && configFileInstance.get(fullConfigKeyName) != null) break;
+                                if (!removed && commentedFileConfig.get(fullConfigKeyName) != null) break;
                             }
                         }
-                        if (configFileInstance.get(fullConfigKeyName) != null) continue;
+                        if (commentedFileConfig.get(fullConfigKeyName) != null) continue;
                         if (currentValue == null) {
                             LOGGER.warning("Config " + module.name() + "tried to add an null default value!");
                             continue;
@@ -97,14 +98,14 @@ public class ConfigManager {
                         final String comments = configInfo.comment();
 
                         if (!comments.isBlank()) {
-                            configFileInstance.setComment(fullConfigKeyName, comments);
+                            commentedFileConfig.setComment(fullConfigKeyName, comments);
                         }
 
-                        configFileInstance.add(fullConfigKeyName, currentValue);
+                        commentedFileConfig.add(fullConfigKeyName, currentValue);
                         continue;
                     }
 
-                    final Object actuallyValue = configFileInstance.get(fullConfigKeyName);
+                    final Object actuallyValue = commentedFileConfig.get(fullConfigKeyName);
                     try {
                         field.set(null, actuallyValue);
                     } catch (IllegalAccessException e) {
@@ -114,70 +115,88 @@ public class ConfigManager {
             }
         }
 
-        configFileInstance.save();
+        commentedFileConfig.save();
     }
 
-    private static void removeConfig(String name, String[] keys) {
-        configFileInstance.remove(name);
-        Object configAtPath = configFileInstance.get(String.join(".", keys));
+    private void removeConfig(String name, String[] keys) {
+        commentedFileConfig.remove(name);
+        Object configAtPath = commentedFileConfig.get(String.join(".", keys));
         if (configAtPath instanceof UnmodifiableConfig && ((UnmodifiableConfig) configAtPath).isEmpty()) {
             removeConfig(keys);
         }
     }
 
-    private static void removeConfig(String[] keys) {
-        configFileInstance.remove(String.join(".", keys));
-        Object configAtPath = configFileInstance.get(String.join(".", Arrays.copyOfRange(keys, 1, keys.length)));
+    private void removeConfig(String[] keys) {
+        commentedFileConfig.remove(String.join(".", keys));
+        Object configAtPath = commentedFileConfig.get(String.join(".", Arrays.copyOfRange(keys, 1, keys.length)));
         if (configAtPath instanceof UnmodifiableConfig && ((UnmodifiableConfig) configAtPath).isEmpty()) {
             removeConfig(Arrays.copyOfRange(keys, 1, keys.length));
         }
     }
 
-    public static boolean setConfigAndSave(String[] keys, Object value) {
-        if (setConfig(keys, value)) {
+    public boolean setConfigAndSave(String[] keys, Object value) {
+        return setConfigAndSave(String.join(".", keys), value);
+    }
+
+    public boolean setConfigAndSave(String key, Object value) {
+        if (setConfig(key, value)) {
             saveConfig();
             return true;
         }
         return false;
     }
 
-    public static boolean setConfigAndSave(String keys, Object value) {
-        if (setConfig(keys, value)) {
-            saveConfig();
+    public boolean setConfig(String[] keys, Object value) {
+        return setConfig(String.join(".", keys), value);
+    }
+
+    public boolean setConfig(String key, Object value) {
+        if (commentedFileConfig.contains(key) && commentedFileConfig.get(key) != null) {
+            commentedFileConfig.set(key, value);
             return true;
         }
         return false;
     }
 
-    public static boolean setConfig(String[] keys, Object value) {
-        if (configFileInstance.contains(String.join(".", keys)) && configFileInstance.get(String.join(".", keys)) != null) {
-            configFileInstance.set(String.join(".", keys), value);
-            return true;
-        }
-        return false;
+    public void saveConfig() {
+        commentedFileConfig.save();
     }
 
-    public static boolean setConfig(String keys, Object value) {
-        if (configFileInstance.contains(keys) && configFileInstance.get(keys) != null) {
-            configFileInstance.set(keys, value);
-            return true;
-        }
-        return false;
+    public void resetConfig(String[] keys) {
+        resetConfig(String.join(".", keys));
     }
 
-    public static void saveConfig() {
-        configFileInstance.save();
-    }
-
-    public static void resetConfig(String[] keys) {
-        configFileInstance.remove(String.join(".", keys));
-        configFileInstance.save();
+    public void resetConfig(String key) {
+        commentedFileConfig.remove(key);
+        commentedFileConfig.save();
         reload();
     }
 
-    public static List<String> getAllConfigNames() {
-        List<String> list = new ArrayList<>();
-        for (CommentedConfig.Entry entry : configFileInstance.entrySet()) list.add(entry.getKey());
-        return list;
+    public String getConfig(String[] keys) {
+        return getConfig(String.join(".", keys));
+    }
+
+    public String getConfig(String key) {
+        return commentedFileConfig.get(key);
+    }
+
+    public List<String> getAllConfigPaths() {
+        List<String> configPaths = new ArrayList<>();
+        getAllConfigPathsRecursive(commentedFileConfig, "", configPaths);
+        return configPaths;
+    }
+
+    private void getAllConfigPathsRecursive(CommentedConfig config, String currentPath, List<String> configPaths) {
+        for (CommentedConfig.Entry entry : config.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            String fullPath = currentPath.isEmpty() ? key : currentPath + "." + key;
+
+            if (value instanceof CommentedConfig) {
+                getAllConfigPathsRecursive((CommentedConfig) value, fullPath, configPaths);
+            } else {
+                configPaths.add(fullPath);
+            }
+        }
     }
 }

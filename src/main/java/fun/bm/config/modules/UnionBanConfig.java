@@ -1,7 +1,7 @@
 package fun.bm.config.modules;
 
-import fun.bm.config.rewritten.ConfigInfo;
-import fun.bm.config.rewritten.ConfigModule;
+import fun.bm.config.ConfigInfo;
+import fun.bm.config.ConfigModule;
 
 public class UnionBanConfig implements ConfigModule {
 

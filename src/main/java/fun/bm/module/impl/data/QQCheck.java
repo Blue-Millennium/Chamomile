@@ -1,6 +1,7 @@
 package fun.bm.module.impl.data;
 
-import fun.bm.config.old.Config;
+import fun.bm.config.modules.Bot.AuthConfig;
+import fun.bm.config.modules.Bot.CoreConfig;
 import fun.bm.data.manager.data.Data;
 import fun.bm.data.manager.data.link.LinkData;
 import fun.bm.data.manager.data.link.QQLinkData;
@@ -38,7 +39,7 @@ public class QQCheck extends Module {
     }
 
     public static void groupCheck(GroupMessageEvent event, MessageChainBuilder builder) {
-        String num = builder.build().contentToString().replace(" ", "").replace(Config.QQCheckStartWord.replace(" ", ""), "");
+        String num = builder.build().contentToString().replace(" ", "").replace(AuthConfig.prefix.replace(" ", ""), "");
         int code;
         if (num.equals("test")) {
             MessageChainBuilder checkMessage;
@@ -61,15 +62,15 @@ public class QQCheck extends Module {
         } catch (Exception ignored) {
         }
         List<MessageChainBuilder> builderList = new java.util.ArrayList<>();
-        List<Data> dataList = Config.BotModeOfficial ? dataGet.getPlayersByQQ(event.getGroup().getId()) : dataGet.getPlayersByUserID(event.getGroup().getId());
+        List<Data> dataList = CoreConfig.official ? dataGet.getPlayersByQQ(event.getGroup().getId()) : dataGet.getPlayersByUserID(event.getGroup().getId());
         if (!dataList.isEmpty()) {
             for (Data data : dataList) {
                 if (!data.linkData.isEmpty()
                         && data.linkData.stream()
                         .anyMatch(linkData ->
-                                (!Config.BotModeOfficial && linkData instanceof QQLinkData
+                                (!CoreConfig.official && linkData instanceof QQLinkData
                                         && ((QQLinkData) linkData).qqNumber == event.getGroup().getId())
-                                        || (Config.BotModeOfficial && linkData instanceof UseridLinkData
+                                        || (CoreConfig.official && linkData instanceof UseridLinkData
                                         && ((UseridLinkData) linkData).userid == event.getSender().getId())))
                     builderList.add(buildMessage(event, data.playerData.playerName));
             }
@@ -101,7 +102,7 @@ public class QQCheck extends Module {
                         break;
                     }
                 }
-                if (Config.BotModeOfficial) {
+                if (CoreConfig.official) {
                     data.useridChecked = true;
                     if (event instanceof GroupMessageEvent)
                         data.useridLinkedGroup = ((GroupMessageEvent) event).getGroup().getId();
@@ -134,7 +135,7 @@ public class QQCheck extends Module {
                 .append("\n-----------------\n")
                 .append("Your account was linked!").append("\n")
                 .append("Player Name: ").append(playerName).append("\n");
-        if (Config.BotModeOfficial) {
+        if (CoreConfig.official) {
             checkMessage.append("Linked UserID: ").append(String.valueOf(event.getSender().getId())).append("\n")
                     .append("Linked Time: ").append(TimeUtil.getNowTime());
         } else {
@@ -165,7 +166,7 @@ public class QQCheck extends Module {
     }
 
     public void onEnable() {
-        if (!Config.BotModeOfficial)
+        if (!CoreConfig.official)
             MainEnv.eventChannel.subscribeAlways(NewFriendRequestEvent.class, NewFriendRequestEvent::accept);
 
         MainEnv.eventChannel.subscribeAlways(FriendMessageEvent.class, event -> {
@@ -193,9 +194,9 @@ public class QQCheck extends Module {
         data.playerData.playerName = event.getName();
         // 首次登录
         int code = generateCode(data);
-        if (Config.EnforceCheckEnabled && data.linkData.isEmpty()) {
+        if (AuthConfig.enforceCheck && data.linkData.isEmpty()) {
             // 拒绝加入服务器
-            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.DisTitle.replace("%CODE%", String.valueOf(code)));
+            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, AuthConfig.disconnectMessage.replace("%CODE%", String.valueOf(code)));
         } else {
             for (LinkData linkData : data.linkData) {
                 if (data.qqChecked && data.useridChecked) break;
@@ -210,7 +211,7 @@ public class QQCheck extends Module {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (!Config.EnforceCheckEnabled) {
+        if (!AuthConfig.enforceCheck) {
             try {
                 Player player = event.getPlayer();
                 int code = -1;
@@ -221,9 +222,9 @@ public class QQCheck extends Module {
                 }
                 Data data = MainEnv.dataManager.getPlayerData(event.getPlayer().getUniqueId());
                 if (code != -1 && data.linkData.isEmpty()) {
-                    player.sendMessage(Config.DisTitle.replace("%CODE%", String.valueOf(code)));
+                    player.sendMessage(AuthConfig.disconnectMessage.replace("%CODE%", String.valueOf(code)));
                 } else {
-                    player.sendMessage(Config.ConnTitle);
+                    player.sendMessage(AuthConfig.connectMessage);
                 }
             } catch (Exception e) {
                 LOGGER.warning(e.getMessage());
@@ -232,7 +233,7 @@ public class QQCheck extends Module {
     }
 
     public void setModuleName() {
-        if (!Config.QQRobotEnabled || !Config.QQCheckEnabled) {
+        if (!CoreConfig.enabled || !AuthConfig.enabled) {
             this.moduleName = null;
         }
     }

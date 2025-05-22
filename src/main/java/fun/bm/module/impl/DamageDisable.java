@@ -1,6 +1,6 @@
 package fun.bm.module.impl;
 
-import fun.bm.config.old.Config;
+import fun.bm.config.modules.ServerConfig;
 import fun.bm.module.Module;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -22,7 +22,7 @@ public class DamageDisable extends Module {
     }
 
     public void setModuleName() {
-        if (!Config.DamageDisabled) {
+        if (!ServerConfig.damageDisabled) {
             this.moduleName = null;
         }
     }

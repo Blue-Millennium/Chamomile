@@ -1,4 +1,4 @@
-package fun.bm.config.rewritten;
+package fun.bm.config;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import org.jetbrains.annotations.NotNull;

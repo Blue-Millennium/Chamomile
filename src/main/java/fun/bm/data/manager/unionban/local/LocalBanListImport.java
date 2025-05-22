@@ -1,6 +1,6 @@
 package fun.bm.data.manager.unionban.local;
 
-import fun.bm.config.old.Config;
+import fun.bm.config.modules.ServerConfig;
 import fun.bm.data.manager.unionban.UnionBanData;
 import fun.bm.module.impl.UnionBan;
 import fun.bm.util.TimeUtil;
@@ -28,7 +28,7 @@ public class LocalBanListImport {
                     Date expiration = banEntry.getExpiration();
                     data.time = expiration != null ? expiration.getTime() : TimeUtil.getUnixTimeMs();
                     data.reason = banEntry.getReason();
-                    data.sourceServer = Config.ServerName;
+                    data.sourceServer = ServerConfig.serverName;
                     data.localTag = true;
                     if (reportRemoteBanList(data)) {
                         data.reportTag = true;

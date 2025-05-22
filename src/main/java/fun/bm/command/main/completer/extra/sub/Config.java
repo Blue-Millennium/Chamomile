@@ -27,7 +27,7 @@ public class Config extends Command.CompleterE {
             completions.add("set");
         } else if (args.length == 2) {
             if (args[0].equals("query") || args[0].equals("set")) {
-                completions.addAll(MainEnv.configManager.getConfigFieldNames());
+                completions.addAll(MainEnv.configManager.getAllConfigPaths());
             }
         }
         return completions;

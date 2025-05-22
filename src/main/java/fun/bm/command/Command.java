@@ -1,6 +1,6 @@
 package fun.bm.command;
 
-import fun.bm.config.old.Config;
+import fun.bm.config.modules.ServerConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -96,7 +96,7 @@ public class Command {
         }
 
         public void setupCommand() {
-            if (!Config.VanillaCommandsRewritten) {
+            if (!ServerConfig.vanillaCommandsRewritten) {
                 vanilla = true;
             }
         }

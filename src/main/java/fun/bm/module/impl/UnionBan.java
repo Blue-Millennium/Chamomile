@@ -1,6 +1,6 @@
 package fun.bm.module.impl;
 
-import fun.bm.config.old.Config;
+import fun.bm.config.modules.UnionBanConfig;
 import fun.bm.data.manager.unionban.UnionBanData;
 import fun.bm.data.manager.unionban.local.UnionBanDataGet;
 import fun.bm.module.Module;
@@ -31,14 +31,14 @@ public class UnionBan extends Module {
     }
 
     public void onEnable() {
-        if (Config.UnionBanMergePeriod > 0)
-            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, this::scheduleTask, Config.UnionBanMergePeriod * 20L);
+        if (UnionBanConfig.mergePeriod > 0)
+            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, this::scheduleTask, UnionBanConfig.mergePeriod * 20L);
     }
 
     public void scheduleTask() {
         mergeAndReportData(true);
         if (flag_continue)
-            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, this::scheduleTask, Config.UnionBanMergePeriod * 20L);
+            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, this::scheduleTask, UnionBanConfig.mergePeriod * 20L);
     }
 
     public void onDisable() {
@@ -47,7 +47,7 @@ public class UnionBan extends Module {
 
     @EventHandler
     public void PlayerJoinProcess(PlayerJoinEvent event) {
-        Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, () -> mergeAndReportData(true), Config.UnionBanMergePeriod * 20L);
+        Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, () -> mergeAndReportData(true), UnionBanConfig.mergePeriod * 20L);
     }
 
     @EventHandler
@@ -56,7 +56,7 @@ public class UnionBan extends Module {
     }
 
     public void setModuleName() {
-        if (!Config.UnionBanEnabled) {
+        if (!UnionBanConfig.enabled) {
             this.moduleName = null;
         }
     }

@@ -1,6 +1,6 @@
 package fun.bm.module.impl.data;
 
-import fun.bm.config.old.Config;
+import fun.bm.config.modules.Bot.CoreConfig;
 import fun.bm.data.manager.data.Data;
 import fun.bm.data.manager.data.link.LinkData;
 import fun.bm.data.manager.data.link.QQLinkData;
@@ -69,7 +69,7 @@ public class DataProcess extends Module {
     }
 
     public void setModuleName() {
-        if (Config.QQRobotEnabled) {
+        if (CoreConfig.enabled) {
             this.moduleName = null;
         } else {
             LOGGER.info("QQ机器人未启用，模块" + this.getModuleName() + "将会被加载");

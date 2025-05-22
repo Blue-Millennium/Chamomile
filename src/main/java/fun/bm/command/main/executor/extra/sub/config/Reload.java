@@ -24,7 +24,7 @@ public class Reload extends Command.ExecutorE {
         }
 
         try {
-            MainEnv.configManager.load();
+            MainEnv.configManager.reload();
             MainEnv.moduleManager.reload();
             sender.sendMessage("重新加载配置文件成功！");
         } catch (Exception e) {

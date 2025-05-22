@@ -3,7 +3,7 @@ package fun.bm.data.manager.unionban.online;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import fun.bm.config.old.Config;
+import fun.bm.config.modules.UnionBanConfig;
 import fun.bm.data.manager.unionban.UnionBanData;
 import fun.bm.module.impl.UnionBan;
 import fun.bm.util.MainEnv;
@@ -31,7 +31,7 @@ public class OnlinePush {
         String json_fin;
         try {
             String json = objectMapper.writeValueAsString(banDataNode);
-            base64EncodedJson = encrypt(json, Config.UnionBanReportKey);
+            base64EncodedJson = encrypt(json, UnionBanConfig.reportKey);
             ObjectNode dataNode_new = objectMapper.createObjectNode();
             dataNode_new.put("data", base64EncodedJson);
             json_fin = objectMapper.writeValueAsString(dataNode_new);
@@ -45,7 +45,7 @@ public class OnlinePush {
         }
 
         // 确保 URL 格式正确
-        String reportUrl = MainEnv.emailSender.ensureValidUrl(Config.UnionBanReportUrl);
+        String reportUrl = MainEnv.emailSender.ensureValidUrl(UnionBanConfig.pushUrl);
 
         try {
             // 创建 HttpClient 实例

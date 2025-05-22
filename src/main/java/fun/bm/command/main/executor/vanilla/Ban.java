@@ -1,7 +1,10 @@
 package fun.bm.command.main.executor.vanilla;
 
 import fun.bm.command.Command;
-import fun.bm.config.old.Config;
+import fun.bm.config.modules.Bot.CoreConfig;
+import fun.bm.config.modules.ServerConfig;
+import fun.bm.config.modules.UnionBanConfig;
+import fun.bm.config.modules.WebhookConfig;
 import fun.bm.util.MainEnv;
 import fun.bm.util.TimeUtil;
 import net.mamoe.mirai.contact.Group;
@@ -32,7 +35,7 @@ public class Ban extends Command.ExecutorV {
 
     public static void BanMessage(String origin, String message) {
         Bukkit.broadcastMessage(origin + " Ban : " + message);
-        if (Config.QQRobotEnabled & !Config.BotModeOfficial) {
+        if (CoreConfig.enabled & !CoreConfig.official) {
             List<Long> Groups = ReportGroups;
             Groups.addAll(SyncGroups);
             if (!Groups.isEmpty()) {
@@ -46,7 +49,7 @@ public class Ban extends Command.ExecutorV {
                 }
             }
             try {
-                MainEnv.emailSender.formatAndSendWebhook(origin + " Ban : " + message, message, Config.WebHookEmail);
+                MainEnv.emailSender.formatAndSendWebhook(origin + " Ban : " + message, message, WebhookConfig.webHookEmails);
             } catch (Exception e) {
                 LOGGER.info("Error when report message to Email");
             }
@@ -54,7 +57,7 @@ public class Ban extends Command.ExecutorV {
     }
 
     public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-        if (Config.UnionBanEnabled) {
+        if (UnionBanConfig.enabled) {
             if (!sender.isOp()) {
                 sender.sendMessage("您没有权限这么做");
                 return true;
@@ -108,8 +111,8 @@ public class Ban extends Command.ExecutorV {
     private void transferToUnionBan(OfflinePlayer targetPlayer, CommandSender sender, String reason) {
         String message = "玩家 " + targetPlayer.getName() + " 已被 " + sender.getName() + " 以[ " + reason + " ]的理由封禁";
         BanMessage("Local", message);
-        if (!Config.UnionBanCheckOnly) {
-            reportBanData(targetPlayer.getName(), targetPlayer.getUniqueId(), TimeUtil.getUnixTimeMs(), reason, Config.ServerName);
+        if (!UnionBanConfig.pullOnly) {
+            reportBanData(targetPlayer.getName(), targetPlayer.getUniqueId(), TimeUtil.getUnixTimeMs(), reason, ServerConfig.serverName);
         }
     }
 }

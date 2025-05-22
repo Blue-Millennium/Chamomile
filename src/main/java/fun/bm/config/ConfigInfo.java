@@ -1,4 +1,4 @@
-package fun.bm.config.rewritten;
+package fun.bm.config;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

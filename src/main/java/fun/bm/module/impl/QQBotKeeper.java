@@ -1,6 +1,6 @@
 package fun.bm.module.impl;
 
-import fun.bm.config.old.Config;
+import fun.bm.config.modules.Bot.CoreConfig;
 import fun.bm.module.Module;
 import fun.bm.util.MainEnv;
 import org.bukkit.Bukkit;
@@ -15,8 +15,8 @@ public class QQBotKeeper extends Module {
     }
 
     public void onEnable() {
-        if (Config.QQRobotEnabled && Config.UnionBanMergePeriod > 0)
-            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, this::scheduleTask, Config.BOTLoginCheckPeriod * 20L);
+        if (CoreConfig.enabled && CoreConfig.loginCheckPeriod > 0)
+            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, this::scheduleTask, CoreConfig.loginCheckPeriod * 20L);
     }
 
     public void onDisable() {
@@ -31,7 +31,7 @@ public class QQBotKeeper extends Module {
     }
 
     public void setModuleName() {
-        if (!Config.QQRobotEnabled && Config.UnionBanMergePeriod > 0) {
+        if (!CoreConfig.enabled && CoreConfig.loginCheckPeriod > 0) {
             this.moduleName = null;
         }
     }

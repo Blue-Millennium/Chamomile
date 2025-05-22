@@ -1,7 +1,7 @@
 package fun.bm.command.main.executor.extra.sub.check;
 
 import fun.bm.command.Command;
-import fun.bm.config.old.Config;
+import fun.bm.config.modules.Bot.AuthConfig;
 import fun.bm.data.manager.data.Data;
 import fun.bm.util.MainEnv;
 import org.bukkit.command.CommandSender;
@@ -18,7 +18,7 @@ public class Verify extends Command.ExecutorE {
         Data data = MainEnv.dataManager.getPlayerDataByName(sender.getName());
         data = MainEnv.dataManager.nullCheck(data);
         int code = generateCode(data);
-        sender.sendMessage(Config.DisTitle.replace("%CODE%", String.valueOf(code)));
+        sender.sendMessage(AuthConfig.disconnectMessage.replace("%CODE%", String.valueOf(code)));
         return true;
     }
 }

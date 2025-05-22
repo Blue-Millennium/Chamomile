@@ -1,7 +1,8 @@
 package fun.bm.command.main.executor.extra.sub.report;
 
 import fun.bm.command.Command;
-import fun.bm.config.old.Config;
+import fun.bm.config.modules.Bot.CoreConfig;
+import fun.bm.config.modules.WebhookConfig;
 import fun.bm.data.manager.report.ReportDataManager;
 import fun.bm.util.MainEnv;
 import fun.bm.util.TimeUtil;
@@ -60,14 +61,14 @@ public class Report extends Command.ExecutorE {
                     String content = builder.build().contentToString();
                     try {
                         String subject = "玩家举报-" + number;
-                        MainEnv.emailSender.formatAndSendWebhook(subject, content, Config.WebHookEmail);
+                        MainEnv.emailSender.formatAndSendWebhook(subject, content, WebhookConfig.webHookEmails);
                         sender.sendMessage("§a举报已被上报至指定邮箱");
                     } catch (Exception e) {
                         sender.sendMessage("§c邮件发送失败");
                         LOGGER.warning(e.getMessage());
                     }
 
-                    if (Config.QQRobotEnabled && !Config.BotModeOfficial && !ReportGroups.isEmpty()) {
+                    if (CoreConfig.enabled && !CoreConfig.official && !ReportGroups.isEmpty()) {
                         for (long groupId : ReportGroups) {
                             MessageChainBuilder builder_qq = new MessageChainBuilder();
                             Group reportGroup = MainEnv.BOT.getGroup(groupId);
