@@ -47,7 +47,7 @@ public class Pardon extends Command.ExecutorV {
 
             if (result) {
                 // 额外操作---to UnionBan
-                transformToUnionPardon(playerName, sender);
+                transferToUnionPardon(playerName, sender);
             }
 
             return result;
@@ -56,7 +56,7 @@ public class Pardon extends Command.ExecutorV {
         }
     }
 
-    private void transformToUnionPardon(String playerName, CommandSender sender) {
+    private void transferToUnionPardon(String playerName, CommandSender sender) {
         String message = "玩家 " + playerName + " 已被 " + sender.getName() + "解除封禁";
         BanMessage("Local", message);
         if (!Config.UnionBanCheckOnly) {

@@ -20,9 +20,7 @@ public class ConfigManager {
     public static void load() {
         try {
             MainEnv.BASE_DIR.mkdir();
-            if (!MainEnv.CONFIG_FILE.exists()) {
-                MainEnv.CONFIG_FILE.createNewFile();
-            }
+            if (!MainEnv.CONFIG_FILE.exists()) MainEnv.CONFIG_FILE.createNewFile();
         } catch (Exception e) {
             LOGGER.warning("Failed to create config file");
         }
@@ -53,7 +51,7 @@ public class ConfigManager {
                         continue;
                     }
 
-                    final String fullConfigKeyName = module.name() + "." + (module.category().length == 0 ? "" : String.join(".", module.category()) + ".") + configInfo.name();
+                    final String fullConfigKeyName = (module.category().length == 0 ? "" : String.join(".", module.category()) + ".") + module.name() + "." + configInfo.name();
 
                     field.setAccessible(true);
                     final Object currentValue;
