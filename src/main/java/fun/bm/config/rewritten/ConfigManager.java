@@ -1,5 +1,6 @@
 package fun.bm.config.rewritten;
 
+import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import fun.bm.util.MainEnv;
@@ -7,9 +8,7 @@ import fun.bm.util.helper.ClassLoader;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static fun.bm.util.MainEnv.LOGGER;
 
@@ -174,5 +173,11 @@ public class ConfigManager {
         configFileInstance.remove(String.join(".", keys));
         configFileInstance.save();
         reload();
+    }
+
+    public static List<String> getAllConfigNames() {
+        List<String> list = new ArrayList<>();
+        for (CommentedConfig.Entry entry : configFileInstance.entrySet()) list.add(entry.getKey());
+        return list;
     }
 }
