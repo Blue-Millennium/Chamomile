@@ -1,5 +1,5 @@
 name: Chamomile
-version: 1.0.3
+version: 1.0.4
 main: fun.bm.Chamomile
 description: Encoded by Blue Millennium
 authors: [ SukaXD, Suisuroru ]
@@ -44,9 +44,9 @@ commands:
     aliases: [ dr ]
   bind:
     description: Link account and qq
-    usage: /bind name qq
+    usage: /bind [qq name qq-number|userid name userid-number]
   check:
-    description: add or delete check data
+    description: Verify or delete check data
     usage: /check [del|verify] [args...]
   chamomile:
     description: Chamomile functions

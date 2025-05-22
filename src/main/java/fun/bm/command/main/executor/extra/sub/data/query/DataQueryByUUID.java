@@ -1,18 +1,17 @@
 package fun.bm.command.main.executor.extra.sub.data.query;
 
 import fun.bm.command.Command;
-import fun.bm.data.DataProcessor.Data.DataGet;
+import fun.bm.command.main.executor.extra.sub.data.Query;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-import static fun.bm.data.DataProcessor.Data.DataStringBuilder.buildDataString;
+import static fun.bm.data.processor.data.DataStringBuilder.buildDataString;
 import static fun.bm.util.MainEnv.LOGGER;
 import static fun.bm.util.helper.CommandHelper.operatorCheck;
 
 public class DataQueryByUUID extends Command.ExecutorE {
-
     public DataQueryByUUID() {
         super(null);
     }
@@ -21,7 +20,6 @@ public class DataQueryByUUID extends Command.ExecutorE {
         if (operatorCheck(sender)) {
             return true;
         }
-        DataGet dataGet = new DataGet();
         UUID Uuid;
         try {
             String uuidString = args[0].toLowerCase();
@@ -36,7 +34,7 @@ public class DataQueryByUUID extends Command.ExecutorE {
             LOGGER.info(String.valueOf(e));
             return true;
         }
-        String playerJson = dataGet.getPlayersByUUIDAsJson(Uuid);
+        String playerJson = Query.dataGet.getPlayersByUUIDAsJson(Uuid);
         return buildDataString(sender, playerJson);
     }
 

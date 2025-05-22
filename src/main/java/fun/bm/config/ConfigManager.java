@@ -1,143 +1,202 @@
 package fun.bm.config;
 
+import com.electronwill.nightconfig.core.CommentedConfig;
+import com.electronwill.nightconfig.core.UnmodifiableConfig;
+import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import fun.bm.util.MainEnv;
-import org.jetbrains.annotations.NotNull;
+import fun.bm.util.helper.ClassLoader;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.lang.reflect.Modifier;
+import java.util.*;
 
 import static fun.bm.util.MainEnv.LOGGER;
 
-/**
- * @author Suisuroru
- * Date: 2024/10/14 23:41
- * function: Manage config, rewrote by Suisuroru in 250121
- */
 public class ConfigManager {
-
-    public List<String> getConfigFieldNames() {
-        Field[] fields = Config.class.getDeclaredFields();
-        List<String> fieldNames = new ArrayList<>();
-        for (Field field : fields) {
-            fieldNames.add(field.getName());
-        }
-        return fieldNames;
-    }
-
-    private @NotNull Properties getDefaultProperties() {
-        Properties properties = new Properties();
-        List<String> fieldNames = MainEnv.configManager.getConfigFieldNames();
-
-        for (String fieldName : fieldNames) {
-            try {
-                Field field = Config.class.getDeclaredField(fieldName);
-                field.setAccessible(true);
-                properties.setProperty(fieldName, field.get(null).toString());
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                LOGGER.warning("Failed to get default config value for " + fieldName + ": " + e.getMessage());
-            }
-        }
-
-        return properties;
-    }
-
-    private @NotNull Properties getProperties() {
-        Properties properties = new Properties();
-        List<String> fieldNames = getConfigFieldNames();
-        for (String fieldName : fieldNames) {
-            try {
-                Field field = Config.class.getDeclaredField(fieldName);
-                field.setAccessible(true);
-                properties.setProperty(fieldName, field.get(null).toString());
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                LOGGER.warning("Failed to get config value for " + fieldName + ": " + e.getMessage());
-            }
-        }
-
-        return properties;
-    }
+    private static Set<ConfigModule> ConfigModules = new HashSet<>();
+    private static CommentedFileConfig commentedFileConfig;
 
     public void load() {
-        try (FileReader reader = new FileReader(MainEnv.CONFIG_FILE)) {
-            Properties properties = new Properties();
-            properties.load(reader);
-            LOGGER.info("Loaded config file: " + MainEnv.CONFIG_FILE.getAbsolutePath());
-
-            Properties defaultProperties = getDefaultProperties();
-            List<String> fieldNames = getConfigFieldNames();
-            boolean label = false;
-
-            for (String fieldName : fieldNames) {
-                try {
-                    Field field = Config.class.getDeclaredField(fieldName);
-                    field.setAccessible(true);
-                    String value = properties.getProperty(fieldName);
-                    if (value == null) {
-                        value = defaultProperties.getProperty(fieldName);
-                        label = true;
-                    }
-                    Object parsedValue = convertToFieldType(field.getType(), value);
-                    field.set(null, convertToFieldType(field.getType(), parsedValue));
-                } catch (NoSuchFieldException | IllegalAccessException e) {
-                    LOGGER.warning("Failed to set config value for " + fieldName + ": " + e.getMessage());
-                }
-            }
-            if (label) {
-                save();
-            }
-        } catch (IOException e) {
-            LOGGER.warning("Failed to load config file " + MainEnv.CONFIG_FILE.getAbsolutePath() + ": " + e.getMessage());
-            LOGGER.info("Using default config values.");
-            save();
-        }
-    }
-
-    private Object convertToFieldType(Class<?> fieldType, Object value) {
-        if (fieldType == boolean.class || fieldType == Boolean.class) {
-            return Boolean.parseBoolean(value.toString());
-        } else if (fieldType == int.class || fieldType == Integer.class) {
-            return Integer.parseInt(value.toString());
-        } else if (fieldType == long.class || fieldType == Long.class) {
-            return Long.parseLong(value.toString());
-        } else {
-            return value;
-        }
-    }
-
-    public void setConfigValue(String fieldName, String value) {
         try {
-            Field field = Config.class.getDeclaredField(fieldName);
-            field.setAccessible(true);
-            Object parsedValue = convertToFieldType(field.getType(), value);
-            field.set(null, parsedValue);
-            save();
+            MainEnv.BASE_DIR.mkdir();
+            if (!MainEnv.CONFIG_FILE.exists()) MainEnv.CONFIG_FILE.createNewFile();
         } catch (Exception e) {
-            LOGGER.warning("Failed to parse config value for " + fieldName + ": " + e.getMessage());
+            LOGGER.warning("Failed to create config file");
         }
+        commentedFileConfig = CommentedFileConfig.of(MainEnv.CONFIG_FILE);
+        commentedFileConfig.load();
+
+        loadConfigModule();
     }
 
-    public void save() {
-        if (!MainEnv.CONFIG_FILE.exists()) {
-            try {
-                if (!MainEnv.CONFIG_FILE.createNewFile()) {
-                    LOGGER.warning("Failed to create config file");
+    public void reload() {
+        commentedFileConfig.clear();
+        ConfigModules.clear();
+        load();
+    }
+
+    private void loadConfigModule() {
+        ConfigModules.addAll(ClassLoader.loadClasses("fun/bm/config/modules", ConfigModule.class));
+
+        for (ConfigModule module : ConfigModules) {
+            Field[] fields = module.getClass().getDeclaredFields();
+
+            for (Field field : fields) {
+                int modifiers = field.getModifiers();
+                if (Modifier.isStatic(modifiers) && !Modifier.isFinal(modifiers)) {
+                    boolean skipLoad = field.getAnnotation(DoNotLoad.class) != null;
+                    ConfigInfo configInfo = field.getAnnotation(ConfigInfo.class);
+
+                    if (skipLoad || configInfo == null) {
+                        continue;
+                    }
+
+                    final String fullConfigKeyName = (module.category().length == 0 ? "" : String.join(".", module.category()) + ".") + module.name() + "." + configInfo.name();
+
+                    field.setAccessible(true);
+                    final Object currentValue;
+                    try {
+                        currentValue = field.get(null);
+                    } catch (IllegalAccessException e) {
+                        LOGGER.warning("Failed to get config value for " + field.getName() + ": " + e.getMessage());
+                        continue;
+                    }
+                    boolean removed = fullConfigKeyName.equals("removed_config.removed");
+
+                    if (!commentedFileConfig.contains(fullConfigKeyName) || removed) {
+                        for (TransformedConfig transformedConfig : field.getAnnotationsByType(TransformedConfig.class)) {
+                            final String oldConfigKeyName = String.join(".", transformedConfig.category()) + "." + transformedConfig.name();
+                            Object oldValue = commentedFileConfig.get(oldConfigKeyName);
+                            if (oldValue != null) {
+                                boolean success = true;
+                                if (transformedConfig.transform() && !removed) {
+                                    try {
+                                        for (Class<? extends DefaultTransformLogic> logic : transformedConfig.transformLogic()) {
+                                            oldValue = logic.getDeclaredConstructor().newInstance().transform(oldValue);
+                                        }
+                                        commentedFileConfig.add(fullConfigKeyName, oldValue);
+                                    } catch (Exception e) {
+                                        success = false;
+                                        LOGGER.warning("Failed to transform removed config " + transformedConfig.name() + "!");
+                                    }
+                                }
+
+                                if (success) removeConfig(oldConfigKeyName, transformedConfig.category());
+                                final String comments = configInfo.comment();
+
+                                if (!comments.isBlank()) commentedFileConfig.setComment(fullConfigKeyName, comments);
+
+                                if (!removed && commentedFileConfig.get(fullConfigKeyName) != null) break;
+                            }
+                        }
+                        if (commentedFileConfig.get(fullConfigKeyName) != null) continue;
+                        if (currentValue == null) {
+                            LOGGER.warning("Config " + module.name() + "tried to add an null default value!");
+                            continue;
+                        }
+
+                        final String comments = configInfo.comment();
+
+                        if (!comments.isBlank()) {
+                            commentedFileConfig.setComment(fullConfigKeyName, comments);
+                        }
+
+                        commentedFileConfig.add(fullConfigKeyName, currentValue);
+                        continue;
+                    }
+
+                    final Object actuallyValue = commentedFileConfig.get(fullConfigKeyName);
+                    try {
+                        field.set(null, actuallyValue);
+                    } catch (IllegalAccessException e) {
+                        LOGGER.warning("Failed to set config value for " + field.getName() + ": " + e.getMessage());
+                    }
                 }
-            } catch (IOException e) {
-                LOGGER.warning("Failed to create config file " + e.getMessage());
             }
         }
 
-        try (FileWriter writer = new FileWriter(MainEnv.CONFIG_FILE)) {
-            Properties properties = getProperties();
-            properties.store(writer, null);
-            LOGGER.info("Saved config file: " + MainEnv.CONFIG_FILE.getAbsolutePath());
-        } catch (IOException e) {
-            LOGGER.warning("Failed to save config " + e.getMessage());
+        commentedFileConfig.save();
+    }
+
+    private void removeConfig(String name, String[] keys) {
+        commentedFileConfig.remove(name);
+        Object configAtPath = commentedFileConfig.get(String.join(".", keys));
+        if (configAtPath instanceof UnmodifiableConfig && ((UnmodifiableConfig) configAtPath).isEmpty()) {
+            removeConfig(keys);
+        }
+    }
+
+    private void removeConfig(String[] keys) {
+        commentedFileConfig.remove(String.join(".", keys));
+        Object configAtPath = commentedFileConfig.get(String.join(".", Arrays.copyOfRange(keys, 1, keys.length)));
+        if (configAtPath instanceof UnmodifiableConfig && ((UnmodifiableConfig) configAtPath).isEmpty()) {
+            removeConfig(Arrays.copyOfRange(keys, 1, keys.length));
+        }
+    }
+
+    public boolean setConfigAndSave(String[] keys, Object value) {
+        return setConfigAndSave(String.join(".", keys), value);
+    }
+
+    public boolean setConfigAndSave(String key, Object value) {
+        if (setConfig(key, value)) {
+            saveConfig();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean setConfig(String[] keys, Object value) {
+        return setConfig(String.join(".", keys), value);
+    }
+
+    public boolean setConfig(String key, Object value) {
+        if (commentedFileConfig.contains(key) && commentedFileConfig.get(key) != null) {
+            commentedFileConfig.set(key, value);
+            return true;
+        }
+        return false;
+    }
+
+    public void saveConfig() {
+        commentedFileConfig.save();
+    }
+
+    public void resetConfig(String[] keys) {
+        resetConfig(String.join(".", keys));
+    }
+
+    public void resetConfig(String key) {
+        commentedFileConfig.remove(key);
+        commentedFileConfig.save();
+        reload();
+    }
+
+    public String getConfig(String[] keys) {
+        return getConfig(String.join(".", keys));
+    }
+
+    public String getConfig(String key) {
+        return commentedFileConfig.get(key);
+    }
+
+    public List<String> getAllConfigPaths() {
+        List<String> configPaths = new ArrayList<>();
+        getAllConfigPathsRecursive(commentedFileConfig, "", configPaths);
+        return configPaths;
+    }
+
+    private void getAllConfigPathsRecursive(CommentedConfig config, String currentPath, List<String> configPaths) {
+        for (CommentedConfig.Entry entry : config.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            String fullPath = currentPath.isEmpty() ? key : currentPath + "." + key;
+
+            if (value instanceof CommentedConfig) {
+                getAllConfigPathsRecursive((CommentedConfig) value, fullPath, configPaths);
+            } else {
+                configPaths.add(fullPath);
+            }
         }
     }
 }

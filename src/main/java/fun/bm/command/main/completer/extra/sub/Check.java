@@ -1,6 +1,7 @@
 package fun.bm.command.main.completer.extra.sub;
 
 import fun.bm.command.Command;
+import fun.bm.util.helper.CommandHelper;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,6 +18,14 @@ public class Check extends Command.CompleterE {
         if (args.length == 1) {
             completions.add("verify");
             completions.add("del");
+            completions.add("bind");
+        } else if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("bind")) {
+                completions.addAll(CommandHelper.getOnlinePlayerList());
+            }
+        } else if (args.length == 3) {
+            completions.add("qq");
+            completions.add("userid");
         }
         return completions;
     }

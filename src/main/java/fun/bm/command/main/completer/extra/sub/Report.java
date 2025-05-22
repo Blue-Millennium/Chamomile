@@ -14,7 +14,6 @@ import java.util.List;
  * function: Provides tab completion for the report command
  */
 public class Report extends Command.CompleterE {
-
     public Report() {
         super("report");
     }

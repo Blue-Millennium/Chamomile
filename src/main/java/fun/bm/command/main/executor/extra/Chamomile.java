@@ -37,42 +37,16 @@ public class Chamomile extends Command.ExecutorE {
         } else {
             String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
             switch (args[0].toLowerCase()) {
-                case "help": {
-                    help.onCommand(sender, command, label, subArgs);
-                    break;
-                }
-                case "report": {
-                    report.onCommand(sender, command, label, subArgs);
-                    break;
-                }
-                case "query-report": {
-                    query.onCommand(sender, command, label, subArgs);
-                    break;
-                }
-                case "del-report": {
-                    del.onCommand(sender, command, label, subArgs);
-                    break;
-                }
-                case "config": {
-                    config.onCommand(sender, command, label, subArgs);
-                    break;
-                }
-                case "data": {
-                    data.onCommand(sender, command, label, subArgs);
-                    break;
-                }
-                case "kill": {
-                    kill.onCommand(sender, command, label, subArgs);
-                    break;
-                }
-                case "check": {
-                    check.onCommand(sender, command, label, subArgs);
-                    break;
-                }
-                default: {
-                    sender.sendMessage("Unknown command. Usage: /chamomile [report|reload|config|data|check|kill|query-report|del-report] [args...]");
-                    break;
-                }
+                case "help" -> help.onCommand(sender, command, label, subArgs);
+                case "report" -> report.onCommand(sender, command, label, subArgs);
+                case "query-report" -> query.onCommand(sender, command, label, subArgs);
+                case "del-report" -> del.onCommand(sender, command, label, subArgs);
+                case "config" -> config.onCommand(sender, command, label, subArgs);
+                case "data" -> data.onCommand(sender, command, label, subArgs);
+                case "kill" -> kill.onCommand(sender, command, label, subArgs);
+                case "check" -> check.onCommand(sender, command, label, subArgs);
+                default ->
+                        sender.sendMessage("Unknown command. Usage: /chamomile [report|reload|config|data|check|kill|query-report|del-report] [args...]");
             }
         }
         return true;

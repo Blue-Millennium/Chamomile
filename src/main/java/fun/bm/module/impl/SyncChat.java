@@ -1,10 +1,13 @@
 package fun.bm.module.impl;
 
-import fun.bm.config.Config;
-import fun.bm.data.DataManager.LoginData.Data;
-import fun.bm.data.DataManager.LoginData.PlayerData.PlayerData;
+import fun.bm.config.modules.Bot.AuthConfig;
+import fun.bm.config.modules.Bot.CoreConfig;
+import fun.bm.config.modules.Bot.RconConfig;
+import fun.bm.config.modules.Bot.SyncConfig;
+import fun.bm.data.manager.data.Data;
+import fun.bm.data.manager.data.link.UseridLinkData;
 import fun.bm.module.Module;
-import fun.bm.module.impl.PlayerDataProcess.QQCheck;
+import fun.bm.module.impl.data.QQCheck;
 import fun.bm.util.MainEnv;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
@@ -17,9 +20,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import static fun.bm.command.main.executor.extra.sub.data.Query.dataGet;
+import static fun.bm.data.processor.report.ImageProcessor.processImageUrl;
+import static fun.bm.data.processor.report.ImageProcessor.sendImageUrl;
 import static fun.bm.util.MainEnv.LOGGER;
-import static fun.bm.util.helper.ImageProcessor.processImageUrl;
-import static fun.bm.util.helper.ImageProcessor.sendImageUrl;
 import static fun.bm.util.helper.RconHelper.executeRconCommand;
 
 public class SyncChat extends Module {
@@ -29,22 +33,24 @@ public class SyncChat extends Module {
         super("SyncChat");
     }
 
-    @Override
     public void onEnable() {
-        String[] groupIds = Config.SyncChatGroup.split(";");
+        String[] groupIds = SyncConfig.groups.split(";");
         for (String groupId : groupIds) {
             try {
-                SyncGroups.add(Long.parseLong(groupId.trim()));
+                String id = groupId.trim();
+                if (id.isEmpty()) {
+                    continue;
+                }
+                SyncGroups.add(Long.parseLong(id));
             } catch (NumberFormatException e) {
                 LOGGER.warning("[SyncChat] Invalid group ID: " + groupId);
             }
         }
 
-        if (!Config.BotModeOfficial) {
+        if (!CoreConfig.official) {
             if (SyncGroups.isEmpty()) {
                 LOGGER.warning("Failed to get sync group");
-                Config.SyncChatEnabled = false;
-                MainEnv.configManager.save();
+                MainEnv.configManager.setConfigAndSave("bot.sync-chat.enabled", false);
                 return;
             }
         }
@@ -52,7 +58,7 @@ public class SyncChat extends Module {
         MainEnv.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
             for (long groupId : SyncGroups) {
                 Group syncGroup = MainEnv.BOT.getGroup(groupId);
-                if (!Config.BotModeOfficial & (!Config.SyncChatEnabled || event.getGroup() != syncGroup)) {
+                if (!CoreConfig.official & (!SyncConfig.enabled || event.getGroup() != syncGroup)) {
                     return;
                 }
             }
@@ -66,17 +72,17 @@ public class SyncChat extends Module {
             }
 
             if (!builder.isEmpty()) {
-                if (Config.BotModeOfficial & builder.build().contentToString().replace(" ", "").startsWith(Config.SyncChatStartWord.replace(" ", ""))) {
+                if (CoreConfig.official & builder.build().contentToString().replace(" ", "").startsWith(SyncConfig.prefix.replace(" ", ""))) {
                     while (builder.build().contentToString().startsWith(" ")) builder.remove(0);
                     String avatar = "QQ用户" + processImageUrl(event.getSender().getAvatarUrl());
                     String id = getID(event);
-                    String message = Config.SayQQMessage.replace("%NAME%", avatar + id + "发送了以下消息").replace("%MESSAGE%", builder.build().contentToString().replace(Config.SyncChatStartWord, ""));
+                    String message = SyncConfig.qqMessage.replace("%NAME%", avatar + id + "发送了以下消息").replace("%MESSAGE%", builder.build().contentToString().replace(SyncConfig.prefix, ""));
                     sendMessage(message);
                     event.getGroup().sendMessage("已成功发送消息至服务器，以下为发送至服务器的原始数据：\n" + message.replaceAll("\\[\\[CICode,url=[^\\]]*\\]\\]", "[图片]"));
-                } else if (!Config.BotModeOfficial) {
-                    sendMessage(Config.SayQQMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()));
+                } else if (CoreConfig.official) {
+                    sendMessage(SyncConfig.qqMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()));
                 }
-                if (builder.build().contentToString().replace(" ", "").startsWith(Config.QQCheckStartWord.replace(" ", ""))) {
+                if (builder.build().contentToString().replace(" ", "").startsWith(AuthConfig.prefix.replace(" ", ""))) {
                     QQCheck.groupCheck(event, builder);
                 }
             }
@@ -85,27 +91,31 @@ public class SyncChat extends Module {
 
     public void sendMessage(String message) {
         String command = "tellraw @a \"" + message + "\"";
-        executeRconCommand(Config.RconIP, Config.RconPort, Config.RconPassword, command);
+        executeRconCommand(RconConfig.ip, RconConfig.port, RconConfig.password, command);
     }
 
     public String getID(GroupMessageEvent event) {
-        List<PlayerData> pd = new ArrayList<>();
-        for (Data data : MainEnv.dataManager.DATA_LIST) {
-            if (data.userid == event.getSender().getId()
-                    && data.useridLinkedGroup == event.getGroup().getId())
-                pd.add(data.playerData);
+        List<String> pd = new ArrayList<>();
+        List<Data> dataList = dataGet.getPlayersByUserID(event.getGroup().getId());
+        if (!dataList.isEmpty()) {
+            for (Data data : dataList) {
+                if (!data.linkData.isEmpty()
+                        && data.linkData.stream()
+                        .anyMatch(linkData -> (CoreConfig.official && linkData instanceof UseridLinkData
+                                && ((UseridLinkData) linkData).userid == event.getSender().getId())))
+                    pd.add(data.playerData.playerName);
+            }
         }
         if (pd.isEmpty()) {
             return "(Userid: " + event.getSender().getId() + ")";
         } else {
             StringBuilder sb = new StringBuilder();
             sb.append("(游戏内ID: ");
-            for (PlayerData p : pd) {
-                sb.append(p.playerName).append("/");
+            for (String p : pd) {
+                sb.append(p).append("/");
             }
             sb.delete(sb.length() - 1, sb.length());
-            sb.append(", Userid: " + event.getSender().getId());
-            sb.append(")");
+            sb.append(", Userid: ").append(event.getSender().getId()).append(")");
             return sb.toString();
         }
     }
@@ -115,7 +125,7 @@ public class SyncChat extends Module {
         if (needSync()) {
             for (long groupId : SyncGroups) {
                 Group syncGroup = MainEnv.BOT.getGroup(groupId);
-                syncGroup.sendMessage(Config.JoinServerMessage.replace("%NAME%", event.getPlayer().getName()));
+                syncGroup.sendMessage(SyncConfig.joinMessage.replace("%NAME%", event.getPlayer().getName()));
             }
         }
     }
@@ -125,7 +135,7 @@ public class SyncChat extends Module {
         if (needSync()) {
             for (long groupId : SyncGroups) {
                 Group syncGroup = MainEnv.BOT.getGroup(groupId);
-                syncGroup.sendMessage(Config.LeaveServerMessage.replace("%NAME%", event.getPlayer().getName()));
+                syncGroup.sendMessage(SyncConfig.leaveMessage.replace("%NAME%", event.getPlayer().getName()));
             }
         }
     }
@@ -135,17 +145,17 @@ public class SyncChat extends Module {
         if (needSync()) {
             for (long groupId : SyncGroups) {
                 Group syncGroup = MainEnv.BOT.getGroup(groupId);
-                syncGroup.sendMessage(Config.SayServerMessage.replace("%NAME%", event.getPlayer().getName()).replace("%MESSAGE%", event.getMessage()));
+                syncGroup.sendMessage(SyncConfig.serverMessage.replace("%NAME%", event.getPlayer().getName()).replace("%MESSAGE%", event.getMessage()));
             }
         }
     }
 
     private boolean needSync() {
-        return Config.SyncChatEnabled & !Config.SyncChatEnabledQ2SOnly & !Config.BotModeOfficial;
+        return SyncConfig.enabled & !SyncConfig.qqToServerOnly & !CoreConfig.official;
     }
 
     public void setModuleName() {
-        if (!Config.QQRobotEnabled) {
+        if (!CoreConfig.enabled) {
             this.moduleName = null;
         }
     }

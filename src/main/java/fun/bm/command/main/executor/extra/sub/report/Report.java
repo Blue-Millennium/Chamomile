@@ -1,8 +1,9 @@
 package fun.bm.command.main.executor.extra.sub.report;
 
 import fun.bm.command.Command;
-import fun.bm.config.Config;
-import fun.bm.data.DataManager.Report.ReportDataManager;
+import fun.bm.config.modules.Bot.CoreConfig;
+import fun.bm.config.modules.WebhookConfig;
+import fun.bm.data.manager.report.ReportDataManager;
 import fun.bm.util.MainEnv;
 import fun.bm.util.TimeUtil;
 import net.mamoe.mirai.contact.Group;
@@ -45,7 +46,7 @@ public class Report extends Command.ExecutorE {
                     sender.sendMessage("§a举报已被记录，正在等待上报");
                     // Message Send
                     MessageChainBuilder builder = new MessageChainBuilder();
-                    String number = String.valueOf(System.currentTimeMillis());
+                    String number = String.valueOf(TimeUtil.getUnixTimeMs());
                     StringBuilder reasonBuilder = new StringBuilder();
                     for (int i = 1; i < args.length; i++) {
                         reasonBuilder.append(args[i]).append(" ");
@@ -60,14 +61,14 @@ public class Report extends Command.ExecutorE {
                     String content = builder.build().contentToString();
                     try {
                         String subject = "玩家举报-" + number;
-                        MainEnv.emailSender.formatAndSendWebhook(subject, content, Config.WebHookEmail);
+                        MainEnv.emailSender.formatAndSendWebhook(subject, content, WebhookConfig.webHookEmails);
                         sender.sendMessage("§a举报已被上报至指定邮箱");
                     } catch (Exception e) {
                         sender.sendMessage("§c邮件发送失败");
                         LOGGER.warning(e.getMessage());
                     }
 
-                    if (Config.QQRobotEnabled && !Config.BotModeOfficial && !ReportGroups.isEmpty()) {
+                    if (CoreConfig.enabled && !CoreConfig.official && !ReportGroups.isEmpty()) {
                         for (long groupId : ReportGroups) {
                             MessageChainBuilder builder_qq = new MessageChainBuilder();
                             Group reportGroup = MainEnv.BOT.getGroup(groupId);

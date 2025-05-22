@@ -1,7 +1,7 @@
 package fun.bm.util.helper;
 
 import fun.bm.Chamomile;
-import fun.bm.config.Config;
+import fun.bm.config.modules.Bot.CoreConfig;
 import fun.bm.util.MainEnv;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.utils.LoggerAdapters;
@@ -21,12 +21,11 @@ public class MainThreadHelper {
         if (MainEnv.BOT != null) {
             MainEnv.BOT.close();
         }
-        if (Config.QQRobotEnabled) {
-            MainEnv.BOT = BotBuilder.positive(Config.BotWsUrl).token(Config.BotWsToken).connect(); // 连接 LLOneBot
+        if (CoreConfig.enabled) {
+            MainEnv.BOT = BotBuilder.positive(CoreConfig.wsUrl).token(CoreConfig.wsToken).connect(); // 连接 LLOneBot
             MainEnv.eventChannel = GlobalEventChannel.INSTANCE;
             if (MainEnv.BOT == null) {
-                Config.QQRobotEnabled = false;
-                MainEnv.configManager.save();
+                MainEnv.configManager.setConfigAndSave("bot.core.enabled", false);
                 LOGGER.warning("Failed to get bot instance");
             }
         } else {
@@ -43,7 +42,7 @@ public class MainThreadHelper {
         setupDirectories();
         MainEnv.dataManager.load();
         MainEnv.configManager.load();
-        MainEnv.moduleManager.setupModules(true);
+        MainEnv.moduleManager.load();
     }
 
     private static void setupDirectories() {
@@ -51,9 +50,9 @@ public class MainThreadHelper {
             for (File file : MainEnv.OLD_BASE_DIR) {
                 if (file.exists()) {
                     try {
-                        DirectoryExecutor.copyDirectory(file, MainEnv.BASE_DIR);
+                        DirectoryAccessor.copyDirectory(file, MainEnv.BASE_DIR);
                         LOGGER.info("复制配置文件完成");
-                        DirectoryExecutor.deleteDirectory(file);
+                        DirectoryAccessor.deleteDirectory(file);
                         LOGGER.info("删除旧配置文件完成");
                     } catch (IOException e) {
                         LOGGER.warning("复制配置文件时出现异常: " + e.getMessage());
@@ -85,7 +84,7 @@ public class MainThreadHelper {
     }
 
     public static void initOldDirectory() {
-        List<File> dir = new java.util.ArrayList<>(List.of());
+        List<File> dir = new java.util.ArrayList<>();
         for (String s : oldDir) {
             dir.add(new File(s));
         }

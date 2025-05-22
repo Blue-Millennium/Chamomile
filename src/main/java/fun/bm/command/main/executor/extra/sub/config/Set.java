@@ -14,13 +14,11 @@ import static fun.bm.util.helper.CommandHelper.operatorCheck;
  * function: Set new config
  */
 public class Set extends Command.ExecutorE {
-
     public Set() {
         super(null);
     }
 
     public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-        // 检查发送者是否具有OP权限
         if (operatorCheck(sender)) {
             return true;
         }
@@ -31,18 +29,19 @@ public class Set extends Command.ExecutorE {
             } else if (command.getName().equals("chamomile")) {
                 sender.sendMessage("§c/chamomile config set [修改参数] [修改值]");
             }
-            String allConfigNames = String.join("|", MainEnv.configManager.getConfigFieldNames());
+            String allConfigNames = String.join("|", MainEnv.configManager.getAllConfigPaths());
             sender.sendMessage("§a所有配置项名称: " + allConfigNames);
         } else {
             String configName = args[0];
             String value = args[1];
             // 检查配置项是否存在
-            if (!MainEnv.configManager.getConfigFieldNames().contains(configName)) {
+            if (!MainEnv.configManager.getAllConfigPaths().contains(configName)) {
                 sender.sendMessage("§c配置项 " + configName + " 不存在，请检查拼写");
             }
             try {
-                MainEnv.configManager.setConfigValue(configName, value);
-                sender.sendMessage("§a配置项 " + configName + " 已成功设置为 " + value);
+                if (MainEnv.configManager.setConfigAndSave(configName, value))
+                    sender.sendMessage("§a配置项 " + configName + " 已成功设置为 " + value);
+                else sender.sendMessage("§c修改配置项 " + configName + " 的值失败，请检查配置项是否存在。");
             } catch (Exception e) {
                 sender.sendMessage("§c修改配置项 " + configName + " 的值时出错，请检查配置文件或联系开发人员。");
                 LOGGER.warning(e.getMessage());

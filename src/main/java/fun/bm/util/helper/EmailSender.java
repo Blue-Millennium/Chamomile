@@ -1,7 +1,8 @@
 package fun.bm.util.helper;
 
 import com.google.gson.Gson;
-import fun.bm.config.Config;
+import fun.bm.config.modules.ServerConfig;
+import fun.bm.config.modules.WebhookConfig;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -29,8 +30,8 @@ public class EmailSender {
     public void checkPlugin(String title) {
         try {
             String subject = "服务器" + title + "通知";
-            String content = Config.ServerName + "服务器已" + title + "完成";
-            formatAndSendWebhook(subject, content, Config.WebHookEmail);
+            String content = ServerConfig.serverName + "服务器已" + title + "完成";
+            formatAndSendWebhook(subject, content, WebhookConfig.webHookEmails);
         } catch (Exception e) {
             LOGGER.warning(e.getMessage());
         }
@@ -42,20 +43,10 @@ public class EmailSender {
      * @param data 包含邮件内容和主题的数据对象
      */
 
-    public boolean sendWebhookData(Data_Full data) {
-        // 处理 Data_Full 类型的数据
-        return processWebhookData(data);
-    }
-
-    public boolean sendWebhookData(Data_Sub data) {
-        // 处理 Data_Sub 类型的数据
-        return processWebhookData(data);
-    }
-
-    public boolean processWebhookData(Object data) {
+    private boolean processWebhookData(Data_Sub data) {
         try {
             // 确保 URL 格式正确
-            String webhookUrl = ensureValidUrl(Config.WebhookUrl);
+            String webhookUrl = ensureValidUrl(WebhookConfig.webhookUrl);
 
             // 创建 HttpClient 实例
             HttpClient httpClient = HttpClient.newHttpClient();
@@ -79,15 +70,15 @@ public class EmailSender {
             if (responseCode != 200) {
                 LOGGER.info("Unexpected response code: " + responseCode);
                 LOGGER.info("Response body: " + response.body());
-                return false;
+                return true;
             } else {
                 LOGGER.info("Webhook sent successfully.");
-                return true;
+                return false;
             }
         } catch (Exception e) {
             LOGGER.warning(e.getMessage());
             LOGGER.info("Error sending webhook: " + e.getMessage());
-            return false;
+            return true;
         }
     }
 
@@ -99,12 +90,12 @@ public class EmailSender {
      * @param originEmail 发送邮件的邮箱地址
      */
     public void formatAndSendWebhook(String subject, String content, String originEmail) {
-        if (!Config.EnableEmailNotice) return;
+        if (!WebhookConfig.enabled) return;
         List<String> emailList = Arrays.asList(originEmail.split(";"));
-        Data_Full data = new Data_Full("来自" + Config.ServerName + "的信息：\n" + content, subject, emailList);
-        if (!sendWebhookData(data)) {
-            Data_Sub data_new = new Data_Sub("来自" + Config.ServerName + "的信息：\n" + content, subject);
-            if (!sendWebhookData(data_new)) {
+        Data_Full data = new Data_Full("来自" + ServerConfig.serverName + "的信息：\n" + content, subject, emailList);
+        if (processWebhookData(data)) {
+            Data_Sub data_new = new Data_Sub("来自" + ServerConfig.serverName + "的信息：\n" + content, subject);
+            if (processWebhookData(data_new)) {
                 LOGGER.warning("Failed to send webhook.");
             }
         }
@@ -113,19 +104,16 @@ public class EmailSender {
     /**
      * 报告数据类
      */
-    static class Data_Full {
-        String content;
-        String subject;
+    private static class Data_Full extends Data_Sub {
         List<String> email;
 
         public Data_Full(String content, String subject, List<String> email) {
-            this.content = content;
-            this.subject = subject;
+            super(content, subject);
             this.email = email;
         }
     }
 
-    static class Data_Sub {
+    private static class Data_Sub {
         String content;
         String subject;
 

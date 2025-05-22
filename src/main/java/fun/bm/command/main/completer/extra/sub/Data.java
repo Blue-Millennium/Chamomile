@@ -39,11 +39,6 @@ public class Data extends Command.CompleterE {
                     }
                     break;
                 }
-                case "bind": {
-                    if (args.length == 2) {
-                        completions.addAll(CommandHelper.getOnlinePlayerList());
-                    }
-                }
             }
         }
         return completions;

@@ -1,7 +1,9 @@
 package fun.bm.module.impl;
 
-import fun.bm.config.Config;
-import fun.bm.data.DataManager.LoginData.Data;
+import fun.bm.config.modules.Bot.CoreConfig;
+import fun.bm.config.modules.Bot.RconConfig;
+import fun.bm.config.modules.ServerConfig;
+import fun.bm.data.manager.data.Data;
 import fun.bm.module.Module;
 import fun.bm.util.MainEnv;
 import net.mamoe.mirai.contact.MemberPermission;
@@ -17,9 +19,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static fun.bm.command.main.executor.extra.sub.data.Query.dataGet;
 import static fun.bm.command.main.executor.extra.sub.report.ReportQuery.message_head;
+import static fun.bm.data.processor.report.ImageProcessor.reportCharmProcess;
 import static fun.bm.util.MainEnv.LOGGER;
-import static fun.bm.util.helper.ImageProcessor.reportCharmProcess;
 import static fun.bm.util.helper.RconHelper.executeRconCommand;
 
 /**
@@ -34,15 +37,13 @@ public class ExecuteRcon extends Module {
         super("RCONCommandCheck");
     }
 
-    @Override
     public void onEnable() {
-        if (!Config.BotModeOfficial) {
-            String enabledGroupStr = Config.RconEnabledGroups;
+        if (!CoreConfig.official) {
+            String enabledGroupStr = RconConfig.groups;
             if (enabledGroupStr == null || enabledGroupStr.isEmpty()) {
                 LOGGER.warning("[RCONCommandCheck] RCON commands will be disabled due to empty or null RCONEnabledGroups");
-                Config.RconEnabled = false;
-                MainEnv.configManager.save();
-                MainEnv.moduleManager.setupModules(false);
+                MainEnv.configManager.setConfigAndSave("bot.rcon.enabled", false);
+                MainEnv.moduleManager.reload();
                 return;
             }
 
@@ -57,32 +58,31 @@ public class ExecuteRcon extends Module {
 
             if (RconGroups.isEmpty()) {
                 LOGGER.warning("[RCONCommandCheck] RCON commands will be disabled");
-                Config.RconEnabled = false;
-                MainEnv.configManager.save();
-                MainEnv.moduleManager.setupModules(false);
+                MainEnv.configManager.setConfigAndSave("bot.rcon.enabled", false);
+                MainEnv.moduleManager.reload();
                 return;
             }
         }
         MainEnv.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
-            if (!Config.BotModeOfficial && !RconGroups.contains(event.getGroup().getId())) {
+            if (!CoreConfig.official && !RconGroups.contains(event.getGroup().getId())) {
                 return;
             }
 
             Message message = event.getMessage();
             String content = message.contentToString();
 
-            if (content.replace(" ", "").startsWith(Config.ExecuteCommandPrefix.replace(" ", ""))) {
-                String command = content.replace(Config.ExecuteCommandPrefix, "");
+            if (content.replace(" ", "").startsWith(RconConfig.prefix.replace(" ", ""))) {
+                String command = content.replace(RconConfig.prefix, "");
                 while (command.startsWith(" ")) command = command.substring(1);
                 boolean isOperator = false;
                 boolean isAuthenticated = false;
-                if (!Config.BotModeOfficial) {
+                if (!CoreConfig.official) {
                     isOperator = event.getSender().getPermission().equals(MemberPermission.ADMINISTRATOR)
                             || event.getSender().getPermission().equals(MemberPermission.OWNER);
                 } else {
-                    for (Data data : MainEnv.dataManager.DATA_LIST) {
-                        if (data.useridLinkedGroup == event.getGroup().getId()
-                                && data.userid == event.getSender().getId()) {
+                    List<Data> dataList = dataGet.getPlayersByUserID(event.getGroup().getId());
+                    if (!dataList.isEmpty()) {
+                        for (Data data : dataList) {
                             isAuthenticated = true;
                             for (OfflinePlayer player : Bukkit.getServer().getOperators()) {
                                 if (player.getUniqueId().equals(data.playerData.playerUuid)) {
@@ -99,7 +99,7 @@ public class ExecuteRcon extends Module {
                             .build());
                     return;
                 }
-                if (Config.RconEnforceOperator) {
+                if (RconConfig.enforceOperator) {
                     if (!isOperator) {
                         event.getGroup().sendMessage(new MessageChainBuilder()
                                 .append(new PlainText("您没有权限执行此操作。"))
@@ -107,7 +107,7 @@ public class ExecuteRcon extends Module {
                         return;
                     }
                 }
-                String[] result = executeRconCommand(Config.RconIP, Config.RconPort, Config.RconPassword, command);
+                String[] result = executeRconCommand(RconConfig.ip, RconConfig.port, RconConfig.password, command);
                 handleConsoleResult(result, event);
             }
         });
@@ -117,7 +117,7 @@ public class ExecuteRcon extends Module {
         try {
             if (result != null && !result[0].isEmpty()) {
                 MessageChainBuilder message = new MessageChainBuilder();
-                message.append(new PlainText(Config.ServerName + "Console command result: \n"))
+                message.append(new PlainText(ServerConfig.serverName + "Console command result: \n"))
                         .append(result[0]);
                 if (!result[1].isEmpty() && result[1].startsWith(message_head)) {
                     reportCharmProcess(result[1].substring(message_head.length()));
@@ -129,18 +129,18 @@ public class ExecuteRcon extends Module {
                 event.getGroup().sendMessage(message.build());
             } else {
                 event.getGroup().sendMessage(new MessageChainBuilder()
-                        .append(new PlainText(Config.ServerName + "No result from console command."))
+                        .append(new PlainText(ServerConfig.serverName + "No result from console command."))
                         .build());
             }
         } catch (Exception e) {
             event.getGroup().sendMessage(new MessageChainBuilder()
-                    .append(new PlainText(Config.ServerName + "\n[ERROR] " + e.getMessage()))
+                    .append(new PlainText(ServerConfig.serverName + "\n[ERROR] " + e.getMessage()))
                     .build());
         }
     }
 
     public void setModuleName() {
-        if (!Config.QQRobotEnabled || !Config.RconEnabled) {
+        if (!CoreConfig.enabled || !RconConfig.enabled) {
             this.moduleName = null;
         }
     }

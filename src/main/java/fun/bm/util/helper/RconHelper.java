@@ -31,9 +31,9 @@ public class RconHelper {
             } catch (IOException e) {
                 logSevere("无法通过RCON执行命令: " + e.getMessage());
                 if (retry < MAX_RETRIES - 1) {
-                    logInfo("Retrying after 5 seconds...");
                     try {
                         Thread.sleep(5000); // 等待5秒后重试
+                        logInfo("Retrying after 5 seconds...");
                     } catch (InterruptedException ex) {
                         Thread.currentThread().interrupt();
                     }
