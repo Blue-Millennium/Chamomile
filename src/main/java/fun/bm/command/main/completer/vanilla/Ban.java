@@ -15,7 +15,7 @@ public class Ban extends Command.CompleterV {
 
     public List<String> completerMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String alias, @NotNull String[] args) {
         if (args.length == 1) {
-            return CommandHelper.getOnlinePlayerList();
+            return CommandHelper.getOnlinePlayerList(args[0]);
         }
         return new ArrayList<>();
     }

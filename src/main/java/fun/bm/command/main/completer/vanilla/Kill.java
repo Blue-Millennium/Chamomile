@@ -17,7 +17,7 @@ public class Kill extends Command.CompleterV {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-            completions.addAll(CommandHelper.getOnlinePlayerList());
+            completions.addAll(CommandHelper.getOnlinePlayerList(args[0]));
             completions.add("@e");
             completions.add("@a");
             completions.add("@p");

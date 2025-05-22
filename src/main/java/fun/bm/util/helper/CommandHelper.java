@@ -8,10 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandHelper {
-    public static List<String> getOnlinePlayerList() {
+    public static List<String> getOnlinePlayerList(String partialName) {
         List<String> playerNames = new ArrayList<>();
         for (Player player : Bukkit.getOnlinePlayers()) {
-            playerNames.add(player.getName());
+            String playerName = player.getName();
+            if (playerName.startsWith(partialName)) {
+                playerNames.add(playerName);
+            }
         }
         return playerNames;
     }

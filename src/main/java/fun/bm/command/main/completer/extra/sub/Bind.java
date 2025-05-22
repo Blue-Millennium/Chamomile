@@ -17,7 +17,7 @@ public class Bind extends Command.CompleterE {
     public List<String> completerMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
-            completions.addAll(CommandHelper.getOnlinePlayerList());
+            completions.addAll(CommandHelper.getOnlinePlayerList(args[0]));
         }
         return completions;
     }

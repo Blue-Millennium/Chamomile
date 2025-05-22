@@ -21,7 +21,7 @@ public class Check extends Command.CompleterE {
             completions.add("bind");
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("bind")) {
-                completions.addAll(CommandHelper.getOnlinePlayerList());
+                completions.addAll(CommandHelper.getOnlinePlayerList(args[1]));
             }
         } else if (args.length == 3) {
             completions.add("qq");

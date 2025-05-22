@@ -17,7 +17,7 @@ public class Kill extends Command.CompleterE {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             // 返回所有在线玩家的名字
-            completions.addAll(CommandHelper.getOnlinePlayerList());
+            completions.addAll(CommandHelper.getOnlinePlayerList(args[0]));
         }
         return completions;
     }

@@ -32,7 +32,7 @@ public class Data extends Command.CompleterE {
                                 break;
                             }
                             case "name": {
-                                completions.addAll(CommandHelper.getOnlinePlayerList());
+                                completions.addAll(CommandHelper.getOnlinePlayerList(args[2]));
                                 break;
                             }
                         }
