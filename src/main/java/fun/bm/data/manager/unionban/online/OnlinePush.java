@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fun.bm.config.modules.UnionBanConfig;
 import fun.bm.data.manager.unionban.UnionBanData;
-import fun.bm.module.impl.UnionBan;
+import fun.bm.function.modules.UnionBan;
 import fun.bm.util.MainEnv;
 
 import java.io.IOException;

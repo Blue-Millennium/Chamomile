@@ -2,7 +2,7 @@ package fun.bm.data.manager.unionban.local;
 
 import fun.bm.config.modules.ServerConfig;
 import fun.bm.data.manager.unionban.UnionBanData;
-import fun.bm.module.impl.UnionBan;
+import fun.bm.function.modules.UnionBan;
 import fun.bm.util.TimeUtil;
 import org.bukkit.BanEntry;
 import org.bukkit.BanList;

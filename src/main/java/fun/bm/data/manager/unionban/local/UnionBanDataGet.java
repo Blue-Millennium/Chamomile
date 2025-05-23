@@ -11,7 +11,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static fun.bm.module.impl.UnionBan.dataList;
+import static fun.bm.function.modules.UnionBan.dataList;
 import static fun.bm.util.MainEnv.LOGGER;
 
 public class UnionBanDataGet {

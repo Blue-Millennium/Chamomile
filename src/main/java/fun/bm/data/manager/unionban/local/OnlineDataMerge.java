@@ -1,7 +1,7 @@
 package fun.bm.data.manager.unionban.local;
 
 import fun.bm.data.manager.unionban.UnionBanData;
-import fun.bm.module.impl.UnionBan;
+import fun.bm.function.modules.UnionBan;
 import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import static fun.bm.command.main.executor.vanilla.Ban.BanMessage;
+import static fun.bm.command.modules.executor.vanilla.Ban.BanMessage;
 import static fun.bm.data.manager.unionban.online.OnlineGet.loadRemoteBanList;
 import static fun.bm.data.manager.unionban.online.OnlinePush.reportRemoteBanList;
 import static fun.bm.util.MainEnv.LOGGER;

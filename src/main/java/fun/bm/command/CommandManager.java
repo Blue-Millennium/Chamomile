@@ -7,7 +7,7 @@ import org.bukkit.command.TabCompleter;
 
 public class CommandManager {
     public void registerCommands() {
-        for (Command.GlobalE command : ClassLoader.loadClasses("fun.bm.command.main", Command.GlobalE.class)) {
+        for (Command.GlobalE command : ClassLoader.loadClasses("fun.bm.command.modules", Command.GlobalE.class)) {
             try {
                 command.setupCommand();
                 String commandName = command.getCommandName();

@@ -19,7 +19,7 @@ public class Chamomile extends JavaPlugin {
         // 启动逻辑 - Start
         MainThreadHelper.bootQQBot();
         MainEnv.commandManager.registerCommands();
-        MainEnv.moduleManager.onEnable();
+        MainEnv.functionManager.onEnable();
         // 启动逻辑 - End
         MainEnv.emailSender.checkPlugin("启动");
     }
@@ -27,7 +27,7 @@ public class Chamomile extends JavaPlugin {
 
     public void onDisable() {
         // 关闭逻辑 - Start
-        MainEnv.moduleManager.onDisable();
+        MainEnv.functionManager.onDisable();
         // 关闭逻辑 - End
         MainEnv.emailSender.checkPlugin("关闭");
     }

@@ -13,7 +13,7 @@ import java.util.*;
 import static fun.bm.util.MainEnv.LOGGER;
 
 public class ConfigManager {
-    private static Set<ConfigModule> ConfigModules = new HashSet<>();
+    private static final Set<ConfigModule> ConfigModules = new HashSet<>();
     private static CommentedFileConfig commentedFileConfig;
 
     public void load() {
@@ -36,7 +36,7 @@ public class ConfigManager {
     }
 
     private void loadConfigModule() {
-        ConfigModules.addAll(ClassLoader.loadClasses("fun/bm/config/modules", ConfigModule.class));
+        ConfigModules.addAll(ClassLoader.loadClasses("fun.bm.config.modules", ConfigModule.class));
 
         for (ConfigModule module : ConfigModules) {
             Field[] fields = module.getClass().getDeclaredFields();
