@@ -3,6 +3,10 @@ package fun.bm.config;
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
+import fun.bm.config.flags.ConfigInfo;
+import fun.bm.config.flags.DoNotLoad;
+import fun.bm.config.flags.DoNotReload;
+import fun.bm.config.flags.TransformedConfig;
 import fun.bm.util.MainEnv;
 import fun.bm.util.helper.ClassLoader;
 
@@ -17,6 +21,11 @@ public class ConfigManager {
     private static CommentedFileConfig commentedFileConfig;
 
     public void load() {
+        baseload();
+        loadConfigModule(false);
+    }
+
+    public void baseload() {
         try {
             MainEnv.BASE_DIR.mkdir();
             if (!MainEnv.CONFIG_FILE.exists()) MainEnv.CONFIG_FILE.createNewFile();
@@ -25,17 +34,16 @@ public class ConfigManager {
         }
         commentedFileConfig = CommentedFileConfig.of(MainEnv.CONFIG_FILE);
         commentedFileConfig.load();
-
-        loadConfigModule();
     }
 
     public void reload() {
         commentedFileConfig.clear();
         ConfigModules.clear();
-        load();
+        baseload();
+        loadConfigModule(true);
     }
 
-    private void loadConfigModule() {
+    private void loadConfigModule(boolean reload) {
         ConfigModules.addAll(ClassLoader.loadClasses("fun.bm.config.modules", ConfigModule.class));
 
         for (ConfigModule module : ConfigModules) {
@@ -44,7 +52,7 @@ public class ConfigManager {
             for (Field field : fields) {
                 int modifiers = field.getModifiers();
                 if (Modifier.isStatic(modifiers) && !Modifier.isFinal(modifiers)) {
-                    boolean skipLoad = field.getAnnotation(DoNotLoad.class) != null;
+                    boolean skipLoad = field.getAnnotation(DoNotLoad.class) != null || (reload && field.getAnnotation(DoNotReload.class) != null);
                     ConfigInfo configInfo = field.getAnnotation(ConfigInfo.class);
 
                     if (skipLoad || configInfo == null) {

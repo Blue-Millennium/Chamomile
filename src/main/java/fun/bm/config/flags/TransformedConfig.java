@@ -1,4 +1,6 @@
-package fun.bm.config;
+package fun.bm.config.flags;
+
+import fun.bm.config.DefaultTransformLogic;
 
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;

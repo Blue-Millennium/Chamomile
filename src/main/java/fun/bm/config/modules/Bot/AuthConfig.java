@@ -1,7 +1,7 @@
 package fun.bm.config.modules.Bot;
 
-import fun.bm.config.ConfigInfo;
 import fun.bm.config.ConfigModule;
+import fun.bm.config.flags.ConfigInfo;
 
 public class AuthConfig implements ConfigModule {
 
