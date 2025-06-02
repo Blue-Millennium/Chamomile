@@ -123,7 +123,7 @@ public class ConfigManager {
             }
         }
 
-        commentedFileConfig.save();
+        saveConfigs();
     }
 
     private void removeConfig(String name, String[] keys) {
@@ -148,7 +148,7 @@ public class ConfigManager {
 
     public boolean setConfigAndSave(String key, Object value) {
         if (setConfig(key, value)) {
-            saveConfig();
+            saveConfigs();
             return true;
         }
         return false;
@@ -166,7 +166,7 @@ public class ConfigManager {
         return false;
     }
 
-    public void saveConfig() {
+    public void saveConfigs() {
         commentedFileConfig.save();
     }
 
@@ -176,7 +176,7 @@ public class ConfigManager {
 
     public void resetConfig(String key) {
         commentedFileConfig.remove(key);
-        commentedFileConfig.save();
+        saveConfigs();
         reload();
     }
 
@@ -185,7 +185,12 @@ public class ConfigManager {
     }
 
     public String getConfig(String key) {
-        return commentedFileConfig.get(key);
+        return commentedFileConfig.get(key).toString();
+    }
+
+    public List<String> getAllConfigPaths(String prefix) {
+        List<String> configPaths = getAllConfigPaths();
+        return configPaths.stream().filter(path -> path.startsWith(prefix)).toList();
     }
 
     public List<String> getAllConfigPaths() {
