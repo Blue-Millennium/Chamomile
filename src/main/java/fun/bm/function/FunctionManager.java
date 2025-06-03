@@ -24,11 +24,14 @@ public class FunctionManager {
     }
 
     public void reload() {
-        onDisable();
-        modules.clear();
         setupModules();
         modules.forEach(Function::onReload);
         onEnable();
+    }
+
+    public void preReload() {
+        onDisable();
+        modules.clear();
     }
 
     public Function getModuleByName(String name) {

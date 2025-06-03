@@ -2,6 +2,7 @@ package fun.bm.command.modules.executor.extra.sub.config;
 
 import fun.bm.command.Command;
 import fun.bm.util.MainEnv;
+import fun.bm.util.helper.MainThreadHelper;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,6 +25,8 @@ public class Reload extends Command.ExecutorE {
         }
 
         try {
+            MainEnv.functionManager.preReload();
+            MainThreadHelper.bootQQBot();
             MainEnv.configManager.reload();
             MainEnv.functionManager.reload();
             sender.sendMessage("重新加载配置文件成功！");
