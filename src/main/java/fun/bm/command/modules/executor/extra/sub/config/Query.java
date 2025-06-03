@@ -37,7 +37,7 @@ public class Query extends Command.ExecutorE {
                 return true;
             }
             try {
-                Object value = MainEnv.configManager.getConfig(configName);
+                String value = MainEnv.configManager.getConfig(configName);
                 if (value == null) {
                     sender.sendMessage("§a配置项 " + configName + " 不存在");
                     return true;

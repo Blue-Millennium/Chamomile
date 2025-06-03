@@ -17,8 +17,34 @@ import java.util.*;
 import static fun.bm.util.MainEnv.LOGGER;
 
 public class ConfigManager {
-    private static final Set<ConfigModule> ConfigModules = new HashSet<>();
+    private static final Set<ConfigModule> configModules = new HashSet<>();
+    private static final Map<String, Object> stagedConfigMap = new HashMap<>();
+    private static final Map<String, Object> defaultvalueMap = new HashMap<>();
     private static CommentedFileConfig commentedFileConfig;
+
+    private static Object tryTransform(Class<?> targetType, Object value) {
+        if (!targetType.isAssignableFrom(value.getClass())) {
+            try {
+                if (targetType == Integer.class) {
+                    value = Integer.parseInt(value.toString());
+                } else if (targetType == Double.class) {
+                    value = Double.parseDouble(value.toString());
+                } else if (targetType == Boolean.class) {
+                    value = Boolean.parseBoolean(value.toString());
+                } else if (targetType == Long.class) {
+                    value = Long.parseLong(value.toString());
+                } else if (targetType == Float.class) {
+                    value = Float.parseFloat(value.toString());
+                } else if (targetType == String.class) {
+                    value = value.toString();
+                }
+            } catch (Exception e) {
+                LOGGER.warning("Failed to transform value " + value + "!");
+                throw new IllegalFormatConversionException((char) 0, targetType);
+            }
+        }
+        return value;
+    }
 
     public void load() {
         baseload();
@@ -38,15 +64,15 @@ public class ConfigManager {
 
     public void reload() {
         commentedFileConfig.clear();
-        ConfigModules.clear();
+        configModules.clear();
         baseload();
         loadConfigModule(true);
     }
 
     private void loadConfigModule(boolean reload) {
-        ConfigModules.addAll(ClassLoader.loadClasses("fun.bm.config.modules", ConfigModule.class));
+        configModules.addAll(ClassLoader.loadClasses("fun.bm.config.modules", ConfigModule.class));
 
-        for (ConfigModule module : ConfigModules) {
+        for (ConfigModule module : configModules) {
             Field[] fields = module.getClass().getDeclaredFields();
 
             for (Field field : fields) {
@@ -69,6 +95,7 @@ public class ConfigManager {
                         LOGGER.warning("Failed to get config value for " + field.getName() + ": " + e.getMessage());
                         continue;
                     }
+                    if (!reload) defaultvalueMap.put(fullConfigKeyName, currentValue);
                     boolean removed = fullConfigKeyName.equals("removed_config.removed");
 
                     if (!commentedFileConfig.contains(fullConfigKeyName) || removed) {
@@ -113,7 +140,23 @@ public class ConfigManager {
                         continue;
                     }
 
-                    final Object actuallyValue = commentedFileConfig.get(fullConfigKeyName);
+                    Object actuallyValue;
+                    if (stagedConfigMap.containsKey(fullConfigKeyName)) {
+                        actuallyValue = stagedConfigMap.get(fullConfigKeyName);
+                        if (actuallyValue == null) actuallyValue = defaultvalueMap.get(fullConfigKeyName);
+                        stagedConfigMap.remove(fullConfigKeyName);
+                    } else {
+                        actuallyValue = commentedFileConfig.get(fullConfigKeyName);
+                    }
+                    try {
+                        actuallyValue = tryTransform(field.get(null).getClass(), actuallyValue);
+                        commentedFileConfig.set(fullConfigKeyName, actuallyValue);
+                    } catch (IllegalFormatConversionException e) {
+                        resetConfig(fullConfigKeyName);
+                        LOGGER.warning("Failed to transform config " + fullConfigKeyName + ", reset to default!");
+                    } catch (IllegalAccessException e) {
+                        LOGGER.warning("Failed to get config value for " + field.getName() + ": " + e.getMessage());
+                    }
                     try {
                         field.set(null, actuallyValue);
                     } catch (IllegalAccessException e) {
@@ -160,7 +203,7 @@ public class ConfigManager {
 
     public boolean setConfig(String key, Object value) {
         if (commentedFileConfig.contains(key) && commentedFileConfig.get(key) != null) {
-            commentedFileConfig.set(key, value);
+            stagedConfigMap.put(key, value);
             return true;
         }
         return false;
@@ -175,8 +218,7 @@ public class ConfigManager {
     }
 
     public void resetConfig(String key) {
-        commentedFileConfig.remove(key);
-        saveConfigs();
+        stagedConfigMap.put(key, null);
         reload();
     }
 
