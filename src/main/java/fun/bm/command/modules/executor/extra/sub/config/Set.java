@@ -29,13 +29,13 @@ public class Set extends Command.ExecutorE {
             } else if (command.getName().equals("chamomile")) {
                 sender.sendMessage("§c/chamomile config set [修改参数] [修改值]");
             }
-            String allConfigNames = String.join("|", MainEnv.configManager.getAllConfigPaths());
+            String allConfigNames = String.join("|", MainEnv.configManager.getAllConfigPaths(""));
             sender.sendMessage("§a所有配置项名称: " + allConfigNames);
         } else {
             String configName = args[0];
             String value = args[1];
             // 检查配置项是否存在
-            if (!MainEnv.configManager.getAllConfigPaths().contains(configName)) {
+            if (!MainEnv.configManager.getAllConfigPaths("").contains(configName)) {
                 sender.sendMessage("§c配置项 " + configName + " 不存在，请检查拼写");
             }
             try {

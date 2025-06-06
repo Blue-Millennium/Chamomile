@@ -28,11 +28,11 @@ public class Query extends Command.ExecutorE {
             } else if (command.getName().equals("chamomile")) {
                 sender.sendMessage("§c/chamomile config query [查询配置]");
             }
-            String allConfigNames = String.join("|", MainEnv.configManager.getAllConfigPaths());
+            String allConfigNames = String.join("|", MainEnv.configManager.getAllConfigPaths(""));
             sender.sendMessage("§a所有配置项名称: " + allConfigNames);
         } else {
             String configName = args[0];
-            if (!MainEnv.configManager.getAllConfigPaths().contains(configName)) {
+            if (!MainEnv.configManager.getAllConfigPaths("").contains(configName)) {
                 sender.sendMessage("§c配置项 " + configName + " 不存在，请检查拼写");
                 return true;
             }

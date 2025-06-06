@@ -1,6 +1,5 @@
 package fun.bm.config;
 
-import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import fun.bm.config.flags.ConfigInfo;
@@ -230,28 +229,29 @@ public class ConfigManager {
         return commentedFileConfig.get(key).toString();
     }
 
-    public List<String> getAllConfigPaths(String prefix) {
-        List<String> configPaths = getAllConfigPaths();
-        return configPaths.stream().filter(path -> path.startsWith(prefix)).toList();
-    }
+    public List<String> completeConfigPath(String partialPath) {
+        List<String> allPaths = getAllConfigPaths(partialPath);
+        List<String> result = new ArrayList<>();
 
-    public List<String> getAllConfigPaths() {
-        List<String> configPaths = new ArrayList<>();
-        getAllConfigPathsRecursive(commentedFileConfig, "", configPaths);
-        return configPaths;
-    }
+        for (String path : allPaths) {
+            String remaining = path.substring(partialPath.length());
+            if (remaining.isEmpty()) continue;
 
-    private void getAllConfigPathsRecursive(CommentedConfig config, String currentPath, List<String> configPaths) {
-        for (CommentedConfig.Entry entry : config.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-            String fullPath = currentPath.isEmpty() ? key : currentPath + "." + key;
+            int dotIndex = remaining.indexOf('.');
+            String suggestion = (dotIndex == -1)
+                    ? path
+                    : partialPath + remaining.substring(0, dotIndex);
 
-            if (value instanceof CommentedConfig) {
-                getAllConfigPathsRecursive((CommentedConfig) value, fullPath, configPaths);
-            } else {
-                configPaths.add(fullPath);
+            if (!result.contains(suggestion)) {
+                result.add(suggestion);
             }
         }
+        return result;
+    }
+
+    public List<String> getAllConfigPaths(String currentPath) {
+        return defaultvalueMap.keySet().stream()
+                .filter(k -> k.startsWith(currentPath))
+                .toList();
     }
 }
