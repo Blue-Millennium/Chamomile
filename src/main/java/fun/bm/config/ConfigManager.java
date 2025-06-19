@@ -123,6 +123,11 @@ public class ConfigManager {
                                 if (!removed && commentedFileConfig.get(fullConfigKeyName) != null) break;
                             }
                         }
+                        if (removed) {
+                            commentedFileConfig.remove("removed");
+                            continue;
+                        }
+
                         if (commentedFileConfig.get(fullConfigKeyName) != null) continue;
                         if (currentValue == null) {
                             LOGGER.warning("Config " + module.name() + "tried to add an null default value!");
