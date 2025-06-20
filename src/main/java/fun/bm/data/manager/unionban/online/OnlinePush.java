@@ -8,12 +8,7 @@ import fun.bm.data.manager.unionban.UnionBanData;
 import fun.bm.function.modules.UnionBan;
 import fun.bm.util.MainEnv;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-
+import static fun.bm.util.HttpUtil.fetch;
 import static fun.bm.util.MainEnv.LOGGER;
 import static fun.bm.util.helper.EncryptHelper.encrypt;
 
@@ -40,41 +35,22 @@ public class OnlinePush {
             return false;
         }
 
-        if (base64EncodedJson == null) {
+        if (base64EncodedJson == null || json_fin == null) {
             return false;
         }
 
         // 确保 URL 格式正确
         String reportUrl = MainEnv.emailSender.ensureValidUrl(UnionBanConfig.pushUrl);
 
-        try {
-            // 创建 HttpClient 实例
-            HttpClient httpClient = HttpClient.newHttpClient();
-
-            // 创建 HttpRequest
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(reportUrl))
-                    .header("Content-Type", "application/json; utf-8")
-                    .POST(HttpRequest.BodyPublishers.ofString(json_fin))
-                    .build();
-
-            // 发送请求并获取响应
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-            // 处理响应
-            if (response.statusCode() == 200) {
-                LOGGER.info("封禁或解封数据上报成功");
-                data.reportTag = true;
-                UnionBan.unionBanDataGet.setPlayerData(data.playerUuid, data);
-                return true;
-            } else {
-                LOGGER.info("封禁或解封数据上报失败，状态码: " + response.statusCode());
-                LOGGER.info("回传信息: " + response);
-            }
-
-        } catch (IOException | InterruptedException e) {
-            LOGGER.info(String.valueOf(e));
+        byte[] ret = fetch(reportUrl, null, true, json_fin);
+        if (ret != null) {
+            LOGGER.info("封禁数据上报成功");
+            data.reportTag = true;
+            UnionBan.unionBanDataGet.setPlayerData(data.playerUuid, data);
+            return true;
+        } else {
+            LOGGER.info("封禁数据上报失败");
+            return false;
         }
-        return false;
     }
 }

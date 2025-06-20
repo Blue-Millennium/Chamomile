@@ -4,13 +4,10 @@ import com.google.gson.Gson;
 import fun.bm.config.modules.ServerConfig;
 import fun.bm.config.modules.WebhookConfig;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.Arrays;
 import java.util.List;
 
+import static fun.bm.util.HttpUtil.fetch;
 import static fun.bm.util.MainEnv.LOGGER;
 
 /**
@@ -48,28 +45,10 @@ public class EmailSender {
             // 确保 URL 格式正确
             String webhookUrl = ensureValidUrl(WebhookConfig.webhookUrl);
 
-            // 创建 HttpClient 实例
-            HttpClient httpClient = HttpClient.newHttpClient();
-
             // 构建 JSON 数据
             String jsonInputString = new Gson().toJson(data);
 
-            // 创建 HttpRequest
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(webhookUrl))
-                    .header("Content-Type", "application/json; utf-8")
-                    .header("Accept", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(jsonInputString))
-                    .build();
-
-            // 发送请求并获取响应
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-            // 检查响应状态码
-            int responseCode = response.statusCode();
-            if (responseCode != 200) {
-                LOGGER.info("Unexpected response code: " + responseCode);
-                LOGGER.info("Response body: " + response.body());
+            if (fetch(webhookUrl, null, true, jsonInputString) == null) {
                 return true;
             } else {
                 LOGGER.info("Webhook sent successfully.");
