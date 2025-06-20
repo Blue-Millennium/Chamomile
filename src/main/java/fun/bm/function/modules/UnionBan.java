@@ -27,35 +27,37 @@ public class UnionBan extends Function {
     }
 
     public void onLoad() {
-        unionBanDataGet.load();
-        importBanList();
-        mergeAndReportData(true);
+        CompletableFuture.runAsync(() -> {
+            unionBanDataGet.load();
+            importBanList();
+            mergeAndReportData(true);
+        });
     }
 
     public void onEnable() {
         if (UnionBanConfig.mergePeriod > 0) {
-            task = CompletableFuture.runAsync(this::scheduleTask);
+            task.thenAcceptAsync(v -> task = CompletableFuture.runAsync(() -> scheduleTask(true)));
         }
     }
 
-    public void continueTask(boolean flag) {
+    public void continueTask(boolean flag1, boolean flag2) {
         if (UnionBanConfig.mergePeriod > 0) {
             if (task != null) {
                 if (task.isDone()) {
-                    task = CompletableFuture.runAsync(this::scheduleTask);
-                } else if (flag) {
-                    task.thenAccept(v -> task = CompletableFuture.runAsync(this::scheduleTask));
+                    task = CompletableFuture.runAsync(() -> scheduleTask(flag2));
+                } else if (flag1) {
+                    task.thenAccept(v -> task = CompletableFuture.runAsync(() -> scheduleTask(flag2)));
                 }
             } else {
-                task = CompletableFuture.runAsync(this::scheduleTask);
+                task = CompletableFuture.runAsync(() -> scheduleTask(flag2));
             }
         }
     }
 
-    public void scheduleTask() {
-        mergeAndReportData(true);
+    public void scheduleTask(boolean flag) {
+        mergeAndReportData(flag);
         if (flag_continue) {
-            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, () -> continueTask(false), UnionBanConfig.mergePeriod * 20L);
+            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, () -> continueTask(false, true), UnionBanConfig.mergePeriod * 20L);
         }
     }
 
@@ -65,12 +67,12 @@ public class UnionBan extends Function {
 
     @EventHandler
     public void PlayerJoinProcess(PlayerJoinEvent event) {
-        continueTask(true);
+        continueTask(true, true);
     }
 
     @EventHandler
     public void preLoginProcess(PlayerLoginEvent event) {
-        continueTask(false);
+        continueTask(false, false);
     }
 
     public void setModuleName() {
