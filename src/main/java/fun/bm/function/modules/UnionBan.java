@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import static fun.bm.data.manager.unionban.local.LocalBanListImport.importBanList;
 import static fun.bm.data.manager.unionban.local.OnlineDataMerge.mergeAndReportData;
@@ -18,6 +19,7 @@ import static fun.bm.data.manager.unionban.local.OnlineDataMerge.mergeAndReportD
 public class UnionBan extends Function {
     public static UnionBanDataGet unionBanDataGet = new UnionBanDataGet();
     public static List<UnionBanData> dataList;
+    private static CompletableFuture<Void> task;
     boolean flag_continue = true;
 
     public UnionBan() {
@@ -31,14 +33,30 @@ public class UnionBan extends Function {
     }
 
     public void onEnable() {
-        if (UnionBanConfig.mergePeriod > 0)
-            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, this::scheduleTask, UnionBanConfig.mergePeriod * 20L);
+        if (UnionBanConfig.mergePeriod > 0) {
+            task = CompletableFuture.runAsync(this::scheduleTask);
+        }
+    }
+
+    public void continueTask(boolean flag) {
+        if (UnionBanConfig.mergePeriod > 0) {
+            if (task != null) {
+                if (task.isDone()) {
+                    task = CompletableFuture.runAsync(this::scheduleTask);
+                } else if (flag) {
+                    task.thenAccept(v -> task = CompletableFuture.runAsync(this::scheduleTask));
+                }
+            } else {
+                task = CompletableFuture.runAsync(this::scheduleTask);
+            }
+        }
     }
 
     public void scheduleTask() {
         mergeAndReportData(true);
-        if (flag_continue)
-            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, this::scheduleTask, UnionBanConfig.mergePeriod * 20L);
+        if (flag_continue) {
+            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, () -> continueTask(false), UnionBanConfig.mergePeriod * 20L);
+        }
     }
 
     public void onDisable() {
@@ -47,12 +65,12 @@ public class UnionBan extends Function {
 
     @EventHandler
     public void PlayerJoinProcess(PlayerJoinEvent event) {
-        Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, () -> mergeAndReportData(true), UnionBanConfig.mergePeriod * 20L);
+        continueTask(true);
     }
 
     @EventHandler
     public void preLoginProcess(PlayerLoginEvent event) {
-        mergeAndReportData(false);
+        continueTask(false);
     }
 
     public void setModuleName() {
