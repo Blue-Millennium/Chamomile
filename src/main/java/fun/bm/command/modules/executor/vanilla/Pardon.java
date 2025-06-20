@@ -12,7 +12,6 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.command.modules.executor.vanilla.Ban.BanMessage;
-import static fun.bm.data.manager.unionban.local.OnlineDataMerge.reportBanData;
 
 /**
  * @author Suisuroru
@@ -63,7 +62,7 @@ public class Pardon extends Command.ExecutorV {
         if (!UnionBanConfig.pullOnly) {
             for (UnionBanData data : UnionBan.dataList) {
                 if (data.playerName.equals(playerName) || data.playerUuid.toString().equals(playerName)) {
-                    reportBanData(data.playerName, data.playerUuid, TimeUtil.getUnixTimeMs(), "Pardon", ServerConfig.serverName);
+                    UnionBan.crossRegionBanDataManager.reportBanData(data.playerName, data.playerUuid, TimeUtil.getUnixTimeMs(), "Pardon", ServerConfig.serverName);
                     return;
                 }
             }

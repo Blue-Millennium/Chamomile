@@ -16,6 +16,9 @@ public class HttpUtil {
             LOGGER.warning("header length must be even");
             return null;
         }
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "http://" + url;
+        }
         try {
             // 创建 HttpClient 实例
             HttpClient httpClient = HttpClient.newHttpClient();

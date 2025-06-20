@@ -16,14 +16,6 @@ import static fun.bm.util.MainEnv.LOGGER;
  * function: Webhook for Email
  */
 public class EmailSender {
-
-    public String ensureValidUrl(String url) {
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "http://" + url;
-        }
-        return url;
-    }
-
     public void checkPlugin(String title) {
         try {
             String subject = "服务器" + title + "通知";
@@ -42,13 +34,9 @@ public class EmailSender {
 
     private boolean processWebhookData(Data_Sub data) {
         try {
-            // 确保 URL 格式正确
-            String webhookUrl = ensureValidUrl(WebhookConfig.webhookUrl);
-
-            // 构建 JSON 数据
             String jsonInputString = new Gson().toJson(data);
 
-            if (fetch(webhookUrl, null, true, jsonInputString) == null) {
+            if (fetch(WebhookConfig.webhookUrl, null, true, jsonInputString) == null) {
                 return true;
             } else {
                 LOGGER.info("Webhook sent successfully.");

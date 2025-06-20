@@ -1,6 +1,5 @@
-package fun.bm.data.manager.unionban.local;
+package fun.bm.data.manager.unionban;
 
-import fun.bm.data.manager.unionban.UnionBanData;
 import fun.bm.function.modules.UnionBan;
 import org.bukkit.Bukkit;
 
@@ -10,35 +9,33 @@ import java.util.List;
 import java.util.UUID;
 
 import static fun.bm.command.modules.executor.vanilla.Ban.BanMessage;
-import static fun.bm.data.manager.unionban.online.OnlineGet.loadRemoteBanList;
-import static fun.bm.data.manager.unionban.online.OnlinePush.reportRemoteBanList;
 import static fun.bm.util.MainEnv.LOGGER;
 
-public class OnlineDataMerge {
-    public static void mergeAndReportData(boolean flag) {
-        List<UnionBanData> remote = loadRemoteBanList();
+public class CrossRegionDataManager {
+    public void mergeAndReportData(boolean flag) {
+        List<UnionBanData> remote = UnionBan.onlineBanDataManager.loadRemoteBanList();
         List<String[]> locallist = new ArrayList<>();
         List<String[]> reportlist = new ArrayList<>();
         for (UnionBanData banData : remote) {
-            UnionBanData data = UnionBan.unionBanDataGet.getUnionBanData(banData.playerUuid);
+            UnionBanData data = UnionBan.localBanDataManager.getUnionBanData(banData.playerUuid);
             if (data == null) {
                 if (flag || banData.reason.equals("Pardon")) {
-                    UnionBan.unionBanDataGet.setPlayerData(banData.playerUuid, banData);
+                    UnionBan.localBanDataManager.setPlayerData(banData.playerUuid, banData);
                     locallist.add(new String[]{banData.playerName, banData.reason});
                 }
             } else {
                 if (data.time < banData.time && (flag || banData.reason.equals("Pardon"))) {
-                    UnionBan.unionBanDataGet.setPlayerData(banData.playerUuid, banData);
+                    UnionBan.localBanDataManager.setPlayerData(banData.playerUuid, banData);
                     locallist.add(new String[]{banData.playerName, banData.reason});
-                } else if (data.time > banData.time && flag && reportRemoteBanList(data)) {
+                } else if (data.time > banData.time && flag && UnionBan.onlineBanDataManager.reportRemoteBanList(data)) {
                     reportlist.add(new String[]{data.playerName, data.reason});
                     banData.reportTag = true;
-                    UnionBan.unionBanDataGet.setPlayerData(data.playerUuid, data);
+                    UnionBan.localBanDataManager.setPlayerData(data.playerUuid, data);
                 }
             }
         }
         if (flag) {
-            remote = loadRemoteBanList();
+            remote = UnionBan.onlineBanDataManager.loadRemoteBanList();
             for (UnionBanData banData : UnionBan.dataList) {
                 try {
                     boolean found = false;
@@ -48,10 +45,10 @@ public class OnlineDataMerge {
                             break;
                         }
                     }
-                    if (!found && reportRemoteBanList(banData)) {
+                    if (!found && UnionBan.onlineBanDataManager.reportRemoteBanList(banData)) {
                         reportlist.add(new String[]{banData.playerName, banData.reason});
                         banData.reportTag = true;
-                        UnionBan.unionBanDataGet.setPlayerData(banData.playerUuid, banData);
+                        UnionBan.localBanDataManager.setPlayerData(banData.playerUuid, banData);
                     }
                 } catch (Exception e) {
                     LOGGER.warning(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
@@ -65,7 +62,7 @@ public class OnlineDataMerge {
         messageSender(reportlist, unionmsg);
     }
 
-    public static void messageSender(List<String[]> namelist, String[] rec) {
+    public void messageSender(List<String[]> namelist, String[] rec) {
         if (!namelist.isEmpty()) {
             StringBuilder msg1 = new StringBuilder();
             StringBuilder msg2 = new StringBuilder();
@@ -81,11 +78,11 @@ public class OnlineDataMerge {
         }
     }
 
-    public static void reportBanMessage(StringBuilder msg, String rec1, String rec2) {
+    public void reportBanMessage(StringBuilder msg, String rec1, String rec2) {
         if (!msg.isEmpty()) BanMessage(rec1, msg.append(rec2).toString());
     }
 
-    public static void localBanDataProcess() {
+    public void localBanDataProcess() {
         for (UnionBanData data : UnionBan.dataList) {
             if (!data.localTag) {
                 String message = "";
@@ -99,13 +96,13 @@ public class OnlineDataMerge {
                     }
                 }
                 data.localTag = true;
-                UnionBan.unionBanDataGet.setPlayerData(data.playerUuid, data);
+                UnionBan.localBanDataManager.setPlayerData(data.playerUuid, data);
                 BanMessage("Local", message);
             }
         }
     }
 
-    public static void reportBanData(String name, UUID uuid, long time, String reason, String sourceServer) {
+    public void reportBanData(String name, UUID uuid, long time, String reason, String sourceServer) {
         Bukkit.broadcastMessage("正在尝试与UnionBan服务器合并封禁与解封数据");
         UnionBanData data = new UnionBanData();
         data.playerName = name;
@@ -115,7 +112,7 @@ public class OnlineDataMerge {
         data.sourceServer = sourceServer;
         data.reportTag = false;
         data.localTag = true;
-        UnionBan.unionBanDataGet.setPlayerData(uuid, data);
+        UnionBan.localBanDataManager.setPlayerData(uuid, data);
         mergeAndReportData(true);
     }
 }

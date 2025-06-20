@@ -5,6 +5,7 @@ import fun.bm.config.modules.Bot.CoreConfig;
 import fun.bm.config.modules.ServerConfig;
 import fun.bm.config.modules.UnionBanConfig;
 import fun.bm.config.modules.WebhookConfig;
+import fun.bm.function.modules.UnionBan;
 import fun.bm.util.MainEnv;
 import fun.bm.util.TimeUtil;
 import net.mamoe.mirai.contact.Group;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static fun.bm.data.manager.unionban.local.OnlineDataMerge.reportBanData;
+
 import static fun.bm.function.modules.QQReporter.ReportGroups;
 import static fun.bm.function.modules.SyncChat.SyncGroups;
 import static fun.bm.util.MainEnv.LOGGER;
@@ -112,7 +113,7 @@ public class Ban extends Command.ExecutorV {
         String message = "玩家 " + targetPlayer.getName() + " 已被 " + sender.getName() + " 以[ " + reason + " ]的理由封禁";
         BanMessage("Local", message);
         if (!UnionBanConfig.pullOnly) {
-            reportBanData(targetPlayer.getName(), targetPlayer.getUniqueId(), TimeUtil.getUnixTimeMs(), reason, ServerConfig.serverName);
+            UnionBan.crossRegionBanDataManager.reportBanData(targetPlayer.getName(), targetPlayer.getUniqueId(), TimeUtil.getUnixTimeMs(), reason, ServerConfig.serverName);
         }
     }
 }

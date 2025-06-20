@@ -1,8 +1,10 @@
 package fun.bm.function.modules;
 
 import fun.bm.config.modules.UnionBanConfig;
+import fun.bm.data.manager.unionban.CrossRegionDataManager;
+import fun.bm.data.manager.unionban.OnlineDataManager;
 import fun.bm.data.manager.unionban.UnionBanData;
-import fun.bm.data.manager.unionban.local.UnionBanDataGet;
+import fun.bm.data.manager.unionban.LocalDataManager;
 import fun.bm.function.Function;
 import fun.bm.util.MainEnv;
 import org.bukkit.Bukkit;
@@ -13,11 +15,10 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import static fun.bm.data.manager.unionban.local.LocalBanListImport.importBanList;
-import static fun.bm.data.manager.unionban.local.OnlineDataMerge.mergeAndReportData;
-
 public class UnionBan extends Function {
-    public static UnionBanDataGet unionBanDataGet = new UnionBanDataGet();
+    public static LocalDataManager localBanDataManager = new LocalDataManager();
+    public static OnlineDataManager onlineBanDataManager = new OnlineDataManager();
+    public static CrossRegionDataManager crossRegionBanDataManager = new CrossRegionDataManager();
     public static List<UnionBanData> dataList;
     private static CompletableFuture<Void> task;
     boolean flag_continue = true;
@@ -28,9 +29,8 @@ public class UnionBan extends Function {
 
     public void onLoad() {
         CompletableFuture.runAsync(() -> {
-            unionBanDataGet.load();
-            importBanList();
-            mergeAndReportData(true);
+            localBanDataManager.load();
+            crossRegionBanDataManager.mergeAndReportData(true);
         });
     }
 
@@ -55,7 +55,7 @@ public class UnionBan extends Function {
     }
 
     public void scheduleTask(boolean flag) {
-        mergeAndReportData(flag);
+        crossRegionBanDataManager.mergeAndReportData(flag);
         if (flag_continue) {
             Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, () -> continueTask(false, true), UnionBanConfig.mergePeriod * 20L);
         }
