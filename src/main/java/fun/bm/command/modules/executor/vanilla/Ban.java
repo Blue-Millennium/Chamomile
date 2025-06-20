@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-
 import static fun.bm.function.modules.QQReporter.ReportGroups;
 import static fun.bm.function.modules.SyncChat.SyncGroups;
 import static fun.bm.util.MainEnv.LOGGER;

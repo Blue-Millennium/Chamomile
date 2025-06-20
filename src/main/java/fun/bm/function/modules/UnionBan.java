@@ -2,9 +2,9 @@ package fun.bm.function.modules;
 
 import fun.bm.config.modules.UnionBanConfig;
 import fun.bm.data.manager.unionban.CrossRegionDataManager;
+import fun.bm.data.manager.unionban.LocalDataManager;
 import fun.bm.data.manager.unionban.OnlineDataManager;
 import fun.bm.data.manager.unionban.UnionBanData;
-import fun.bm.data.manager.unionban.LocalDataManager;
 import fun.bm.function.Function;
 import fun.bm.util.MainEnv;
 import org.bukkit.Bukkit;
