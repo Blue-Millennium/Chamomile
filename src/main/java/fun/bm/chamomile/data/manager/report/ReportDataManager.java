@@ -20,6 +20,8 @@ import static fun.bm.chamomile.util.TimeUtil.getUnixTimeS;
  * function: Manage report data
  */
 public class ReportDataManager {
+    final File reportDataFile = new File(MainEnv.BASE_DIR, "report.csv");
+
     public boolean deleteData(String timestamp) {
         List<List<String>> reportData = ReadReportFile();
         try {
@@ -64,24 +66,20 @@ public class ReportDataManager {
     }
 
     public List<List<String>> ReadReportFile() {
-        EnsureFileExist();
+        writeData();
         return readCsvToList();
     }
 
-    private void EnsureFileExist() {
-        if (!MainEnv.REPORT_DATA_FILE.exists()) {
+    private void writeData() {
+        if (!reportDataFile.exists()) {
             try {
-                if (!MainEnv.REPORT_DATA_FILE.createNewFile()) {
-                    LOGGER.warning("Failed to create data file");
-                } else {
-                    List<String> defaultRows = new ArrayList<>();
-                    defaultRows.add("Unix时间戳");
-                    defaultRows.add("举报时间");
-                    defaultRows.add("举报人");
-                    defaultRows.add("被举报人");
-                    defaultRows.add("举报理由");
-                    writeNewData(defaultRows);
-                }
+                List<String> defaultRows = new ArrayList<>();
+                defaultRows.add("Unix时间戳");
+                defaultRows.add("举报时间");
+                defaultRows.add("举报人");
+                defaultRows.add("被举报人");
+                defaultRows.add("举报理由");
+                writeNewData(defaultRows);
             } catch (Exception exception) {
                 LOGGER.warning("Failed to create data file: " + exception.getMessage());
             }
@@ -95,7 +93,7 @@ public class ReportDataManager {
     }
 
     private void saveToCsv(List<List<String>> data) {
-        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(MainEnv.REPORT_DATA_FILE), Charset.forName("GBK")))) {
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(reportDataFile), Charset.forName("GBK")))) {
             for (List<String> row : data) {
                 bw.write(String.join(",", row));
                 bw.newLine();
@@ -107,8 +105,8 @@ public class ReportDataManager {
 
     private List<List<String>> readCsvToList() {
         List<List<String>> allRows = new ArrayList<>();
-        EnsureFileExist();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(MainEnv.REPORT_DATA_FILE), Charset.forName("GBK")))) {
+        writeData();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(reportDataFile), Charset.forName("GBK")))) {
             String line;
             while ((line = br.readLine()) != null) { // 逐行读取
                 String[] values = line.split(","); // 根据逗号分割

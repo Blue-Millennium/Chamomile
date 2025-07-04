@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 
+import static fun.bm.chamomile.util.MainEnv.LOGGER;
+
 public class DirectoryAccessor {
     public static void copyDirectory(File sourceDir, File destDir) throws IOException {
         Path sourcePath = sourceDir.toPath();
@@ -45,4 +47,15 @@ public class DirectoryAccessor {
         }
     }
 
+    public static void initFile(File file) {
+        if (!file.exists()) {
+            try {
+                if (!file.createNewFile()) {
+                    LOGGER.warning("Failed to create " + file);
+                }
+            } catch (Exception e) {
+                LOGGER.warning("Failed to create " + file + e.getMessage());
+            }
+        }
+    }
 }

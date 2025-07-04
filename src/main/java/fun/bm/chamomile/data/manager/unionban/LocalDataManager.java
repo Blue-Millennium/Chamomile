@@ -7,12 +7,14 @@ import fun.bm.chamomile.config.modules.ServerConfig;
 import fun.bm.chamomile.function.modules.UnionBan;
 import fun.bm.chamomile.util.MainEnv;
 import fun.bm.chamomile.util.TimeUtil;
+import fun.bm.chamomile.util.helper.DirectoryAccessor;
 import org.bukkit.BanEntry;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.ban.ProfileBanList;
 import org.bukkit.profile.PlayerProfile;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -23,8 +25,11 @@ import static fun.bm.chamomile.function.modules.UnionBan.dataList;
 import static fun.bm.chamomile.util.MainEnv.LOGGER;
 
 public class LocalDataManager {
+    final File dataFile = new File(MainEnv.BASE_DIR, "unionbandata.json");
+
     public void load() {
-        try (JsonReader jsonReader = new JsonReader(new FileReader(MainEnv.UNION_BAN_DATA_FILE))) {
+        DirectoryAccessor.initFile(dataFile);
+        try (JsonReader jsonReader = new JsonReader(new FileReader(dataFile))) {
             dataList = new Gson().fromJson(jsonReader, new TypeToken<ArrayList<UnionBanData>>() {
             }.getType());
 
@@ -42,8 +47,9 @@ public class LocalDataManager {
     }
 
     public void save() {
+        DirectoryAccessor.initFile(dataFile);
         try {
-            FileWriter fileWriter = new FileWriter(MainEnv.UNION_BAN_DATA_FILE);
+            FileWriter fileWriter = new FileWriter(dataFile);
             fileWriter.write(new Gson().toJson(dataList));
             fileWriter.close();
         } catch (Exception exception) {

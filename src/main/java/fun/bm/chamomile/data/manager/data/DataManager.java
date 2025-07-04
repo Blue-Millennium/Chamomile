@@ -8,7 +8,9 @@ import fun.bm.chamomile.data.manager.data.link.QQLinkData;
 import fun.bm.chamomile.data.manager.data.link.UseridLinkData;
 import fun.bm.chamomile.data.manager.data.player.PlayerData;
 import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.helper.DirectoryAccessor;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -22,10 +24,12 @@ import static fun.bm.chamomile.util.MainEnv.LOGGER;
  * Date: 2024/7/17 下午5:58
  */
 public class DataManager {
+    public final File dataFile = new File(MainEnv.BASE_DIR, "data.json");
     public ArrayList<Data> DATA_LIST = new ArrayList<>();
 
     public void load() {
-        try (JsonReader jsonReader = new JsonReader(new FileReader(MainEnv.DATA_FILE))) {
+        DirectoryAccessor.initFile(dataFile);
+        try (JsonReader jsonReader = new JsonReader(new FileReader(dataFile))) {
             DATA_LIST = new Gson().fromJson(jsonReader, new TypeToken<ArrayList<Data>>() {
             }.getType());
 
@@ -45,7 +49,7 @@ public class DataManager {
     public void save() {
         try {
             refactorData();
-            FileWriter fileWriter = new FileWriter(MainEnv.DATA_FILE);
+            FileWriter fileWriter = new FileWriter(dataFile);
             fileWriter.write(new Gson().toJson(DATA_LIST));
             fileWriter.close();
         } catch (Exception exception) {

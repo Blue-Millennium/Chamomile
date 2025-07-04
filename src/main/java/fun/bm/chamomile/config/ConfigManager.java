@@ -8,7 +8,9 @@ import fun.bm.chamomile.config.flags.DoNotReload;
 import fun.bm.chamomile.config.flags.TransformedConfig;
 import fun.bm.chamomile.util.MainEnv;
 import fun.bm.chamomile.util.helper.ClassLoadHelper;
+import fun.bm.chamomile.util.helper.DirectoryAccessor;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
@@ -16,10 +18,11 @@ import java.util.*;
 import static fun.bm.chamomile.util.MainEnv.LOGGER;
 
 public class ConfigManager {
-    private static final Set<ConfigModule> configModules = new HashSet<>();
-    private static final Map<String, Object> stagedConfigMap = new HashMap<>();
-    private static final Map<String, Object> defaultvalueMap = new HashMap<>();
-    private static CommentedFileConfig commentedFileConfig;
+    final Set<ConfigModule> configModules = new HashSet<>();
+    final Map<String, Object> stagedConfigMap = new HashMap<>();
+    final Map<String, Object> defaultvalueMap = new HashMap<>();
+    final File configFile = new File(MainEnv.BASE_DIR, "config.toml");
+    CommentedFileConfig commentedFileConfig;
 
     private static Object tryTransform(Class<?> targetType, Object value) {
         if (!targetType.isAssignableFrom(value.getClass())) {
@@ -53,11 +56,11 @@ public class ConfigManager {
     public void baseload() {
         try {
             MainEnv.BASE_DIR.mkdir();
-            if (!MainEnv.CONFIG_FILE.exists()) MainEnv.CONFIG_FILE.createNewFile();
+            DirectoryAccessor.initFile(configFile);
         } catch (Exception e) {
             LOGGER.warning("Failed to create config file");
         }
-        commentedFileConfig = CommentedFileConfig.of(MainEnv.CONFIG_FILE);
+        commentedFileConfig = CommentedFileConfig.of(configFile);
         commentedFileConfig.load();
     }
 

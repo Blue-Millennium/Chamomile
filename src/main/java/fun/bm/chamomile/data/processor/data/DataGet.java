@@ -25,7 +25,7 @@ public class DataGet {
     }
 
     private List<Data> readDataFromFile() {
-        try (FileReader reader = new FileReader(MainEnv.DATA_FILE)) {
+        try (FileReader reader = new FileReader(MainEnv.dataManager.dataFile)) {
             Type listType = new TypeToken<List<Data>>() {
             }.getType();
             return gson.fromJson(reader, listType);

@@ -36,7 +36,7 @@ public class UnionBan extends Function {
 
     public void onEnable() {
         if (UnionBanConfig.mergePeriod > 0) {
-            task.thenAcceptAsync(v -> task = CompletableFuture.runAsync(() -> scheduleTask(true)));
+            task = CompletableFuture.runAsync(() -> scheduleTask(true));
         }
     }
 
