@@ -42,14 +42,12 @@ jobs:
             echo "SKIP_BUILD=false" >> $GITHUB_ENV
           fi
           if [[ "$COMMIT_MESSAGE" == "[skip]"* || ("$BRANCH_NAME" != "master" && "$COMMIT_MESSAGE" != "[ci]"*) ]]; then
-            echo "SKIP_RELEASE=true" >> $GITHUB_ENV
+            echo "PRE_RELEASE=true" >> $GITHUB_ENV
             echo "EXTRA=请注意：此版本将在发布5分钟后删除" >> $GITHUB_ENV
             echo "VERSION=TEST-$RANDOM-${{ env.VERSION }}" >> $GITHUB_ENV
           else
-            echo "SKIP_RELEASE=false" >> $GITHUB_ENV
+            echo "PRE_RELEASE=false" >> $GITHUB_ENV
           fi
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update version in plugin.yml
         if: env.SKIP_BUILD == 'false'
@@ -108,14 +106,14 @@ jobs:
             #### 提交消息:
             > ${{ github.event.head_commit.message }}
           draft: false
-          prerelease: true
+          prerelease: ${{ env.PRE_RELEASE }}
           makeLatest: true
           generateReleaseNotes: true
           artifacts: ${{ env.FINAL_JAR_NAME }}.jar
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Delete Release with recent tag
-        if: env.SKIP_BUILD == 'false' && env.SKIP_RELEASE != 'false'
+        if: env.SKIP_BUILD == 'false' && env.PRE_RELEASE != 'false'
         run: |
           # 延迟5分钟后删除测试版本
           sleep 300
