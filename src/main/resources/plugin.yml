@@ -1,6 +1,6 @@
 name: Chamomile
 version: 1.0.4
-main: fun.bm.Chamomile
+main: fun.bm.chamomile.Chamomile
 description: Encoded by Blue Millennium
 authors: [ SukaXD, Suisuroru ]
 
