@@ -39,16 +39,16 @@ public class DataManager {
             if (DATA_LIST == null) {
                 DATA_LIST = new ArrayList<>();
             }
-            save();
+            save(true);
         } catch (Exception exception) {
             LOGGER.warning("Failed to read data file " + exception.getMessage());
-            save();
+            save(true);
         }
     }
 
-    public void save() {
+    public void save(boolean refactor) {
         try {
-            refactorData();
+            if (refactor) refactorData();
             FileWriter fileWriter = new FileWriter(dataFile);
             fileWriter.write(new Gson().toJson(DATA_LIST));
             fileWriter.close();
@@ -79,16 +79,18 @@ public class DataManager {
         return null;
     }
 
-    public void setPlayerData(UUID uuid, Data data) {
+    public void setPlayerData(UUID uuid, Data data, boolean save) {
         Data data_old = getPlayerData(uuid);
         if (data_old != null) DATA_LIST.remove(data_old);
         DATA_LIST.add(data);
+        if (save) save(true);
     }
 
-    public void setPlayerDataByName(String name, Data data) {
+    public void setPlayerDataByName(String name, Data data, boolean save) {
         Data data_old = getPlayerDataByName(name);
         if (data_old != null) DATA_LIST.remove(getPlayerDataByName(name));
         DATA_LIST.add(data);
+        if (save) save(true);
     }
 
     public void refactorData() {
@@ -140,8 +142,9 @@ public class DataManager {
                     }
                 }
             }
-            setPlayerData(data.playerData.playerUuid, data);
+            setPlayerData(data.playerData.playerUuid, data, false);
         }
+        save(false);
     }
 
     public Data nullCheck(Data data) {

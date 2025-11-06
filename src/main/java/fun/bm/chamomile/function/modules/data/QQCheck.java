@@ -114,11 +114,10 @@ public class QQCheck extends Function {
                     data.linkedTime = TimeUtil.getUnixTimeMs();
                 }
                 if (flag) {
-                    MainEnv.dataManager.setPlayerData(data.playerData.playerUuid, data);
+                    MainEnv.dataManager.setPlayerData(data.playerData.playerUuid, data, true);
                 } else {
                     data.playerData = entry.getKey();
-                    MainEnv.dataManager.setPlayerDataByName(data.playerData.playerName, data);
-                    MainEnv.dataManager.save();
+                    MainEnv.dataManager.setPlayerDataByName(data.playerData.playerName, data, true);
                 }
 
                 // 构建确认消息

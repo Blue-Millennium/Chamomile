@@ -19,8 +19,7 @@ public class Delete extends Command.ExecutorE {
             return false;
         }
         data.linkData.removeIf(linkData -> linkData.linkedTime == Long.parseLong(timestamp));
-        MainEnv.dataManager.setPlayerData(data.playerData.playerUuid, data);
-        MainEnv.dataManager.save();
+        MainEnv.dataManager.setPlayerData(data.playerData.playerUuid, data, true);
         return true;
     }
 

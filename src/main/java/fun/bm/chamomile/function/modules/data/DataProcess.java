@@ -56,7 +56,7 @@ public class DataProcess extends Function {
         data.lastJoin = TimeUtil.getUnixTimeMs();
         data.lastJoinIp = event.getAddress().getHostAddress();
 
-        MainEnv.dataManager.setPlayerData(event.getUniqueId(), data);
+        MainEnv.dataManager.setPlayerData(event.getUniqueId(), data, true);
     }
 
     @EventHandler

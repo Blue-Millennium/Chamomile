@@ -24,8 +24,7 @@ public class BindUserid extends Command.ExecutorE {
             data.useridLinkedTime = TimeUtil.getUnixTimeMs();
             data.useridLinkedGroup = Long.parseLong(args[3]);
             data.useridChecked = true;
-            MainEnv.dataManager.setPlayerDataByName(args[0], data);
-            MainEnv.dataManager.save();
+            MainEnv.dataManager.setPlayerDataByName(args[0], data, true);
             sender.sendMessage("§e已将游戏名为" + args[0] + "的玩家绑定QQ为" + args[1]);
         }
         return true;

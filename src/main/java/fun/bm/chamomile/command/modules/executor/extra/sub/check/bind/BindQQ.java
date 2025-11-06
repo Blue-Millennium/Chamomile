@@ -23,8 +23,7 @@ public class BindQQ extends Command.ExecutorE {
             data.qqNumber = Long.parseLong(args[2]);
             data.linkedTime = TimeUtil.getUnixTimeMs();
             data.qqChecked = true;
-            MainEnv.dataManager.setPlayerDataByName(args[0], data);
-            MainEnv.dataManager.save();
+            MainEnv.dataManager.setPlayerDataByName(args[0], data, true);
             sender.sendMessage("§e已将游戏名为" + args[0] + "的玩家绑定QQ为" + args[1]);
         }
         return true;
