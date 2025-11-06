@@ -79,6 +79,7 @@ public class ReportDataManager {
                 defaultRows.add("举报人");
                 defaultRows.add("被举报人");
                 defaultRows.add("举报理由");
+                reportDataFile.createNewFile();
                 writeNewData(defaultRows);
             } catch (Exception exception) {
                 LOGGER.warning("Failed to create data file: " + exception.getMessage());
