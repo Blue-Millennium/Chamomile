@@ -12,6 +12,7 @@ import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.TimeUtil;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,11 @@ import static fun.bm.chamomile.util.Environment.LOGGER;
 
 public class DataProcess extends Function {
     public DataProcess() {
-        super("DataProcess");
+        this("DataProcess");
+    }
+
+    public DataProcess(String moduleName) {
+        super(moduleName);
     }
 
     public static void baseDataProcess(AsyncPlayerPreLoginEvent event, Data data) {
@@ -60,10 +65,16 @@ public class DataProcess extends Function {
     }
 
     @EventHandler
+    public void onPlayerLogout(PlayerQuitEvent event) {
+        if (event == null) return;
+        Data data = Environment.dataManager.getPlayerData(event.getPlayer().getUniqueId());
+        data.lastLogout = TimeUtil.getUnixTimeMs();
+        Environment.dataManager.setPlayerData(event.getPlayer().getUniqueId(), data, true);
+    }
+
+    @EventHandler
     public void onAsyncPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
-        if (event == null) {
-            return;
-        }
+        if (event == null) return;
         Data data = Environment.dataManager.getPlayerData(event.getUniqueId());
         baseDataProcess(event, data);
     }

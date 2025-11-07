@@ -7,7 +7,6 @@ import fun.bm.chamomile.data.manager.data.link.LinkData;
 import fun.bm.chamomile.data.manager.data.link.QQLinkData;
 import fun.bm.chamomile.data.manager.data.link.UseridLinkData;
 import fun.bm.chamomile.data.manager.data.player.PlayerData;
-import fun.bm.chamomile.function.Function;
 import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.TimeUtil;
 import fun.bm.chamomile.util.helper.MainThreadHelper;
@@ -29,10 +28,9 @@ import java.util.Map;
 import java.util.Random;
 
 import static fun.bm.chamomile.command.modules.executor.extra.sub.data.Query.dataGet;
-import static fun.bm.chamomile.function.modules.data.DataProcess.baseDataProcess;
 import static fun.bm.chamomile.util.Environment.LOGGER;
 
-public class QQCheck extends Function {
+public class QQCheck extends DataProcess {
     private static final HashMap<PlayerData, Integer> playerCodeMap = new HashMap<>();
 
     public QQCheck() {

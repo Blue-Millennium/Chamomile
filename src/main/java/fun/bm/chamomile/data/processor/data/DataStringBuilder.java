@@ -22,6 +22,8 @@ public class DataStringBuilder {
         appendIfNotNull(result, "首次加入时间(原始): ", data.firstJoin);
         appendIfNotNull(result, "最后加入时间: ", transformTime(data.lastJoin));
         appendIfNotNull(result, "最后加入时间(原始): ", data.lastJoin);
+        appendIfNotNull(result, "最后离开时间: ", transformTime(data.lastLogout));
+        appendIfNotNull(result, "最后离开时间(原始): ", data.lastLogout);
         appendLinkData(result, data);
         appendIfNotNull(result, "首次加入IP: ", data.firstJoinIp);
         appendIfNotNull(result, "最后加入IP: ", data.lastJoinIp);
