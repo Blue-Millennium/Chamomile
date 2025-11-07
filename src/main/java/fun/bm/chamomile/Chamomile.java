@@ -22,7 +22,7 @@ public class Chamomile extends JavaPlugin {
         Environment.commandManager.registerCommands();
         Environment.functionManager.onEnable();
         // 启动逻辑 - End
-        MainThreadHelper.checkPlugin("启动");
+        MainThreadHelper.sendStartMessage(true);
     }
 
 
@@ -30,6 +30,6 @@ public class Chamomile extends JavaPlugin {
         // 关闭逻辑 - Start
         Environment.functionManager.onDisable();
         // 关闭逻辑 - End
-        MainThreadHelper.checkPlugin("关闭");
+        MainThreadHelper.sendStartMessage(false);
     }
 }

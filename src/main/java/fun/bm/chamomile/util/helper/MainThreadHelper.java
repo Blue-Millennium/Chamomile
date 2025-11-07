@@ -61,7 +61,8 @@ public class MainThreadHelper {
         }
     }
 
-    public static void checkPlugin(String title) {
+    public static void sendStartMessage(boolean start) {
+        String title = start ? "启动" : "关闭";
         try {
             String subject = "服务器" + title + "通知";
             String content = ServerConfig.serverName + "服务器已" + title + "完成";
