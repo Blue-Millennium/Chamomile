@@ -1,6 +1,6 @@
 package fun.bm.chamomile.data.processor.report;
 
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
 import net.mamoe.mirai.message.data.Image;
 
 import javax.imageio.ImageIO;
@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 
 /**
  * @author Suisuroru
@@ -27,7 +27,7 @@ public class ImageProcessor {
             String imageurl = getImageUrl(message);
             value = processImageUrl(imageurl);
         } catch (Exception e) {
-            MainEnv.INSTANCE.getServer().broadcastMessage("一个错误发生于Chamomile内部，图片无法被展示，请前往控制台查看");
+            Environment.INSTANCE.getServer().broadcastMessage("一个错误发生于Chamomile内部，图片无法被展示，请前往控制台查看");
         }
         return value;
     }
@@ -36,7 +36,7 @@ public class ImageProcessor {
         try {
             return "[[CICode,url=" + imageurl + "]]";
         } catch (Exception e) {
-            MainEnv.INSTANCE.getServer().broadcastMessage("一个错误发生于Chamomile内部，图片无法被展示，请前往控制台查看");
+            Environment.INSTANCE.getServer().broadcastMessage("一个错误发生于Chamomile内部，图片无法被展示，请前往控制台查看");
             return imageurl;
         }
     }
@@ -106,7 +106,7 @@ public class ImageProcessor {
         g2d.dispose();
 
         // 保存图片到指定路径
-        File outputDir = new File(MainEnv.BASE_DIR, "CharmProcess");
+        File outputDir = new File(Environment.BASE_DIR, "CharmProcess");
         if (!outputDir.exists() && !outputDir.mkdirs()) {
             LOGGER.warning("Failed to create directory: " + outputDir.getAbsolutePath());
         }

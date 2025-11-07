@@ -4,8 +4,9 @@ import fun.bm.chamomile.command.Command;
 import fun.bm.chamomile.config.modules.Bot.CoreConfig;
 import fun.bm.chamomile.config.modules.WebhookConfig;
 import fun.bm.chamomile.data.manager.report.ReportDataManager;
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.TimeUtil;
+import fun.bm.chamomile.util.helper.EmailSender;
 import fun.bm.chamomile.util.helper.MainThreadHelper;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.MemberPermission;
@@ -19,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import static fun.bm.chamomile.function.modules.QQReporter.ReportGroups;
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 
 public class Report extends Command.ExecutorE {
     public static ReportDataManager reportDataManager = new ReportDataManager();
@@ -62,7 +63,7 @@ public class Report extends Command.ExecutorE {
                     String content = builder.build().contentToString();
                     try {
                         String subject = "玩家举报-" + number;
-                        MainEnv.emailSender.formatAndSendWebhook(subject, content, WebhookConfig.webHookEmails);
+                        EmailSender.formatAndSendWebhook(subject, content, WebhookConfig.webHookEmails);
                         sender.sendMessage("§a举报已被上报至指定邮箱");
                     } catch (Exception e) {
                         sender.sendMessage("§c邮件发送失败");
@@ -72,7 +73,7 @@ public class Report extends Command.ExecutorE {
                     if (CoreConfig.enabled && !CoreConfig.official && !ReportGroups.isEmpty() && MainThreadHelper.isBotRunning()) {
                         for (long groupId : ReportGroups) {
                             MessageChainBuilder builder_qq = new MessageChainBuilder();
-                            Group reportGroup = MainEnv.BOT.getGroup(groupId);
+                            Group reportGroup = Environment.BOT.getGroup(groupId);
                             if (reportGroup.getBotPermission() == MemberPermission.ADMINISTRATOR || reportGroup.getBotPermission() == MemberPermission.OWNER) {
                                 builder_qq.append(" ").append(AtAll.INSTANCE).append("\n");
                             }

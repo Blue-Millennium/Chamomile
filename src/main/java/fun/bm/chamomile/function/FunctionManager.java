@@ -1,6 +1,6 @@
 package fun.bm.chamomile.function;
 
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.helper.ClassLoadHelper;
 import org.bukkit.Bukkit;
 
@@ -10,7 +10,7 @@ public class FunctionManager {
     public ArrayList<Function> modules = new ArrayList<>();
 
     public void onEnable() {
-        modules.forEach(module -> Bukkit.getPluginManager().registerEvents(module, MainEnv.INSTANCE));
+        modules.forEach(module -> Bukkit.getPluginManager().registerEvents(module, Environment.INSTANCE));
         modules.forEach(Function::onEnable);
     }
 

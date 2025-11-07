@@ -6,7 +6,7 @@ import fun.bm.chamomile.config.flags.ConfigInfo;
 import fun.bm.chamomile.config.flags.DoNotLoad;
 import fun.bm.chamomile.config.flags.DoNotReload;
 import fun.bm.chamomile.config.flags.TransformedConfig;
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.helper.ClassLoadHelper;
 import fun.bm.chamomile.util.helper.DirectoryAccessor;
 
@@ -15,13 +15,13 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 
 public class ConfigManager {
     final Set<ConfigModule> configModules = new HashSet<>();
     final Map<String, Object> stagedConfigMap = new HashMap<>();
     final Map<String, Object> defaultvalueMap = new HashMap<>();
-    final File configFile = new File(MainEnv.BASE_DIR, "config.toml");
+    final File configFile = new File(Environment.BASE_DIR, "config.toml");
     CommentedFileConfig commentedFileConfig;
 
     private static Object tryTransform(Class<?> targetType, Object value) {
@@ -55,7 +55,7 @@ public class ConfigManager {
 
     public void baseload() {
         try {
-            MainEnv.BASE_DIR.mkdir();
+            Environment.BASE_DIR.mkdir();
             DirectoryAccessor.initFile(configFile);
         } catch (Exception e) {
             LOGGER.warning("Failed to create config file");

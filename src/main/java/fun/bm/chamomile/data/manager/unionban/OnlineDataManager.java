@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static fun.bm.chamomile.util.Environment.LOGGER;
 import static fun.bm.chamomile.util.HttpUtil.fetch;
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
 import static fun.bm.chamomile.util.helper.EncryptHelper.encrypt;
 
 public class OnlineDataManager {

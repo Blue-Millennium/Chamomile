@@ -1,11 +1,12 @@
 package fun.bm.chamomile;
 
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.helper.MainThreadHelper;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * @author Liycxc
+ * Rewritted by Suisuroru
  * Date: 2024/7/16 下午8:38
  */
 public class Chamomile extends JavaPlugin {
@@ -18,17 +19,17 @@ public class Chamomile extends JavaPlugin {
     public void onEnable() {
         // 启动逻辑 - Start
         MainThreadHelper.bootQQBot();
-        MainEnv.commandManager.registerCommands();
-        MainEnv.functionManager.onEnable();
+        Environment.commandManager.registerCommands();
+        Environment.functionManager.onEnable();
         // 启动逻辑 - End
-        MainEnv.emailSender.checkPlugin("启动");
+        MainThreadHelper.checkPlugin("启动");
     }
 
 
     public void onDisable() {
         // 关闭逻辑 - Start
-        MainEnv.functionManager.onDisable();
+        Environment.functionManager.onDisable();
         // 关闭逻辑 - End
-        MainEnv.emailSender.checkPlugin("关闭");
+        MainThreadHelper.checkPlugin("关闭");
     }
 }

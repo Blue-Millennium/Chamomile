@@ -2,7 +2,7 @@ package fun.bm.chamomile.command.modules.executor.extra.sub.check;
 
 import fun.bm.chamomile.command.Command;
 import fun.bm.chamomile.data.manager.data.Data;
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,12 +14,12 @@ public class Delete extends Command.ExecutorE {
     }
 
     public static boolean linkDataProcess(String name, String timestamp) {
-        Data data = MainEnv.dataManager.getPlayerDataByName(name);
+        Data data = Environment.dataManager.getPlayerDataByName(name);
         if (data == null || data.linkData == null) {
             return false;
         }
         data.linkData.removeIf(linkData -> linkData.linkedTime == Long.parseLong(timestamp));
-        MainEnv.dataManager.setPlayerData(data.playerData.playerUuid, data, true);
+        Environment.dataManager.setPlayerData(data.playerData.playerUuid, data, true);
         return true;
     }
 

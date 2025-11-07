@@ -8,7 +8,7 @@ import fun.bm.chamomile.data.manager.data.Data;
 import fun.bm.chamomile.data.manager.data.link.UseridLinkData;
 import fun.bm.chamomile.function.Function;
 import fun.bm.chamomile.function.modules.data.QQCheck;
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.helper.MainThreadHelper;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
@@ -23,7 +23,7 @@ import java.util.List;
 
 import static fun.bm.chamomile.command.modules.executor.extra.sub.data.Query.dataGet;
 import static fun.bm.chamomile.data.processor.report.ImageProcessor.*;
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 import static fun.bm.chamomile.util.helper.RconHelper.executeRconCommand;
 
 public class SyncChat extends Function {
@@ -51,14 +51,14 @@ public class SyncChat extends Function {
             if (!CoreConfig.official) {
                 if (SyncGroups.isEmpty()) {
                     LOGGER.warning("Failed to get sync group");
-                    MainEnv.configManager.setConfigAndSave("bot.sync-chat.enabled", false);
+                    Environment.configManager.setConfigAndSave("bot.sync-chat.enabled", false);
                     return;
                 }
             }
 
-            MainEnv.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
+            Environment.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
                 for (long groupId : SyncGroups) {
-                    Group syncGroup = MainEnv.BOT.getGroup(groupId);
+                    Group syncGroup = Environment.BOT.getGroup(groupId);
                     if (!CoreConfig.official & (!SyncConfig.enabled || event.getGroup() != syncGroup)) {
                         return;
                     }
@@ -125,7 +125,7 @@ public class SyncChat extends Function {
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (needSync()) {
             for (long groupId : SyncGroups) {
-                Group syncGroup = MainEnv.BOT.getGroup(groupId);
+                Group syncGroup = Environment.BOT.getGroup(groupId);
                 syncGroup.sendMessage(SyncConfig.joinMessage.replace("%NAME%", event.getPlayer().getName()));
             }
         }
@@ -135,7 +135,7 @@ public class SyncChat extends Function {
     public void onPlayerQuit(PlayerQuitEvent event) {
         if (needSync()) {
             for (long groupId : SyncGroups) {
-                Group syncGroup = MainEnv.BOT.getGroup(groupId);
+                Group syncGroup = Environment.BOT.getGroup(groupId);
                 syncGroup.sendMessage(SyncConfig.leaveMessage.replace("%NAME%", event.getPlayer().getName()));
             }
         }
@@ -145,7 +145,7 @@ public class SyncChat extends Function {
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         if (needSync()) {
             for (long groupId : SyncGroups) {
-                Group syncGroup = MainEnv.BOT.getGroup(groupId);
+                Group syncGroup = Environment.BOT.getGroup(groupId);
                 syncGroup.sendMessage(SyncConfig.serverMessage.replace("%NAME%", event.getPlayer().getName()).replace("%MESSAGE%", event.getMessage()));
             }
         }

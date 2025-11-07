@@ -1,11 +1,11 @@
 package fun.bm.chamomile.command.modules.executor.extra.sub.config;
 
 import fun.bm.chamomile.command.Command;
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 import static fun.bm.chamomile.util.helper.CommandHelper.operatorCheck;
 
 /**
@@ -28,16 +28,16 @@ public class Query extends Command.ExecutorE {
             } else if (command.getName().equals("chamomile")) {
                 sender.sendMessage("§c/chamomile config query [查询配置]");
             }
-            String allConfigNames = String.join("|", MainEnv.configManager.getAllConfigPaths(""));
+            String allConfigNames = String.join("|", Environment.configManager.getAllConfigPaths(""));
             sender.sendMessage("§a所有配置项名称: " + allConfigNames);
         } else {
             String configName = args[0];
-            if (!MainEnv.configManager.getAllConfigPaths("").contains(configName)) {
+            if (!Environment.configManager.getAllConfigPaths("").contains(configName)) {
                 sender.sendMessage("§c配置项 " + configName + " 不存在，请检查拼写");
                 return true;
             }
             try {
-                String value = MainEnv.configManager.getConfig(configName);
+                String value = Environment.configManager.getConfig(configName);
                 if (value == null) {
                     sender.sendMessage("§a配置项 " + configName + " 不存在");
                     return true;

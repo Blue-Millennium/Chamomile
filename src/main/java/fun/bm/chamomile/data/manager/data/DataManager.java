@@ -5,8 +5,8 @@ import fun.bm.chamomile.data.manager.data.link.LinkData;
 import fun.bm.chamomile.data.manager.data.link.QQLinkData;
 import fun.bm.chamomile.data.manager.data.link.UseridLinkData;
 import fun.bm.chamomile.data.manager.data.player.PlayerData;
+import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.GsonUtil;
-import fun.bm.chamomile.util.MainEnv;
 import fun.bm.chamomile.util.helper.DirectoryAccessor;
 
 import java.io.File;
@@ -16,14 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 
 /**
  * @author Liycxc
  * Date: 2024/7/17 下午5:58
  */
 public class DataManager {
-    public final File dataFile = new File(MainEnv.BASE_DIR, "data.json");
+    public final File dataFile = new File(Environment.BASE_DIR, "data.json");
     public ArrayList<Data> DATA_LIST = new ArrayList<>();
 
     public void load() {

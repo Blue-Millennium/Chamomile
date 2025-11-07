@@ -1,6 +1,6 @@
 package fun.bm.chamomile.data.manager.report;
 
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static fun.bm.chamomile.data.processor.data.DataStringBuilder.transformTime;
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 import static fun.bm.chamomile.util.TimeUtil.getUnixTimeS;
 
 /**
@@ -20,7 +20,7 @@ import static fun.bm.chamomile.util.TimeUtil.getUnixTimeS;
  * function: Manage report data
  */
 public class ReportDataManager {
-    final File reportDataFile = new File(MainEnv.BASE_DIR, "report.csv");
+    final File reportDataFile = new File(Environment.BASE_DIR, "report.csv");
 
     public boolean deleteData(String timestamp) {
         List<List<String>> reportData = ReadReportFile();

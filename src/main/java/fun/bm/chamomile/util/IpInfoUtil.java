@@ -3,8 +3,8 @@ package fun.bm.chamomile.util;
 import fun.bm.chamomile.util.map.IpLocationMap;
 import fun.bm.chamomile.util.map.IpinfoMap;
 
+import static fun.bm.chamomile.util.Environment.LOGGER;
 import static fun.bm.chamomile.util.HttpUtil.fetch;
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
 
 public class IpInfoUtil {
     public static IpinfoMap getIpinfo(String ip) {

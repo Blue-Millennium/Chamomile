@@ -1,12 +1,12 @@
 package fun.bm.chamomile.command.modules.executor.extra.sub.config;
 
 import fun.bm.chamomile.command.Command;
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.helper.MainThreadHelper;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 import static fun.bm.chamomile.util.helper.CommandHelper.operatorCheck;
 
 /**
@@ -25,10 +25,10 @@ public class Reload extends Command.ExecutorE {
         }
 
         try {
-            MainEnv.functionManager.preReload();
+            Environment.functionManager.preReload();
             MainThreadHelper.bootQQBot();
-            MainEnv.configManager.reload();
-            MainEnv.functionManager.reload();
+            Environment.configManager.reload();
+            Environment.functionManager.reload();
             sender.sendMessage("重新加载配置文件成功！");
         } catch (Exception e) {
             sender.sendMessage("重新加载配置文件失败！");

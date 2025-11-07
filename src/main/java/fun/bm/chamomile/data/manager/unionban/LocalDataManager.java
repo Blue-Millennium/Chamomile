@@ -4,8 +4,8 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import fun.bm.chamomile.config.modules.ServerConfig;
 import fun.bm.chamomile.function.modules.UnionBan;
+import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.GsonUtil;
-import fun.bm.chamomile.util.MainEnv;
 import fun.bm.chamomile.util.TimeUtil;
 import fun.bm.chamomile.util.helper.DirectoryAccessor;
 import org.bukkit.BanEntry;
@@ -22,10 +22,10 @@ import java.util.Date;
 import java.util.UUID;
 
 import static fun.bm.chamomile.function.modules.UnionBan.dataList;
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 
 public class LocalDataManager {
-    final File dataFile = new File(MainEnv.BASE_DIR, "unionbandata.json");
+    final File dataFile = new File(Environment.BASE_DIR, "unionbandata.json");
 
     public void load() {
         DirectoryAccessor.initFile(dataFile);

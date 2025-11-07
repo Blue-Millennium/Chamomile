@@ -5,7 +5,7 @@ import fun.bm.chamomile.config.modules.Bot.RconConfig;
 import fun.bm.chamomile.config.modules.ServerConfig;
 import fun.bm.chamomile.data.manager.data.Data;
 import fun.bm.chamomile.function.Function;
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.helper.MainThreadHelper;
 import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
@@ -23,7 +23,7 @@ import java.util.List;
 import static fun.bm.chamomile.command.modules.executor.extra.sub.data.Query.dataGet;
 import static fun.bm.chamomile.command.modules.executor.extra.sub.report.ReportQuery.message_head;
 import static fun.bm.chamomile.data.processor.report.ImageProcessor.reportCharmProcess;
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 import static fun.bm.chamomile.util.helper.RconHelper.executeRconCommand;
 
 /**
@@ -43,8 +43,8 @@ public class ExecuteRcon extends Function {
             String enabledGroupStr = RconConfig.groups;
             if (enabledGroupStr == null || enabledGroupStr.isEmpty()) {
                 LOGGER.warning("[RCONCommandCheck] RCON commands will be disabled due to empty or null RCONEnabledGroups");
-                MainEnv.configManager.setConfigAndSave("bot.rcon.enabled", false);
-                MainEnv.functionManager.reload();
+                Environment.configManager.setConfigAndSave("bot.rcon.enabled", false);
+                Environment.functionManager.reload();
                 return;
             }
 
@@ -59,13 +59,13 @@ public class ExecuteRcon extends Function {
 
             if (RconGroups.isEmpty()) {
                 LOGGER.warning("[RCONCommandCheck] RCON commands will be disabled");
-                MainEnv.configManager.setConfigAndSave("bot.rcon.enabled", false);
-                MainEnv.functionManager.reload();
+                Environment.configManager.setConfigAndSave("bot.rcon.enabled", false);
+                Environment.functionManager.reload();
                 return;
             }
         }
         MainThreadHelper.botFuture.thenRun(() -> {
-            MainEnv.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
+            Environment.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
                 if (!CoreConfig.official && !RconGroups.contains(event.getGroup().getId())) {
                     return;
                 }
@@ -125,7 +125,7 @@ public class ExecuteRcon extends Function {
                 if (!result[1].isEmpty() && result[1].startsWith(message_head)) {
                     reportCharmProcess(result[1].substring(message_head.length()));
                     message.append(message_head)
-                            .append(event.getGroup().uploadImage(ExternalResource.create(new File(MainEnv.BASE_DIR, "CharmProcess\\latest.png"))));
+                            .append(event.getGroup().uploadImage(ExternalResource.create(new File(Environment.BASE_DIR, "CharmProcess\\latest.png"))));
                 } else {
                     message.append(result[1]);
                 }
