@@ -47,7 +47,7 @@ commands:
     usage: /bind [qq name qq-number|userid name userid-number]
   check:
     description: Verify or delete check data
-    usage: /check [del|verify] [args...]
+    usage: /check [del|opdel|verify] [args...]
   chamomile:
     description: Chamomile functions
     usage: /chamomile [help|report|reload|config|data|check|kill|query-report|del-report] [args...]
