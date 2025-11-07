@@ -17,7 +17,7 @@ public class Data extends Command.CompleterE {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             completions.add("query");
-            completions.add("bind");
+            completions.add("list");
         } else {
             switch (args[0].toLowerCase()) {
                 case "query": {

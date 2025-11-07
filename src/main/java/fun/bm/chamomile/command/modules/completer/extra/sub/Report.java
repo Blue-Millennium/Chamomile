@@ -22,6 +22,12 @@ public class Report extends Command.CompleterE {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             completions.addAll(CommandHelper.getOnlinePlayerList(args[0]));
+        } else if (args.length == 2) {
+            fun.bm.chamomile.command.modules.executor.extra.sub.report.Report.reportDataManager.readReportFile().forEach(row -> {
+                for (int i = 1; i < row.size(); i++) {
+                    completions.add(row.get(i));
+                }
+            });
         }
         return completions;
     }

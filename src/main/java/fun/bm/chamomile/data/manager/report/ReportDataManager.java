@@ -20,10 +20,11 @@ import static fun.bm.chamomile.util.TimeUtil.getUnixTimeS;
  * function: Manage report data
  */
 public class ReportDataManager {
+    public static ReportDataManager reportDataManager = new ReportDataManager();
     final File reportDataFile = new File(Environment.BASE_DIR, "report.csv");
 
     public boolean deleteData(String timestamp) {
-        List<List<String>> reportData = ReadReportFile();
+        List<List<String>> reportData = readReportFile();
         try {
             reportData.removeIf(row -> row.get(0).equals(timestamp));
             saveToCsv(reportData);
@@ -43,7 +44,7 @@ public class ReportDataManager {
         writeNewData(data);
     }
 
-    public void ProcessData(@NotNull CommandSender sender, @NotNull String[] args) {
+    public void processData(@NotNull CommandSender sender, @NotNull String[] args) {
         List<String> ProcessData = new ArrayList<>();
 
         long time = getUnixTimeS();
@@ -65,7 +66,7 @@ public class ReportDataManager {
         appendDataToCsv(ProcessData);
     }
 
-    public List<List<String>> ReadReportFile() {
+    public List<List<String>> readReportFile() {
         writeData();
         return readCsvToList();
     }

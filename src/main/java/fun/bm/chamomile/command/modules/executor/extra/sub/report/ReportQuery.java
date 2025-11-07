@@ -22,7 +22,7 @@ public class ReportQuery extends Command.ExecutorE {
     }
 
     public static String query() {
-        List<List<String>> data = Report.reportDataManager.ReadReportFile();
+        List<List<String>> data = Report.reportDataManager.readReportFile();
         StringBuilder sb = new StringBuilder();
         sb.append(message_head);
 

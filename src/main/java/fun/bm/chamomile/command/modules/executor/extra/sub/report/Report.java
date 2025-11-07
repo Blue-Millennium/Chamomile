@@ -44,7 +44,7 @@ public class Report extends Command.ExecutorE {
                     sender.sendMessage("§c你不能对自己使用");
                 } else {
                     // Data Save
-                    reportDataManager.ProcessData(sender, args);
+                    reportDataManager.processData(sender, args);
                     sender.sendMessage("§a举报已被记录，正在等待上报");
                     // Message Send
                     MessageChainBuilder builder = new MessageChainBuilder();
