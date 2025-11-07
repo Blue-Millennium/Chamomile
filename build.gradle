@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'Blue-Millennium'
-version = '1.0.4'
+version = '1.0.5'
 
 idea {
     module {
@@ -20,10 +20,6 @@ repositories {
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots' }
     maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots' }
     mavenCentral()
-    maven {
-        name = "spigotmc-repo"
-        url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
-    }
 }
 
 dependencies {
