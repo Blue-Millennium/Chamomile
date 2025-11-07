@@ -6,7 +6,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 
 public class HttpUtil {
     public static byte[] fetch(String url, @Nullable String[] header, boolean isPost, @Nullable String post) {

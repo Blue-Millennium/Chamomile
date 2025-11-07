@@ -1,11 +1,11 @@
 package fun.bm.chamomile.command.modules.executor.extra.sub.config;
 
 import fun.bm.chamomile.command.Command;
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 import static fun.bm.chamomile.util.helper.CommandHelper.operatorCheck;
 
 /**
@@ -29,17 +29,17 @@ public class Set extends Command.ExecutorE {
             } else if (command.getName().equals("chamomile")) {
                 sender.sendMessage("§c/chamomile config set [修改参数] [修改值]");
             }
-            String allConfigNames = String.join("|", MainEnv.configManager.getAllConfigPaths(""));
+            String allConfigNames = String.join("|", Environment.configManager.getAllConfigPaths(""));
             sender.sendMessage("§a所有配置项名称: " + allConfigNames);
         } else {
             String configName = args[0];
             String value = args[1];
             // 检查配置项是否存在
-            if (!MainEnv.configManager.getAllConfigPaths("").contains(configName)) {
+            if (!Environment.configManager.getAllConfigPaths("").contains(configName)) {
                 sender.sendMessage("§c配置项 " + configName + " 不存在，请检查拼写");
             }
             try {
-                if (MainEnv.configManager.setConfigAndSave(configName, value))
+                if (Environment.configManager.setConfigAndSave(configName, value))
                     sender.sendMessage("§a配置项 " + configName + " 已成功设置为 " + value);
                 else sender.sendMessage("§c修改配置项 " + configName + " 的值失败，请检查配置项是否存在。");
             } catch (Exception e) {

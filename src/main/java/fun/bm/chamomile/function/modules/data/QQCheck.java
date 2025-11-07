@@ -7,9 +7,9 @@ import fun.bm.chamomile.data.manager.data.link.LinkData;
 import fun.bm.chamomile.data.manager.data.link.QQLinkData;
 import fun.bm.chamomile.data.manager.data.link.UseridLinkData;
 import fun.bm.chamomile.data.manager.data.player.PlayerData;
-import fun.bm.chamomile.function.Function;
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.TimeUtil;
+import fun.bm.chamomile.util.helper.MainThreadHelper;
 import net.mamoe.mirai.event.events.FriendMessageEvent;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.event.events.MessageEvent;
@@ -28,10 +28,9 @@ import java.util.Map;
 import java.util.Random;
 
 import static fun.bm.chamomile.command.modules.executor.extra.sub.data.Query.dataGet;
-import static fun.bm.chamomile.function.modules.data.DataProcess.baseDataProcess;
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 
-public class QQCheck extends Function {
+public class QQCheck extends DataProcess {
     private static final HashMap<PlayerData, Integer> playerCodeMap = new HashMap<>();
 
     public QQCheck() {
@@ -95,7 +94,7 @@ public class QQCheck extends Function {
                 // 保存数据
                 boolean flag = false;
                 Data data = new Data();
-                for (Data data1 : MainEnv.dataManager.DATA_LIST) {
+                for (Data data1 : Environment.dataManager.DATA_LIST) {
                     if (data1.playerData.playerUuid.equals(entry.getKey().playerUuid)) {
                         data = data1;
                         flag = true;
@@ -114,11 +113,10 @@ public class QQCheck extends Function {
                     data.linkedTime = TimeUtil.getUnixTimeMs();
                 }
                 if (flag) {
-                    MainEnv.dataManager.setPlayerData(data.playerData.playerUuid, data);
+                    Environment.dataManager.setPlayerData(data.playerData.playerUuid, data, true);
                 } else {
                     data.playerData = entry.getKey();
-                    MainEnv.dataManager.setPlayerDataByName(data.playerData.playerName, data);
-                    MainEnv.dataManager.save();
+                    Environment.dataManager.setPlayerDataByName(data.playerData.playerName, data, true);
                 }
 
                 // 构建确认消息
@@ -166,19 +164,21 @@ public class QQCheck extends Function {
     }
 
     public void onEnable() {
-        if (!CoreConfig.official)
-            MainEnv.eventChannel.subscribeAlways(NewFriendRequestEvent.class, NewFriendRequestEvent::accept);
+        MainThreadHelper.botFuture.thenRun(() -> {
+            if (!CoreConfig.official)
+                Environment.eventChannel.subscribeAlways(NewFriendRequestEvent.class, NewFriendRequestEvent::accept);
 
-        MainEnv.eventChannel.subscribeAlways(FriendMessageEvent.class, event -> {
-            String message = event.getMessage().contentToString();
+            Environment.eventChannel.subscribeAlways(FriendMessageEvent.class, event -> {
+                String message = event.getMessage().contentToString();
 
-            int code;
-            try {
-                code = Integer.parseInt(message);
-            } catch (Exception exception) {
-                return;
-            }
-            event.getSender().sendMessage(dataCheck(event, code));
+                int code;
+                try {
+                    code = Integer.parseInt(message);
+                } catch (Exception exception) {
+                    return;
+                }
+                event.getSender().sendMessage(dataCheck(event, code));
+            });
         });
     }
 
@@ -188,8 +188,8 @@ public class QQCheck extends Function {
             return;
         }
 
-        Data data = MainEnv.dataManager.getPlayerData(event.getUniqueId());
-        data = MainEnv.dataManager.nullCheck(data);
+        Data data = Environment.dataManager.getPlayerData(event.getUniqueId());
+        data = Environment.dataManager.nullCheck(data);
         data.playerData.playerUuid = event.getUniqueId();
         data.playerData.playerName = event.getName();
         // 首次登录
@@ -220,11 +220,14 @@ public class QQCheck extends Function {
                         code = entry.getValue();
                     }
                 }
-                Data data = MainEnv.dataManager.getPlayerData(event.getPlayer().getUniqueId());
-                if (code != -1 && data.linkData.isEmpty()) {
-                    player.sendMessage(AuthConfig.disconnectMessage.replace("%CODE%", String.valueOf(code)));
-                } else {
+                Data data = Environment.dataManager.getPlayerData(event.getPlayer().getUniqueId());
+                if (!data.linkData.isEmpty()) {
                     player.sendMessage(AuthConfig.connectMessage);
+                } else {
+                    if (code == -1) {
+                        code = generateCode(data);
+                    }
+                    player.sendMessage(AuthConfig.disconnectMessage.replace("%CODE%", String.valueOf(code)));
                 }
             } catch (Exception e) {
                 LOGGER.warning(e.getMessage());

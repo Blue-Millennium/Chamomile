@@ -6,7 +6,7 @@ import fun.bm.chamomile.data.manager.unionban.LocalDataManager;
 import fun.bm.chamomile.data.manager.unionban.OnlineDataManager;
 import fun.bm.chamomile.data.manager.unionban.UnionBanData;
 import fun.bm.chamomile.function.Function;
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -57,7 +57,7 @@ public class UnionBan extends Function {
     public void scheduleTask(boolean flag) {
         crossRegionBanDataManager.mergeAndReportData(flag);
         if (flag_continue) {
-            Bukkit.getScheduler().runTaskLater(MainEnv.INSTANCE, () -> continueTask(false, true), UnionBanConfig.mergePeriod * 20L);
+            Bukkit.getScheduler().runTaskLater(Environment.INSTANCE, () -> continueTask(false, true), UnionBanConfig.mergePeriod * 20L);
         }
     }
 

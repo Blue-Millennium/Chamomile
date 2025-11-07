@@ -8,23 +8,28 @@ import fun.bm.chamomile.data.manager.data.link.UseridLinkData;
 import fun.bm.chamomile.data.manager.data.player.OldName;
 import fun.bm.chamomile.data.manager.data.player.PlayerData;
 import fun.bm.chamomile.function.Function;
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.TimeUtil;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 
 public class DataProcess extends Function {
     public DataProcess() {
-        super("DataProcess");
+        this("DataProcess");
+    }
+
+    public DataProcess(String moduleName) {
+        super(moduleName);
     }
 
     public static void baseDataProcess(AsyncPlayerPreLoginEvent event, Data data) {
-        data = MainEnv.dataManager.nullCheck(data);
+        data = Environment.dataManager.nullCheck(data);
         if (data.playerData == null) {
             PlayerData playerData = new PlayerData();
             playerData.playerName = event.getName();
@@ -56,15 +61,21 @@ public class DataProcess extends Function {
         data.lastJoin = TimeUtil.getUnixTimeMs();
         data.lastJoinIp = event.getAddress().getHostAddress();
 
-        MainEnv.dataManager.setPlayerData(event.getUniqueId(), data);
+        Environment.dataManager.setPlayerData(event.getUniqueId(), data, true);
+    }
+
+    @EventHandler
+    public void onPlayerLogout(PlayerQuitEvent event) {
+        if (event == null) return;
+        Data data = Environment.dataManager.getPlayerData(event.getPlayer().getUniqueId());
+        data.lastLogout = TimeUtil.getUnixTimeMs();
+        Environment.dataManager.setPlayerData(event.getPlayer().getUniqueId(), data, true);
     }
 
     @EventHandler
     public void onAsyncPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
-        if (event == null) {
-            return;
-        }
-        Data data = MainEnv.dataManager.getPlayerData(event.getUniqueId());
+        if (event == null) return;
+        Data data = Environment.dataManager.getPlayerData(event.getUniqueId());
         baseDataProcess(event, data);
     }
 

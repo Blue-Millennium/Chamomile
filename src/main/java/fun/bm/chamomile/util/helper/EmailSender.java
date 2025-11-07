@@ -1,14 +1,14 @@
 package fun.bm.chamomile.util.helper;
 
-import com.google.gson.Gson;
 import fun.bm.chamomile.config.modules.ServerConfig;
 import fun.bm.chamomile.config.modules.WebhookConfig;
+import fun.bm.chamomile.util.GsonUtil;
 
 import java.util.Arrays;
 import java.util.List;
 
+import static fun.bm.chamomile.util.Environment.LOGGER;
 import static fun.bm.chamomile.util.HttpUtil.fetch;
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
 
 /**
  * @author Suisuroru
@@ -16,25 +16,15 @@ import static fun.bm.chamomile.util.MainEnv.LOGGER;
  * function: Webhook for Email
  */
 public class EmailSender {
-    public void checkPlugin(String title) {
-        try {
-            String subject = "服务器" + title + "通知";
-            String content = ServerConfig.serverName + "服务器已" + title + "完成";
-            formatAndSendWebhook(subject, content, WebhookConfig.webHookEmails);
-        } catch (Exception e) {
-            LOGGER.warning(e.getMessage());
-        }
-    }
-
     /**
      * 向指定的webhook地址发送邮件报告。
      *
      * @param data 包含邮件内容和主题的数据对象
      */
 
-    private boolean processWebhookData(Data_Sub data) {
+    private static boolean processWebhookData(Data_Sub data) {
         try {
-            String jsonInputString = new Gson().toJson(data);
+            String jsonInputString = GsonUtil.createGson().toJson(data);
 
             if (fetch(WebhookConfig.webhookUrl, null, true, jsonInputString) == null) {
                 return true;
@@ -56,7 +46,7 @@ public class EmailSender {
      * @param content     邮件内容
      * @param originEmail 发送邮件的邮箱地址
      */
-    public void formatAndSendWebhook(String subject, String content, String originEmail) {
+    public static void formatAndSendWebhook(String subject, String content, String originEmail) {
         if (!WebhookConfig.enabled) return;
         List<String> emailList = Arrays.asList(originEmail.split(";"));
         Data_Full data = new Data_Full("来自" + ServerConfig.serverName + "的信息：\n" + content, subject, emailList);

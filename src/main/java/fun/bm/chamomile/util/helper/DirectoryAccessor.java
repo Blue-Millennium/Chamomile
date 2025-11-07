@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 
 public class DirectoryAccessor {
     public static void copyDirectory(File sourceDir, File destDir) throws IOException {

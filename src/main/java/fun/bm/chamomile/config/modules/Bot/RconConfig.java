@@ -11,7 +11,7 @@ public class RconConfig implements ConfigModule {
     @ConfigInfo(name = "prefix", comment = "Rcon执行命令前缀")
     public static String prefix = "/Rcon ";
 
-    @ConfigInfo(name = "enforce-operator", comment = "强制Rcon需要操作员权限，官方模式下默认以群权限为准，官方机器人模式以游戏内管理员为准")
+    @ConfigInfo(name = "enforce-operator", comment = "强制Rcon需要操作员权限，官方模式下默认以群权限为准，非官方机器人模式以游戏内管理员为准")
     public static boolean enforceOperator = true;
 
     @ConfigInfo(name = "ip", comment = "Rcon监听地址")

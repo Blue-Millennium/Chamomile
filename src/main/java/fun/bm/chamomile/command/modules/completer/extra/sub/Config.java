@@ -2,7 +2,7 @@ package fun.bm.chamomile.command.modules.completer.extra.sub;
 
 
 import fun.bm.chamomile.command.Command;
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +27,7 @@ public class Config extends Command.CompleterE {
             completions.add("set");
         } else if (args.length == 2) {
             if (args[0].equals("query") || args[0].equals("set")) {
-                completions.addAll(MainEnv.configManager.completeConfigPath(args[1]));
+                completions.addAll(Environment.configManager.completeConfigPath(args[1]));
             }
         }
         return completions;

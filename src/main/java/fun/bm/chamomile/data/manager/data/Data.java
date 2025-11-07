@@ -16,7 +16,10 @@ public class Data {
     public Boolean useridChecked = false;
     public long firstJoin = -1;
     public long lastJoin = -1;
+    public long lastLogout = -1;
     // move up - start
+    // this is for old data and auto migrate from old data
+    // also new data will use this to save and then migrated to linkData list
     public long qqNumber;
     public long linkedTime;
     public long userid;

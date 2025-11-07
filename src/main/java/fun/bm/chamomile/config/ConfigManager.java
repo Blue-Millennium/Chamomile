@@ -6,7 +6,7 @@ import fun.bm.chamomile.config.flags.ConfigInfo;
 import fun.bm.chamomile.config.flags.DoNotLoad;
 import fun.bm.chamomile.config.flags.DoNotReload;
 import fun.bm.chamomile.config.flags.TransformedConfig;
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.helper.ClassLoadHelper;
 import fun.bm.chamomile.util.helper.DirectoryAccessor;
 
@@ -15,47 +15,24 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 
 public class ConfigManager {
     final Set<ConfigModule> configModules = new HashSet<>();
     final Map<String, Object> stagedConfigMap = new HashMap<>();
     final Map<String, Object> defaultvalueMap = new HashMap<>();
-    final File configFile = new File(MainEnv.BASE_DIR, "config.toml");
+    final File configFile = new File(Environment.BASE_DIR, "config.toml");
     CommentedFileConfig commentedFileConfig;
-
-    private static Object tryTransform(Class<?> targetType, Object value) {
-        if (!targetType.isAssignableFrom(value.getClass())) {
-            try {
-                if (targetType == Integer.class) {
-                    value = Integer.parseInt(value.toString());
-                } else if (targetType == Double.class) {
-                    value = Double.parseDouble(value.toString());
-                } else if (targetType == Boolean.class) {
-                    value = Boolean.parseBoolean(value.toString());
-                } else if (targetType == Long.class) {
-                    value = Long.parseLong(value.toString());
-                } else if (targetType == Float.class) {
-                    value = Float.parseFloat(value.toString());
-                } else if (targetType == String.class) {
-                    value = value.toString();
-                }
-            } catch (Exception e) {
-                LOGGER.warning("Failed to transform value " + value + "!");
-                throw new IllegalFormatConversionException((char) 0, targetType);
-            }
-        }
-        return value;
-    }
 
     public void load() {
         baseload();
         loadConfigModule(false);
+        clean();
     }
 
     public void baseload() {
         try {
-            MainEnv.BASE_DIR.mkdir();
+            Environment.BASE_DIR.mkdir();
             DirectoryAccessor.initFile(configFile);
         } catch (Exception e) {
             LOGGER.warning("Failed to create config file");
@@ -139,9 +116,7 @@ public class ConfigManager {
 
                         final String comments = configInfo.comment();
 
-                        if (!comments.isBlank()) {
-                            commentedFileConfig.setComment(fullConfigKeyName, comments);
-                        }
+                        commentedFileConfig.setComment(fullConfigKeyName, comments); // always reset comments
 
                         commentedFileConfig.add(fullConfigKeyName, currentValue);
                         continue;
@@ -174,6 +149,30 @@ public class ConfigManager {
         }
 
         saveConfigs();
+    }
+
+    private static Object tryTransform(Class<?> targetType, Object value) {
+        if (!targetType.isAssignableFrom(value.getClass())) {
+            try {
+                if (targetType == Integer.class) {
+                    value = Integer.parseInt(value.toString());
+                } else if (targetType == Double.class) {
+                    value = Double.parseDouble(value.toString());
+                } else if (targetType == Boolean.class) {
+                    value = Boolean.parseBoolean(value.toString());
+                } else if (targetType == Long.class) {
+                    value = Long.parseLong(value.toString());
+                } else if (targetType == Float.class) {
+                    value = Float.parseFloat(value.toString());
+                } else if (targetType == String.class) {
+                    value = value.toString();
+                }
+            } catch (Exception e) {
+                LOGGER.warning("Failed to transform value " + value + "!");
+                throw new IllegalFormatConversionException((char) 0, targetType);
+            }
+        }
+        return value;
     }
 
     private void removeConfig(String name, String[] keys) {
@@ -261,5 +260,18 @@ public class ConfigManager {
         return defaultvalueMap.keySet().stream()
                 .filter(k -> k.startsWith(currentPath))
                 .toList();
+    }
+
+    public void clean() {
+        Map<String, Object> validValues = new HashMap<>();
+        Map<String, String> validComments = new HashMap<>();
+        for (String key : defaultvalueMap.keySet()) {
+            validValues.put(key, commentedFileConfig.get(key));
+            validComments.put(key, commentedFileConfig.getComment(key));
+        }
+        commentedFileConfig.clear();
+        validValues.forEach(commentedFileConfig::set);
+        validComments.forEach(commentedFileConfig::setComment);
+        saveConfigs();
     }
 }

@@ -6,8 +6,10 @@ import fun.bm.chamomile.config.modules.ServerConfig;
 import fun.bm.chamomile.config.modules.UnionBanConfig;
 import fun.bm.chamomile.config.modules.WebhookConfig;
 import fun.bm.chamomile.function.modules.UnionBan;
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.TimeUtil;
+import fun.bm.chamomile.util.helper.EmailSender;
+import fun.bm.chamomile.util.helper.MainThreadHelper;
 import net.mamoe.mirai.contact.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -21,7 +23,7 @@ import java.util.UUID;
 
 import static fun.bm.chamomile.function.modules.QQReporter.ReportGroups;
 import static fun.bm.chamomile.function.modules.SyncChat.SyncGroups;
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 
 /**
  * @author Suisuroru
@@ -38,10 +40,10 @@ public class Ban extends Command.ExecutorV {
         if (CoreConfig.enabled & !CoreConfig.official) {
             List<Long> Groups = ReportGroups;
             Groups.addAll(SyncGroups);
-            if (!Groups.isEmpty()) {
+            if (!Groups.isEmpty() && MainThreadHelper.isBotRunning()) {
                 for (long groupId : Groups) {
                     try {
-                        Group reportGroup = MainEnv.BOT.getGroup(groupId);
+                        Group reportGroup = Environment.BOT.getGroup(groupId);
                         reportGroup.sendMessage(message);
                     } catch (Exception e) {
                         LOGGER.info("Error when report message to QQ group - " + groupId);
@@ -49,7 +51,7 @@ public class Ban extends Command.ExecutorV {
                 }
             }
             try {
-                MainEnv.emailSender.formatAndSendWebhook(origin + " Ban : " + message, message, WebhookConfig.webHookEmails);
+                EmailSender.formatAndSendWebhook(origin + " Ban : " + message, message, WebhookConfig.webHookEmails);
             } catch (Exception e) {
                 LOGGER.info("Error when report message to Email");
             }

@@ -22,7 +22,6 @@ public class DataQueryByUserID extends Command.ExecutorE {
         if (UserID == 0) {
             return true;
         }
-        String playerJson = Query.dataGet.getPlayersByUserIDAsJson(UserID);
-        return buildDataString(sender, playerJson);
+        return buildDataString(sender, Query.dataGet.getPlayersByUserID(UserID));
     }
 }

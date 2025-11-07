@@ -1,34 +1,29 @@
 package fun.bm.chamomile.data.processor.data;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import fun.bm.chamomile.data.manager.data.Data;
-import fun.bm.chamomile.data.manager.data.link.LinkData;
-import fun.bm.chamomile.data.manager.data.link.QQLinkData;
-import fun.bm.chamomile.data.manager.data.link.UseridLinkData;
 import fun.bm.chamomile.data.manager.data.player.OldName;
+import fun.bm.chamomile.data.processor.data.link.LinkDataStringBuilder;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 
 public class DataStringBuilder {
 
-    public static String buildPlayerDataString(String jsonData) {
-        Gson gson = new Gson();
-        Data data = gson.fromJson(jsonData, Data.class);
+    public static String buildPlayerDataString(Data data) {
         StringBuilder result = new StringBuilder();
         appendPlayerData(result, data);
         appendIfNotNull(result, "首次加入时间: ", transformTime(data.firstJoin));
         appendIfNotNull(result, "首次加入时间(原始): ", data.firstJoin);
         appendIfNotNull(result, "最后加入时间: ", transformTime(data.lastJoin));
         appendIfNotNull(result, "最后加入时间(原始): ", data.lastJoin);
+        appendIfNotNull(result, "最后离开时间: ", transformTime(data.lastLogout));
+        appendIfNotNull(result, "最后离开时间(原始): ", data.lastLogout);
         appendLinkData(result, data);
         appendIfNotNull(result, "首次加入IP: ", data.firstJoinIp);
         appendIfNotNull(result, "最后加入IP: ", data.lastJoinIp);
@@ -52,39 +47,8 @@ public class DataStringBuilder {
         appendIfNotNull(result, "QQ绑定标志: ", transformBoolean(data.qqChecked));
         appendIfNotNull(result, "UserID绑定标志: ", transformBoolean(data.useridChecked));
         if (data.linkData != null) {
-            appendIfNotNull(result, "§a-------------------");
-            if (data.linkData.size() > 1) {
-                appendIfNotNull(result, "§a查询到多个绑定数据，共 " + data.linkData.size() + " 个");
-                appendIfNotNull(result, "§a-------------------");
-            }
-            int i = 1;
-            for (LinkData linkData : data.linkData) {
-                appendIfNotNull(result, "§a查询到第 " + i++ + " 个绑定数据");
-                try {
-                    if (linkData instanceof QQLinkData qqlinkData) {
-                        appendQQData(result, qqlinkData);
-                    } else if (linkData instanceof UseridLinkData useridLinkData) {
-                        appendUseridData(result, useridLinkData);
-                    }
-                    appendIfNotNull(result, "§a-------------------");
-                } catch (Exception e) {
-                    LOGGER.warning(e.getMessage());
-                }
-            }
+            appendIfNotNull(result, LinkDataStringBuilder.buildLinkDataString(data));
         }
-    }
-
-    private static void appendQQData(StringBuilder result, QQLinkData data) {
-        appendIfNotNull(result, "QQ号码: ", data.qqNumber);
-        appendIfNotNull(result, "QQ绑定时间: ", transformTime(data.linkedTime));
-        appendIfNotNull(result, "QQ绑定时间戳: ", data.linkedTime);
-    }
-
-    private static void appendUseridData(StringBuilder result, UseridLinkData data) {
-        appendIfNotNull(result, "UserID识别码: ", data.userid);
-        appendIfNotNull(result, "UserID绑定的群聊: ", data.useridLinkedGroup);
-        appendIfNotNull(result, "UserID绑定时间: ", transformTime(data.linkedTime));
-        appendIfNotNull(result, "UserID绑定时间戳: ", data.linkedTime);
     }
 
     private static void appendPlayerData(StringBuilder result, Data data) {
@@ -133,25 +97,21 @@ public class DataStringBuilder {
         }
     }
 
-    public static boolean buildDataString(@NotNull CommandSender sender, String playerJson) {
-        if (!playerJson.isEmpty() && !playerJson.equals("[]")) {
-            Gson gson = new Gson();
-            Type listType = new TypeToken<List<Object>>() {
-            }.getType();
-            List<Object> playerList = gson.fromJson(playerJson, listType);
+    public static boolean buildDataString(@NotNull CommandSender sender, List<Data> data) {
+        if (!data.isEmpty()) {
             StringBuilder result = new StringBuilder();
             result.append("\n");
             appendIfNotNull(result, "§a-------------------");
-            if (playerList.size() > 1) {
-                appendIfNotNull(result, "§a查询到多个玩家数据，共 " + playerList.size() + " 个");
+            if (data.size() > 1) {
+                appendIfNotNull(result, "§a查询到多个玩家数据，共 " + data.size() + " 个");
                 appendIfNotNull(result, "§a-------------------");
             }
             int Count = 1;
-            for (Object player : playerList) {
-                if (playerList.size() > 1) {
+            for (Data player : data) {
+                if (data.size() > 1) {
                     appendIfNotNull(result, "§a第 " + Count++ + " 个玩家数据");
                 }
-                String processedData = DataStringBuilder.buildPlayerDataString(gson.toJson(player));
+                String processedData = DataStringBuilder.buildPlayerDataString(player);
                 appendIfNotNull(result, "§a", processedData);
                 appendIfNotNull(result, "§a-------------------");
             }

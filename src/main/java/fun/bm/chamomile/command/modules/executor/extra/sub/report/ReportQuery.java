@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 import static fun.bm.chamomile.util.helper.CommandHelper.operatorCheck;
 
 /**
@@ -22,7 +22,7 @@ public class ReportQuery extends Command.ExecutorE {
     }
 
     public static String query() {
-        List<List<String>> data = Report.reportDataManager.ReadReportFile();
+        List<List<String>> data = Report.reportDataManager.readReportFile();
         StringBuilder sb = new StringBuilder();
         sb.append(message_head);
 

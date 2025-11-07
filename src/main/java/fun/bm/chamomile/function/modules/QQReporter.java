@@ -3,8 +3,9 @@ package fun.bm.chamomile.function.modules;
 import fun.bm.chamomile.config.modules.Bot.CoreConfig;
 import fun.bm.chamomile.config.modules.Bot.ReportConfig;
 import fun.bm.chamomile.function.Function;
+import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.IpInfoUtil;
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.helper.MainThreadHelper;
 import fun.bm.chamomile.util.map.IpLocationMap;
 import fun.bm.chamomile.util.map.IpinfoMap;
 import net.mamoe.mirai.contact.Group;
@@ -15,7 +16,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 
 public class QQReporter extends Function {
     public static final List<Long> ReportGroups = new ArrayList<>();
@@ -68,9 +69,11 @@ public class QQReporter extends Function {
             }
         }
 
-        for (long groupId : ReportGroups) {
-            Group reportGroup = MainEnv.BOT.getGroup(groupId);
-            reportGroup.sendMessage(builder.build());
+        if (MainThreadHelper.isBotRunning()) {
+            for (long groupId : ReportGroups) {
+                Group reportGroup = Environment.BOT.getGroup(groupId);
+                reportGroup.sendMessage(builder.build());
+            }
         }
     }
 

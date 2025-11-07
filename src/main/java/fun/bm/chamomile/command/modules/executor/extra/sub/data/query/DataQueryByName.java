@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.chamomile.data.processor.data.DataStringBuilder.buildDataString;
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 import static fun.bm.chamomile.util.helper.CommandHelper.operatorCheck;
 
 public class DataQueryByName extends Command.ExecutorE {
@@ -25,7 +25,6 @@ public class DataQueryByName extends Command.ExecutorE {
             LOGGER.info(String.valueOf(e));
             return true;
         }
-        String playerJson = Query.dataGet.getPlayersByNameAsJson(Name);
-        return buildDataString(sender, playerJson);
+        return buildDataString(sender, Query.dataGet.getPlayersByName(Name));
     }
 }

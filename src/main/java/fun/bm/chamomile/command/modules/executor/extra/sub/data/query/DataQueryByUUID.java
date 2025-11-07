@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 
 import static fun.bm.chamomile.data.processor.data.DataStringBuilder.buildDataString;
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 import static fun.bm.chamomile.util.helper.CommandHelper.operatorCheck;
 
 public class DataQueryByUUID extends Command.ExecutorE {
@@ -34,8 +34,7 @@ public class DataQueryByUUID extends Command.ExecutorE {
             LOGGER.info(String.valueOf(e));
             return true;
         }
-        String playerJson = Query.dataGet.getPlayersByUUIDAsJson(Uuid);
-        return buildDataString(sender, playerJson);
+        return buildDataString(sender, Query.dataGet.getPlayersByUUID(Uuid));
     }
 
     private String insertHyphens(String uuid) {

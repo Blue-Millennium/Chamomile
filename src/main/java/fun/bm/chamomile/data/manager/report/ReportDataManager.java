@@ -1,6 +1,6 @@
 package fun.bm.chamomile.data.manager.report;
 
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static fun.bm.chamomile.data.processor.data.DataStringBuilder.transformTime;
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 import static fun.bm.chamomile.util.TimeUtil.getUnixTimeS;
 
 /**
@@ -20,10 +20,11 @@ import static fun.bm.chamomile.util.TimeUtil.getUnixTimeS;
  * function: Manage report data
  */
 public class ReportDataManager {
-    final File reportDataFile = new File(MainEnv.BASE_DIR, "report.csv");
+    public static ReportDataManager reportDataManager = new ReportDataManager();
+    final File reportDataFile = new File(Environment.BASE_DIR, "report.csv");
 
     public boolean deleteData(String timestamp) {
-        List<List<String>> reportData = ReadReportFile();
+        List<List<String>> reportData = readReportFile();
         try {
             reportData.removeIf(row -> row.get(0).equals(timestamp));
             saveToCsv(reportData);
@@ -43,7 +44,7 @@ public class ReportDataManager {
         writeNewData(data);
     }
 
-    public void ProcessData(@NotNull CommandSender sender, @NotNull String[] args) {
+    public void processData(@NotNull CommandSender sender, @NotNull String[] args) {
         List<String> ProcessData = new ArrayList<>();
 
         long time = getUnixTimeS();
@@ -65,7 +66,7 @@ public class ReportDataManager {
         appendDataToCsv(ProcessData);
     }
 
-    public List<List<String>> ReadReportFile() {
+    public List<List<String>> readReportFile() {
         writeData();
         return readCsvToList();
     }
@@ -79,6 +80,7 @@ public class ReportDataManager {
                 defaultRows.add("举报人");
                 defaultRows.add("被举报人");
                 defaultRows.add("举报理由");
+                reportDataFile.createNewFile();
                 writeNewData(defaultRows);
             } catch (Exception exception) {
                 LOGGER.warning("Failed to create data file: " + exception.getMessage());

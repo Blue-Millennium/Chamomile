@@ -1,11 +1,11 @@
 package fun.bm.chamomile.data.manager.unionban;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import fun.bm.chamomile.config.modules.ServerConfig;
 import fun.bm.chamomile.function.modules.UnionBan;
-import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.Environment;
+import fun.bm.chamomile.util.GsonUtil;
 import fun.bm.chamomile.util.TimeUtil;
 import fun.bm.chamomile.util.helper.DirectoryAccessor;
 import org.bukkit.BanEntry;
@@ -22,15 +22,15 @@ import java.util.Date;
 import java.util.UUID;
 
 import static fun.bm.chamomile.function.modules.UnionBan.dataList;
-import static fun.bm.chamomile.util.MainEnv.LOGGER;
+import static fun.bm.chamomile.util.Environment.LOGGER;
 
 public class LocalDataManager {
-    final File dataFile = new File(MainEnv.BASE_DIR, "unionbandata.json");
+    final File dataFile = new File(Environment.BASE_DIR, "unionbandata.json");
 
     public void load() {
         DirectoryAccessor.initFile(dataFile);
         try (JsonReader jsonReader = new JsonReader(new FileReader(dataFile))) {
-            dataList = new Gson().fromJson(jsonReader, new TypeToken<ArrayList<UnionBanData>>() {
+            dataList = GsonUtil.createGson().fromJson(jsonReader, new TypeToken<ArrayList<UnionBanData>>() {
             }.getType());
 
             jsonReader.close();
@@ -50,7 +50,7 @@ public class LocalDataManager {
         DirectoryAccessor.initFile(dataFile);
         try {
             FileWriter fileWriter = new FileWriter(dataFile);
-            fileWriter.write(new Gson().toJson(dataList));
+            fileWriter.write(GsonUtil.createGson().toJson(dataList));
             fileWriter.close();
         } catch (Exception exception) {
             LOGGER.warning("Failed to save UnionBan data file" + exception.getMessage());
