@@ -2,7 +2,6 @@ package fun.bm.chamomile.data.processor.report;
 
 import fun.bm.chamomile.util.MainEnv;
 import net.mamoe.mirai.message.data.Image;
-import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -18,7 +17,6 @@ import static fun.bm.chamomile.util.MainEnv.LOGGER;
  * function: Get image url and generate image to QQ Bot
  */
 public class ImageProcessor {
-
     public static String getImageUrl(Image message) {
         return Image.queryUrl(message);
     }
@@ -36,13 +34,15 @@ public class ImageProcessor {
 
     public static String processImageUrl(String imageurl) {
         try {
-            MessageChainBuilder builder = new MessageChainBuilder();
-            builder.append("[[CICode,url=").append(imageurl).append("]]");
-            return builder.build().contentToString();
+            return "[[CICode,url=" + imageurl + "]]";
         } catch (Exception e) {
             MainEnv.INSTANCE.getServer().broadcastMessage("一个错误发生于Chamomile内部，图片无法被展示，请前往控制台查看");
+            return imageurl;
         }
-        return imageurl;
+    }
+
+    public static String replaceUrl(String msg) {
+        return msg.replaceAll("\\[\\[CICode,url=[^\\]]*\\]\\]", "[图片]");
     }
 
     public static void reportCharmProcess(String message) {

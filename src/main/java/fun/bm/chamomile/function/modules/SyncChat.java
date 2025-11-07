@@ -22,8 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static fun.bm.chamomile.command.modules.executor.extra.sub.data.Query.dataGet;
-import static fun.bm.chamomile.data.processor.report.ImageProcessor.processImageUrl;
-import static fun.bm.chamomile.data.processor.report.ImageProcessor.sendImageUrl;
+import static fun.bm.chamomile.data.processor.report.ImageProcessor.*;
 import static fun.bm.chamomile.util.MainEnv.LOGGER;
 import static fun.bm.chamomile.util.helper.RconHelper.executeRconCommand;
 
@@ -82,7 +81,7 @@ public class SyncChat extends Function {
                         String id = getID(event);
                         String message = SyncConfig.qqMessage.replace("%NAME%", avatar + id + "发送了以下消息").replace("%MESSAGE%", builder.build().contentToString().replace(SyncConfig.prefix, ""));
                         sendMessage(message);
-                        event.getGroup().sendMessage("已成功发送消息至服务器，以下为发送至服务器的原始数据：\n" + message.replaceAll("\\[\\[CICode,url=[^\\]]*\\]\\]", "[图片]"));
+                        event.getGroup().sendMessage("已成功发送消息至服务器，以下为发送至服务器的原始数据：\n" + replaceUrl(message));
                     } else if (CoreConfig.official) {
                         sendMessage(SyncConfig.qqMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()));
                     }
