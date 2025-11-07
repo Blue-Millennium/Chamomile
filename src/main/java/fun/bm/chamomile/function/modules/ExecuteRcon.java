@@ -6,6 +6,7 @@ import fun.bm.chamomile.config.modules.ServerConfig;
 import fun.bm.chamomile.data.manager.data.Data;
 import fun.bm.chamomile.function.Function;
 import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.helper.MainThreadHelper;
 import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.Message;
@@ -63,53 +64,55 @@ public class ExecuteRcon extends Function {
                 return;
             }
         }
-        MainEnv.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
-            if (!CoreConfig.official && !RconGroups.contains(event.getGroup().getId())) {
-                return;
-            }
+        MainThreadHelper.botFuture.thenRun(() -> {
+            MainEnv.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
+                if (!CoreConfig.official && !RconGroups.contains(event.getGroup().getId())) {
+                    return;
+                }
 
-            Message message = event.getMessage();
-            String content = message.contentToString();
+                Message message = event.getMessage();
+                String content = message.contentToString();
 
-            if (content.replace(" ", "").startsWith(RconConfig.prefix.replace(" ", ""))) {
-                String command = content.replace(RconConfig.prefix, "");
-                while (command.startsWith(" ")) command = command.substring(1);
-                boolean isOperator = false;
-                boolean isAuthenticated = false;
-                if (!CoreConfig.official) {
-                    isOperator = event.getSender().getPermission().equals(MemberPermission.ADMINISTRATOR)
-                            || event.getSender().getPermission().equals(MemberPermission.OWNER);
-                } else {
-                    List<Data> dataList = dataGet.getPlayersByUserID(event.getGroup().getId());
-                    if (!dataList.isEmpty()) {
-                        for (Data data : dataList) {
-                            isAuthenticated = true;
-                            for (OfflinePlayer player : Bukkit.getServer().getOperators()) {
-                                if (player.getUniqueId().equals(data.playerData.playerUuid)) {
-                                    isOperator = true;
-                                    break;
+                if (content.replace(" ", "").startsWith(RconConfig.prefix.replace(" ", ""))) {
+                    String command = content.replace(RconConfig.prefix, "");
+                    while (command.startsWith(" ")) command = command.substring(1);
+                    boolean isOperator = false;
+                    boolean isAuthenticated = false;
+                    if (!CoreConfig.official) {
+                        isOperator = event.getSender().getPermission().equals(MemberPermission.ADMINISTRATOR)
+                                || event.getSender().getPermission().equals(MemberPermission.OWNER);
+                    } else {
+                        List<Data> dataList = dataGet.getPlayersByUserID(event.getGroup().getId());
+                        if (!dataList.isEmpty()) {
+                            for (Data data : dataList) {
+                                isAuthenticated = true;
+                                for (OfflinePlayer player : Bukkit.getServer().getOperators()) {
+                                    if (player.getUniqueId().equals(data.playerData.playerUuid)) {
+                                        isOperator = true;
+                                        break;
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                if (!isAuthenticated) {
-                    event.getGroup().sendMessage(new MessageChainBuilder()
-                            .append(new PlainText("您还未绑定账户。"))
-                            .build());
-                    return;
-                }
-                if (RconConfig.enforceOperator) {
-                    if (!isOperator) {
+                    if (!isAuthenticated) {
                         event.getGroup().sendMessage(new MessageChainBuilder()
-                                .append(new PlainText("您没有权限执行此操作。"))
+                                .append(new PlainText("您还未绑定账户。"))
                                 .build());
                         return;
                     }
+                    if (RconConfig.enforceOperator) {
+                        if (!isOperator) {
+                            event.getGroup().sendMessage(new MessageChainBuilder()
+                                    .append(new PlainText("您没有权限执行此操作。"))
+                                    .build());
+                            return;
+                        }
+                    }
+                    String[] result = executeRconCommand(RconConfig.ip, RconConfig.port, RconConfig.password, command);
+                    handleConsoleResult(result, event);
                 }
-                String[] result = executeRconCommand(RconConfig.ip, RconConfig.port, RconConfig.password, command);
-                handleConsoleResult(result, event);
-            }
+            });
         });
     }
 
