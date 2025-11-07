@@ -32,10 +32,10 @@ dependencies {
     implementation 'top.mrxiaom.mirai:overflow-core:1.0.5'
     implementation 'net.mamoe:mirai-core-api:2.16.0'
     implementation 'org.glavo:rcon-java:3.0'
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.19.1'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.19.1'
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.19.1'
-    implementation 'com.electronwill.night-config:toml:3.8.2'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.20.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.1'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.20'
+    implementation 'com.electronwill.night-config:toml:3.8.3'
 }
 
 tasks {

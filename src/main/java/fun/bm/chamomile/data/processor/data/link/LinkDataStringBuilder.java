@@ -13,7 +13,10 @@ import static fun.bm.chamomile.data.processor.data.DataStringBuilder.transformTi
 
 public class LinkDataStringBuilder {
     public static String buildLinkDataString(String name) {
-        Data data = MainEnv.dataManager.getPlayerDataByName(name);
+        return buildLinkDataString(MainEnv.dataManager.getPlayerDataByName(name));
+    }
+
+    public static String buildLinkDataString(Data data) {
         StringBuilder result = new StringBuilder();
         if (data != null) {
             List<LinkData> linkDataList = data.linkData;

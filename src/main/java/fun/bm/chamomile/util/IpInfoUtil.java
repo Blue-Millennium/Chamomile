@@ -1,6 +1,5 @@
 package fun.bm.chamomile.util;
 
-import com.google.gson.Gson;
 import fun.bm.chamomile.util.map.IpLocationMap;
 import fun.bm.chamomile.util.map.IpinfoMap;
 
@@ -24,7 +23,7 @@ public class IpInfoUtil {
             if (bytes == null) return null;
 
             String jsonStr = new String(bytes);
-            return new Gson().fromJson(jsonStr, responseType);
+            return GsonUtil.createGson().fromJson(jsonStr, responseType);
         } catch (Exception e) {
             LOGGER.warning("Error getting IP info: " + e.getMessage());
             return null;

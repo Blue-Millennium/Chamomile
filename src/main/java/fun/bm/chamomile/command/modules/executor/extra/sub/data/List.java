@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-import static fun.bm.chamomile.command.modules.executor.extra.sub.data.Query.dataGet;
 import static fun.bm.chamomile.data.processor.data.DataStringBuilder.buildDataString;
 import static fun.bm.chamomile.util.MainEnv.LOGGER;
 import static fun.bm.chamomile.util.helper.CommandHelper.operatorCheck;
@@ -44,13 +43,13 @@ public class List extends Command.ExecutorE {
             }
             try {
                 if (start == -1) {
-                    buildDataString(sender, dataGet.transformListDataToJson(MainEnv.dataManager.DATA_LIST));
+                    buildDataString(sender, MainEnv.dataManager.DATA_LIST);
                 } else {
                     start--;
                     end--;
                     java.util.List<Data> data = new ArrayList<>();
                     for (int i = start; i <= end; i++) data.add(MainEnv.dataManager.DATA_LIST.get(i));
-                    buildDataString(sender, dataGet.transformListDataToJson(data));
+                    buildDataString(sender, data);
                 }
             } catch (Exception e) {
                 sender.sendMessage("§c出现内部错误");

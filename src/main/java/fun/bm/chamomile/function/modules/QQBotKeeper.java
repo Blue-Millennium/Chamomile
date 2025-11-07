@@ -3,6 +3,7 @@ package fun.bm.chamomile.function.modules;
 import fun.bm.chamomile.config.modules.Bot.CoreConfig;
 import fun.bm.chamomile.function.Function;
 import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.helper.MainThreadHelper;
 import org.bukkit.Bukkit;
 
 import static fun.bm.chamomile.util.MainEnv.LOGGER;
@@ -24,9 +25,11 @@ public class QQBotKeeper extends Function {
     }
 
     public void scheduleTask() {
-        if (flag_continue && !MainEnv.BOT.isOnline()) {
-            MainEnv.BOT.login();
-            LOGGER.warning("Trying to re-login BOT, result: " + (MainEnv.BOT.isOnline() ? "success" : "fault"));
+        if (flag_continue && MainThreadHelper.isBotRunning() && !MainEnv.BOT.isOnline()) {
+            if (MainThreadHelper.isBotRunning()) {
+                MainEnv.BOT.login();
+                LOGGER.warning("Trying to re-login BOT, result: " + (MainEnv.BOT.isOnline() ? "success" : "fault"));
+            }
         }
     }
 

@@ -34,8 +34,7 @@ public class DataQueryByUUID extends Command.ExecutorE {
             LOGGER.info(String.valueOf(e));
             return true;
         }
-        String playerJson = Query.dataGet.getPlayersByUUIDAsJson(Uuid);
-        return buildDataString(sender, playerJson);
+        return buildDataString(sender, Query.dataGet.getPlayersByUUID(Uuid));
     }
 
     private String insertHyphens(String uuid) {

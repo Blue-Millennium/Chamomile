@@ -1,8 +1,8 @@
 package fun.bm.chamomile.util.helper;
 
-import com.google.gson.Gson;
 import fun.bm.chamomile.config.modules.ServerConfig;
 import fun.bm.chamomile.config.modules.WebhookConfig;
+import fun.bm.chamomile.util.GsonUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +34,7 @@ public class EmailSender {
 
     private boolean processWebhookData(Data_Sub data) {
         try {
-            String jsonInputString = new Gson().toJson(data);
+            String jsonInputString = GsonUtil.createGson().toJson(data);
 
             if (fetch(WebhookConfig.webhookUrl, null, true, jsonInputString) == null) {
                 return true;

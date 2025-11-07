@@ -36,7 +36,6 @@ public class DataQueryByQQ extends Command.ExecutorE {
         if (QQNum == 0) {
             return true;
         }
-        String playerJson = Query.dataGet.getPlayersByQQAsJson(QQNum);
-        return buildDataString(sender, playerJson);
+        return buildDataString(sender, Query.dataGet.getPlayersByQQ(QQNum));
     }
 }

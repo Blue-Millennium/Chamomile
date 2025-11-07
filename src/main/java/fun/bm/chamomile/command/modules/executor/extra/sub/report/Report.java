@@ -6,6 +6,7 @@ import fun.bm.chamomile.config.modules.WebhookConfig;
 import fun.bm.chamomile.data.manager.report.ReportDataManager;
 import fun.bm.chamomile.util.MainEnv;
 import fun.bm.chamomile.util.TimeUtil;
+import fun.bm.chamomile.util.helper.MainThreadHelper;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.message.data.AtAll;
@@ -68,7 +69,7 @@ public class Report extends Command.ExecutorE {
                         LOGGER.warning(e.getMessage());
                     }
 
-                    if (CoreConfig.enabled && !CoreConfig.official && !ReportGroups.isEmpty()) {
+                    if (CoreConfig.enabled && !CoreConfig.official && !ReportGroups.isEmpty() && MainThreadHelper.isBotRunning()) {
                         for (long groupId : ReportGroups) {
                             MessageChainBuilder builder_qq = new MessageChainBuilder();
                             Group reportGroup = MainEnv.BOT.getGroup(groupId);

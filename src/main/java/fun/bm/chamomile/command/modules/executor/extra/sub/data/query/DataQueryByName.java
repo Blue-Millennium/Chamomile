@@ -25,7 +25,6 @@ public class DataQueryByName extends Command.ExecutorE {
             LOGGER.info(String.valueOf(e));
             return true;
         }
-        String playerJson = Query.dataGet.getPlayersByNameAsJson(Name);
-        return buildDataString(sender, playerJson);
+        return buildDataString(sender, Query.dataGet.getPlayersByName(Name));
     }
 }

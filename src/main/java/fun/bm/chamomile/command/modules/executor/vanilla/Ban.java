@@ -8,6 +8,7 @@ import fun.bm.chamomile.config.modules.WebhookConfig;
 import fun.bm.chamomile.function.modules.UnionBan;
 import fun.bm.chamomile.util.MainEnv;
 import fun.bm.chamomile.util.TimeUtil;
+import fun.bm.chamomile.util.helper.MainThreadHelper;
 import net.mamoe.mirai.contact.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -38,7 +39,7 @@ public class Ban extends Command.ExecutorV {
         if (CoreConfig.enabled & !CoreConfig.official) {
             List<Long> Groups = ReportGroups;
             Groups.addAll(SyncGroups);
-            if (!Groups.isEmpty()) {
+            if (!Groups.isEmpty() && MainThreadHelper.isBotRunning()) {
                 for (long groupId : Groups) {
                     try {
                         Group reportGroup = MainEnv.BOT.getGroup(groupId);

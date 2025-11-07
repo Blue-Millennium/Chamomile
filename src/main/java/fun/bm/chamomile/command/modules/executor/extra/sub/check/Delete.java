@@ -25,7 +25,7 @@ public class Delete extends Command.ExecutorE {
 
     public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0 || !args[0].matches("\\d+")) {
-            buildLinkDataString(sender.getName());
+            sender.sendMessage(buildLinkDataString(sender.getName()));
             sender.sendMessage("§4请输入时间戳");
         } else {
             if (linkDataProcess(sender.getName(), args[0])) {

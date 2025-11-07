@@ -9,6 +9,7 @@ import fun.bm.chamomile.data.manager.data.link.UseridLinkData;
 import fun.bm.chamomile.function.Function;
 import fun.bm.chamomile.function.modules.data.QQCheck;
 import fun.bm.chamomile.util.MainEnv;
+import fun.bm.chamomile.util.helper.MainThreadHelper;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.*;
@@ -34,57 +35,59 @@ public class SyncChat extends Function {
     }
 
     public void onEnable() {
-        String[] groupIds = SyncConfig.groups.split(";");
-        for (String groupId : groupIds) {
-            try {
-                String id = groupId.trim();
-                if (id.isEmpty()) {
-                    continue;
+        MainThreadHelper.botFuture.thenRun(() -> {
+            String[] groupIds = SyncConfig.groups.split(";");
+            for (String groupId : groupIds) {
+                try {
+                    String id = groupId.trim();
+                    if (id.isEmpty()) {
+                        continue;
+                    }
+                    SyncGroups.add(Long.parseLong(id));
+                } catch (NumberFormatException e) {
+                    LOGGER.warning("[SyncChat] Invalid group ID: " + groupId);
                 }
-                SyncGroups.add(Long.parseLong(id));
-            } catch (NumberFormatException e) {
-                LOGGER.warning("[SyncChat] Invalid group ID: " + groupId);
             }
-        }
 
-        if (!CoreConfig.official) {
-            if (SyncGroups.isEmpty()) {
-                LOGGER.warning("Failed to get sync group");
-                MainEnv.configManager.setConfigAndSave("bot.sync-chat.enabled", false);
-                return;
-            }
-        }
-
-        MainEnv.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
-            for (long groupId : SyncGroups) {
-                Group syncGroup = MainEnv.BOT.getGroup(groupId);
-                if (!CoreConfig.official & (!SyncConfig.enabled || event.getGroup() != syncGroup)) {
+            if (!CoreConfig.official) {
+                if (SyncGroups.isEmpty()) {
+                    LOGGER.warning("Failed to get sync group");
+                    MainEnv.configManager.setConfigAndSave("bot.sync-chat.enabled", false);
                     return;
                 }
             }
-            MessageChainBuilder builder = new MessageChainBuilder();
-            for (Message message : event.getMessage()) {
-                if (message instanceof PlainText || message instanceof At || message instanceof AtAll) {
-                    builder.add(message);
-                } else if (message instanceof Image image) {
-                    builder.add(sendImageUrl(image));
-                }
-            }
 
-            if (!builder.isEmpty()) {
-                if (AuthConfig.enabled && builder.build().contentToString().replace(" ", "").startsWith(AuthConfig.prefix.replace(" ", ""))) {
-                    QQCheck.groupCheck(event, builder);
-                } else if (CoreConfig.official && builder.build().contentToString().replace(" ", "").startsWith(SyncConfig.prefix.replace(" ", ""))) {
-                    while (builder.build().contentToString().startsWith(" ")) builder.remove(0);
-                    String avatar = "QQ用户" + processImageUrl(event.getSender().getAvatarUrl());
-                    String id = getID(event);
-                    String message = SyncConfig.qqMessage.replace("%NAME%", avatar + id + "发送了以下消息").replace("%MESSAGE%", builder.build().contentToString().replace(SyncConfig.prefix, ""));
-                    sendMessage(message);
-                    event.getGroup().sendMessage("已成功发送消息至服务器，以下为发送至服务器的原始数据：\n" + message.replaceAll("\\[\\[CICode,url=[^\\]]*\\]\\]", "[图片]"));
-                } else if (CoreConfig.official) {
-                    sendMessage(SyncConfig.qqMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()));
+            MainEnv.eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
+                for (long groupId : SyncGroups) {
+                    Group syncGroup = MainEnv.BOT.getGroup(groupId);
+                    if (!CoreConfig.official & (!SyncConfig.enabled || event.getGroup() != syncGroup)) {
+                        return;
+                    }
                 }
-            }
+                MessageChainBuilder builder = new MessageChainBuilder();
+                for (Message message : event.getMessage()) {
+                    if (message instanceof PlainText || message instanceof At || message instanceof AtAll) {
+                        builder.add(message);
+                    } else if (message instanceof Image image) {
+                        builder.add(sendImageUrl(image));
+                    }
+                }
+
+                if (!builder.isEmpty()) {
+                    if (AuthConfig.enabled && builder.build().contentToString().replace(" ", "").startsWith(AuthConfig.prefix.replace(" ", ""))) {
+                        QQCheck.groupCheck(event, builder);
+                    } else if (CoreConfig.official && builder.build().contentToString().replace(" ", "").startsWith(SyncConfig.prefix.replace(" ", ""))) {
+                        while (builder.build().contentToString().startsWith(" ")) builder.remove(0);
+                        String avatar = "QQ用户" + processImageUrl(event.getSender().getAvatarUrl());
+                        String id = getID(event);
+                        String message = SyncConfig.qqMessage.replace("%NAME%", avatar + id + "发送了以下消息").replace("%MESSAGE%", builder.build().contentToString().replace(SyncConfig.prefix, ""));
+                        sendMessage(message);
+                        event.getGroup().sendMessage("已成功发送消息至服务器，以下为发送至服务器的原始数据：\n" + message.replaceAll("\\[\\[CICode,url=[^\\]]*\\]\\]", "[图片]"));
+                    } else if (CoreConfig.official) {
+                        sendMessage(SyncConfig.qqMessage.replace("%NAME%", event.getSenderName()).replace("%MESSAGE%", builder.build().contentToString()));
+                    }
+                }
+            });
         });
     }
 
@@ -150,7 +153,7 @@ public class SyncChat extends Function {
     }
 
     private boolean needSync() {
-        return SyncConfig.enabled & !SyncConfig.qqToServerOnly & !CoreConfig.official;
+        return SyncConfig.enabled && !SyncConfig.qqToServerOnly && !CoreConfig.official && MainThreadHelper.isBotRunning();
     }
 
     public void setModuleName() {

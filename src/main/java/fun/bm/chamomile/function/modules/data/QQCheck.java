@@ -10,6 +10,7 @@ import fun.bm.chamomile.data.manager.data.player.PlayerData;
 import fun.bm.chamomile.function.Function;
 import fun.bm.chamomile.util.MainEnv;
 import fun.bm.chamomile.util.TimeUtil;
+import fun.bm.chamomile.util.helper.MainThreadHelper;
 import net.mamoe.mirai.event.events.FriendMessageEvent;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.event.events.MessageEvent;
@@ -165,19 +166,21 @@ public class QQCheck extends Function {
     }
 
     public void onEnable() {
-        if (!CoreConfig.official)
-            MainEnv.eventChannel.subscribeAlways(NewFriendRequestEvent.class, NewFriendRequestEvent::accept);
+        MainThreadHelper.botFuture.thenRun(() -> {
+            if (!CoreConfig.official)
+                MainEnv.eventChannel.subscribeAlways(NewFriendRequestEvent.class, NewFriendRequestEvent::accept);
 
-        MainEnv.eventChannel.subscribeAlways(FriendMessageEvent.class, event -> {
-            String message = event.getMessage().contentToString();
+            MainEnv.eventChannel.subscribeAlways(FriendMessageEvent.class, event -> {
+                String message = event.getMessage().contentToString();
 
-            int code;
-            try {
-                code = Integer.parseInt(message);
-            } catch (Exception exception) {
-                return;
-            }
-            event.getSender().sendMessage(dataCheck(event, code));
+                int code;
+                try {
+                    code = Integer.parseInt(message);
+                } catch (Exception exception) {
+                    return;
+                }
+                event.getSender().sendMessage(dataCheck(event, code));
+            });
         });
     }
 
@@ -220,10 +223,13 @@ public class QQCheck extends Function {
                     }
                 }
                 Data data = MainEnv.dataManager.getPlayerData(event.getPlayer().getUniqueId());
-                if (code != -1 && data.linkData.isEmpty()) {
-                    player.sendMessage(AuthConfig.disconnectMessage.replace("%CODE%", String.valueOf(code)));
-                } else {
+                if (!data.linkData.isEmpty()) {
                     player.sendMessage(AuthConfig.connectMessage);
+                } else {
+                    if (code == -1) {
+                        code = generateCode(data);
+                    }
+                    player.sendMessage(AuthConfig.disconnectMessage.replace("%CODE%", String.valueOf(code)));
                 }
             } catch (Exception e) {
                 LOGGER.warning(e.getMessage());
