@@ -78,10 +78,13 @@ public class ExecuteRcon extends Function {
                     while (command.startsWith(" ")) command = command.substring(1);
                     boolean isOperator = false;
                     boolean isAuthenticated = false;
-                    if (!CoreConfig.official) {
+                    if (!CoreConfig.official && RconConfig.allowGroupPermissions) {
                         isOperator = event.getSender().getPermission().equals(MemberPermission.ADMINISTRATOR)
                                 || event.getSender().getPermission().equals(MemberPermission.OWNER);
-                    } else {
+                    }
+                    if (isOperator) {
+                        isAuthenticated = true;
+                    } else if (RconConfig.allowPlayerPermissions) {
                         List<Data> dataList = dataGet.getPlayersByUserID(event.getGroup().getId());
                         if (!dataList.isEmpty()) {
                             for (Data data : dataList) {

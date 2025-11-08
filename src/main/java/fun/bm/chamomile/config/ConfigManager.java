@@ -98,7 +98,7 @@ public class ConfigManager {
                                 if (success) removeConfig(oldConfigKeyName, transformedConfig.category());
                                 final String comments = configInfo.comment();
 
-                                if (!comments.isBlank()) commentedFileConfig.setComment(fullConfigKeyName, comments);
+                                commentedFileConfig.setComment(fullConfigKeyName, comments); // always reset comments
 
                                 if (!removed && commentedFileConfig.get(fullConfigKeyName) != null) break;
                             }
