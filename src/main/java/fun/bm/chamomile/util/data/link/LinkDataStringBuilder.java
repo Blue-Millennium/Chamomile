@@ -1,4 +1,4 @@
-package fun.bm.chamomile.data.processor.data.link;
+package fun.bm.chamomile.util.data.link;
 
 import fun.bm.chamomile.data.manager.data.Data;
 import fun.bm.chamomile.data.manager.data.link.LinkData;
@@ -8,8 +8,8 @@ import fun.bm.chamomile.util.Environment;
 
 import java.util.List;
 
-import static fun.bm.chamomile.data.processor.data.DataStringBuilder.appendIfNotNull;
-import static fun.bm.chamomile.data.processor.data.DataStringBuilder.transformTime;
+import static fun.bm.chamomile.util.data.DataStringBuilder.appendIfNotNull;
+import static fun.bm.chamomile.util.data.DataStringBuilder.transformTime;
 
 public class LinkDataStringBuilder {
     public static String buildLinkDataString(String name) {

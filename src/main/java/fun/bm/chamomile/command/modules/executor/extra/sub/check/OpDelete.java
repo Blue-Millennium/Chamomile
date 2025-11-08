@@ -4,7 +4,7 @@ import fun.bm.chamomile.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.bm.chamomile.data.processor.data.link.LinkDataStringBuilder.buildLinkDataString;
+import static fun.bm.chamomile.util.data.link.LinkDataStringBuilder.buildLinkDataString;
 import static fun.bm.chamomile.util.helper.CommandHelper.operatorCheck;
 
 public class OpDelete extends Command.ExecutorE {

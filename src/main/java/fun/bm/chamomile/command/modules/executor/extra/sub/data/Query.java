@@ -5,7 +5,7 @@ import fun.bm.chamomile.command.modules.executor.extra.sub.data.query.DataQueryB
 import fun.bm.chamomile.command.modules.executor.extra.sub.data.query.DataQueryByQQ;
 import fun.bm.chamomile.command.modules.executor.extra.sub.data.query.DataQueryByUUID;
 import fun.bm.chamomile.command.modules.executor.extra.sub.data.query.DataQueryByUserID;
-import fun.bm.chamomile.data.processor.data.DataGet;
+import fun.bm.chamomile.util.data.DataGet;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 

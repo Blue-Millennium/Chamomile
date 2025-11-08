@@ -1,6 +1,5 @@
-package fun.bm.chamomile.data.processor.report;
+package fun.bm.chamomile.util;
 
-import fun.bm.chamomile.util.Environment;
 import net.mamoe.mirai.message.data.Image;
 
 import javax.imageio.ImageIO;
@@ -18,27 +17,20 @@ import static fun.bm.chamomile.util.Environment.LOGGER;
  */
 public class ImageProcessor {
     public static String getImageUrl(Image message) {
-        return Image.queryUrl(message);
+        try {
+            return Image.queryUrl(message);
+        } catch (Exception e) {
+            Environment.INSTANCE.getServer().broadcastMessage("一个错误发生于Chamomile内部，图片无法被展示，请前往控制台查看");
+            return null;
+        }
     }
 
     public static String sendImageUrl(Image message) {
-        String value = null;
-        try {
-            String imageurl = getImageUrl(message);
-            value = processImageUrl(imageurl);
-        } catch (Exception e) {
-            Environment.INSTANCE.getServer().broadcastMessage("一个错误发生于Chamomile内部，图片无法被展示，请前往控制台查看");
-        }
-        return value;
+        return processImageUrl(getImageUrl(message));
     }
 
     public static String processImageUrl(String imageurl) {
-        try {
-            return "[[CICode,url=" + imageurl + "]]";
-        } catch (Exception e) {
-            Environment.INSTANCE.getServer().broadcastMessage("一个错误发生于Chamomile内部，图片无法被展示，请前往控制台查看");
-            return imageurl;
-        }
+        return imageurl == null ? "[图片(由于Chamomile内部错误无法展示)]" : "[[CICode,url=" + imageurl + "]]";
     }
 
     public static String replaceUrl(String msg) {

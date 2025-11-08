@@ -6,7 +6,7 @@ import fun.bm.chamomile.util.Environment;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.bm.chamomile.data.processor.data.link.LinkDataStringBuilder.buildLinkDataString;
+import static fun.bm.chamomile.util.data.link.LinkDataStringBuilder.buildLinkDataString;
 
 public class Delete extends Command.ExecutorE {
     public Delete() {

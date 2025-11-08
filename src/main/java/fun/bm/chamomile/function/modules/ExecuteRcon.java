@@ -22,8 +22,8 @@ import java.util.List;
 
 import static fun.bm.chamomile.command.modules.executor.extra.sub.data.Query.dataGet;
 import static fun.bm.chamomile.command.modules.executor.extra.sub.report.ReportQuery.message_head;
-import static fun.bm.chamomile.data.processor.report.ImageProcessor.reportCharmProcess;
 import static fun.bm.chamomile.util.Environment.LOGGER;
+import static fun.bm.chamomile.util.ImageProcessor.reportCharmProcess;
 import static fun.bm.chamomile.util.helper.RconHelper.executeRconCommand;
 
 /**

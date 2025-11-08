@@ -1,8 +1,8 @@
-package fun.bm.chamomile.data.processor.data;
+package fun.bm.chamomile.util.data;
 
 import fun.bm.chamomile.data.manager.data.Data;
 import fun.bm.chamomile.data.manager.data.player.OldName;
-import fun.bm.chamomile.data.processor.data.link.LinkDataStringBuilder;
+import fun.bm.chamomile.util.data.link.LinkDataStringBuilder;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 

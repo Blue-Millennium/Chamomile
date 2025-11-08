@@ -1,4 +1,4 @@
-package fun.bm.chamomile.data.processor.data;
+package fun.bm.chamomile.util.data;
 
 import fun.bm.chamomile.data.manager.data.Data;
 import fun.bm.chamomile.data.manager.data.link.QQLinkData;
