@@ -1,10 +1,7 @@
 package fun.bm.chamomile.function.modules;
 
 import fun.bm.chamomile.config.modules.UnionBanConfig;
-import fun.bm.chamomile.data.manager.unionban.CrossRegionDataManager;
-import fun.bm.chamomile.data.manager.unionban.LocalDataManager;
-import fun.bm.chamomile.data.manager.unionban.OnlineDataManager;
-import fun.bm.chamomile.data.manager.unionban.UnionBanData;
+import fun.bm.chamomile.data.unionban.UnionBanData;
 import fun.bm.chamomile.function.Function;
 import fun.bm.chamomile.util.Environment;
 import org.bukkit.Bukkit;
@@ -16,9 +13,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class UnionBan extends Function {
-    public static LocalDataManager localBanDataManager = new LocalDataManager();
-    public static OnlineDataManager onlineBanDataManager = new OnlineDataManager();
-    public static CrossRegionDataManager crossRegionBanDataManager = new CrossRegionDataManager();
     public static List<UnionBanData> dataList;
     private static CompletableFuture<Void> task;
     boolean flag_continue = true;
@@ -29,8 +23,8 @@ public class UnionBan extends Function {
 
     public void onLoad() {
         CompletableFuture.runAsync(() -> {
-            localBanDataManager.load();
-            crossRegionBanDataManager.mergeAndReportData(true);
+            Environment.dataManager.unionBanDataManager.localBanDataManager.load();
+            Environment.dataManager.unionBanDataManager.crossRegionBanDataManager.mergeAndReportData(true);
         });
     }
 
@@ -55,7 +49,7 @@ public class UnionBan extends Function {
     }
 
     public void scheduleTask(boolean flag) {
-        crossRegionBanDataManager.mergeAndReportData(flag);
+        Environment.dataManager.unionBanDataManager.crossRegionBanDataManager.mergeAndReportData(flag);
         if (flag_continue) {
             Bukkit.getScheduler().runTaskLater(Environment.INSTANCE, () -> continueTask(false, true), UnionBanConfig.mergePeriod * 20L);
         }

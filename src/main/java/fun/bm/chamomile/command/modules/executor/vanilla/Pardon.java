@@ -3,8 +3,9 @@ package fun.bm.chamomile.command.modules.executor.vanilla;
 import fun.bm.chamomile.command.Command;
 import fun.bm.chamomile.config.modules.ServerConfig;
 import fun.bm.chamomile.config.modules.UnionBanConfig;
-import fun.bm.chamomile.data.manager.unionban.UnionBanData;
+import fun.bm.chamomile.data.unionban.UnionBanData;
 import fun.bm.chamomile.function.modules.UnionBan;
+import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.TimeUtil;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
@@ -62,7 +63,7 @@ public class Pardon extends Command.ExecutorV {
         if (!UnionBanConfig.pullOnly) {
             for (UnionBanData data : UnionBan.dataList) {
                 if (data.playerName.equals(playerName) || data.playerUuid.toString().equals(playerName)) {
-                    UnionBan.crossRegionBanDataManager.reportBanData(data.playerName, data.playerUuid, TimeUtil.getUnixTimeMs(), "Pardon", ServerConfig.serverName);
+                    Environment.dataManager.unionBanDataManager.crossRegionBanDataManager.reportBanData(data.playerName, data.playerUuid, TimeUtil.getUnixTimeMs(), "Pardon", ServerConfig.serverName);
                     return;
                 }
             }

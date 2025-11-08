@@ -4,8 +4,8 @@ import fun.bm.chamomile.config.modules.Bot.AuthConfig;
 import fun.bm.chamomile.config.modules.Bot.CoreConfig;
 import fun.bm.chamomile.config.modules.Bot.RconConfig;
 import fun.bm.chamomile.config.modules.Bot.SyncConfig;
-import fun.bm.chamomile.data.manager.data.Data;
-import fun.bm.chamomile.data.manager.data.link.UseridLinkData;
+import fun.bm.chamomile.data.basedata.BaseData;
+import fun.bm.chamomile.data.basedata.link.UseridLinkData;
 import fun.bm.chamomile.function.Function;
 import fun.bm.chamomile.function.modules.data.QQCheck;
 import fun.bm.chamomile.util.Environment;
@@ -97,9 +97,9 @@ public class SyncChat extends Function {
 
     public String getID(GroupMessageEvent event) {
         List<String> pd = new ArrayList<>();
-        List<Data> dataList = dataGet.getPlayersByUserID(event.getGroup().getId());
+        List<BaseData> dataList = dataGet.getPlayersByUserID(event.getGroup().getId());
         if (!dataList.isEmpty()) {
-            for (Data data : dataList) {
+            for (BaseData data : dataList) {
                 if (!data.linkData.isEmpty()
                         && data.linkData.stream()
                         .anyMatch(linkData -> (CoreConfig.official && linkData instanceof UseridLinkData

@@ -1,7 +1,7 @@
-package fun.bm.chamomile.data.manager.data;
+package fun.bm.chamomile.data.basedata;
 
-import fun.bm.chamomile.data.manager.data.link.LinkData;
-import fun.bm.chamomile.data.manager.data.player.PlayerData;
+import fun.bm.chamomile.data.basedata.link.LinkData;
+import fun.bm.chamomile.data.basedata.player.PlayerData;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * @author Liycxc
  * Date: 2024/7/17 下午6:01
  */
-public class Data {
+public class BaseData {
     public PlayerData playerData;
     public List<LinkData> linkData;
     public Boolean qqChecked = false;

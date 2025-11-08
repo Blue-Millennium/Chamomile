@@ -1,4 +1,4 @@
-package fun.bm.chamomile.data.manager.report;
+package fun.bm.chamomile.data.report;
 
 import fun.bm.chamomile.util.Environment;
 import org.bukkit.command.CommandSender;
@@ -20,7 +20,6 @@ import static fun.bm.chamomile.util.data.DataStringBuilder.transformTime;
  * function: Manage report data
  */
 public class ReportDataManager {
-    public static ReportDataManager reportDataManager = new ReportDataManager();
     final File reportDataFile = new File(Environment.BASE_DIR, "report.csv");
 
     public boolean deleteData(String timestamp) {

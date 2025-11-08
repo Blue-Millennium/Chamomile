@@ -1,9 +1,8 @@
-package fun.bm.chamomile.data.manager.unionban;
+package fun.bm.chamomile.data.unionban;
 
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import fun.bm.chamomile.config.modules.ServerConfig;
-import fun.bm.chamomile.function.modules.UnionBan;
 import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.GsonUtil;
 import fun.bm.chamomile.util.TimeUtil;
@@ -79,7 +78,7 @@ public class LocalDataManager {
         try {
             ProfileBanList banlist = Bukkit.getBanList(BanList.Type.PROFILE);
             for (BanEntry<PlayerProfile> banEntry : banlist.getEntries()) {
-                UnionBanData data = UnionBan.localBanDataManager.getUnionBanData(banEntry.getBanTarget().getUniqueId());
+                UnionBanData data = Environment.dataManager.unionBanDataManager.localBanDataManager.getUnionBanData(banEntry.getBanTarget().getUniqueId());
                 if (data == null) {
                     data = new UnionBanData();
                     data.playerName = banEntry.getBanTarget().getName();
@@ -89,10 +88,10 @@ public class LocalDataManager {
                     data.reason = banEntry.getReason();
                     data.sourceServer = ServerConfig.serverName;
                     data.localTag = true;
-                    if (UnionBan.onlineBanDataManager.reportRemoteBanList(data)) {
+                    if (Environment.dataManager.unionBanDataManager.onlineBanDataManager.reportRemoteBanList(data)) {
                         data.reportTag = true;
                     }
-                    UnionBan.localBanDataManager.setPlayerData(data.playerUuid, data);
+                    Environment.dataManager.unionBanDataManager.localBanDataManager.setPlayerData(data.playerUuid, data);
                 }
             }
         } catch (Exception e) {

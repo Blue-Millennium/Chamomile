@@ -1,6 +1,7 @@
 package fun.bm.chamomile.command.modules.completer.extra.sub;
 
 import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.helper.CommandHelper;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +24,7 @@ public class Report extends Command.CompleterE {
         if (args.length == 1) {
             completions.addAll(CommandHelper.getOnlinePlayerList(args[0]));
         } else if (args.length == 2) {
-            fun.bm.chamomile.command.modules.executor.extra.sub.report.Report.reportDataManager.readReportFile().forEach(row -> {
+            Environment.dataManager.reportDataManager.readReportFile().forEach(row -> {
                 for (int i = 1; i < row.size(); i++) {
                     completions.add(row.get(i));
                 }

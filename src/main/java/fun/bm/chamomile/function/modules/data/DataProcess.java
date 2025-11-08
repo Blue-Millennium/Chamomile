@@ -1,12 +1,12 @@
 package fun.bm.chamomile.function.modules.data;
 
 import fun.bm.chamomile.config.modules.Bot.CoreConfig;
-import fun.bm.chamomile.data.manager.data.Data;
-import fun.bm.chamomile.data.manager.data.link.LinkData;
-import fun.bm.chamomile.data.manager.data.link.QQLinkData;
-import fun.bm.chamomile.data.manager.data.link.UseridLinkData;
-import fun.bm.chamomile.data.manager.data.player.OldName;
-import fun.bm.chamomile.data.manager.data.player.PlayerData;
+import fun.bm.chamomile.data.basedata.BaseData;
+import fun.bm.chamomile.data.basedata.link.LinkData;
+import fun.bm.chamomile.data.basedata.link.QQLinkData;
+import fun.bm.chamomile.data.basedata.link.UseridLinkData;
+import fun.bm.chamomile.data.basedata.player.OldName;
+import fun.bm.chamomile.data.basedata.player.PlayerData;
 import fun.bm.chamomile.function.Function;
 import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.TimeUtil;
@@ -28,8 +28,8 @@ public class DataProcess extends Function {
         super(moduleName);
     }
 
-    public static void baseDataProcess(AsyncPlayerPreLoginEvent event, Data data) {
-        data = Environment.dataManager.nullCheck(data);
+    public static void baseDataProcess(AsyncPlayerPreLoginEvent event, BaseData data) {
+        data = Environment.dataManager.baseDataManager.nullCheck(data);
         if (data.playerData == null) {
             PlayerData playerData = new PlayerData();
             playerData.playerName = event.getName();
@@ -61,21 +61,21 @@ public class DataProcess extends Function {
         data.lastJoin = TimeUtil.getUnixTimeMs();
         data.lastJoinIp = event.getAddress().getHostAddress();
 
-        Environment.dataManager.setPlayerData(event.getUniqueId(), data, true);
+        Environment.dataManager.baseDataManager.setPlayerData(event.getUniqueId(), data, true);
     }
 
     @EventHandler
     public void onPlayerLogout(PlayerQuitEvent event) {
         if (event == null) return;
-        Data data = Environment.dataManager.getPlayerData(event.getPlayer().getUniqueId());
+        BaseData data = Environment.dataManager.baseDataManager.getPlayerData(event.getPlayer().getUniqueId());
         data.lastLogout = TimeUtil.getUnixTimeMs();
-        Environment.dataManager.setPlayerData(event.getPlayer().getUniqueId(), data, true);
+        Environment.dataManager.baseDataManager.setPlayerData(event.getPlayer().getUniqueId(), data, true);
     }
 
     @EventHandler
     public void onAsyncPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
         if (event == null) return;
-        Data data = Environment.dataManager.getPlayerData(event.getUniqueId());
+        BaseData data = Environment.dataManager.baseDataManager.getPlayerData(event.getUniqueId());
         baseDataProcess(event, data);
     }
 

@@ -1,4 +1,4 @@
-package fun.bm.chamomile.data.manager.data.player;
+package fun.bm.chamomile.data.basedata.player;
 
 import java.util.List;
 import java.util.UUID;

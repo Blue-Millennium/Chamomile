@@ -24,7 +24,7 @@ public class Check extends Command.CompleterE {
             switch (args[0].toLowerCase()) {
                 case "bind", "opdel" -> completions.addAll(CommandHelper.getOnlinePlayerList(args[1]));
                 case "del" ->
-                        Environment.dataManager.getPlayerDataByName(sender.getName()).linkData.forEach(linkData -> completions.add(String.valueOf(linkData.linkedTime)));
+                        Environment.dataManager.baseDataManager.getPlayerDataByName(sender.getName()).linkData.forEach(linkData -> completions.add(String.valueOf(linkData.linkedTime)));
             }
         } else if (args.length == 3) {
             switch (args[0].toLowerCase()) {
@@ -33,7 +33,7 @@ public class Check extends Command.CompleterE {
                     completions.add("userid");
                 }
                 case "opdel" -> {
-                    Environment.dataManager.getPlayerDataByName(args[0]).linkData.forEach(linkData -> completions.add(String.valueOf(linkData.linkedTime)));
+                    Environment.dataManager.baseDataManager.getPlayerDataByName(args[0]).linkData.forEach(linkData -> completions.add(String.valueOf(linkData.linkedTime)));
                 }
             }
         }

@@ -3,7 +3,6 @@ package fun.bm.chamomile.command.modules.executor.extra.sub.report;
 import fun.bm.chamomile.command.Command;
 import fun.bm.chamomile.config.modules.Bot.CoreConfig;
 import fun.bm.chamomile.config.modules.WebhookConfig;
-import fun.bm.chamomile.data.manager.report.ReportDataManager;
 import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.TimeUtil;
 import fun.bm.chamomile.util.helper.EmailSender;
@@ -23,8 +22,6 @@ import static fun.bm.chamomile.function.modules.QQReporter.ReportGroups;
 import static fun.bm.chamomile.util.Environment.LOGGER;
 
 public class Report extends Command.ExecutorE {
-    public static ReportDataManager reportDataManager = new ReportDataManager();
-
     public Report() {
         super("report");
     }
@@ -44,7 +41,7 @@ public class Report extends Command.ExecutorE {
                     sender.sendMessage("§c你不能对自己使用");
                 } else {
                     // Data Save
-                    reportDataManager.processData(sender, args);
+                    Environment.dataManager.reportDataManager.processData(sender, args);
                     sender.sendMessage("§a举报已被记录，正在等待上报");
                     // Message Send
                     MessageChainBuilder builder = new MessageChainBuilder();

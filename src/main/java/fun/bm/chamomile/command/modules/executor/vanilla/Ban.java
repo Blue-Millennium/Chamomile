@@ -5,7 +5,6 @@ import fun.bm.chamomile.config.modules.Bot.CoreConfig;
 import fun.bm.chamomile.config.modules.ServerConfig;
 import fun.bm.chamomile.config.modules.UnionBanConfig;
 import fun.bm.chamomile.config.modules.WebhookConfig;
-import fun.bm.chamomile.function.modules.UnionBan;
 import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.TimeUtil;
 import fun.bm.chamomile.util.helper.EmailSender;
@@ -114,7 +113,7 @@ public class Ban extends Command.ExecutorV {
         String message = "玩家 " + targetPlayer.getName() + " 已被 " + sender.getName() + " 以[ " + reason + " ]的理由封禁";
         BanMessage("Local", message);
         if (!UnionBanConfig.pullOnly) {
-            UnionBan.crossRegionBanDataManager.reportBanData(targetPlayer.getName(), targetPlayer.getUniqueId(), TimeUtil.getUnixTimeMs(), reason, ServerConfig.serverName);
+            Environment.dataManager.unionBanDataManager.crossRegionBanDataManager.reportBanData(targetPlayer.getName(), targetPlayer.getUniqueId(), TimeUtil.getUnixTimeMs(), reason, ServerConfig.serverName);
         }
     }
 }

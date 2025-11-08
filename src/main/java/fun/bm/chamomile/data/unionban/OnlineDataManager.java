@@ -1,10 +1,10 @@
-package fun.bm.chamomile.data.manager.unionban;
+package fun.bm.chamomile.data.unionban;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fun.bm.chamomile.config.modules.UnionBanConfig;
-import fun.bm.chamomile.function.modules.UnionBan;
+import fun.bm.chamomile.util.Environment;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class OnlineDataManager {
         if (ret != null) {
             LOGGER.info("封禁数据上报成功");
             data.reportTag = true;
-            UnionBan.localBanDataManager.setPlayerData(data.playerUuid, data);
+            Environment.dataManager.unionBanDataManager.localBanDataManager.setPlayerData(data.playerUuid, data);
             return true;
         } else {
             LOGGER.info("封禁数据上报失败");

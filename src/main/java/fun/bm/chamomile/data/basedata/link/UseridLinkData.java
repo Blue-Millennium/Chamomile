@@ -1,4 +1,4 @@
-package fun.bm.chamomile.data.manager.data.link;
+package fun.bm.chamomile.data.basedata.link;
 
 public class UseridLinkData extends LinkData {
     public long userid;

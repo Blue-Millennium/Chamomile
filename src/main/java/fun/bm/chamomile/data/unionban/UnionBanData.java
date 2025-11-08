@@ -1,4 +1,4 @@
-package fun.bm.chamomile.data.manager.unionban;
+package fun.bm.chamomile.data.unionban;
 
 import java.util.UUID;
 

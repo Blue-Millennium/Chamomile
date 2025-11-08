@@ -1,19 +1,19 @@
 package fun.bm.chamomile.util.data;
 
-import fun.bm.chamomile.data.manager.data.Data;
-import fun.bm.chamomile.data.manager.data.link.QQLinkData;
-import fun.bm.chamomile.data.manager.data.link.UseridLinkData;
+import fun.bm.chamomile.data.basedata.BaseData;
+import fun.bm.chamomile.data.basedata.link.QQLinkData;
+import fun.bm.chamomile.data.basedata.link.UseridLinkData;
 import fun.bm.chamomile.util.Environment;
 
 import java.util.List;
 import java.util.UUID;
 
 public class DataGet {
-    public List<Data> getDataList() {
-        return Environment.dataManager.DATA_LIST;
+    public List<BaseData> getDataList() {
+        return Environment.dataManager.baseDataManager.DATA_LIST;
     }
 
-    public List<Data> getPlayersByUserID(long userID) {
+    public List<BaseData> getPlayersByUserID(long userID) {
         try {
             return getDataList().stream()
                     .filter(record -> record.linkData.stream()
@@ -24,7 +24,7 @@ public class DataGet {
         }
     }
 
-    public List<Data> getPlayersByQQ(long qqNumber) {
+    public List<BaseData> getPlayersByQQ(long qqNumber) {
         try {
             return getDataList().stream()
                     .filter(record -> record.linkData.stream()
@@ -35,17 +35,17 @@ public class DataGet {
         }
     }
 
-    public List<Data> getPlayersByName(String playerName) {
+    public List<BaseData> getPlayersByName(String playerName) {
         try {
-            return List.of(Environment.dataManager.getPlayerDataByName(playerName));
+            return List.of(Environment.dataManager.baseDataManager.getPlayerDataByName(playerName));
         } catch (Exception e) {
             return null;
         }
     }
 
-    public List<Data> getPlayersByUUID(UUID playerUuid) {
+    public List<BaseData> getPlayersByUUID(UUID playerUuid) {
         try {
-            return List.of(Environment.dataManager.getPlayerData(playerUuid));
+            return List.of(Environment.dataManager.baseDataManager.getPlayerData(playerUuid));
         } catch (Exception e) {
             return null;
         }

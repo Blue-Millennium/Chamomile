@@ -1,7 +1,7 @@
 package fun.bm.chamomile.util.data;
 
-import fun.bm.chamomile.data.manager.data.Data;
-import fun.bm.chamomile.data.manager.data.player.OldName;
+import fun.bm.chamomile.data.basedata.BaseData;
+import fun.bm.chamomile.data.basedata.player.OldName;
 import fun.bm.chamomile.util.data.link.LinkDataStringBuilder;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +15,7 @@ import static fun.bm.chamomile.util.Environment.LOGGER;
 
 public class DataStringBuilder {
 
-    public static String buildPlayerDataString(Data data) {
+    public static String buildPlayerDataString(BaseData data) {
         StringBuilder result = new StringBuilder();
         appendPlayerData(result, data);
         appendIfNotNull(result, "首次加入时间: ", transformTime(data.firstJoin));
@@ -43,7 +43,7 @@ public class DataStringBuilder {
         }
     }
 
-    private static void appendLinkData(StringBuilder result, Data data) {
+    private static void appendLinkData(StringBuilder result, BaseData data) {
         appendIfNotNull(result, "QQ绑定标志: ", transformBoolean(data.qqChecked));
         appendIfNotNull(result, "UserID绑定标志: ", transformBoolean(data.useridChecked));
         if (data.linkData != null) {
@@ -51,7 +51,7 @@ public class DataStringBuilder {
         }
     }
 
-    private static void appendPlayerData(StringBuilder result, Data data) {
+    private static void appendPlayerData(StringBuilder result, BaseData data) {
         if (data.playerData != null) {
             appendIfNotNull(result, "玩家名称: ", data.playerData.playerName);
             appendIfNotNull(result, "玩家UUID: ", data.playerData.playerUuid);
@@ -97,7 +97,7 @@ public class DataStringBuilder {
         }
     }
 
-    public static boolean buildDataString(@NotNull CommandSender sender, List<Data> data) {
+    public static boolean buildDataString(@NotNull CommandSender sender, List<BaseData> data) {
         if (!data.isEmpty()) {
             StringBuilder result = new StringBuilder();
             result.append("\n");
@@ -107,7 +107,7 @@ public class DataStringBuilder {
                 appendIfNotNull(result, "§a-------------------");
             }
             int Count = 1;
-            for (Data player : data) {
+            for (BaseData player : data) {
                 if (data.size() > 1) {
                     appendIfNotNull(result, "§a第 " + Count++ + " 个玩家数据");
                 }

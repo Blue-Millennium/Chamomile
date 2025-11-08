@@ -1,6 +1,7 @@
 package fun.bm.chamomile.command.modules.executor.extra.sub.report;
 
 import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.util.Environment;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +23,7 @@ public class ReportQuery extends Command.ExecutorE {
     }
 
     public static String query() {
-        List<List<String>> data = Report.reportDataManager.readReportFile();
+        List<List<String>> data = Environment.dataManager.reportDataManager.readReportFile();
         StringBuilder sb = new StringBuilder();
         sb.append(message_head);
 

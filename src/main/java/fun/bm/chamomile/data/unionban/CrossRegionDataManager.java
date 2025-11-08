@@ -1,6 +1,7 @@
-package fun.bm.chamomile.data.manager.unionban;
+package fun.bm.chamomile.data.unionban;
 
 import fun.bm.chamomile.function.modules.UnionBan;
+import fun.bm.chamomile.util.Environment;
 import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
@@ -13,29 +14,29 @@ import static fun.bm.chamomile.util.Environment.LOGGER;
 
 public class CrossRegionDataManager {
     public void mergeAndReportData(boolean flag) {
-        List<UnionBanData> remote = UnionBan.onlineBanDataManager.loadRemoteBanList();
+        List<UnionBanData> remote = Environment.dataManager.unionBanDataManager.onlineBanDataManager.loadRemoteBanList();
         List<String[]> locallist = new ArrayList<>();
         List<String[]> reportlist = new ArrayList<>();
         for (UnionBanData banData : remote) {
-            UnionBanData data = UnionBan.localBanDataManager.getUnionBanData(banData.playerUuid);
+            UnionBanData data = Environment.dataManager.unionBanDataManager.localBanDataManager.getUnionBanData(banData.playerUuid);
             if (data == null) {
                 if (flag || banData.reason.equals("Pardon")) {
-                    UnionBan.localBanDataManager.setPlayerData(banData.playerUuid, banData);
+                    Environment.dataManager.unionBanDataManager.localBanDataManager.setPlayerData(banData.playerUuid, banData);
                     locallist.add(new String[]{banData.playerName, banData.reason});
                 }
             } else {
                 if (data.time < banData.time && (flag || banData.reason.equals("Pardon"))) {
-                    UnionBan.localBanDataManager.setPlayerData(banData.playerUuid, banData);
+                    Environment.dataManager.unionBanDataManager.localBanDataManager.setPlayerData(banData.playerUuid, banData);
                     locallist.add(new String[]{banData.playerName, banData.reason});
-                } else if (data.time > banData.time && flag && UnionBan.onlineBanDataManager.reportRemoteBanList(data)) {
+                } else if (data.time > banData.time && flag && Environment.dataManager.unionBanDataManager.onlineBanDataManager.reportRemoteBanList(data)) {
                     reportlist.add(new String[]{data.playerName, data.reason});
                     banData.reportTag = true;
-                    UnionBan.localBanDataManager.setPlayerData(data.playerUuid, data);
+                    Environment.dataManager.unionBanDataManager.localBanDataManager.setPlayerData(data.playerUuid, data);
                 }
             }
         }
         if (flag) {
-            remote = UnionBan.onlineBanDataManager.loadRemoteBanList();
+            remote = Environment.dataManager.unionBanDataManager.onlineBanDataManager.loadRemoteBanList();
             for (UnionBanData banData : UnionBan.dataList) {
                 try {
                     boolean found = false;
@@ -45,10 +46,10 @@ public class CrossRegionDataManager {
                             break;
                         }
                     }
-                    if (!found && UnionBan.onlineBanDataManager.reportRemoteBanList(banData)) {
+                    if (!found && Environment.dataManager.unionBanDataManager.onlineBanDataManager.reportRemoteBanList(banData)) {
                         reportlist.add(new String[]{banData.playerName, banData.reason});
                         banData.reportTag = true;
-                        UnionBan.localBanDataManager.setPlayerData(banData.playerUuid, banData);
+                        Environment.dataManager.unionBanDataManager.localBanDataManager.setPlayerData(banData.playerUuid, banData);
                     }
                 } catch (Exception e) {
                     LOGGER.warning(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
@@ -96,7 +97,7 @@ public class CrossRegionDataManager {
                     }
                 }
                 data.localTag = true;
-                UnionBan.localBanDataManager.setPlayerData(data.playerUuid, data);
+                Environment.dataManager.unionBanDataManager.localBanDataManager.setPlayerData(data.playerUuid, data);
                 BanMessage("Local", message);
             }
         }
@@ -112,7 +113,7 @@ public class CrossRegionDataManager {
         data.sourceServer = sourceServer;
         data.reportTag = false;
         data.localTag = true;
-        UnionBan.localBanDataManager.setPlayerData(uuid, data);
+        Environment.dataManager.unionBanDataManager.localBanDataManager.setPlayerData(uuid, data);
         mergeAndReportData(true);
     }
 }

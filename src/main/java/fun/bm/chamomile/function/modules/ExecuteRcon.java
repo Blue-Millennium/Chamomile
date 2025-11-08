@@ -3,7 +3,7 @@ package fun.bm.chamomile.function.modules;
 import fun.bm.chamomile.config.modules.Bot.CoreConfig;
 import fun.bm.chamomile.config.modules.Bot.RconConfig;
 import fun.bm.chamomile.config.modules.ServerConfig;
-import fun.bm.chamomile.data.manager.data.Data;
+import fun.bm.chamomile.data.basedata.BaseData;
 import fun.bm.chamomile.function.Function;
 import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.helper.MainThreadHelper;
@@ -85,9 +85,9 @@ public class ExecuteRcon extends Function {
                     if (isOperator) {
                         isAuthenticated = true;
                     } else if (RconConfig.allowPlayerPermissions) {
-                        List<Data> dataList = dataGet.getPlayersByUserID(event.getGroup().getId());
+                        List<BaseData> dataList = dataGet.getPlayersByUserID(event.getGroup().getId());
                         if (!dataList.isEmpty()) {
-                            for (Data data : dataList) {
+                            for (BaseData data : dataList) {
                                 isAuthenticated = true;
                                 for (OfflinePlayer player : Bukkit.getServer().getOperators()) {
                                     if (player.getUniqueId().equals(data.playerData.playerUuid)) {

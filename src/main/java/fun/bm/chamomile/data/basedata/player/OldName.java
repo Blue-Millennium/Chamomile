@@ -1,4 +1,4 @@
-package fun.bm.chamomile.data.manager.data.player;
+package fun.bm.chamomile.data.basedata.player;
 
 public class OldName {
     public String oldName;

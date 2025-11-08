@@ -1,4 +1,4 @@
-package fun.bm.chamomile.data.manager.data.link;
+package fun.bm.chamomile.data.basedata.link;
 
 public class QQLinkData extends LinkData {
     public long qqNumber;

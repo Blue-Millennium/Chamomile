@@ -1,6 +1,7 @@
 package fun.bm.chamomile.command.modules.executor.extra.sub.report;
 
 import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.util.Environment;
 import org.bukkit.command.CommandSender;
 
 import static fun.bm.chamomile.util.helper.CommandHelper.operatorCheck;
@@ -17,7 +18,7 @@ public class ReportDelete extends Command.ExecutorE {
                 rq.executorMain(sender, command, label, args);
                 sender.sendMessage("§4请输入时间戳");
             } else {
-                if (Report.reportDataManager.deleteData(args[0])) {
+                if (Environment.dataManager.reportDataManager.deleteData(args[0])) {
                     sender.sendMessage("§c尝试删除成功");
                 } else {
                     sender.sendMessage("§4删除失败");

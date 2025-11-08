@@ -1,7 +1,7 @@
 package fun.bm.chamomile.command.modules.executor.extra.sub.data;
 
 import fun.bm.chamomile.command.Command;
-import fun.bm.chamomile.data.manager.data.Data;
+import fun.bm.chamomile.data.basedata.BaseData;
 import fun.bm.chamomile.util.Environment;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -43,12 +43,13 @@ public class List extends Command.ExecutorE {
             }
             try {
                 if (start == -1) {
-                    buildDataString(sender, Environment.dataManager.DATA_LIST);
+                    buildDataString(sender, Environment.dataManager.baseDataManager.DATA_LIST);
                 } else {
                     start--;
                     end--;
-                    java.util.List<Data> data = new ArrayList<>();
-                    for (int i = start; i <= end; i++) data.add(Environment.dataManager.DATA_LIST.get(i));
+                    java.util.List<BaseData> data = new ArrayList<>();
+                    for (int i = start; i <= end; i++)
+                        data.add(Environment.dataManager.baseDataManager.DATA_LIST.get(i));
                     buildDataString(sender, data);
                 }
             } catch (Exception e) {

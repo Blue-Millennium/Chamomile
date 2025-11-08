@@ -1,10 +1,10 @@
-package fun.bm.chamomile.data.manager.data;
+package fun.bm.chamomile.data.basedata;
 
 import com.google.gson.stream.JsonReader;
-import fun.bm.chamomile.data.manager.data.link.LinkData;
-import fun.bm.chamomile.data.manager.data.link.QQLinkData;
-import fun.bm.chamomile.data.manager.data.link.UseridLinkData;
-import fun.bm.chamomile.data.manager.data.player.PlayerData;
+import fun.bm.chamomile.data.basedata.link.LinkData;
+import fun.bm.chamomile.data.basedata.link.QQLinkData;
+import fun.bm.chamomile.data.basedata.link.UseridLinkData;
+import fun.bm.chamomile.data.basedata.player.PlayerData;
 import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.GsonUtil;
 import fun.bm.chamomile.util.helper.DirectoryAccessor;
@@ -22,9 +22,9 @@ import static fun.bm.chamomile.util.Environment.LOGGER;
  * @author Liycxc
  * Date: 2024/7/17 下午5:58
  */
-public class DataManager {
+public class BaseDataManager {
     public final File dataFile = new File(Environment.BASE_DIR, "data.json");
-    public ArrayList<Data> DATA_LIST = new ArrayList<>();
+    public ArrayList<BaseData> DATA_LIST = new ArrayList<>();
 
     public void load() {
         DirectoryAccessor.initFile(dataFile);
@@ -36,7 +36,7 @@ public class DataManager {
             if (dataArray != null) {
                 for (int i = 0; i < dataArray.size(); i++) {
                     com.google.gson.JsonElement dataElement = dataArray.get(i);
-                    Data data = GsonUtil.createGson().fromJson(dataElement, Data.class);
+                    BaseData data = GsonUtil.createGson().fromJson(dataElement, BaseData.class);
 
                     // fix linkData
                     if (data.linkData != null && dataElement.isJsonObject()) {
@@ -115,9 +115,9 @@ public class DataManager {
         }
     }
 
-    public Data getPlayerData(UUID uuid) {
+    public BaseData getPlayerData(UUID uuid) {
         if (DATA_LIST != null) {
-            for (Data data : DATA_LIST) {
+            for (BaseData data : DATA_LIST) {
                 if (data.playerData.playerUuid.equals(uuid)) {
                     return data;
                 }
@@ -126,9 +126,9 @@ public class DataManager {
         return null;
     }
 
-    public Data getPlayerDataByName(String name) {
+    public BaseData getPlayerDataByName(String name) {
         if (DATA_LIST != null) {
-            for (Data data : DATA_LIST) {
+            for (BaseData data : DATA_LIST) {
                 if (data.playerData.playerName.equals(name)) {
                     return data;
                 }
@@ -137,23 +137,23 @@ public class DataManager {
         return null;
     }
 
-    public void setPlayerData(UUID uuid, Data data, boolean save) {
-        Data data_old = getPlayerData(uuid);
+    public void setPlayerData(UUID uuid, BaseData data, boolean save) {
+        BaseData data_old = getPlayerData(uuid);
         if (data_old != null) DATA_LIST.remove(data_old);
         DATA_LIST.add(data);
         if (save) save(true);
     }
 
-    public void setPlayerDataByName(String name, Data data, boolean save) {
-        Data data_old = getPlayerDataByName(name);
+    public void setPlayerDataByName(String name, BaseData data, boolean save) {
+        BaseData data_old = getPlayerDataByName(name);
         if (data_old != null) DATA_LIST.remove(getPlayerDataByName(name));
         DATA_LIST.add(data);
         if (save) save(true);
     }
 
     public void refactorData() {
-        List<Data> tempList = new ArrayList<>();
-        for (Data data : DATA_LIST) {
+        List<BaseData> tempList = new ArrayList<>();
+        for (BaseData data : DATA_LIST) {
             nullCheck(data);
 
             // Init origin data
@@ -203,7 +203,7 @@ public class DataManager {
             }
             tempList.add(data);
         }
-        for (Data data : tempList) {
+        for (BaseData data : tempList) {
             setPlayerData(data.playerData.playerUuid, data, false);
         }
         save(false);
@@ -255,9 +255,9 @@ public class DataManager {
         return linkData;
     }
 
-    public Data nullCheck(Data data) {
+    public BaseData nullCheck(BaseData data) {
         if (data == null) {
-            data = new Data();
+            data = new BaseData();
         }
         if (data.linkData == null) {
             data.linkData = new ArrayList<>();

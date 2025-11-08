@@ -1,9 +1,9 @@
 package fun.bm.chamomile.util.data.link;
 
-import fun.bm.chamomile.data.manager.data.Data;
-import fun.bm.chamomile.data.manager.data.link.LinkData;
-import fun.bm.chamomile.data.manager.data.link.QQLinkData;
-import fun.bm.chamomile.data.manager.data.link.UseridLinkData;
+import fun.bm.chamomile.data.basedata.BaseData;
+import fun.bm.chamomile.data.basedata.link.LinkData;
+import fun.bm.chamomile.data.basedata.link.QQLinkData;
+import fun.bm.chamomile.data.basedata.link.UseridLinkData;
 import fun.bm.chamomile.util.Environment;
 
 import java.util.List;
@@ -13,10 +13,10 @@ import static fun.bm.chamomile.util.data.DataStringBuilder.transformTime;
 
 public class LinkDataStringBuilder {
     public static String buildLinkDataString(String name) {
-        return buildLinkDataString(Environment.dataManager.getPlayerDataByName(name));
+        return buildLinkDataString(Environment.dataManager.baseDataManager.getPlayerDataByName(name));
     }
 
-    public static String buildLinkDataString(Data data) {
+    public static String buildLinkDataString(BaseData data) {
         StringBuilder result = new StringBuilder();
         if (data != null) {
             List<LinkData> linkDataList = data.linkData;

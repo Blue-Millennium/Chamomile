@@ -2,11 +2,11 @@ package fun.bm.chamomile.function.modules.data;
 
 import fun.bm.chamomile.config.modules.Bot.AuthConfig;
 import fun.bm.chamomile.config.modules.Bot.CoreConfig;
-import fun.bm.chamomile.data.manager.data.Data;
-import fun.bm.chamomile.data.manager.data.link.LinkData;
-import fun.bm.chamomile.data.manager.data.link.QQLinkData;
-import fun.bm.chamomile.data.manager.data.link.UseridLinkData;
-import fun.bm.chamomile.data.manager.data.player.PlayerData;
+import fun.bm.chamomile.data.basedata.BaseData;
+import fun.bm.chamomile.data.basedata.link.LinkData;
+import fun.bm.chamomile.data.basedata.link.QQLinkData;
+import fun.bm.chamomile.data.basedata.link.UseridLinkData;
+import fun.bm.chamomile.data.basedata.player.PlayerData;
 import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.TimeUtil;
 import fun.bm.chamomile.util.helper.MainThreadHelper;
@@ -61,9 +61,9 @@ public class QQCheck extends DataProcess {
         } catch (Exception ignored) {
         }
         List<MessageChainBuilder> builderList = new java.util.ArrayList<>();
-        List<Data> dataList = CoreConfig.official ? dataGet.getPlayersByQQ(event.getGroup().getId()) : dataGet.getPlayersByUserID(event.getGroup().getId());
+        List<BaseData> dataList = CoreConfig.official ? dataGet.getPlayersByQQ(event.getGroup().getId()) : dataGet.getPlayersByUserID(event.getGroup().getId());
         if (!dataList.isEmpty()) {
-            for (Data data : dataList) {
+            for (BaseData data : dataList) {
                 if (!data.linkData.isEmpty()
                         && data.linkData.stream()
                         .anyMatch(linkData ->
@@ -93,8 +93,8 @@ public class QQCheck extends DataProcess {
 
                 // 保存数据
                 boolean flag = false;
-                Data data = new Data();
-                for (Data data1 : Environment.dataManager.DATA_LIST) {
+                BaseData data = new BaseData();
+                for (BaseData data1 : Environment.dataManager.baseDataManager.DATA_LIST) {
                     if (data1.playerData.playerUuid.equals(entry.getKey().playerUuid)) {
                         data = data1;
                         flag = true;
@@ -113,10 +113,10 @@ public class QQCheck extends DataProcess {
                     data.linkedTime = TimeUtil.getUnixTimeMs();
                 }
                 if (flag) {
-                    Environment.dataManager.setPlayerData(data.playerData.playerUuid, data, true);
+                    Environment.dataManager.baseDataManager.setPlayerData(data.playerData.playerUuid, data, true);
                 } else {
                     data.playerData = entry.getKey();
-                    Environment.dataManager.setPlayerDataByName(data.playerData.playerName, data, true);
+                    Environment.dataManager.baseDataManager.setPlayerDataByName(data.playerData.playerName, data, true);
                 }
 
                 // 构建确认消息
@@ -144,7 +144,7 @@ public class QQCheck extends DataProcess {
         return checkMessage;
     }
 
-    public static int generateCode(Data data) {
+    public static int generateCode(BaseData data) {
         int code;
 
         // 生成不重复的验证码
@@ -188,8 +188,8 @@ public class QQCheck extends DataProcess {
             return;
         }
 
-        Data data = Environment.dataManager.getPlayerData(event.getUniqueId());
-        data = Environment.dataManager.nullCheck(data);
+        BaseData data = Environment.dataManager.baseDataManager.getPlayerData(event.getUniqueId());
+        data = Environment.dataManager.baseDataManager.nullCheck(data);
         data.playerData.playerUuid = event.getUniqueId();
         data.playerData.playerName = event.getName();
         // 首次登录
@@ -220,7 +220,7 @@ public class QQCheck extends DataProcess {
                         code = entry.getValue();
                     }
                 }
-                Data data = Environment.dataManager.getPlayerData(event.getPlayer().getUniqueId());
+                BaseData data = Environment.dataManager.baseDataManager.getPlayerData(event.getPlayer().getUniqueId());
                 if (!data.linkData.isEmpty()) {
                     player.sendMessage(AuthConfig.connectMessage);
                 } else {
