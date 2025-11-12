@@ -1,19 +1,20 @@
 package fun.bm.chamomile.command.modules.completer.extra.sub;
 
-import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.command.ExtraCommand;
 import fun.bm.chamomile.util.helper.CommandHelper;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Data extends Command.CompleterE {
+public class Data extends ExtraCommand implements TabCompleter {
     public Data() {
         super("cmdata");
     }
 
-    public List<String> completerMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             completions.add("query");

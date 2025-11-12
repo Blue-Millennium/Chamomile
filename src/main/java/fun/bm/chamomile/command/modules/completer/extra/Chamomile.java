@@ -1,8 +1,9 @@
 package fun.bm.chamomile.command.modules.completer.extra;
 
-import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.command.ExtraCommand;
 import fun.bm.chamomile.command.modules.completer.extra.sub.*;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
  * Date: 2024/10/15 03:01
  * function: Provides tab completion for the Chamomile command
  */
-public class Chamomile extends Command.CompleterE {
+public class Chamomile extends ExtraCommand implements TabCompleter {
     Config config = new Config();
     Report report = new Report();
     Data data = new Data();
@@ -25,7 +26,7 @@ public class Chamomile extends Command.CompleterE {
         super("chamomile");
     }
 
-    public List<String> completerMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             completions.add("help");

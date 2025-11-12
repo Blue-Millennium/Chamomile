@@ -1,6 +1,6 @@
 package fun.bm.chamomile.command.modules.executor.vanilla;
 
-import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.command.VanillaCommand;
 import fun.bm.chamomile.config.modules.Bot.CoreConfig;
 import fun.bm.chamomile.config.modules.ServerConfig;
 import fun.bm.chamomile.config.modules.UnionBanConfig;
@@ -12,6 +12,7 @@ import fun.bm.chamomile.util.helper.MainThreadHelper;
 import net.mamoe.mirai.contact.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,7 +30,7 @@ import static fun.bm.chamomile.util.Environment.LOGGER;
  * Date: 2024/10/27 14:18
  * function: Add some function to the vanilla ban command
  */
-public class Ban extends Command.ExecutorV {
+public class Ban extends VanillaCommand implements CommandExecutor {
     public Ban() {
         super("ban");
     }
@@ -57,7 +58,7 @@ public class Ban extends Command.ExecutorV {
         }
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (UnionBanConfig.enabled) {
             if (!sender.isOp()) {
                 sender.sendMessage("您没有权限这么做");

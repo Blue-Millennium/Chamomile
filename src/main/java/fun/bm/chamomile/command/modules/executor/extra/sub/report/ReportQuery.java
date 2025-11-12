@@ -1,7 +1,8 @@
 package fun.bm.chamomile.command.modules.executor.extra.sub.report;
 
-import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.command.ExtraCommand;
 import fun.bm.chamomile.util.Environment;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ import static fun.bm.chamomile.util.helper.CommandHelper.operatorCheck;
  * Date: 2024/9/29 22:08
  * function: Query report data
  */
-public class ReportQuery extends Command.ExecutorE {
+public class ReportQuery extends ExtraCommand implements CommandExecutor {
     public static String message_head = "[Chamomile Report]\n已查询到以下数据，下面的数据将按照以下顺序排列\n";
 
     public ReportQuery() {
@@ -40,7 +41,7 @@ public class ReportQuery extends Command.ExecutorE {
     }
 
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         // 检查发送者是否具有OP权限
         if (!operatorCheck(sender)) {
             try {

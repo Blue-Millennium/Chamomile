@@ -1,6 +1,6 @@
 package fun.bm.chamomile.command.modules.executor.extra.sub.report;
 
-import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.command.ExtraCommand;
 import fun.bm.chamomile.config.modules.Bot.CoreConfig;
 import fun.bm.chamomile.config.modules.WebhookConfig;
 import fun.bm.chamomile.util.Environment;
@@ -12,6 +12,7 @@ import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.message.data.AtAll;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -21,12 +22,12 @@ import java.util.Objects;
 import static fun.bm.chamomile.function.modules.QQReporter.ReportGroups;
 import static fun.bm.chamomile.util.Environment.LOGGER;
 
-public class Report extends Command.ExecutorE {
+public class Report extends ExtraCommand implements CommandExecutor {
     public Report() {
         super("report");
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
             if (args.length == 0) {
                 switch (command.getName()) {

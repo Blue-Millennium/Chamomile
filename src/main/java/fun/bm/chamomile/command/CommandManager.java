@@ -7,14 +7,15 @@ import org.bukkit.command.TabCompleter;
 
 public class CommandManager {
     public void registerCommands() {
-        for (Command.GlobalE command : ClassLoadHelper.loadClasses("fun.bm.chamomile.command.modules", Command.GlobalE.class)) {
+        for (ExtraCommand command : ClassLoadHelper.loadClasses("fun.bm.chamomile.command.modules", ExtraCommand.class)) {
             try {
                 command.setupCommand();
                 String commandName = command.getCommandName();
                 if (commandName != null) {
                     if (command instanceof CommandExecutor) {
                         Environment.INSTANCE.getCommand(commandName).setExecutor((CommandExecutor) command);
-                    } else if (command instanceof TabCompleter) {
+                    }
+                    if (command instanceof TabCompleter) {
                         Environment.INSTANCE.getCommand(commandName).setTabCompleter((TabCompleter) command);
                     }
                 }

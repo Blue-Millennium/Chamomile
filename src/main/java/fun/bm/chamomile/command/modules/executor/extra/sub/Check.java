@@ -1,17 +1,18 @@
 package fun.bm.chamomile.command.modules.executor.extra.sub;
 
-import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.command.ExtraCommand;
 import fun.bm.chamomile.command.modules.executor.extra.sub.check.Bind;
 import fun.bm.chamomile.command.modules.executor.extra.sub.check.Delete;
 import fun.bm.chamomile.command.modules.executor.extra.sub.check.OpDelete;
 import fun.bm.chamomile.command.modules.executor.extra.sub.check.Verify;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-public class Check extends Command.ExecutorE {
+public class Check extends ExtraCommand implements CommandExecutor {
     Delete delete = new Delete();
     OpDelete opDelete = new OpDelete();
     Verify verify = new Verify();
@@ -21,7 +22,7 @@ public class Check extends Command.ExecutorE {
         super("check");
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
             if (sender instanceof Player) {
                 if (command.getName().equals("check")) {

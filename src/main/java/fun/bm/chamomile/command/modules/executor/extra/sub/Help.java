@@ -1,6 +1,7 @@
 package fun.bm.chamomile.command.modules.executor.extra.sub;
 
-import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.command.ExtraCommand;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -10,12 +11,12 @@ import org.jetbrains.annotations.NotNull;
  * Date: 2024/10/10 20:30
  * function: Show help to players
  */
-public class Help extends Command.ExecutorE {
+public class Help extends ExtraCommand implements CommandExecutor {
     public Help() {
         super("chamomilehelp");
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
             if (sender.isOp()) {
                 sender.sendMessage("§e检查到执行者为OP，已使用颜色区分需要管理员权限的指令，绿色为通用指令，红色为管理员权限指令");

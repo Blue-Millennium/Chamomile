@@ -1,8 +1,9 @@
 package fun.bm.chamomile.command.modules.executor.extra.sub.config;
 
-import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.command.ExtraCommand;
 import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.helper.MainThreadHelper;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,12 +15,12 @@ import static fun.bm.chamomile.util.helper.CommandHelper.operatorCheck;
  * Date: 2024/9/28 13:24
  * function: Reload config
  */
-public class Reload extends Command.ExecutorE {
+public class Reload extends ExtraCommand implements CommandExecutor {
     public Reload() {
         super("cmreload");
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (operatorCheck(sender)) {
             return true;
         }

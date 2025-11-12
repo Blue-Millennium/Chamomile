@@ -1,14 +1,15 @@
 package fun.bm.chamomile.command.modules.executor.extra.sub.check;
 
-import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.command.ExtraCommand;
 import fun.bm.chamomile.data.basedata.BaseData;
 import fun.bm.chamomile.util.Environment;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.chamomile.util.data.link.LinkDataStringBuilder.buildLinkDataString;
 
-public class Delete extends Command.ExecutorE {
+public class Delete extends ExtraCommand implements CommandExecutor {
     public Delete() {
         super(null);
     }
@@ -23,7 +24,7 @@ public class Delete extends Command.ExecutorE {
         return true;
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0 || !args[0].matches("\\d+")) {
             sender.sendMessage(buildLinkDataString(sender.getName()));
             sender.sendMessage("§4请输入时间戳");

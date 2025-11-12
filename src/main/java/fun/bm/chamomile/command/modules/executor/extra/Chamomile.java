@@ -1,10 +1,11 @@
 package fun.bm.chamomile.command.modules.executor.extra;
 
-import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.command.ExtraCommand;
 import fun.bm.chamomile.command.modules.executor.extra.sub.*;
 import fun.bm.chamomile.command.modules.executor.extra.sub.report.Report;
 import fun.bm.chamomile.command.modules.executor.extra.sub.report.ReportDelete;
 import fun.bm.chamomile.command.modules.executor.extra.sub.report.ReportQuery;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ import java.util.Arrays;
  * Date: 2024/9/28 13:43
  * function: Manager command in Chamomile
  */
-public class Chamomile extends Command.ExecutorE {
+public class Chamomile extends ExtraCommand implements CommandExecutor {
 
     Report report = new Report();
     ReportQuery query = new ReportQuery();
@@ -30,7 +31,7 @@ public class Chamomile extends Command.ExecutorE {
         super("chamomile");
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
             sender.sendMessage("在下方的指令中，您可以使用cm来代替输入chamomile");
             sender.sendMessage("§c使用/chamomile help来获取帮助");

@@ -1,18 +1,19 @@
 package fun.bm.chamomile.command.modules.executor.extra.sub.check;
 
-import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.command.ExtraCommand;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.chamomile.util.data.link.LinkDataStringBuilder.buildLinkDataString;
 import static fun.bm.chamomile.util.helper.CommandHelper.operatorCheck;
 
-public class OpDelete extends Command.ExecutorE {
+public class OpDelete extends ExtraCommand implements CommandExecutor {
     public OpDelete() {
         super(null);
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (operatorCheck(sender)) {
             return true;
         }

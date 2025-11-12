@@ -1,9 +1,10 @@
 package fun.bm.chamomile.command.modules.executor.extra.sub;
 
-import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.command.ExtraCommand;
 import fun.bm.chamomile.command.modules.executor.extra.sub.config.Query;
 import fun.bm.chamomile.command.modules.executor.extra.sub.config.Reload;
 import fun.bm.chamomile.command.modules.executor.extra.sub.config.Set;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +18,7 @@ import static fun.bm.chamomile.util.helper.CommandHelper.operatorCheck;
  * Date: 2024/10/14 22:41
  * function: Config settings
  */
-public class Config extends Command.ExecutorE {
+public class Config extends ExtraCommand implements CommandExecutor {
     Reload reload = new Reload();
     Query query = new Query();
     Set set = new Set();
@@ -26,7 +27,7 @@ public class Config extends Command.ExecutorE {
         super("cmconfig");
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (operatorCheck(sender)) {
             return true;
         }

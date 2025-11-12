@@ -1,7 +1,8 @@
 package fun.bm.chamomile.command.modules.executor.extra.sub.config;
 
-import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.command.ExtraCommand;
 import fun.bm.chamomile.util.Environment;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,12 +14,12 @@ import static fun.bm.chamomile.util.helper.CommandHelper.operatorCheck;
  * Date: 2024/10/15 00:43
  * function: Query config
  */
-public class Query extends Command.ExecutorE {
+public class Query extends ExtraCommand implements CommandExecutor {
     public Query() {
         super(null);
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (operatorCheck(sender)) {
             return true;
         }

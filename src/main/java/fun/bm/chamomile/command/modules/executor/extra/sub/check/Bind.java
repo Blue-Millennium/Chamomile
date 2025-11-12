@@ -1,14 +1,15 @@
 package fun.bm.chamomile.command.modules.executor.extra.sub.check;
 
-import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.command.ExtraCommand;
 import fun.bm.chamomile.command.modules.executor.extra.sub.check.bind.BindQQ;
 import fun.bm.chamomile.command.modules.executor.extra.sub.check.bind.BindUserid;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.chamomile.util.helper.CommandHelper.operatorCheck;
 
-public class Bind extends Command.ExecutorE {
+public class Bind extends ExtraCommand implements CommandExecutor {
     BindQQ bindQQ = new BindQQ();
     BindUserid bindUserid = new BindUserid();
 
@@ -16,7 +17,7 @@ public class Bind extends Command.ExecutorE {
         super("bind");
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (operatorCheck(sender)) {
             return true;
         }

@@ -1,17 +1,18 @@
 package fun.bm.chamomile.command.modules.executor.extra.sub.report;
 
-import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.command.ExtraCommand;
 import fun.bm.chamomile.util.Environment;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import static fun.bm.chamomile.util.helper.CommandHelper.operatorCheck;
 
-public class ReportDelete extends Command.ExecutorE {
+public class ReportDelete extends ExtraCommand implements CommandExecutor {
     public ReportDelete() {
         super("del-report");
     }
 
-    public boolean executorMain(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
         if (!operatorCheck(sender)) {
             if (args.length == 0 || !args[0].matches("\\d+")) {
                 ReportQuery rq = new ReportQuery();

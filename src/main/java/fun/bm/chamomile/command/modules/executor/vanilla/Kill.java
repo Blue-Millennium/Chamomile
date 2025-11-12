@@ -1,18 +1,19 @@
 package fun.bm.chamomile.command.modules.executor.vanilla;
 
-import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.command.VanillaCommand;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static fun.bm.chamomile.util.helper.CommandHelper.operatorCheck;
 
-public class Kill extends Command.ExecutorV {
+public class Kill extends VanillaCommand implements CommandExecutor {
     public Kill() {
         super("kill");
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (operatorCheck(sender)) {
             return true;
         }

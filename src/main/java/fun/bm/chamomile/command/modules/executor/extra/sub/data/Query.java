@@ -1,11 +1,12 @@
 package fun.bm.chamomile.command.modules.executor.extra.sub.data;
 
-import fun.bm.chamomile.command.Command;
+import fun.bm.chamomile.command.ExtraCommand;
 import fun.bm.chamomile.command.modules.executor.extra.sub.data.query.DataQueryByName;
 import fun.bm.chamomile.command.modules.executor.extra.sub.data.query.DataQueryByQQ;
 import fun.bm.chamomile.command.modules.executor.extra.sub.data.query.DataQueryByUUID;
 import fun.bm.chamomile.command.modules.executor.extra.sub.data.query.DataQueryByUserID;
 import fun.bm.chamomile.util.data.DataGet;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,7 +14,7 @@ import java.util.Arrays;
 
 import static fun.bm.chamomile.util.helper.CommandHelper.operatorCheck;
 
-public class Query extends Command.ExecutorE {
+public class Query extends ExtraCommand implements CommandExecutor {
     public static DataGet dataGet = new DataGet();
     DataQueryByQQ qq = new DataQueryByQQ();
     DataQueryByName name = new DataQueryByName();
@@ -24,7 +25,7 @@ public class Query extends Command.ExecutorE {
         super(null);
     }
 
-    public boolean executorMain(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (operatorCheck(sender)) {
             return true;
         }
