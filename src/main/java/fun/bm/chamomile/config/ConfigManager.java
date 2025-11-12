@@ -269,7 +269,9 @@ public class ConfigManager {
             validValues.put(key, commentedFileConfig.get(key));
             validComments.put(key, commentedFileConfig.getComment(key));
         }
-        commentedFileConfig.clear();
+        commentedFileConfig.close();
+        DirectoryAccessor.deleteDirectory(configFile);
+        baseload();
         validValues.forEach(commentedFileConfig::set);
         validComments.forEach(commentedFileConfig::setComment);
         saveConfigs();

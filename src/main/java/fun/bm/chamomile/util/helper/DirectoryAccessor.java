@@ -58,4 +58,14 @@ public class DirectoryAccessor {
             }
         }
     }
+
+    public static void deleteFile(File file) {
+        if (file.exists()) {
+            try {
+                file.delete();
+            } catch (Exception e) {
+                LOGGER.warning("Failed to delete " + file + e.getMessage());
+            }
+        }
+    }
 }
