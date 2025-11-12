@@ -270,4 +270,42 @@ public class BaseDataManager {
         }
         return data;
     }
+
+    public List<BaseData> getPlayersByUserID(long userID) {
+        try {
+            return DATA_LIST.stream()
+                    .filter(record -> record.linkData.stream()
+                            .anyMatch(linkData -> linkData instanceof UseridLinkData && ((UseridLinkData) linkData).userid == userID))
+                    .toList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public List<BaseData> getPlayersByQQ(long qqNumber) {
+        try {
+            return DATA_LIST.stream()
+                    .filter(record -> record.linkData.stream()
+                            .anyMatch(linkData -> linkData instanceof QQLinkData && ((QQLinkData) linkData).qqNumber == qqNumber))
+                    .toList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public List<BaseData> getPlayersByName(String playerName) {
+        try {
+            return List.of(getPlayerDataByName(playerName));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public List<BaseData> getPlayersByUUID(UUID playerUuid) {
+        try {
+            return List.of(getPlayerData(playerUuid));
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

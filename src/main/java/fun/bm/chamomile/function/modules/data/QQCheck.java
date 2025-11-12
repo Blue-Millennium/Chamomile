@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import static fun.bm.chamomile.command.modules.extra.sub.data.Query.dataGet;
 import static fun.bm.chamomile.util.Environment.LOGGER;
 
 public class QQCheck extends DataProcess {
@@ -61,7 +60,7 @@ public class QQCheck extends DataProcess {
         } catch (Exception ignored) {
         }
         List<MessageChainBuilder> builderList = new java.util.ArrayList<>();
-        List<BaseData> dataList = CoreConfig.official ? dataGet.getPlayersByQQ(event.getGroup().getId()) : dataGet.getPlayersByUserID(event.getGroup().getId());
+        List<BaseData> dataList = CoreConfig.official ? Environment.dataManager.baseDataManager.getPlayersByQQ(event.getGroup().getId()) : Environment.dataManager.baseDataManager.getPlayersByUserID(event.getGroup().getId());
         if (!dataList.isEmpty()) {
             for (BaseData data : dataList) {
                 if (!data.linkData.isEmpty()

@@ -1,7 +1,7 @@
 package fun.bm.chamomile.command.modules.extra.sub.data.query;
 
 import fun.bm.chamomile.command.ExtraCommand;
-import fun.bm.chamomile.command.modules.extra.sub.data.Query;
+import fun.bm.chamomile.util.Environment;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +23,6 @@ public class DataQueryByUserID extends ExtraCommand implements CommandExecutor {
         if (UserID == 0) {
             return true;
         }
-        return buildDataString(sender, Query.dataGet.getPlayersByUserID(UserID));
+        return buildDataString(sender, Environment.dataManager.baseDataManager.getPlayersByUserID(UserID));
     }
 }

@@ -21,7 +21,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.bm.chamomile.command.modules.extra.sub.data.Query.dataGet;
 import static fun.bm.chamomile.util.Environment.LOGGER;
 import static fun.bm.chamomile.util.ImageProcessor.*;
 import static fun.bm.chamomile.util.helper.RconHelper.executeRconCommand;
@@ -97,7 +96,7 @@ public class SyncChat extends Function {
 
     public String getID(GroupMessageEvent event) {
         List<String> pd = new ArrayList<>();
-        List<BaseData> dataList = dataGet.getPlayersByUserID(event.getGroup().getId());
+        List<BaseData> dataList = Environment.dataManager.baseDataManager.getPlayersByUserID(event.getGroup().getId());
         if (!dataList.isEmpty()) {
             for (BaseData data : dataList) {
                 if (!data.linkData.isEmpty()

@@ -20,7 +20,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.bm.chamomile.command.modules.extra.sub.data.Query.dataGet;
 import static fun.bm.chamomile.command.modules.extra.sub.report.ReportQuery.message_head;
 import static fun.bm.chamomile.util.Environment.LOGGER;
 import static fun.bm.chamomile.util.ImageProcessor.reportCharmProcess;
@@ -85,7 +84,7 @@ public class ExecuteRcon extends Function {
                     if (isOperator) {
                         isAuthenticated = true;
                     } else if (RconConfig.allowPlayerPermissions) {
-                        List<BaseData> dataList = dataGet.getPlayersByUserID(event.getGroup().getId());
+                        List<BaseData> dataList = Environment.dataManager.baseDataManager.getPlayersByUserID(event.getGroup().getId());
                         if (!dataList.isEmpty()) {
                             for (BaseData data : dataList) {
                                 isAuthenticated = true;

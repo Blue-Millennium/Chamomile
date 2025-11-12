@@ -5,7 +5,6 @@ import fun.bm.chamomile.command.modules.extra.sub.data.query.DataQueryByName;
 import fun.bm.chamomile.command.modules.extra.sub.data.query.DataQueryByQQ;
 import fun.bm.chamomile.command.modules.extra.sub.data.query.DataQueryByUUID;
 import fun.bm.chamomile.command.modules.extra.sub.data.query.DataQueryByUserID;
-import fun.bm.chamomile.util.data.DataGet;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +14,6 @@ import java.util.Arrays;
 import static fun.bm.chamomile.util.helper.CommandHelper.operatorCheck;
 
 public class Query extends ExtraCommand implements CommandExecutor {
-    public static DataGet dataGet = new DataGet();
     DataQueryByQQ qq = new DataQueryByQQ();
     DataQueryByName name = new DataQueryByName();
     DataQueryByUUID uuid = new DataQueryByUUID();

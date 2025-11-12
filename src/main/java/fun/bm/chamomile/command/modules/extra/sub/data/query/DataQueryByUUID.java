@@ -1,7 +1,7 @@
 package fun.bm.chamomile.command.modules.extra.sub.data.query;
 
 import fun.bm.chamomile.command.ExtraCommand;
-import fun.bm.chamomile.command.modules.extra.sub.data.Query;
+import fun.bm.chamomile.util.Environment;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +35,7 @@ public class DataQueryByUUID extends ExtraCommand implements CommandExecutor {
             LOGGER.info(String.valueOf(e));
             return true;
         }
-        return buildDataString(sender, Query.dataGet.getPlayersByUUID(Uuid));
+        return buildDataString(sender, Environment.dataManager.baseDataManager.getPlayersByUUID(Uuid));
     }
 
     private String insertHyphens(String uuid) {
