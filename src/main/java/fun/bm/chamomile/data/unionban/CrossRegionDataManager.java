@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import static fun.bm.chamomile.command.modules.executor.vanilla.Ban.BanMessage;
+import static fun.bm.chamomile.command.modules.vanilla.Ban.BanMessage;
 import static fun.bm.chamomile.util.Environment.LOGGER;
 
 public class CrossRegionDataManager {

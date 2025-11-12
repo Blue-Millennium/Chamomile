@@ -21,7 +21,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.bm.chamomile.command.modules.executor.extra.sub.data.Query.dataGet;
+import static fun.bm.chamomile.command.modules.extra.sub.data.Query.dataGet;
 import static fun.bm.chamomile.util.Environment.LOGGER;
 import static fun.bm.chamomile.util.ImageProcessor.*;
 import static fun.bm.chamomile.util.helper.RconHelper.executeRconCommand;
