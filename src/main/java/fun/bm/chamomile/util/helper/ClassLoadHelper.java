@@ -12,7 +12,6 @@ import java.util.jar.JarFile;
 import static fun.bm.chamomile.util.Environment.LOGGER;
 
 public class ClassLoadHelper {
-
     public static List<Class<?>> getClassesInPackage(String packageName) {
         List<Class<?>> classes = new ArrayList<>();
         java.lang.ClassLoader classLoader = ClassLoadHelper.class.getClassLoader();

@@ -120,11 +120,11 @@ public class ExecuteRcon extends Function {
 
     private void handleConsoleResult(String[] result, GroupMessageEvent event) {
         try {
-            if (result != null && !result[0].isEmpty()) {
+            if (result != null && !(result.length == 0 || result[0].isEmpty())) {
                 MessageChainBuilder message = new MessageChainBuilder();
                 message.append(new PlainText(ServerConfig.serverName + "Console command result: \n"))
                         .append(result[0]);
-                if (!result[1].isEmpty() && result[1].startsWith(message_head)) {
+                if (!(result.length == 1 || result[1].isEmpty()) && result[1].startsWith(message_head)) {
                     reportCharmProcess(result[1].substring(message_head.length()));
                     message.append(message_head)
                             .append(event.getGroup().uploadImage(ExternalResource.create(new File(Environment.BASE_DIR, "CharmProcess\\latest.png"))));

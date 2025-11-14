@@ -3,6 +3,7 @@ package fun.bm.chamomile.util.helper;
 import fun.bm.chamomile.config.modules.ServerConfig;
 import fun.bm.chamomile.config.modules.WebhookConfig;
 import fun.bm.chamomile.util.GsonUtil;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,11 +47,17 @@ public class EmailSender {
      * @param content     邮件内容
      * @param originEmail 发送邮件的邮箱地址
      */
-    public static void formatAndSendWebhook(String subject, String content, String originEmail) {
+    public static void formatAndSendWebhook(String subject, String content, @Nullable String originEmail) {
         if (!WebhookConfig.enabled) return;
-        List<String> emailList = Arrays.asList(originEmail.split(";"));
-        Data_Full data = new Data_Full("来自" + ServerConfig.serverName + "的信息：\n" + content, subject, emailList);
-        if (processWebhookData(data)) {
+        boolean runWithError;
+        if (originEmail == null) {
+            runWithError = true;
+        } else {
+            List<String> emailList = Arrays.asList(originEmail.split(";"));
+            Data_Full data = new Data_Full("来自" + ServerConfig.serverName + "的信息：\n" + content, subject, emailList);
+            runWithError = processWebhookData(data);
+        }
+        if (runWithError) {
             Data_Sub data_new = new Data_Sub("来自" + ServerConfig.serverName + "的信息：\n" + content, subject);
             if (processWebhookData(data_new)) {
                 LOGGER.warning("Failed to send webhook.");
