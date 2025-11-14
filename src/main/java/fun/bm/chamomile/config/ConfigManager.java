@@ -52,6 +52,9 @@ public class ConfigManager {
         configModules.addAll(ClassLoadHelper.loadClasses("fun.bm.chamomile.config.modules", ConfigModule.class));
 
         for (ConfigModule module : configModules) {
+            if (Modifier.isAbstract(module.getClass().getModifiers())) {
+                continue; // 跳过抽象类的处理 - 作为目录继承类使用
+            }
             Field[] fields = module.getClass().getDeclaredFields();
 
             for (Field field : fields) {

@@ -1,9 +1,8 @@
 package fun.bm.chamomile.config.modules.Bot;
 
-import fun.bm.chamomile.config.ConfigModule;
 import fun.bm.chamomile.config.flags.ConfigInfo;
 
-public class SyncConfig implements ConfigModule {
+public class SyncConfig extends AbstractBotConfig {
 
     @ConfigInfo(name = "enabled", comment = "启用QQ与服务器同步聊天")
     public static boolean enabled = false;
@@ -31,9 +30,5 @@ public class SyncConfig implements ConfigModule {
 
     public String name() {
         return "sync-chat";
-    }
-
-    public String[] category() {
-        return new String[]{"bot"};
     }
 }

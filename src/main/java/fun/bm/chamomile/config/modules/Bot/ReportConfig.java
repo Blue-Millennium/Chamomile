@@ -1,9 +1,8 @@
 package fun.bm.chamomile.config.modules.Bot;
 
-import fun.bm.chamomile.config.ConfigModule;
 import fun.bm.chamomile.config.flags.ConfigInfo;
 
-public class ReportConfig implements ConfigModule {
+public class ReportConfig extends AbstractBotConfig {
 
     @ConfigInfo(name = "enabled", comment = "启用举报消息推送至QQ（仅非官方机器人模式）")
     public static boolean enabled = false;
@@ -16,9 +15,5 @@ public class ReportConfig implements ConfigModule {
 
     public String name() {
         return "report";
-    }
-
-    public String[] category() {
-        return new String[]{"bot"};
     }
 }

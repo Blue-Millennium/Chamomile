@@ -1,9 +1,8 @@
 package fun.bm.chamomile.config.modules.Bot;
 
-import fun.bm.chamomile.config.ConfigModule;
 import fun.bm.chamomile.config.flags.ConfigInfo;
 
-public class RconConfig implements ConfigModule {
+public class RconConfig extends AbstractBotConfig {
 
     @ConfigInfo(name = "enabled", comment = "启用Rcon模块")
     public static boolean enabled = false;
@@ -34,9 +33,5 @@ public class RconConfig implements ConfigModule {
 
     public String name() {
         return "rcon";
-    }
-
-    public String[] category() {
-        return new String[]{"bot"};
     }
 }
