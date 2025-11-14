@@ -1,4 +1,4 @@
-package fun.bm.chamomile.function.modules.data;
+package fun.bm.chamomile.function.modules.basedata;
 
 import fun.bm.chamomile.config.modules.Bot.CoreConfig;
 import fun.bm.chamomile.data.basedata.BaseData;
@@ -19,12 +19,12 @@ import java.util.List;
 
 import static fun.bm.chamomile.util.Environment.LOGGER;
 
-public class DataProcess extends Function {
-    public DataProcess() {
+public class BaseDataProcessor extends Function {
+    public BaseDataProcessor() {
         this("DataProcess");
     }
 
-    public DataProcess(String moduleName) {
+    public BaseDataProcessor(String moduleName) {
         super(moduleName);
     }
 

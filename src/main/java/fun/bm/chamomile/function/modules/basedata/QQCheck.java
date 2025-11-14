@@ -1,4 +1,4 @@
-package fun.bm.chamomile.function.modules.data;
+package fun.bm.chamomile.function.modules.basedata;
 
 import fun.bm.chamomile.config.modules.Bot.AuthConfig;
 import fun.bm.chamomile.config.modules.Bot.CoreConfig;
@@ -29,7 +29,7 @@ import java.util.Random;
 
 import static fun.bm.chamomile.util.Environment.LOGGER;
 
-public class QQCheck extends DataProcess {
+public class QQCheck extends BaseDataProcessor {
     private static final HashMap<PlayerData, Integer> playerCodeMap = new HashMap<>();
 
     public QQCheck() {

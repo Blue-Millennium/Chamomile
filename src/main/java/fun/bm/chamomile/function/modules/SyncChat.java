@@ -7,7 +7,7 @@ import fun.bm.chamomile.config.modules.Bot.SyncConfig;
 import fun.bm.chamomile.data.basedata.BaseData;
 import fun.bm.chamomile.data.basedata.link.UseridLinkData;
 import fun.bm.chamomile.function.Function;
-import fun.bm.chamomile.function.modules.data.QQCheck;
+import fun.bm.chamomile.function.modules.basedata.QQCheck;
 import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.helper.MainThreadHelper;
 import net.mamoe.mirai.contact.Group;

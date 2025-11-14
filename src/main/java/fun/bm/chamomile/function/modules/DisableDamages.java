@@ -7,8 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-public class DamageDisable extends Function {
-    public DamageDisable() {
+public class DisableDamages extends Function {
+    public DisableDamages() {
         super("DamageDisable");
     }
 

@@ -8,7 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import static fun.bm.chamomile.function.modules.data.QQCheck.generateCode;
+import static fun.bm.chamomile.function.modules.basedata.QQCheck.generateCode;
 
 public class Verify extends ExtraCommand implements CommandExecutor {
     public Verify() {
