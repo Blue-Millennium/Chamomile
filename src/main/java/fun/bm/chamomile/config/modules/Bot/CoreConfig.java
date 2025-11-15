@@ -1,9 +1,8 @@
 package fun.bm.chamomile.config.modules.Bot;
 
-import fun.bm.chamomile.config.ConfigModule;
 import fun.bm.chamomile.config.flags.ConfigInfo;
 
-public class CoreConfig implements ConfigModule {
+public class CoreConfig extends AbstractBotConfig {
 
     @ConfigInfo(name = "enabled", comment = "启用Bot模块")
     public static boolean enabled = false;
@@ -22,9 +21,5 @@ public class CoreConfig implements ConfigModule {
 
     public String name() {
         return "core";
-    }
-
-    public String[] category() {
-        return new String[]{"bot"};
     }
 }

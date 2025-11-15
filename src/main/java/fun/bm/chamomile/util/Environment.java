@@ -3,7 +3,7 @@ package fun.bm.chamomile.util;
 import fun.bm.chamomile.Chamomile;
 import fun.bm.chamomile.command.CommandManager;
 import fun.bm.chamomile.config.ConfigManager;
-import fun.bm.chamomile.data.manager.data.DataManager;
+import fun.bm.chamomile.data.DataManager;
 import fun.bm.chamomile.function.FunctionManager;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.event.GlobalEventChannel;

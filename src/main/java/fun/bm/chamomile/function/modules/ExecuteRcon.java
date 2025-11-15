@@ -3,7 +3,7 @@ package fun.bm.chamomile.function.modules;
 import fun.bm.chamomile.config.modules.Bot.CoreConfig;
 import fun.bm.chamomile.config.modules.Bot.RconConfig;
 import fun.bm.chamomile.config.modules.ServerConfig;
-import fun.bm.chamomile.data.manager.data.Data;
+import fun.bm.chamomile.data.basedata.BaseData;
 import fun.bm.chamomile.function.Function;
 import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.helper.MainThreadHelper;
@@ -20,10 +20,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.bm.chamomile.command.modules.executor.extra.sub.data.Query.dataGet;
-import static fun.bm.chamomile.command.modules.executor.extra.sub.report.ReportQuery.message_head;
-import static fun.bm.chamomile.data.processor.report.ImageProcessor.reportCharmProcess;
+import static fun.bm.chamomile.command.modules.extra.sub.report.ReportQuery.message_head;
 import static fun.bm.chamomile.util.Environment.LOGGER;
+import static fun.bm.chamomile.util.ImageProcessor.reportCharmProcess;
 import static fun.bm.chamomile.util.helper.RconHelper.executeRconCommand;
 
 /**
@@ -78,13 +77,16 @@ public class ExecuteRcon extends Function {
                     while (command.startsWith(" ")) command = command.substring(1);
                     boolean isOperator = false;
                     boolean isAuthenticated = false;
-                    if (!CoreConfig.official) {
+                    if (!CoreConfig.official && RconConfig.allowGroupPermissions) {
                         isOperator = event.getSender().getPermission().equals(MemberPermission.ADMINISTRATOR)
                                 || event.getSender().getPermission().equals(MemberPermission.OWNER);
-                    } else {
-                        List<Data> dataList = dataGet.getPlayersByUserID(event.getGroup().getId());
+                    }
+                    if (isOperator) {
+                        isAuthenticated = true;
+                    } else if (RconConfig.allowPlayerPermissions) {
+                        List<BaseData> dataList = Environment.dataManager.baseDataManager.getPlayersByUserID(event.getGroup().getId());
                         if (!dataList.isEmpty()) {
-                            for (Data data : dataList) {
+                            for (BaseData data : dataList) {
                                 isAuthenticated = true;
                                 for (OfflinePlayer player : Bukkit.getServer().getOperators()) {
                                     if (player.getUniqueId().equals(data.playerData.playerUuid)) {
@@ -118,11 +120,11 @@ public class ExecuteRcon extends Function {
 
     private void handleConsoleResult(String[] result, GroupMessageEvent event) {
         try {
-            if (result != null && !result[0].isEmpty()) {
+            if (result != null && !(result.length == 0 || result[0].isEmpty())) {
                 MessageChainBuilder message = new MessageChainBuilder();
                 message.append(new PlainText(ServerConfig.serverName + "Console command result: \n"))
                         .append(result[0]);
-                if (!result[1].isEmpty() && result[1].startsWith(message_head)) {
+                if (!(result.length == 1 || result[1].isEmpty()) && result[1].startsWith(message_head)) {
                     reportCharmProcess(result[1].substring(message_head.length()));
                     message.append(message_head)
                             .append(event.getGroup().uploadImage(ExternalResource.create(new File(Environment.BASE_DIR, "CharmProcess\\latest.png"))));

@@ -52,6 +52,9 @@ public class ConfigManager {
         configModules.addAll(ClassLoadHelper.loadClasses("fun.bm.chamomile.config.modules", ConfigModule.class));
 
         for (ConfigModule module : configModules) {
+            if (Modifier.isAbstract(module.getClass().getModifiers())) {
+                continue; // 跳过抽象类的处理 - 作为目录继承类使用
+            }
             Field[] fields = module.getClass().getDeclaredFields();
 
             for (Field field : fields) {
@@ -98,7 +101,7 @@ public class ConfigManager {
                                 if (success) removeConfig(oldConfigKeyName, transformedConfig.category());
                                 final String comments = configInfo.comment();
 
-                                if (!comments.isBlank()) commentedFileConfig.setComment(fullConfigKeyName, comments);
+                                commentedFileConfig.setComment(fullConfigKeyName, comments); // always reset comments
 
                                 if (!removed && commentedFileConfig.get(fullConfigKeyName) != null) break;
                             }
@@ -269,7 +272,9 @@ public class ConfigManager {
             validValues.put(key, commentedFileConfig.get(key));
             validComments.put(key, commentedFileConfig.getComment(key));
         }
-        commentedFileConfig.clear();
+        commentedFileConfig.close();
+        DirectoryAccessor.deleteDirectory(configFile);
+        baseload();
         validValues.forEach(commentedFileConfig::set);
         validComments.forEach(commentedFileConfig::setComment);
         saveConfigs();

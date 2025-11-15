@@ -48,7 +48,7 @@ public class MainThreadHelper {
             Environment.LOGGER = Environment.INSTANCE.getLogger();
         }
         setupDirectories();
-        Environment.dataManager.load();
+        Environment.dataManager.baseDataManager.load();
         Environment.configManager.load();
         Environment.functionManager.load();
     }

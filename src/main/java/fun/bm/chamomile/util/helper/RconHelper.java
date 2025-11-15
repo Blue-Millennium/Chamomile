@@ -12,7 +12,6 @@ import java.io.IOException;
  * function: Executes a command through the RCON protocol and returns the console feedback
  */
 public class RconHelper {
-
     private static final int MAX_RETRIES = 3; // 最大重试次数
 
     public static String[] executeRconCommand(String IP, int port, String psd, String command) {

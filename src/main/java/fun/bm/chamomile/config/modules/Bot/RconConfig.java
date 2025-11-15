@@ -1,9 +1,8 @@
 package fun.bm.chamomile.config.modules.Bot;
 
-import fun.bm.chamomile.config.ConfigModule;
 import fun.bm.chamomile.config.flags.ConfigInfo;
 
-public class RconConfig implements ConfigModule {
+public class RconConfig extends AbstractBotConfig {
 
     @ConfigInfo(name = "enabled", comment = "启用Rcon模块")
     public static boolean enabled = false;
@@ -11,8 +10,14 @@ public class RconConfig implements ConfigModule {
     @ConfigInfo(name = "prefix", comment = "Rcon执行命令前缀")
     public static String prefix = "/Rcon ";
 
-    @ConfigInfo(name = "enforce-operator", comment = "强制Rcon需要操作员权限，官方模式下默认以群权限为准，非官方机器人模式以游戏内管理员为准")
+    @ConfigInfo(name = "enforce-operator", comment = "强制Rcon需要操作员权限，非官方模式下默认将综合考虑群权限和游戏内管理员，官方机器人模式以游戏内管理员为准")
     public static boolean enforceOperator = true;
+
+    @ConfigInfo(name = "allow-group-permissions", comment = "允许群管理员使用Rcon")
+    public static boolean allowGroupPermissions = true;
+
+    @ConfigInfo(name = "allow-player-permissions", comment = "允许游戏内管理员使用Rcon")
+    public static boolean allowPlayerPermissions = true;
 
     @ConfigInfo(name = "ip", comment = "Rcon监听地址")
     public static String ip = "0.0.0.0";
@@ -28,9 +33,5 @@ public class RconConfig implements ConfigModule {
 
     public String name() {
         return "rcon";
-    }
-
-    public String[] category() {
-        return new String[]{"bot"};
     }
 }

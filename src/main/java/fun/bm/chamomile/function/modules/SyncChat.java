@@ -4,10 +4,10 @@ import fun.bm.chamomile.config.modules.Bot.AuthConfig;
 import fun.bm.chamomile.config.modules.Bot.CoreConfig;
 import fun.bm.chamomile.config.modules.Bot.RconConfig;
 import fun.bm.chamomile.config.modules.Bot.SyncConfig;
-import fun.bm.chamomile.data.manager.data.Data;
-import fun.bm.chamomile.data.manager.data.link.UseridLinkData;
+import fun.bm.chamomile.data.basedata.BaseData;
+import fun.bm.chamomile.data.basedata.link.UseridLinkData;
 import fun.bm.chamomile.function.Function;
-import fun.bm.chamomile.function.modules.data.QQCheck;
+import fun.bm.chamomile.function.modules.basedata.QQCheck;
 import fun.bm.chamomile.util.Environment;
 import fun.bm.chamomile.util.helper.MainThreadHelper;
 import net.mamoe.mirai.contact.Group;
@@ -21,9 +21,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.bm.chamomile.command.modules.executor.extra.sub.data.Query.dataGet;
-import static fun.bm.chamomile.data.processor.report.ImageProcessor.*;
 import static fun.bm.chamomile.util.Environment.LOGGER;
+import static fun.bm.chamomile.util.ImageProcessor.*;
 import static fun.bm.chamomile.util.helper.RconHelper.executeRconCommand;
 
 public class SyncChat extends Function {
@@ -97,9 +96,9 @@ public class SyncChat extends Function {
 
     public String getID(GroupMessageEvent event) {
         List<String> pd = new ArrayList<>();
-        List<Data> dataList = dataGet.getPlayersByUserID(event.getGroup().getId());
+        List<BaseData> dataList = Environment.dataManager.baseDataManager.getPlayersByUserID(event.getGroup().getId());
         if (!dataList.isEmpty()) {
-            for (Data data : dataList) {
+            for (BaseData data : dataList) {
                 if (!data.linkData.isEmpty()
                         && data.linkData.stream()
                         .anyMatch(linkData -> (CoreConfig.official && linkData instanceof UseridLinkData
