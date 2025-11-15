@@ -42,10 +42,15 @@ public class ConfigManager {
     }
 
     public void reload() {
-        commentedFileConfig.clear();
+        reload(true);
+    }
+
+    private void reload(boolean real) {
+        commentedFileConfig.close();
         configModules.clear();
         baseload();
         loadConfigModule(true);
+        if (real) clean();
     }
 
     private void loadConfigModule(boolean reload) {
@@ -99,9 +104,8 @@ public class ConfigManager {
                                 }
 
                                 if (success) removeConfig(oldConfigKeyName, transformedConfig.category());
-                                final String comments = configInfo.comment();
 
-                                commentedFileConfig.setComment(fullConfigKeyName, comments); // always reset comments
+                                commentedFileConfig.setComment(fullConfigKeyName, configInfo.comment()); // always reset comments
 
                                 if (!removed && commentedFileConfig.get(fullConfigKeyName) != null) break;
                             }
@@ -117,9 +121,7 @@ public class ConfigManager {
                             continue;
                         }
 
-                        final String comments = configInfo.comment();
-
-                        commentedFileConfig.setComment(fullConfigKeyName, comments); // always reset comments
+                        commentedFileConfig.setComment(fullConfigKeyName, configInfo.comment()); // always reset comments
 
                         commentedFileConfig.add(fullConfigKeyName, currentValue);
                         continue;
@@ -142,6 +144,7 @@ public class ConfigManager {
                     } catch (IllegalAccessException e) {
                         LOGGER.warning("Failed to get config value for " + field.getName() + ": " + e.getMessage());
                     }
+                    commentedFileConfig.setComment(fullConfigKeyName, configInfo.comment()); // always reset comments
                     try {
                         field.set(null, actuallyValue);
                     } catch (IllegalAccessException e) {
@@ -220,6 +223,9 @@ public class ConfigManager {
 
     public void saveConfigs() {
         commentedFileConfig.save();
+        commentedFileConfig.close();
+        DirectoryAccessor.deleteDirectory(configFile);
+        baseload();
     }
 
     public void resetConfig(String[] keys) {
@@ -267,16 +273,13 @@ public class ConfigManager {
 
     public void clean() {
         Map<String, Object> validValues = new HashMap<>();
-        Map<String, String> validComments = new HashMap<>();
         for (String key : defaultvalueMap.keySet()) {
             validValues.put(key, commentedFileConfig.get(key));
-            validComments.put(key, commentedFileConfig.getComment(key));
         }
         commentedFileConfig.close();
         DirectoryAccessor.deleteDirectory(configFile);
         baseload();
-        validValues.forEach(commentedFileConfig::set);
-        validComments.forEach(commentedFileConfig::setComment);
-        saveConfigs();
+        stagedConfigMap.putAll(validValues);
+        reload(false);
     }
 }
