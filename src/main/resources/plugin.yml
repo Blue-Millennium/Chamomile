@@ -3,6 +3,7 @@ version: 1.0.5
 main: fun.bm.chamomile.Chamomile
 description: Encoded by Blue Millennium
 authors: [ SukaXD, Suisuroru ]
+folia-supported: true
 
 commands:
   kill:
