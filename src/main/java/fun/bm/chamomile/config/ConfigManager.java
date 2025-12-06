@@ -272,6 +272,8 @@ public class ConfigManager {
     }
 
     public void clean() {
+        if (true) return;
+        // TODO - Because of some bugs caused by the clean method, so we disabled it
         Map<String, Object> validValues = new HashMap<>();
         for (String key : defaultvalueMap.keySet()) {
             validValues.put(key, commentedFileConfig.get(key));
