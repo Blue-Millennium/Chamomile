@@ -24,14 +24,12 @@ import static fun.bm.chamomile.util.Environment.LOGGER;
  */
 public class BaseDataManager {
     public final File dataFile = new File(Environment.BASE_DIR, "data.json");
-    public ArrayList<BaseData> DATA_LIST = new ArrayList<>();
+    public final ArrayList<BaseData> DATA_LIST = new ArrayList<>();
 
     public void load() {
         DirectoryAccessor.initFile(dataFile);
         try (JsonReader jsonReader = new JsonReader(new FileReader(dataFile))) {
             com.google.gson.JsonArray dataArray = GsonUtil.createGson().fromJson(jsonReader, com.google.gson.JsonArray.class);
-
-            DATA_LIST = new ArrayList<>();
 
             if (dataArray != null) {
                 for (int i = 0; i < dataArray.size(); i++) {
@@ -63,10 +61,6 @@ public class BaseDataManager {
                 }
             }
 
-            // file is empty
-            if (DATA_LIST == null) {
-                DATA_LIST = new ArrayList<>();
-            }
             save(true);
         } catch (Exception exception) {
             LOGGER.warning("Failed to read data file " + exception.getMessage());
